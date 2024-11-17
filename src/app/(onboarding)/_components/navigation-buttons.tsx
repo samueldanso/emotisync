@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { ArrowLeft, ArrowRight } from "lucide-react"
+import { Spinner } from "@/components/icons/spinner"
 
 interface NavigationButtonsProps {
   showBack?: boolean
@@ -32,7 +33,10 @@ export function NavigationButtons({
       )}
       <Button type="submit" disabled={isLoading} className="flex-1">
         {isLoading ? (
-          "Loading..."
+          <>
+            <Spinner />
+            Loading...
+          </>
         ) : (
           <>
             Continue

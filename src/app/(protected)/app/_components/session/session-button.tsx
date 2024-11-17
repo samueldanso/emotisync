@@ -12,7 +12,7 @@ export function SessionButton() {
     <AnimatePresence>
       {status.value !== "connected" ? (
         <motion.div
-          className="fixed inset-0 flex items-center justify-center bg-background p-4"
+          className="flex justify-center py-8"
           initial="initial"
           animate="enter"
           exit="exit"
@@ -31,7 +31,7 @@ export function SessionButton() {
               }}
             >
               <Button
-                className="z-50 flex w-full items-center gap-1.5 sm:w-auto"
+                className="flex items-center gap-1.5"
                 onClick={() => {
                   connect()
                     .then(() => {

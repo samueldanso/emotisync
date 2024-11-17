@@ -63,6 +63,23 @@ function SessionContent({
   )
 }
 
+/**
+ * @component Session
+ * @description Main AI chat interface that handles voice processing and emotion analysis.
+ * Manages real-time voice interactions and displays chat messages with emotion insights.
+ *
+ * @param {Object} props
+ * @param {string} props.accessToken - Hume AI API access token for voice analysis
+ * @param {Object} props.profile - User's companion preferences
+ * @param {string} props.profile.companion_name - AI companion's name
+ * @param {string} props.profile.companion_avatar - AI companion's avatar URL
+ *
+ * Features:
+ * - Real-time voice processing
+ * - Emotion analysis visualization
+ * - Chat message history
+ * - Voice recording controls
+ */
 export default function Session({
   accessToken,
   profile,
@@ -76,7 +93,7 @@ export default function Session({
   const configId = process.env.NEXT_PUBLIC_HUME_CONFIG_ID
 
   return (
-    <div className="relative mx-auto flex h-[0px] w-full grow flex-col overflow-hidden">
+    <div className="relative mx-auto flex w-full grow flex-col overflow-hidden">
       <VoiceProvider
         auth={{ type: "accessToken", value: accessToken }}
         configId={configId}

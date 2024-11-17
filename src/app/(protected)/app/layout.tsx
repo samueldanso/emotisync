@@ -28,8 +28,8 @@ export default async function AppLayout({
   return (
     <div className="flex min-h-screen">
       <AppSidebar />
-      <main className="flex-1 pl-[260px]">
-        <div className="container mx-auto p-8">{children}</div>
+      <main className="flex min-h-0 flex-1 pl-[260px]">
+        <div className="container flex min-h-0 grow p-8">{children}</div>
       </main>
     </div>
   )

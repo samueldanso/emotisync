@@ -43,7 +43,7 @@ export default async function AppPage() {
   }
 
   return (
-    <div className="flex grow flex-col">
+    <div className="flex min-h-0 grow flex-col">
       <Session
         accessToken={accessToken}
         profile={{

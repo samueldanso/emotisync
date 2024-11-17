@@ -1,6 +1,27 @@
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
 
+/**
+ * @store OnboardingStore
+ * @description Global state management for user onboarding flow using Zustand
+ *
+ * State Structure:
+ * @property {number} step - Current onboarding step (1: Profile, 2: Companion)
+ * @property {string} goal - User's primary goal/objective
+ * @property {string} name - User's name
+ * @property {string} companionName - Selected AI companion name
+ * @property {string} companionAvatar - Selected AI companion avatar
+ *
+ * Actions:
+ * @method setStep - Update current onboarding step
+ * @method setGoal - Set user's goal
+ * @method setName - Set user's name
+ * @method setCompanion - Set companion preferences
+ * @method reset - Reset onboarding state
+ * @method goBack - Navigate to previous step
+ * @method goNext - Navigate to next step
+ */
+
 interface OnboardingState {
   step: number
   goal: string
