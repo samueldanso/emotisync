@@ -1,45 +1,45 @@
-import { getHumeAccessToken } from "@/lib/ai/humeai";
-import dynamic from "next/dynamic";
-import { getUser } from "@/lib/supabase/server";
-import { redirect } from "next/navigation";
-import { db } from "@/db/db";
-import { eq } from "drizzle-orm";
-import { profiles } from "@/db/schemas";
+import { getHumeAccessToken } from "@/lib/ai/humeai"
+import dynamic from "next/dynamic"
+import { getUser } from "@/lib/supabase/server"
+import { redirect } from "next/navigation"
+import { db } from "@/db/db"
+import { eq } from "drizzle-orm"
+import { profiles } from "@/db/schemas"
 
 interface SessionProps {
-  accessToken: string;
+  accessToken: string
   profile: {
-    companion_name: string;
-    companion_avatar: string;
-  };
+    companion_name: string
+    companion_avatar: string
+  }
 }
 
 const Session = dynamic<SessionProps>(
-  () => import("@/app/(protected)/app/session/_components/session"),
+  () => import("./_components/session/session"),
   {
     ssr: false,
-  }
-);
+  },
+)
 
 export default async function AppPage() {
-  const user = await getUser();
+  const user = await getUser()
 
   if (!user?.email) {
-    redirect("/login");
+    redirect("/login")
   }
 
   const profile = await db.query.profiles.findFirst({
     where: eq(profiles.userId, user.id),
-  });
+  })
 
   if (!profile?.onboarding_completed) {
-    redirect("/welcome");
+    redirect("/welcome")
   }
 
-  const accessToken = await getHumeAccessToken();
+  const accessToken = await getHumeAccessToken()
 
   if (!accessToken) {
-    throw new Error("No access token available");
+    throw new Error("No access token available")
   }
 
   return (
@@ -52,5 +52,5 @@ export default async function AppPage() {
         }}
       />
     </div>
-  );
+  )
 }

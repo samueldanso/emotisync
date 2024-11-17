@@ -12,5 +12,5 @@ export default function RecommendationsPage() {
         </div>
       </div>
     </div>
-  );
+  )
 }

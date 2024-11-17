@@ -1,12 +1,12 @@
-"use client";
+"use client"
 
-import { Button } from "@/components/ui/button";
-import { useVoice } from "@humeai/voice-react";
-import { AnimatePresence, motion } from "framer-motion";
-import { Phone } from "lucide-react";
+import { Button } from "@/components/ui/button"
+import { useVoice } from "@humeai/voice-react"
+import { AnimatePresence, motion } from "framer-motion"
+import { Phone } from "lucide-react"
 
 export function SessionButton() {
-  const { status, connect } = useVoice();
+  const { status, connect } = useVoice()
 
   return (
     <AnimatePresence>
@@ -35,14 +35,14 @@ export function SessionButton() {
                 onClick={() => {
                   connect()
                     .then(() => {
-                      console.log("Connection established");
+                      console.log("Connection established")
                     })
                     .catch((error) => {
-                      console.error("Connection failed:", error);
+                      console.error("Connection failed:", error)
                     })
                     .finally(() => {
-                      console.log("Connection attempt completed");
-                    });
+                      console.log("Connection attempt completed")
+                    })
                 }}
                 size="lg"
               >
@@ -60,5 +60,5 @@ export function SessionButton() {
         </motion.div>
       ) : null}
     </AnimatePresence>
-  );
+  )
 }

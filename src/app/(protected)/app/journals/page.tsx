@@ -12,5 +12,5 @@ export default function JournalsPage() {
         </div>
       </div>
     </div>
-  );
+  )
 }

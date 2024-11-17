@@ -1,12 +1,12 @@
-"use client";
+"use client"
 
-import Link from "next/link";
-import { motion } from "framer-motion";
-import { NAVBAR_MENU } from "@/lib/constants/menus";
-import { ThemeToggle } from "@/components/providers/switch";
+import Link from "next/link"
+import { motion } from "framer-motion"
+import { NAVBAR_MENU } from "@/lib/constants/menus"
+import { ThemeToggle } from "@/components/providers/switch"
 
 interface MobileNavProps {
-  onOpenChange: (open: boolean) => void;
+  onOpenChange: (open: boolean) => void
 }
 
 export function MobileNav({ onOpenChange }: MobileNavProps) {
@@ -36,5 +36,5 @@ export function MobileNav({ onOpenChange }: MobileNavProps) {
         </div>
       </nav>
     </motion.div>
-  );
+  )
 }

@@ -1,11 +1,11 @@
-"use client";
+"use client"
 
 export default function ErrorPage({
   error,
   reset,
 }: {
-  error: Error & { digest?: string };
-  reset: () => void;
+  error: Error & { digest?: string }
+  reset: () => void
 }) {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center">
@@ -21,5 +21,5 @@ export default function ErrorPage({
         </button>
       </div>
     </div>
-  );
+  )
 }
