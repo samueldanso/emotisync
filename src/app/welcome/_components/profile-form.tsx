@@ -15,24 +15,24 @@ import {
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import {
-  onboardingSchema,
-  type OnboardingFormValues,
-} from "@/lib/validations/onboarding"
+  profileSchema,
+  type ProfileFormValues,
+} from "@/lib/validations/profile"
 import { showErrorToast } from "@/lib/utils/errors"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { supabaseClient } from "@/lib/supabase/client"
-import { useOnboardingStore } from "@/lib/stores/onboarding"
+import { useWelcomeStore } from "@/lib/stores/welcome"
 import { ProgressSteps } from "./progress-steps"
-import { NavigationButtons } from "./navigation-buttons"
+import { WelcomeButtons } from "./welcome-buttons"
 
-export function WelcomeForm() {
+export function ProfileForm() {
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
-  const { setGoal, goNext } = useOnboardingStore()
+  const { setGoal, goNext } = useWelcomeStore()
 
-  const form = useForm<OnboardingFormValues>({
-    resolver: zodResolver(onboardingSchema),
+  const form = useForm<ProfileFormValues>({
+    resolver: zodResolver(profileSchema),
     defaultValues: async () => {
       const {
         data: { user },
@@ -48,7 +48,7 @@ export function WelcomeForm() {
     },
   })
 
-  async function onSubmit(data: OnboardingFormValues) {
+  async function onSubmit(data: ProfileFormValues) {
     setIsLoading(true)
     try {
       setGoal(data.goal)
@@ -63,7 +63,6 @@ export function WelcomeForm() {
 
   return (
     <div className="flex w-full flex-col lg:flex-row">
-      {/* Left sidebar - now sticky on desktop */}
       <div className="w-full bg-brand-background p-6 lg:sticky lg:top-0 lg:h-screen lg:w-[340px] lg:p-8">
         <div className="mb-8 flex items-center gap-2 lg:mb-16">
           <Image
@@ -149,7 +148,7 @@ export function WelcomeForm() {
               />
 
               <div className="pt-4">
-                <NavigationButtons isLoading={isLoading} showBack={false} />
+                <WelcomeButtons isLoading={isLoading} showBack={false} />
               </div>
             </form>
           </Form>

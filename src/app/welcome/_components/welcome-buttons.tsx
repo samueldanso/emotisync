@@ -5,17 +5,17 @@ import { useRouter } from "next/navigation"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 import { Spinner } from "@/components/icons/spinner"
 
-interface NavigationButtonsProps {
+interface WelcomeButtonsProps {
   showBack?: boolean
   isLoading?: boolean
   onBack?: () => void
 }
 
-export function NavigationButtons({
+export function WelcomeButtons({
   showBack,
   isLoading,
   onBack,
-}: NavigationButtonsProps) {
+}: WelcomeButtonsProps) {
   const router = useRouter()
 
   return (

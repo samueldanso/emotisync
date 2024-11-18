@@ -18,10 +18,10 @@ import { showErrorToast } from "@/lib/utils/errors"
 import { toast } from "sonner"
 import { cn } from "@/lib/utils"
 import { supabaseClient } from "@/lib/supabase/client"
-import { useOnboardingStore } from "@/lib/stores/onboarding"
+import { useWelcomeStore } from "@/lib/stores/welcome"
 import { createCompleteProfile } from "@/actions/profiles"
 import { ProgressSteps } from "./progress-steps"
-import { NavigationButtons } from "./navigation-buttons"
+import { WelcomeButtons } from "./welcome-buttons"
 import { getAvatars } from "@/actions/avatars"
 import type { Avatar } from "@/db/schemas"
 import Image from "next/image"
@@ -30,7 +30,7 @@ export function AvatarSelection() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [avatars, setAvatars] = useState<Avatar[]>([])
-  const { goal, reset } = useOnboardingStore()
+  const { goal, reset } = useWelcomeStore()
 
   async function loadAvatars() {
     try {
@@ -82,7 +82,7 @@ export function AvatarSelection() {
         throw new Error(error)
       }
 
-      reset() // Clear onboarding state
+      reset()
       toast.success(`${data.companionName} is ready to be your AI companion!`)
       router.push("/app")
     } catch (error) {
@@ -94,7 +94,6 @@ export function AvatarSelection() {
 
   return (
     <div className="flex w-full flex-col lg:flex-row">
-      {/* Left sidebar - now sticky on desktop */}
       <div className="w-full bg-brand-background p-6 lg:sticky lg:top-0 lg:h-screen lg:w-[340px] lg:p-8">
         <div className="mb-8 flex items-center gap-2 lg:mb-16">
           <Image
@@ -192,11 +191,11 @@ export function AvatarSelection() {
                 )}
               />
 
-              <NavigationButtons
+              <WelcomeButtons
                 isLoading={isLoading}
                 showBack={true}
                 onBack={() => {
-                  useOnboardingStore.getState().goBack()
+                  useWelcomeStore.getState().goBack()
                   router.push("/welcome")
                 }}
               />
