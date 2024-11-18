@@ -1,5 +1,5 @@
-import type { Config } from "tailwindcss"
-import { fontFamily } from "tailwindcss/defaultTheme"
+import type { Config } from "tailwindcss";
+import { fontFamily } from "tailwindcss/defaultTheme";
 
 const config: Config = {
   darkMode: ["class"],
@@ -10,7 +10,7 @@ const config: Config = {
   ],
   theme: {
     container: {
-      center: "true",
+      center: true,
       padding: "2rem",
       screens: {
         "2xl": "1400px",
@@ -88,5 +88,5 @@ const config: Config = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-}
-export default config
+};
+export default config;
