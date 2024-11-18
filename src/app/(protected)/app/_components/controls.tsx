@@ -11,7 +11,8 @@ export default function Controls() {
   const { disconnect, status, isMuted, unmute, mute, micFft } = useVoice()
 
   return (
-    <div
+    // incoperate speaking and listening feature between user and AI companion voice interactions
+    // <div
       className={cn(
         "fixed bottom-0 left-0 flex w-full items-center justify-center p-4",
         "bg-gradient-to-t from-card via-card/90 to-card/0",
