@@ -1,21 +1,21 @@
-"use client"
-import { useVoice } from "@humeai/voice-react"
-import { Button } from "@/components/ui/button"
-import { Mic, MicOff, Phone } from "lucide-react"
-import { AnimatePresence, motion } from "framer-motion"
-import { Toggle } from "@/components/ui/toggle"
-import MicFFT from "./mic-fft"
-import { cn } from "@/lib/utils"
+"use client";
+import { useVoice } from "@humeai/voice-react";
+import { Button } from "@/components/ui/button";
+import { Mic, MicOff, Phone } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Toggle } from "@/components/ui/toggle";
+import MicFFT from "./mic-fft";
+import { cn } from "@/lib/utils";
 
+// TODO: Incorporate speaking and listening feature between user and AI companion voice interactions
 export default function Controls() {
-  const { disconnect, status, isMuted, unmute, mute, micFft } = useVoice()
+  const { disconnect, status, isMuted, unmute, mute, micFft } = useVoice();
 
   return (
-    // incoperate speaking and listening feature between user and AI companion voice interactions
-    // <div
+    <div
       className={cn(
         "fixed bottom-0 left-0 flex w-full items-center justify-center p-4",
-        "bg-gradient-to-t from-card via-card/90 to-card/0",
+        "bg-gradient-to-t from-card via-card/90 to-card/0"
       )}
     >
       <AnimatePresence>
@@ -41,9 +41,9 @@ export default function Controls() {
               pressed={!isMuted}
               onPressedChange={() => {
                 if (isMuted) {
-                  unmute()
+                  unmute();
                 } else {
-                  mute()
+                  mute();
                 }
               }}
             >
@@ -61,7 +61,7 @@ export default function Controls() {
             <Button
               className={"flex items-center gap-1"}
               onClick={() => {
-                disconnect()
+                disconnect();
               }}
               variant={"destructive"}
             >
@@ -78,5 +78,5 @@ export default function Controls() {
         ) : null}
       </AnimatePresence>
     </div>
-  )
+  );
 }

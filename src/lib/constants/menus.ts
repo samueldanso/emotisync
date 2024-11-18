@@ -1,4 +1,4 @@
-import { Phone, FileText, ZapIcon, Sparkles } from "lucide-react";
+import { Phone, FileText, ZapIcon, Sparkles, Users } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 export interface NavbarMenuProps {
@@ -62,8 +62,8 @@ export const SIDEBAR_MENU: SidebarMenuProps[] = [
   {
     title: "Invite",
     href: "/app/invite",
-    icon: Sparkles,
-    description: "Progress & patterns",
+    icon: Users,
+    description: "Invite friends and family",
   },
 ];
 
