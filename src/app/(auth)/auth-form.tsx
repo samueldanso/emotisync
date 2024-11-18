@@ -18,7 +18,7 @@ export function AuthForm({ user: _user }: AuthFormProps) {
   const pathname = usePathname();
   const isSignUp = pathname === "/signup";
 
-  const headingText = isSignUp ? "Create your account" : "Log in";
+  const headingText = isSignUp ? "Create your account" : "Log in to EmotiSync";
 
   const handleGoogleAuth = () => {
     startTransition(async () => {
