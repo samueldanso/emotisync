@@ -1,16 +1,16 @@
-"use client";
-import { cn } from "@/lib/utils";
-import { useVoice } from "@humeai/voice-react";
+"use client"
+import { cn } from "@/lib/utils"
+import { useVoice } from "@humeai/voice-react"
 
-import { AnimatePresence, motion } from "framer-motion";
-import { type ComponentRef, forwardRef } from "react";
-import Expressions from "./expressions";
+import { AnimatePresence, motion } from "framer-motion"
+import { type ComponentRef, forwardRef } from "react"
+import Expressions from "./expressions"
 
 const Messages = forwardRef<
   ComponentRef<typeof motion.div>,
   Record<never, never>
 >(function Messages(_, ref) {
-  const { messages } = useVoice();
+  const { messages } = useVoice()
 
   //display AI companion name and avatar when displaying and streaming messages instead of just Assistant
   return (
@@ -35,7 +35,7 @@ const Messages = forwardRef<
                     "w-[80%]",
                     "bg-card",
                     "rounded border border-border",
-                    msg.type === "user_message" ? "ml-auto" : ""
+                    msg.type === "user_message" ? "ml-auto" : "",
                   )}
                   initial={{
                     opacity: 0,
@@ -52,7 +52,7 @@ const Messages = forwardRef<
                 >
                   <div
                     className={cn(
-                      "px-3 pt-4 font-medium text-xs capitalize leading-none opacity-50"
+                      "px-3 pt-4 font-medium text-xs capitalize leading-none opacity-50",
                     )}
                   >
                     {msg.message.role}
@@ -60,15 +60,15 @@ const Messages = forwardRef<
                   <div className={"px-3 pb-3"}>{msg.message.content}</div>
                   <Expressions values={{ ...msg.models.prosody?.scores }} />
                 </motion.div>
-              );
+              )
             }
 
-            return null;
+            return null
           })}
         </AnimatePresence>
       </motion.div>
     </motion.div>
-  );
-});
+  )
+})
 
-export default Messages;
+export default Messages

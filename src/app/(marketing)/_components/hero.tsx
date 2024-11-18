@@ -1,11 +1,11 @@
-"use client";
+"use client"
 
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { HeroMeshGradient } from "@/components/ui/mesh-gradient";
-import AppSnippet from "./snippet";
+import Link from "next/link"
+import { ArrowRight } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { HeroMeshGradient } from "@/components/ui/mesh-gradient"
+import AppSnippet from "./snippet"
 
 export default function HeroSection() {
   return (
@@ -51,5 +51,5 @@ export default function HeroSection() {
         </div>
       </div>
     </section>
-  );
+  )
 }

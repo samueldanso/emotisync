@@ -1,22 +1,22 @@
-"use client";
-import { ExpressionColors, isExpressionColor } from "@/lib/constants/colors";
-import { expressionLabels } from "@/lib/constants/expressions";
-import { motion } from "framer-motion";
-import type { CSSProperties } from "react";
-import * as R from "remeda";
+"use client"
+import { ExpressionColors, isExpressionColor } from "@/lib/constants/colors"
+import { expressionLabels } from "@/lib/constants/expressions"
+import { motion } from "framer-motion"
+import type { CSSProperties } from "react"
+import * as R from "remeda"
 
 export default function Expressions({
   values,
 }: {
-  values: Record<string, number>;
+  values: Record<string, number>
 }) {
   const top3 = R.pipe(
     values,
     R.entries(),
     R.sortBy(R.pathOr([1], 0)),
     R.reverse(),
-    R.take(3)
-  );
+    R.take(3),
+  )
   //tailor the expression labels and colors towards more mood analysis and mood expressions for my emotisync usecase
   return (
     <div
@@ -58,7 +58,7 @@ export default function Expressions({
                 width: `${R.pipe(
                   value,
                   R.clamp({ min: 0, max: 1 }),
-                  (value) => `${value * 100}%`
+                  (value) => `${value * 100}%`,
                 )}`,
               }}
             />
@@ -66,5 +66,5 @@ export default function Expressions({
         </div>
       ))}
     </div>
-  );
+  )
 }
