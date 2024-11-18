@@ -9,10 +9,6 @@ export default async function LoginPage() {
 
   return (
     <main className="space-y-6">
-      <h2 className="text-center font-semibold text-xl tracking-tight">
-        Log in to your account
-      </h2>
-
       <AuthForm user={user} />
 
       <p className="text-center text-muted-foreground text-sm">

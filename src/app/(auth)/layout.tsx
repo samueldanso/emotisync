@@ -1,14 +1,13 @@
-import type React from "react"
+import type React from "react";
 
 export default function AuthLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
-    // refactor auth page to look like reads
-    <div className="flex min-h-screen flex-col items-center justify-center p-4">
-      <div className="w-full max-w-[400px]">{children}</div>
+    <div className="flex min-h-screen flex-col items-center justify-center bg-brand-background px-4 py-16">
+      <div className="w-full max-w-[420px]">{children}</div>
     </div>
-  )
+  );
 }
