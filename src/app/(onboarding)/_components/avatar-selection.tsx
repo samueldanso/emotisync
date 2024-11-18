@@ -6,18 +6,17 @@ import { useRouter } from "next/navigation"
 import { useState, useEffect } from "react"
 import { Input } from "@/components/ui/input"
 import {
-  Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
+  Form,
 } from "@/components/ui/form"
 import { avatarSchema, type AvatarFormValues } from "@/lib/validations/avatar"
 import { showErrorToast } from "@/lib/utils/errors"
 import { toast } from "sonner"
 import { cn } from "@/lib/utils"
-import { Bot } from "lucide-react"
 import { supabaseClient } from "@/lib/supabase/client"
 import { useOnboardingStore } from "@/lib/stores/onboarding"
 import { createCompleteProfile } from "@/actions/profiles"
@@ -25,42 +24,27 @@ import { ProgressSteps } from "./progress-steps"
 import { NavigationButtons } from "./navigation-buttons"
 import { getAvatars } from "@/actions/avatars"
 import type { Avatar } from "@/db/schemas"
-import { Loader2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Skeleton } from "@/components/ui/skeleton"
-
-function getPersonalityColor(personality: string): string {
-  const colorMap: Record<string, string> = {
-    "Calm and insightful": "border-blue-500",
-    "Empathetic and supportive": "border-purple-500",
-    "Energetic and motivating": "border-orange-500",
-    // Add more personality-color mappings as needed
-  }
-
-  return colorMap[personality] || "border-gray-200"
-}
+import Image from "next/image"
 
 export function AvatarSelection() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
-  const [isLoadingAvatars, setIsLoadingAvatars] = useState(true)
-  const [loadError, setLoadError] = useState<string | null>(null)
   const [avatars, setAvatars] = useState<Avatar[]>([])
   const { goal, reset } = useOnboardingStore()
 
   async function loadAvatars() {
-    setIsLoadingAvatars(true)
-    setLoadError(null)
-    const { data, error } = await getAvatars()
-    if (error) {
-      setLoadError(error)
+    try {
+      const { data, error } = await getAvatars()
+      if (error) {
+        showErrorToast(error)
+        return
+      }
+      if (data) {
+        setAvatars(data)
+      }
+    } catch (error) {
       showErrorToast(error)
-      return
     }
-    if (data) {
-      setAvatars(data)
-    }
-    setIsLoadingAvatars(false)
   }
 
   useEffect(() => {
@@ -109,56 +93,40 @@ export function AvatarSelection() {
   }
 
   return (
-    <div className="w-full max-w-[440px] rounded-xl border bg-card p-8 shadow-lg">
-      <ProgressSteps />
+    <div className="flex w-full flex-col lg:flex-row">
+      {/* Left sidebar - now sticky on desktop */}
+      <div className="w-full bg-brand-background p-6 lg:sticky lg:top-0 lg:h-screen lg:w-[340px] lg:p-8">
+        <div className="mb-8 flex items-center gap-2 lg:mb-16">
+          <Image
+            src="/emotisync-icon.svg"
+            alt="EmotiSync"
+            width={32}
+            height={32}
+            className="h-8 w-8"
+            priority
+          />
+          <span className="font-heading font-semibold text-xl">EmotiSync</span>
+        </div>
 
-      <div className="flex flex-col items-center space-y-6">
-        <div className="flex flex-col items-center space-y-2">
-          <div className="mb-2 flex items-center gap-2">
-            <Bot className="h-5 w-5 text-primary" />
-            <h2 className="text-center font-semibold text-2xl tracking-tight">
-              Choose Your AI Companion
-            </h2>
-          </div>
-          <p className="text-center text-muted-foreground text-sm">
-            Select a personality and give your companion a unique name
+        <div className="space-y-2 lg:space-y-3">
+          <h2 className="text-brand-primary text-xl">Almost there!</h2>
+          <p className="text-brand-muted text-sm leading-relaxed">
+            Choose your AI companion's personality and give them a name.
           </p>
         </div>
 
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="w-full space-y-6"
-          >
-            {isLoadingAvatars ? (
-              <div className="grid grid-cols-3 gap-4">
-                {[1, 2, 3].map((i) => (
-                  <div
-                    key={i}
-                    className="flex flex-col items-center space-y-2 rounded-lg p-3"
-                  >
-                    <Skeleton className="h-24 w-24 rounded-full" />
-                    <Skeleton className="h-4 w-20" />
-                  </div>
-                ))}
-              </div>
-            ) : loadError ? (
-              <div className="flex flex-col items-center gap-4 py-8">
-                <p className="text-destructive text-sm">
-                  Failed to load avatars
-                </p>
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => loadAvatars()}
-                  className="gap-2"
-                >
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                  Retry
-                </Button>
-              </div>
-            ) : (
-              <div className="grid grid-cols-3 gap-4">
+        <div className="mt-8 lg:mt-12">
+          <ProgressSteps />
+        </div>
+      </div>
+
+      {/* Main content */}
+      <div className="flex-1 p-6 lg:min-h-screen lg:px-24 xl:px-32">
+        <div className="mx-auto max-w-[480px] pt-8 lg:pt-16">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              {/* Avatar grid */}
+              <div className="grid grid-cols-3 gap-3 lg:gap-6">
                 {avatars.map((avatar) => (
                   <label key={avatar.id} className="cursor-pointer">
                     <input
@@ -169,20 +137,18 @@ export function AvatarSelection() {
                     />
                     <div
                       className={cn(
-                        "flex flex-col items-center space-y-2 rounded-lg p-3 transition-all",
+                        "flex flex-col items-center space-y-2 rounded-lg p-2 transition-all lg:p-3",
                         form.watch("avatar") === avatar.id
-                          ? "bg-primary/10 ring-2 ring-primary"
+                          ? "bg-transparent"
                           : "hover:bg-accent",
                       )}
                     >
                       <div
                         className={cn(
-                          "rounded-full p-1 transition-all duration-300",
-                          form.watch("avatar") === avatar.id && "animate-pulse",
-                          getPersonalityColor(avatar.personality),
+                          "rounded-full transition-all",
                           form.watch("avatar") === avatar.id
-                            ? "border-4"
-                            : "border-2",
+                            ? "ring-4 ring-brand-primary"
+                            : "",
                         )}
                       >
                         <img
@@ -195,7 +161,7 @@ export function AvatarSelection() {
                         className={cn(
                           "text-center text-xs",
                           form.watch("avatar") === avatar.id
-                            ? "font-medium text-primary"
+                            ? "font-medium text-brand-primary"
                             : "text-muted-foreground",
                         )}
                       >
@@ -205,41 +171,38 @@ export function AvatarSelection() {
                   </label>
                 ))}
               </div>
-            )}
 
-            {form.formState.errors.avatar && (
-              <p className="text-center text-destructive text-sm">
-                {form.formState.errors.avatar.message}
-              </p>
-            )}
+              <FormField
+                control={form.control}
+                name="companionName"
+                render={({ field }) => (
+                  <FormItem className="space-y-3">
+                    <FormLabel className="text-base">
+                      Name your companion
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Give your companion a name"
+                        className="h-[48px]"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <FormField
-              control={form.control}
-              name="companionName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Give your companion a name</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter a name for your companion"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <NavigationButtons
-              isLoading={isLoading}
-              showBack={true}
-              onBack={() => {
-                useOnboardingStore.getState().goBack()
-                router.push("/welcome")
-              }}
-            />
-          </form>
-        </Form>
+              <NavigationButtons
+                isLoading={isLoading}
+                showBack={true}
+                onBack={() => {
+                  useOnboardingStore.getState().goBack()
+                  router.push("/welcome")
+                }}
+              />
+            </form>
+          </Form>
+        </div>
       </div>
     </div>
   )

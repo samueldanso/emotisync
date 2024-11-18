@@ -19,24 +19,22 @@ export function NavigationButtons({
   const router = useRouter()
 
   return (
-    <div className="flex justify-between gap-4">
+    <div className="flex justify-center gap-4">
       {showBack && (
         <Button
           type="button"
           variant="outline"
           onClick={onBack || (() => router.back())}
           disabled={isLoading}
+          className="h-[48px] w-[140px]"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back
         </Button>
       )}
-      <Button type="submit" disabled={isLoading} className="flex-1">
+      <Button type="submit" disabled={isLoading} className="h-[48px] w-[140px]">
         {isLoading ? (
-          <>
-            <Spinner />
-            Loading...
-          </>
+          <Spinner />
         ) : (
           <>
             Continue

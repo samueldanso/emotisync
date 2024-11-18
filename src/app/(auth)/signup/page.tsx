@@ -1,11 +1,11 @@
-import { redirect } from "next/navigation";
-import { getUser } from "@/lib/supabase/server";
-import Link from "next/link";
-import { AuthForm } from "../auth-form";
+import { redirect } from "next/navigation"
+import { getUser } from "@/lib/supabase/server"
+import Link from "next/link"
+import { AuthForm } from "../auth-form"
 
 export default async function SignupPage() {
-  const user = await getUser();
-  if (user) redirect("/app");
+  const user = await getUser()
+  if (user) redirect("/app")
 
   return (
     <main className="space-y-8">
@@ -22,7 +22,7 @@ export default async function SignupPage() {
           </Link>
         </p>
 
-        <p className="text-center text-muted-foreground text-xs leading-relaxed max-w-sm mx-auto">
+        <p className="mx-auto max-w-sm text-center text-muted-foreground text-xs leading-relaxed">
           By continuing with Google, you acknowledge that you have read and
           agree to our{" "}
           <Link
@@ -42,5 +42,5 @@ export default async function SignupPage() {
         </p>
       </div>
     </main>
-  );
+  )
 }

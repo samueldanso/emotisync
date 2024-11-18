@@ -11,9 +11,9 @@ export default async function WelcomeLayout({
   if (!user?.email) {
     redirect("/login")
   }
-  // refactor onboadrding page to look like reads
+
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-purple-50 p-4">
+    <div className="flex min-h-screen flex-col items-center justify-center p-4">
       {children}
     </div>
   )
