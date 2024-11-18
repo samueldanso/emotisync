@@ -1,9 +1,7 @@
 import type React from "react"
-import { env } from "@/env"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
   title: "Login — EmotiSync",
 }
 

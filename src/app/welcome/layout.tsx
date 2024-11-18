@@ -1,10 +1,8 @@
 import { redirect } from "next/navigation"
 import { getUser } from "@/lib/supabase/server"
-import { env } from "@/env"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
   title: "Onboarding — EmotiSync",
 }
 

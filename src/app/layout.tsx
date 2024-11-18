@@ -17,9 +17,23 @@ const lexend = Lexend({
 })
 
 export const metadata: Metadata = {
-  title: "EmotiSync — Your AI voice mood journal for emotional well-being",
+  title: {
+    default: "EmotiSync — Your AI voice companion for emotional well-being",
+    template: "%s | EmotiSync",
+  },
   description:
-    "EmotiSync is your intelligent voice companion for mood journaling and reflections. Simply talk, and AI instantly analyzes your feelings to offer personalized insights and actionable recommendations that enhance your well-being.",
+    "EmotiSync is your intelligent voice companion for mood journaling and reflections. Simply talk, and AI instantly analyzes your emotions to offer personalized insights and recommendations that enhance your well-being.",
+  openGraph: {
+    title: "EmotiSync — AI Voice Companion",
+    description:
+      "Your intelligent voice companion for mood journaling and reflections.",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "EmotiSync — AI Voice Companion",
+    description: "Your intelligent voice companion for emotional well-being.",
+  },
 }
 
 export default function RootLayout({
