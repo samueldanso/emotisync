@@ -1,33 +1,36 @@
 <a href="">
-  <img alt="EmotiSync — Your personalized AI companion for emotional well-being" src="/app.png">
-  <h1 align="center">EmotiSync — Your personalized AI companion for mood voice journaling and emotional well-being.</h1>
+  <img alt="EmotiSync — Your personalized AI companion" src="/images/app.png">
+  <h1 align="center">EmotiSync — Meet your personalized AI voice companion for reflections and emotional wellbeing.</h1>
 </a>
 
 <p align="center">
- EmotiSync is your intelligent companion for voice mood journaling and reflections. Simply talk, and AI analyzes your feelings to offer personalized insights and actionable recommendations that enhance your well-being.
+Skip writing, just talk naturally. Your AI companion transforms your daily voice conversations into personalized insights and recommendations, helping you find clarity and growth in minutes.
 </p>
 
  <p align="center">
    <a href="#features"><strong>Features</strong></a> ·
   <a href="#tech-stack"><strong>Tech Stack</strong></a> ·
   <a href="#setup"><strong>Setup</strong></a> ·
-  <a href="#future-plans"><strong>Future Plans</strong></a>
+  <a href="#roadmap"><strong>Roadmap</strong></a>
 </p>
 <br/>
 
 ## Features
 
-- **AI-Powered Recommendations:** AI instantly analyzes your mood from your speech to deliver the perfect tunes to match every vibe.
-- **Personalized Playlists:** Receive playlists tailored to your mood — perfect for relaxing, recharging, or focusing.
-- **Real-Time Guidance:** Get real-time guidance based on your feelings, helping you feel better in the moment.
+- **Empathetic voice AI:** Express yourself through natural voice conversations with AI who listens and responds with empathy.
+- **Tailored insights:** Get personalized insights tailored to your unique mood.
+- **Smart journal summaries:** Automatically generate journal summaries that track your reflection progress - zero writing required.
+- **Mood-boosting recommendations:** Receive personalized actionable recommendations that actually work for you.
+- **Real-time guidance:** Get instant feedback and real-time reflections tailored to your mood.
+- **Customize your AI avatar:** Customize your AI avatar to your unique personality.
 
 ## Tech Stack
 
 - **Frontend:** [Next.js 14](https://nextjs.org), [Tailwind CSS](https://tailwindcss.com), [Shadcn UI](https://ui.shadcn.com/), [Framer Motion](https://www.framer.com/motion/)
 - **Backend:** [PostgreSQL](https://www.postgresql.org/), [Supabase](https://supabase.com/), [Drizzle ORM](https://orm.drizzle.team/)
 - **Authentication:** [Supabase Auth](https://supabase.com/)
-- **Hume API:** [Hume](https://hume.ai/)
-- **Spotify Web API:** [Spotify API](https://developer.spotify.com/documentation/web-api)
+- **Voice AI:** [Hume](https://hume.ai/)
+- **LLM API:** [Sonnet 3.5](https://sonnet.com/)
 - **Language:** [TypeScript](https://www.typescriptlang.org/)
 - **Form Management:** [React Hook Form](https://react-hook-form.com/)
 - **State Management:** [Zustand](https://zustand-demo.pmnd.rs/)
@@ -40,7 +43,7 @@
 1. Clone the repository
 
    ```bash
-   git clone https://github.com/samueldanso/emotisync-v1.git
+   git clone https://github.com/samueldanso/emotisync.git
    ```
 
 2. Install dependencies
@@ -71,12 +74,12 @@
 
 Follow the deployment guides for [Vercel](https://nextjs.org/learn-pages-router/basics/deploying-nextjs-app/deploy).
 
-## Future Plans
+## Roadmap
 
 - [ ] Implement social sharing and friend interaction features
-- [ ] Implement mood tracking history feature
-- [ ] Implement facial expression recognition feature
-- [ ] Integrate with wearable or hardware devices
+- [ ] Implement mood insights feature
+- [ ] Implement rewards and invites feature
+- [ ] Implement AI avatar customization feature
 
 ## Contributing
 

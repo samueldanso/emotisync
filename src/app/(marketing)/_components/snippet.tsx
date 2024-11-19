@@ -1,6 +1,6 @@
-"use client";
+"use client"
 
-import { motion } from "framer-motion";
+import { motion } from "framer-motion"
 
 export default function AppSnippet() {
   return (
@@ -25,5 +25,5 @@ export default function AppSnippet() {
         </div>
       </div>
     </motion.div>
-  );
+  )
 }

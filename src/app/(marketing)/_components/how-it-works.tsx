@@ -1,8 +1,8 @@
-"use client";
+"use client"
 
-import Image from "next/image";
-import { HOW_IT_WORKS } from "@/lib/constants/marketing";
-import { cn } from "@/lib/utils";
+import Image from "next/image"
+import { HOW_IT_WORKS } from "@/lib/constants/marketing"
+import { cn } from "@/lib/utils"
 
 export default function HowItWorkSection() {
   return (
@@ -27,7 +27,7 @@ export default function HowItWorkSection() {
               key={step.title}
               className={cn(
                 "flex flex-col items-center gap-8 md:flex-row md:gap-16",
-                index % 2 === 1 && "md:flex-row-reverse"
+                index % 2 === 1 && "md:flex-row-reverse",
               )}
             >
               <div className="w-full space-y-4 md:w-1/2 md:pr-6">
@@ -56,5 +56,5 @@ export default function HowItWorkSection() {
         </div>
       </div>
     </section>
-  );
+  )
 }

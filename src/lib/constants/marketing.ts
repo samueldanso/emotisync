@@ -1,59 +1,64 @@
 import {
-  HeartHandshake,
   Book,
   Bot,
   MessageSquare,
   Sparkles,
-} from "lucide-react";
-import type { LucideIcon } from "lucide-react";
+  AudioLines,
+  Activity,
+} from "lucide-react"
+import type { LucideIcon } from "lucide-react"
 
 export interface FeaturesProps {
-  icon: LucideIcon;
-  title: string;
-  description: string;
+  icon: LucideIcon
+  title: string
+  description: string
 }
 
 export const FEATURES: FeaturesProps[] = [
   {
+    icon: AudioLines,
+    title: "Empathetic voice AI",
+    description:
+      "Express yourself through natural voice conversations with AI who listens and responds with empathy.",
+  },
+  {
     icon: Sparkles,
     title: "Tailored insights",
     description:
-      "Get personalized insights tailored to your unique mood — not just another mood journal app.",
+      "Get personalized insights tailored to your unique mood — not just another mood journal and tracking app.",
   },
   {
     icon: Book,
-    title: "Journal reflections",
+    title: "Smart journal summaries",
     description:
-      "Smart journal summaries that track your progress - zero writing required.",
+      "Automatically generate journal summaries that track your reflection progress - zero writing required.",
   },
+
   {
-    icon: HeartHandshake,
-    title: "Empathetic voice AI",
-    description: "Express yourself through natural voice conversations.",
-  },
-  {
-    icon: Book,
-    title: "Personalized recommendations",
+    icon: Activity,
+    title: "Mood-boosting recommendations",
     description:
-      "Personalized mood-boosting recommendations that actually work for you.",
+      "Receive personalized actionable recommendations that actually work for you.",
+  },
+
+  {
+    icon: MessageSquare,
+    title: "Real-time guidance",
+    description:
+      "Get instant feedback and real-time reflections tailored to your mood.",
   },
   {
     icon: Bot,
-    title: "Customize your AI companion",
-    description: "Tailor your AI companion to your preferences.",
+    title: "Customize your AI avatar",
+    description: "Customize your AI avatar to your unique personality.",
   },
-  {
-    icon: MessageSquare,
-    title: "Instant feedback",
-    description: "Get real-time insights and recommendations for your mood.",
-  },
-];
+]
 
 export interface HowItWorksProps {
-  title: string;
-  description: string;
-  imagePosition: "left" | "right";
-  image: string;
+  title: string
+  description: string
+  imagePosition: "left" | "right"
+  image: string
 }
 
 export const HOW_IT_WORKS: HowItWorksProps[] = [
@@ -78,13 +83,13 @@ export const HOW_IT_WORKS: HowItWorksProps[] = [
     imagePosition: "left",
     image: "/images/step1.png",
   },
-];
+]
 
 export interface TestimonialsProps {
-  name: string;
-  role: string;
-  content: string;
-  avatar: string;
+  name: string
+  role: string
+  content: string
+  avatar: string
 }
 
 export const TESTIMONIALS: TestimonialsProps[] = [
@@ -109,11 +114,11 @@ export const TESTIMONIALS: TestimonialsProps[] = [
       "As someone whos an introvert, this feels like talking to a friend who really gets me. Other apps felt like homework.",
     avatar: "/images/avatar3.png",
   },
-];
+]
 
 export interface FAQProbs {
-  question: string;
-  answer: string;
+  question: string
+  answer: string
 }
 
 export const FAQS: FAQProbs[] = [
@@ -153,4 +158,4 @@ export const FAQS: FAQProbs[] = [
     answer:
       "EmotiSync AI is beneficial for anyone seeking accessible emotional health insights—whether you're dealing with daily stress, need a listening ear, or want to explore self-care routines. If you're experiencing severe mental health issues, we strongly recommend consulting a licensed therapist.",
   },
-];
+]
