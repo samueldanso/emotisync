@@ -1,8 +1,8 @@
-import Image from "next/image"
-import Link from "next/link"
+import Image from "next/image";
+import Link from "next/link";
 
 interface LogoProps {
-  className?: string
+  className?: string;
 }
 
 export function Logo({ className }: LogoProps) {
@@ -19,5 +19,5 @@ export function Logo({ className }: LogoProps) {
         EmotiSync
       </span>
     </Link>
-  )
+  );
 }
