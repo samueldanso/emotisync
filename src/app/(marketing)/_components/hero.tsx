@@ -10,7 +10,7 @@ import AppSnippet from "./snippet";
 
 export default function HeroSection() {
   return (
-    <section className="relative pt-20 md:pt-24 lg:pt-28">
+    <section className="relative pt-24 md:pt-28 lg:pt-32">
       <div className="container flex max-w-[64rem] flex-col items-center text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
