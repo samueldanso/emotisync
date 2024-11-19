@@ -1,9 +1,9 @@
-import Link from "next/link"
-import { Logo } from "@/components/ui/logo"
-import { FOOTER_MENU } from "@/lib/constants/menus"
+import Link from "next/link";
+import { Logo } from "@/components/ui/logo";
+import { FOOTER_MENU } from "@/lib/constants/menus";
 
 export function Footer() {
-  const currentYear = new Date().getFullYear()
+  const currentYear = new Date().getFullYear();
 
   return (
     <div className="container mx-auto max-w-[1250px] px-4 pt-12 md:pt-16 lg:pt-32">
@@ -30,7 +30,7 @@ export function Footer() {
                     <li key={link.title}>
                       <Link
                         href={link.href}
-                        className="text-brand-muted transition-colors hover:text-brand-foreground"
+                        className="text-brand-muted transition-colors hover:text-brand-primary"
                       >
                         {link.title}
                       </Link>
@@ -47,5 +47,5 @@ export function Footer() {
         EmotiSync
       </span>
     </div>
-  )
+  );
 }
