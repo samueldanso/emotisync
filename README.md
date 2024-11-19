@@ -31,7 +31,7 @@ Skip writing, just talk naturally. Your AI companion transforms your daily voice
 - **Authentication:** [Supabase Auth](https://supabase.com/), [Capx Auth](https://capx.ai/)
 - **Payments:** [Stripe](https://stripe.com/)
 - **Voice AI:** [Hume AI](https://hume.ai/)
-- **LLM API:** [Sonnet 3.5](https://sonnet.com/)
+- **LLM API:** [Claude 3.5 Sonnet](https://anthropic.com/)
 - **Language:** [TypeScript](https://www.typescriptlang.org/)
 - **Form Management:** [React Hook Form](https://react-hook-form.com/)
 - **State Management:** [Zustand](https://zustand-demo.pmnd.rs/)
