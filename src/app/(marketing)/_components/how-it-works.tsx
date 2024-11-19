@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import Image from "next/image"
-import { HOW_IT_WORKS } from "@/lib/constants/marketing"
-import { cn } from "@/lib/utils"
+import Image from "next/image";
+import { HOW_IT_WORKS } from "@/lib/constants/marketing";
+import { cn } from "@/lib/utils";
 
 export default function HowItWorkSection() {
   return (
@@ -13,11 +13,11 @@ export default function HowItWorkSection() {
             How it works
           </span>
           <h2 className="mt-6 font-heading font-semibold text-3xl text-brand-foreground sm:text-4xl md:text-5xl">
-            Speak, sync, <br /> get clarity instantly
+            Speak, reflect, <br /> get personalized support
           </h2>
           <p className="mt-6 max-w-[85%] text-brand-muted text-lg leading-relaxed sm:text-xl">
             Turn your daily natural voice conversations into personalized
-            guidance and insights.
+            reflections and actionable recommendations tailored to your needs.
           </p>
         </div>
 
@@ -27,7 +27,7 @@ export default function HowItWorkSection() {
               key={step.title}
               className={cn(
                 "flex flex-col items-center gap-8 md:flex-row md:gap-16",
-                index % 2 === 1 && "md:flex-row-reverse",
+                index % 2 === 1 && "md:flex-row-reverse"
               )}
             >
               <div className="w-full space-y-4 md:w-1/2 md:pr-6">
@@ -56,5 +56,5 @@ export default function HowItWorkSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }
