@@ -33,10 +33,10 @@ html {
   --chart-5: 27 87% 67%;
   --radius: 0.5rem;
   --brand-background: 225 33% 98%;
-  --brand-foreground: 284 38% 13%;
-  --brand-muted: 284 20% 30%;
-  --brand-primary: 265 66% 53%;
-  --brand-accent: 338 77% 85%;
+  --brand-foreground: 284 35% 11%;
+  --brand-muted: 284 10% 42%;
+  --brand-primary: 255 66% 53%;
+  --brand-accent: 339 75% 83%;
 }
 
 .dark {
@@ -64,11 +64,11 @@ html {
   --chart-3: 30 80% 55%;
   --chart-4: 280 65% 60%;
   --chart-5: 340 75% 55%;
-  --brand-background: 225 30% 4%;
-  --brand-foreground: 284 15% 95%;
-  --brand-muted: 284 20% 70%;
-  --brand-primary: 265 66% 63%;
-  --brand-accent: 338 77% 75%;
+  --brand-background: 225 30% 2%;
+  --brand-foreground: 284 20% 93%;
+  --brand-muted: 284 10% 67%;
+  --brand-primary: 255 66% 53%;
+  --brand-accent: 339 75% 83%;
 }
 
 @layer base {

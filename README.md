@@ -1,5 +1,5 @@
 <a href="">
-  <img alt="EmotiSync — Your personalized AI companion for mood voice journaling" src="/app.png">
+  <img alt="EmotiSync — Your personalized AI companion for emotional well-being" src="/app.png">
   <h1 align="center">EmotiSync — Your personalized AI companion for mood voice journaling and emotional well-being.</h1>
 </a>
 
