@@ -30,7 +30,7 @@ Skip writing, just talk naturally. Your AI companion transforms your daily voice
 - **Backend:** [PostgreSQL](https://www.postgresql.org/), [Supabase](https://supabase.com/), [Drizzle ORM](https://orm.drizzle.team/), [Server Actions](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations)
 - **Authentication:** [Supabase Auth](https://supabase.com/), [Capx Auth](https://capx.ai/)
 - **Payments:** [Stripe](https://stripe.com/)
-- **Voice AI:** [Hume AI](https://hume.ai/)
+- **Voice AI (Agents):** [Hume AI](https://hume.ai/)
 - **LLM API:** [Claude 3.5 Sonnet](https://anthropic.com/)
 - **Language:** [TypeScript](https://www.typescriptlang.org/)
 - **Form Management:** [React Hook Form](https://react-hook-form.com/)
