@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { ArrowRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { FeaturesGradient } from "@/components/ui/background-gradient"
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { FeaturesGradient } from "@/components/ui/background-gradient";
 
 export default function CTASection() {
   return (
@@ -20,7 +20,7 @@ export default function CTASection() {
                 Join thousands who&apos;ve found growth through voice journaling
               </p>
               <div className="mt-8">
-                <Link href="https://gu9up9i3ufs.typeform.com/to/MZ5ha5dg">
+                <Link href="/signup">
                   <Button className="relative rounded-full bg-gradient-to-t from-brand-primary via-brand-primary to-brand-accent/80 px-8 py-6 font-medium text-lg text-white shadow-[0_2px_4px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.15)] transition-all duration-300 ease-out before:absolute before:inset-0 before:rounded-full before:bg-gradient-to-t before:from-transparent before:to-white/20 hover:scale-[1.02] hover:shadow-[0_4px_8px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.25)] hover:before:to-white/30 active:scale-[0.98]">
                     Start your journey
                     <ArrowRight className="ml-2 h-5 w-5" />
@@ -32,5 +32,5 @@ export default function CTASection() {
         </div>
       </div>
     </section>
-  )
+  );
 }
