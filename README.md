@@ -27,7 +27,7 @@ Skip writing, just talk naturally. Your AI companion transforms your daily voice
 ## Tech Stack
 
 - **Frontend:** [Next.js 14](https://nextjs.org), [Tailwind CSS](https://tailwindcss.com), [Shadcn UI](https://ui.shadcn.com/), [Framer Motion](https://www.framer.com/motion/)
-- **Backend:** [PostgreSQL](https://www.postgresql.org/), [Supabase](https://supabase.com/), [Drizzle ORM](https://orm.drizzle.team/), [Server Actions](https://nextjs.org/docs/app/)
+- **Backend:** [PostgreSQL](https://www.postgresql.org/), [Supabase](https://supabase.com/), [Drizzle ORM](https://orm.drizzle.team/), [Server Actions](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations)
 - **Authentication:** [Supabase Auth](https://supabase.com/), [Capx Auth](https://capx.ai/)
 - **Payments:** [Stripe](https://stripe.com/)
 - **Voice AI:** [Hume AI](https://hume.ai/)
