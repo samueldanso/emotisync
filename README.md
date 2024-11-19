@@ -38,6 +38,7 @@ Skip writing, just talk naturally. Your AI companion transforms your daily voice
 - **Validation:** [Zod](https://zod.dev/)
 - **Rate limiting:** [Upstash](https://upstash.com/)
 - **Formatter & Linter:** [Biome](https://biomejs.dev/)
+- **Package Manager:** [Bun](https://bun.sh/)
 
 ## Setup
 
