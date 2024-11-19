@@ -93,7 +93,7 @@ export const TESTIMONIALS: TestimonialsProps[] = [
     role: "Public Health Professional",
     content:
       "I was skeptical about EmotiSync AI, but it's incredibly natural and helpful. The insights are spot-on.",
-    avatar: "/images/avatar1.png",
+    avatar: "/images/avatar2.png",
   },
   {
     name: "Anonymous",
