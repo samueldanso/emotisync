@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
+import { motion } from "framer-motion";
 
 export default function AppSnippet() {
   return (
@@ -18,7 +18,6 @@ export default function AppSnippet() {
             loop
             playsInline
             className="h-full w-full object-cover"
-            poster="/images/avatar1.png"
           >
             <source src="/gifs/ai.mp4" type="video/mp4" />
             Your browser does not support the video tag.
@@ -26,5 +25,5 @@ export default function AppSnippet() {
         </div>
       </div>
     </motion.div>
-  )
+  );
 }

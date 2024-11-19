@@ -1,8 +1,8 @@
-"use client"
-import GlassCard from "@/components/ui/glass"
-import { FeaturesGradient } from "@/components/ui/background-gradient"
-import { FEATURES } from "@/lib/constants/marketing"
-import { colorPairs } from "@/lib/constants/colors"
+"use client";
+import GlassCard from "@/components/ui/glass";
+import { FeaturesGradient } from "@/components/ui/background-gradient";
+import { FEATURES } from "@/lib/constants/marketing";
+import { colorPairs } from "@/lib/constants/colors";
 
 export default function FeatureSection() {
   return (
@@ -15,18 +15,19 @@ export default function FeatureSection() {
             Benefits
           </span>
           <h2 className="mt-6 font-heading font-semibold text-3xl text-brand-foreground sm:text-4xl md:text-5xl">
-            Speak freely, <br /> receive insights instantly
+            Simply talk about what's on your mind, receive real time insights
+            instantly
           </h2>
           <p className="mt-6 max-w-[85%] text-brand-muted text-lg leading-relaxed sm:text-xl">
-            EmotiSync listens, understands, and helps you journal your emotions
-            through natural conversations.
+            EmotiSync listens, understands, and helps you journal and reflect on
+            your emotions through natural conversations.
           </p>
         </div>
 
         <div className="relative z-10 mx-auto grid w-full max-w-[1250px] grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6">
           {FEATURES.map((feature, index) => {
-            const Icon = feature.icon
-            const colorPair = colorPairs[index % colorPairs.length]
+            const Icon = feature.icon;
+            const colorPair = colorPairs[index % colorPairs.length];
 
             return (
               <GlassCard
@@ -49,10 +50,10 @@ export default function FeatureSection() {
                   {feature.description}
                 </p>
               </GlassCard>
-            )
+            );
           })}
         </div>
       </div>
     </section>
-  )
+  );
 }
