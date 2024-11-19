@@ -18,17 +18,18 @@ Skip writing, just talk naturally. Your AI companion transforms your daily voice
 ## Features
 
 - **Empathetic voice AI:** Express yourself through natural voice conversations with AI who listens and responds with empathy.
-- **Tailored insights:** Get personalized insights tailored to your unique mood.
-- **Smart journal summaries:** Automatically generate journal summaries that track your reflection progress - zero writing required.
 - **Mood-boosting recommendations:** Receive personalized actionable recommendations that actually work for you.
+- **Smart journal summaries:** Automatically generate journal summaries that track your reflection progress - zero writing required.
+- **Tailored insights:** Get personalized insights tailored to your unique mood.
 - **Real-time guidance:** Get instant feedback and real-time reflections tailored to your mood.
 - **Customize your AI avatar:** Customize your AI avatar to your unique personality.
 
 ## Tech Stack
 
 - **Frontend:** [Next.js 14](https://nextjs.org), [Tailwind CSS](https://tailwindcss.com), [Shadcn UI](https://ui.shadcn.com/), [Framer Motion](https://www.framer.com/motion/)
-- **Backend:** [PostgreSQL](https://www.postgresql.org/), [Supabase](https://supabase.com/), [Drizzle ORM](https://orm.drizzle.team/)
+- **Backend:** [PostgreSQL](https://www.postgresql.org/), [Supabase](https://supabase.com/), [Drizzle ORM](https://orm.drizzle.team/), [Server Actions](https://nextjs.org/docs/app/)
 - **Authentication:** [Supabase Auth](https://supabase.com/)
+- **Payment:** [Stripe](https://stripe.com/)
 - **Voice AI:** [Hume](https://hume.ai/)
 - **LLM API:** [Sonnet 3.5](https://sonnet.com/)
 - **Language:** [TypeScript](https://www.typescriptlang.org/)
