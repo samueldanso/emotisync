@@ -1,74 +1,83 @@
 "use client"
 import { cn } from "@/lib/utils"
 import { useVoice } from "@humeai/voice-react"
-
 import { AnimatePresence, motion } from "framer-motion"
 import { type ComponentRef, forwardRef } from "react"
 import Expressions from "./expressions"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
-const Messages = forwardRef<
-  ComponentRef<typeof motion.div>,
-  Record<never, never>
->(function Messages(_, ref) {
-  const { messages } = useVoice()
+interface MessagesProps {
+  companionName: string
+  companionAvatar?: string
+}
 
-  //display AI companion name and avatar when displaying and streaming messages instead of just Assistant
-  return (
-    <motion.div
-      layoutScroll
-      className={"grow overflow-auto rounded-md p-4"}
-      ref={ref}
-    >
+const Messages = forwardRef<ComponentRef<typeof motion.div>, MessagesProps>(
+  function Messages({ companionName, companionAvatar }, ref) {
+    const { messages } = useVoice()
+
+    return (
       <motion.div
-        className={"mx-auto flex w-full max-w-2xl flex-col gap-4 pb-24"}
+        layoutScroll
+        className="h-full overflow-y-auto px-4"
+        ref={ref}
       >
-        <AnimatePresence mode={"popLayout"}>
-          {messages.map((msg) => {
-            if (
-              msg.type === "user_message" ||
-              msg.type === "assistant_message"
-            ) {
-              return (
-                <motion.div
-                  key={`${msg.type}-${msg.message.content?.slice(0, 10)}`}
-                  className={cn(
-                    "w-[80%]",
-                    "bg-card",
-                    "rounded border border-border",
-                    msg.type === "user_message" ? "ml-auto" : "",
-                  )}
-                  initial={{
-                    opacity: 0,
-                    y: 10,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    y: 0,
-                  }}
-                  exit={{
-                    opacity: 0,
-                    y: 0,
-                  }}
-                >
-                  <div
-                    className={cn(
-                      "px-3 pt-4 font-medium text-xs capitalize leading-none opacity-50",
-                    )}
+        <motion.div className="flex flex-col space-y-6 pt-4 pb-20" layout>
+          <AnimatePresence mode="popLayout" initial={false}>
+            {messages.map((msg) => {
+              if (
+                msg.type === "user_message" ||
+                msg.type === "assistant_message"
+              ) {
+                const isUser = msg.type === "user_message"
+                return (
+                  <motion.div
+                    key={`${msg.type}-${msg.message.content?.slice(0, 10)}`}
+                    className={cn("flex gap-4", isUser && "flex-row-reverse")}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
                   >
-                    {msg.message.role}
-                  </div>
-                  <div className={"px-3 pb-3"}>{msg.message.content}</div>
-                  <Expressions values={{ ...msg.models.prosody?.scores }} />
-                </motion.div>
-              )
-            }
-
-            return null
-          })}
-        </AnimatePresence>
+                    <Avatar className="h-8 w-8 shrink-0">
+                      {isUser ? (
+                        <AvatarFallback>U</AvatarFallback>
+                      ) : (
+                        <>
+                          <AvatarImage
+                            src={companionAvatar}
+                            alt={companionName}
+                          />
+                          <AvatarFallback>{companionName[0]}</AvatarFallback>
+                        </>
+                      )}
+                    </Avatar>
+                    <div
+                      className={cn(
+                        "flex max-w-[80%] flex-col gap-2",
+                        isUser && "items-end",
+                      )}
+                    >
+                      <div
+                        className={cn(
+                          "rounded-2xl px-4 py-2.5",
+                          isUser
+                            ? "bg-primary text-primary-foreground"
+                            : "bg-muted",
+                        )}
+                      >
+                        {msg.message.content}
+                      </div>
+                      <Expressions values={{ ...msg.models.prosody?.scores }} />
+                    </div>
+                  </motion.div>
+                )
+              }
+              return null
+            })}
+          </AnimatePresence>
+        </motion.div>
       </motion.div>
-    </motion.div>
-  )
-})
+    )
+  },
+)
 
 export default Messages

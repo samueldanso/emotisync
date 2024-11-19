@@ -53,7 +53,7 @@ export function StartCall() {
                     stroke="currentColor"
                   />
                 </span>
-                <span>Start Call</span>
+                <span>Start Conversation</span>
               </Button>
             </motion.div>
           </AnimatePresence>

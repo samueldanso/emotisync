@@ -1,9 +1,9 @@
-"use client";
+"use client"
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { useState } from "react";
-import { User, Users } from "lucide-react";
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { useState } from "react"
+import { User, Users } from "lucide-react"
 import {
   Form,
   FormControl,
@@ -11,53 +11,53 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
 import {
   profileSchema,
   type ProfileFormValues,
-} from "@/lib/validations/profile";
-import { showErrorToast } from "@/lib/utils/errors";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
-import { supabaseClient } from "@/lib/supabase/client";
-import { useWelcomeStore } from "@/lib/stores/welcome";
-import { ProgressSteps } from "./progress-steps";
-import { WelcomeButtons } from "./welcome-buttons";
+} from "@/lib/validations/profile"
+import { showErrorToast } from "@/lib/utils/errors"
+import { useRouter } from "next/navigation"
+import Image from "next/image"
+import { supabaseClient } from "@/lib/supabase/client"
+import { useWelcomeStore } from "@/lib/stores/welcome"
+import { ProgressSteps } from "./progress-steps"
+import { WelcomeButtons } from "./welcome-buttons"
 
 export function ProfileForm() {
-  const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
-  const { setGoal, goNext } = useWelcomeStore();
+  const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter()
+  const { setGoal, goNext } = useWelcomeStore()
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
     defaultValues: async () => {
       const {
         data: { user },
-      } = await supabaseClient.auth.getUser();
+      } = await supabaseClient.auth.getUser()
       const firstName = user?.user_metadata?.full_name
         ? user.user_metadata.full_name.split(" ")[0]
-        : user?.email?.split("@")[0] || "";
+        : user?.email?.split("@")[0] || ""
 
       return {
         name: firstName,
         goal: "",
-      };
+      }
     },
-  });
+  })
 
   async function onSubmit(data: ProfileFormValues) {
-    setIsLoading(true);
+    setIsLoading(true)
     try {
-      setGoal(data.goal);
-      goNext();
-      router.push("/welcome/avatar");
+      setGoal(data.goal)
+      goNext()
+      router.push("/welcome/avatar")
     } catch (error) {
-      showErrorToast(error);
+      showErrorToast(error)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
   }
 
@@ -155,5 +155,5 @@ export function ProfileForm() {
         </div>
       </div>
     </div>
-  );
+  )
 }

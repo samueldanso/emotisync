@@ -34,7 +34,7 @@ export function AppSidebar() {
   }
 
   return (
-    <aside className="fixed inset-y-0 left-0 z-30 flex h-full w-[260px] flex-col border-r bg-background/80 shadow-sm backdrop-blur-sm">
+    <aside className="fixed inset-y-0 left-0 z-30 hidden h-full w-[260px] flex-col border-r bg-background/80 shadow-sm backdrop-blur-sm lg:flex">
       {/* Logo */}
       <div className="flex h-16 items-center px-6">
         <Logo className="relative z-10 text-foreground" />

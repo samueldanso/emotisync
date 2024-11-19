@@ -1,10 +1,10 @@
-"use client";
+"use client"
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
-import { Input } from "@/components/ui/input";
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useRouter } from "next/navigation"
+import { useState, useEffect } from "react"
+import { Input } from "@/components/ui/input"
 import {
   FormControl,
   FormField,
@@ -12,44 +12,44 @@ import {
   FormLabel,
   FormMessage,
   Form,
-} from "@/components/ui/form";
-import { avatarSchema, type AvatarFormValues } from "@/lib/validations/avatar";
-import { showErrorToast } from "@/lib/utils/errors";
-import { toast } from "sonner";
-import { cn } from "@/lib/utils";
-import { supabaseClient } from "@/lib/supabase/client";
-import { useWelcomeStore } from "@/lib/stores/welcome";
-import { createCompleteProfile } from "@/actions/profiles";
-import { ProgressSteps } from "./progress-steps";
-import { WelcomeButtons } from "./welcome-buttons";
-import { getAvatars } from "@/actions/avatars";
-import type { Avatar } from "@/db/schemas";
-import Image from "next/image";
+} from "@/components/ui/form"
+import { avatarSchema, type AvatarFormValues } from "@/lib/validations/avatar"
+import { showErrorToast } from "@/lib/utils/errors"
+import { toast } from "sonner"
+import { cn } from "@/lib/utils"
+import { supabaseClient } from "@/lib/supabase/client"
+import { useWelcomeStore } from "@/lib/stores/welcome"
+import { createCompleteProfile } from "@/actions/profiles"
+import { ProgressSteps } from "./progress-steps"
+import { WelcomeButtons } from "./welcome-buttons"
+import { getAvatars } from "@/actions/avatars"
+import type { Avatar } from "@/db/schemas"
+import Image from "next/image"
 
 export function AvatarSelection() {
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
-  const [avatars, setAvatars] = useState<Avatar[]>([]);
-  const { goal, reset } = useWelcomeStore();
+  const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false)
+  const [avatars, setAvatars] = useState<Avatar[]>([])
+  const { goal, reset } = useWelcomeStore()
 
   async function loadAvatars() {
     try {
-      const { data, error } = await getAvatars();
+      const { data, error } = await getAvatars()
       if (error) {
-        showErrorToast(error);
-        return;
+        showErrorToast(error)
+        return
       }
       if (data) {
-        setAvatars(data);
+        setAvatars(data)
       }
     } catch (error) {
-      showErrorToast(error);
+      showErrorToast(error)
     }
   }
 
   useEffect(() => {
-    loadAvatars();
-  }, []);
+    loadAvatars()
+  }, [])
 
   const form = useForm<AvatarFormValues>({
     resolver: zodResolver(avatarSchema),
@@ -57,38 +57,38 @@ export function AvatarSelection() {
       avatar: "",
       companionName: "",
     },
-  });
+  })
 
   async function onSubmit(data: AvatarFormValues) {
-    setIsLoading(true);
+    setIsLoading(true)
     try {
       if (!goal) {
-        throw new Error("Please complete the previous step first");
+        throw new Error("Please complete the previous step first")
       }
 
       const {
         data: { user },
-      } = await supabaseClient.auth.getUser();
-      if (!user?.id || !user?.email) throw new Error("User not found");
+      } = await supabaseClient.auth.getUser()
+      if (!user?.id || !user?.email) throw new Error("User not found")
 
       const { error } = await createCompleteProfile(user.id, {
         goal,
         companionName: data.companionName,
         companionAvatar: data.avatar,
         email: user.email,
-      });
+      })
 
       if (error) {
-        throw new Error(error);
+        throw new Error(error)
       }
 
-      reset();
-      toast.success(`${data.companionName} is ready to be your AI companion!`);
-      router.push("/app");
+      reset()
+      toast.success(`${data.companionName} is ready to be your AI companion!`)
+      router.push("/app")
     } catch (error) {
-      showErrorToast(error);
+      showErrorToast(error)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
   }
 
@@ -139,7 +139,7 @@ export function AvatarSelection() {
                         "flex flex-col items-center space-y-2 rounded-lg p-2 transition-all lg:p-3",
                         form.watch("avatar") === avatar.id
                           ? "bg-transparent"
-                          : "hover:bg-accent"
+                          : "hover:bg-accent",
                       )}
                     >
                       <div
@@ -147,7 +147,7 @@ export function AvatarSelection() {
                           "rounded-full transition-all",
                           form.watch("avatar") === avatar.id
                             ? "ring-4 ring-brand-primary"
-                            : ""
+                            : "",
                         )}
                       >
                         <img
@@ -161,7 +161,7 @@ export function AvatarSelection() {
                           "text-center text-xs",
                           form.watch("avatar") === avatar.id
                             ? "font-medium text-brand-primary"
-                            : "text-muted-foreground"
+                            : "text-muted-foreground",
                         )}
                       >
                         {avatar.personality}
@@ -195,8 +195,8 @@ export function AvatarSelection() {
                 isLoading={isLoading}
                 showBack={true}
                 onBack={() => {
-                  useWelcomeStore.getState().goBack();
-                  router.push("/welcome/profile");
+                  useWelcomeStore.getState().goBack()
+                  router.push("/welcome/profile")
                 }}
               />
             </form>
@@ -204,5 +204,5 @@ export function AvatarSelection() {
         </div>
       </div>
     </div>
-  );
+  )
 }

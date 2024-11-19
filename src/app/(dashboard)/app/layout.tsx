@@ -1,36 +1,35 @@
-import { redirect } from "next/navigation";
-import { getUser } from "@/lib/supabase/server";
-import { AppSidebar } from "./_components/sidebar";
-import { db } from "@/db/db";
-import { eq } from "drizzle-orm";
-import { profiles } from "@/db/schemas";
+import { redirect } from "next/navigation"
+import { getUser } from "@/lib/supabase/server"
+import { AppSidebar } from "./_components/sidebar"
+import { db } from "@/db/db"
+import { eq } from "drizzle-orm"
+import { profiles } from "@/db/schemas"
 
 export default async function AppLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
-  const user = await getUser();
+  const user = await getUser()
 
   if (!user?.email) {
-    redirect("/login");
+    redirect("/login")
   }
 
-  // Check profile directly from database to ensure fresh data
   const profile = await db.query.profiles.findFirst({
     where: eq(profiles.userId, user.id),
-  });
+  })
 
   if (!profile?.onboarding_completed) {
-    redirect("/welcome/profile");
+    redirect("/welcome/profile")
   }
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen flex-col lg:flex-row">
       <AppSidebar />
-      <main className="flex min-h-0 flex-1 pl-[260px]">
-        <div className="container flex min-h-0 grow p-8">{children}</div>
+      <main className="flex min-h-0 flex-1 lg:pl-[260px]">
+        <div className="container flex min-h-0 grow p-4 lg:p-8">{children}</div>
       </main>
     </div>
-  );
+  )
 }
