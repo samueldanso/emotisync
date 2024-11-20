@@ -5,6 +5,7 @@ import { useCallback, useEffect } from "react";
 import { PrivyProvider, usePrivy, useWallets } from "@privy-io/react-auth";
 import { env } from "@/env";
 import { useTelegramAuth } from "./telegram-auth";
+import { cn } from "@/lib/utils/client";
 
 const Capx = defineChain({
   id: Number(env.NEXT_PUBLIC_CAPX_CHAIN_ID || "10245"),
