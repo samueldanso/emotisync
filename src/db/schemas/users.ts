@@ -6,6 +6,12 @@ export const users = pgTable(
     id: uuid("id").defaultRandom().primaryKey(),
     email: text("email").notNull().unique(),
     name: text("name").notNull(),
+    auth_provider: text("auth_provider", {
+      enum: ["google", "telegram"],
+    })
+      .notNull()
+      .default("google"),
+    telegram_id: text("telegram_id").unique(),
     created_at: timestamp("created_at").defaultNow().notNull(),
     updated_at: timestamp("updated_at")
       .defaultNow()
@@ -14,6 +20,7 @@ export const users = pgTable(
   },
   (table) => ({
     idx_users_email: index("idx_users_email").on(table.email),
+    idx_users_telegram_id: index("idx_users_telegram_id").on(table.telegram_id),
   }),
 )
 
