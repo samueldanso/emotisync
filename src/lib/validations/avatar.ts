@@ -1,7 +1,7 @@
 import * as z from "zod"
 
 export const avatarSchema = z.object({
-  avatar: z.string().min(1, "Please select an avatar"),
+  avatar: z.string().min(1, "Please select an AI companion"),
   companionName: z
     .string()
     .min(2, "Name must be at least 2 characters")

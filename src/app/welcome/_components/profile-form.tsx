@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { useState } from "react"
-import { User, Users } from "lucide-react"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { Trophy, User } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -11,53 +11,53 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import {
   profileSchema,
   type ProfileFormValues,
-} from "@/lib/validations/profile"
-import { showErrorToast } from "@/lib/utils/errors"
-import { useRouter } from "next/navigation"
-import Image from "next/image"
-import { supabaseClient } from "@/lib/supabase/client"
-import { useWelcomeStore } from "@/lib/stores/welcome"
-import { ProgressSteps } from "./progress-steps"
-import { WelcomeButtons } from "./welcome-buttons"
+} from "@/lib/validations/profile";
+import { showErrorToast } from "@/lib/utils/errors";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { supabaseClient } from "@/lib/supabase/client";
+import { useWelcomeStore } from "@/lib/stores/welcome";
+import { ProgressSteps } from "./progress-steps";
+import { WelcomeButtons } from "./welcome-buttons";
 
 export function ProfileForm() {
-  const [isLoading, setIsLoading] = useState(false)
-  const router = useRouter()
-  const { setGoal, goNext } = useWelcomeStore()
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+  const { setGoal, goNext } = useWelcomeStore();
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
     defaultValues: async () => {
       const {
         data: { user },
-      } = await supabaseClient.auth.getUser()
+      } = await supabaseClient.auth.getUser();
       const firstName = user?.user_metadata?.full_name
         ? user.user_metadata.full_name.split(" ")[0]
-        : user?.email?.split("@")[0] || ""
+        : user?.email?.split("@")[0] || "";
 
       return {
         name: firstName,
         goal: "",
-      }
+      };
     },
-  })
+  });
 
   async function onSubmit(data: ProfileFormValues) {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
-      setGoal(data.goal)
-      goNext()
-      router.push("/welcome/avatar")
+      setGoal(data.goal);
+      goNext();
+      router.push("/welcome/avatar");
     } catch (error) {
-      showErrorToast(error)
+      showErrorToast(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   }
 
@@ -94,8 +94,8 @@ export function ProfileForm() {
       {/* Main content */}
       <div className="flex-1 p-6 lg:min-h-screen lg:px-24 xl:px-32">
         <div className="mx-auto max-w-[480px] pt-8 lg:pt-16">
-          <div className="mb-8">
-            <h1 className="mb-2 font-heading font-semibold text-2xl">
+          <div className="mb-6 text-center">
+            <h1 className="mb-1 font-heading font-semibold text-2xl">
               Let's get to know you better!
             </h1>
             <p className="text-brand-muted">
@@ -132,13 +132,13 @@ export function ProfileForm() {
                 render={({ field }) => (
                   <FormItem className="space-y-3">
                     <FormLabel className="flex items-center gap-2">
-                      <Users className="h-4 w-4" />
+                      <Trophy className="h-4 w-4" />
                       Your main goal with EmotiSync
                     </FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="e.g., Track my daily emotions, Find better ways to manage stress, Understand my mood patterns..."
-                        className="min-h-[120px] resize-none focus-visible:ring-brand-primary"
+                        placeholder="e.g., Talk to a friendly companion, Keep a daily journal, Find better ways to manage stress..."
+                        className="min-h-[100px] resize-none focus-visible:ring-brand-primary"
                         {...field}
                       />
                     </FormControl>
@@ -155,5 +155,5 @@ export function ProfileForm() {
         </div>
       </div>
     </div>
-  )
+  );
 }

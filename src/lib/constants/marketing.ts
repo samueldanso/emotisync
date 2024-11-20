@@ -5,13 +5,13 @@ import {
   Sparkles,
   AudioLines,
   Activity,
-} from "lucide-react";
-import type { LucideIcon } from "lucide-react";
+} from "lucide-react"
+import type { LucideIcon } from "lucide-react"
 
 export interface FeaturesProps {
-  icon: LucideIcon;
-  title: string;
-  description: string;
+  icon: LucideIcon
+  title: string
+  description: string
 }
 
 export const FEATURES: FeaturesProps[] = [
@@ -50,13 +50,13 @@ export const FEATURES: FeaturesProps[] = [
     title: "Customize your AI avatar",
     description: "Customize your AI avatar to your unique personality.",
   },
-];
+]
 
 export interface HowItWorksProps {
-  title: string;
-  description: string;
-  imagePosition: "left" | "right";
-  image: string;
+  title: string
+  description: string
+  imagePosition: "left" | "right"
+  image: string
 }
 
 export const HOW_IT_WORKS: HowItWorksProps[] = [
@@ -81,13 +81,13 @@ export const HOW_IT_WORKS: HowItWorksProps[] = [
     imagePosition: "left",
     image: "/images/step1.png",
   },
-];
+]
 
 export interface TestimonialsProps {
-  name: string;
-  role: string;
-  content: string;
-  avatar: string;
+  name: string
+  role: string
+  content: string
+  avatar: string
 }
 
 export const TESTIMONIALS: TestimonialsProps[] = [
@@ -112,11 +112,11 @@ export const TESTIMONIALS: TestimonialsProps[] = [
       "As someone whos an introvert, this feels like talking to a friend who really gets me. Other apps felt like homework.",
     avatar: "/images/avatar3.png",
   },
-];
+]
 
 export interface FAQProbs {
-  question: string;
-  answer: string;
+  question: string
+  answer: string
 }
 
 export const FAQS: FAQProbs[] = [
@@ -156,4 +156,4 @@ export const FAQS: FAQProbs[] = [
     answer:
       "EmotiSync AI is beneficial for anyone seeking accessible emotional health insights—whether you're dealing with daily stress, need a listening ear, or want to explore self-care routines. If you're experiencing severe mental health issues, we strongly recommend consulting a licensed therapist.",
   },
-];
+]

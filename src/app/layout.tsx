@@ -19,10 +19,10 @@ const lexend = Lexend({
 export const metadata: Metadata = {
   title: {
     default: "EmotiSync — Your AI voice companion for emotional well-being",
-    template: "%s | EmotiSync",
+    template: "%s — EmotiSync",
   },
   description:
-    "EmotiSync is your intelligent voice companion for mood journaling and reflections. Simply talk, and AI instantly analyzes your emotions to offer personalized insights and recommendations that enhance your well-being.",
+    "EmotiSync is your intelligent voice companion for emotional well-being and journaling. Skip writing, just talk naturally. Your AI companion transforms your daily voice conversations into personalized insights and recommendations, helping you find clarity and growth in minutes.",
   openGraph: {
     title: "EmotiSync — AI Voice Companion",
     description:

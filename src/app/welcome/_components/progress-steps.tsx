@@ -3,18 +3,14 @@
 import { useWelcomeStore } from "@/lib/stores/welcome"
 import { Check } from "lucide-react"
 import { cn } from "@/lib/utils"
-
-const steps = [
-  { id: 1, name: "Create Account", status: "In Progress" },
-  { id: 2, name: "Companion", status: "Not started" },
-]
+import { ONBOARDING_STEPS } from "@/lib/constants"
 
 export function ProgressSteps() {
   const { step } = useWelcomeStore()
 
   return (
     <div className="flex space-x-4 lg:block lg:space-x-0 lg:space-y-4">
-      {steps.map((s) => (
+      {ONBOARDING_STEPS.map((s) => (
         <div key={s.id} className="flex items-center gap-3">
           {step > s.id ? (
             <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-primary">
@@ -38,7 +34,16 @@ export function ProgressSteps() {
             >
               {s.name}
             </span>
-            <span className="text-brand-muted text-xs">
+            <span
+              className={cn(
+                "text-xs",
+                step > s.id
+                  ? "text-brand-muted"
+                  : step === s.id
+                    ? "text-green-500"
+                    : "text-brand-muted",
+              )}
+            >
               {step > s.id
                 ? "Completed"
                 : step === s.id

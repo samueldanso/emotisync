@@ -87,4 +87,4 @@ export const colorPairs = [
     bg: "#DCFCE7",
     icon: "#16A34A",
   },
-]
+] as const
