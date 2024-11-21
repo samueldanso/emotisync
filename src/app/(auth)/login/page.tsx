@@ -1,4 +1,3 @@
-"use client"
 import { redirect } from "next/navigation"
 import { AuthForm } from "../auth-form"
 import { getUser } from "@/lib/supabase/server"
