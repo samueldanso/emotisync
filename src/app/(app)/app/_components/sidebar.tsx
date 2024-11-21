@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils/client"
 import { SIDEBAR_MENU } from "@/lib/constants/menus"
 import { Logo } from "@/components/ui/logo"
 import { ThemeToggle } from "@/components/providers/switch"

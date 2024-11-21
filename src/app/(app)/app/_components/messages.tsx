@@ -1,5 +1,5 @@
 "use client"
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils/client"
 import { useVoice } from "@humeai/voice-react"
 import { AnimatePresence, motion } from "framer-motion"
 import { type ComponentRef, forwardRef } from "react"

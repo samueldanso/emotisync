@@ -2,7 +2,7 @@
 
 import { useWelcomeStore } from "@/lib/stores/welcome"
 import { Check } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils/client"
 import { ONBOARDING_STEPS } from "@/lib/constants"
 
 export function ProgressSteps() {

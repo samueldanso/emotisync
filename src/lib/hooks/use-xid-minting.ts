@@ -5,7 +5,7 @@ import { useWallets } from "@privy-io/react-auth"
 import { ethers } from "ethers"
 import { useTelegramAuth } from "@/context/telegram-auth"
 import { env } from "@/env"
-import type { XIDTransactionDetails } from "@/types/xid"
+import type { XIDTransactionDetails } from "@/lib/types/xid"
 
 export function useXIDMinting() {
   const { wallets } = useWallets()

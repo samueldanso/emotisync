@@ -1,4 +1,4 @@
-import { getHumeAccessToken } from "@/lib/ai/humeai"
+import { getHumeAccessToken } from "@/lib/humeai/humeai"
 import dynamic from "next/dynamic"
 import { getUser } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"

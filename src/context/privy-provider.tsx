@@ -1,11 +1,10 @@
-"use client";
+"use client"
 
-import { defineChain } from "viem";
-import { useCallback, useEffect } from "react";
-import { PrivyProvider, usePrivy, useWallets } from "@privy-io/react-auth";
-import { env } from "@/env";
-import { useTelegramAuth } from "./telegram-auth";
-import { cn } from "@/lib/utils/client";
+import { defineChain } from "viem"
+import { useCallback, useEffect } from "react"
+import { PrivyProvider, usePrivy, useWallets } from "@privy-io/react-auth"
+import { env } from "@/env"
+import { useTelegramAuth } from "./telegram-auth"
 
 const Capx = defineChain({
   id: Number(env.NEXT_PUBLIC_CAPX_CHAIN_ID || "10245"),
@@ -38,36 +37,36 @@ const Capx = defineChain({
         "https://capx-testnet-explorer.alt.technology/",
     },
   },
-});
+})
 
 const PrivyWrapper = ({ children }: { children: React.ReactNode }) => {
-  const { wallets } = useWallets();
-  const { authenticated, createWallet, user: privyUser } = usePrivy();
+  const { wallets } = useWallets()
+  const { authenticated, createWallet, user: privyUser } = usePrivy()
 
   useEffect(() => {
     if (authenticated && !privyUser?.wallet) {
-      createWallet().catch(console.error);
+      createWallet().catch(console.error)
     }
-  }, [authenticated, privyUser?.wallet, createWallet]);
+  }, [authenticated, privyUser?.wallet, createWallet])
 
-  return <>{wallets.length > 0 ? children : <div>Loading wallet...</div>}</>;
-};
+  return <>{wallets.length > 0 ? children : <div>Loading wallet...</div>}</>
+}
 
 export default function PrivyWalletProvider({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
-  const { isUserCreated } = useTelegramAuth();
+  const { isUserCreated } = useTelegramAuth()
 
   const getCustomToken = useCallback(async () => {
-    if (!isUserCreated) return undefined;
-    const cookies = document.cookie.split(";");
+    if (!isUserCreated) return undefined
+    const cookies = document.cookie.split(";")
     const accessToken = cookies
       .find((c) => c.trim().startsWith("access_token="))
-      ?.split("=")[1];
-    return accessToken || undefined;
-  }, [isUserCreated]);
+      ?.split("=")[1]
+    return accessToken || undefined
+  }, [isUserCreated])
 
   return (
     <PrivyProvider
@@ -90,5 +89,5 @@ export default function PrivyWalletProvider({
     >
       <PrivyWrapper>{children}</PrivyWrapper>
     </PrivyProvider>
-  );
+  )
 }

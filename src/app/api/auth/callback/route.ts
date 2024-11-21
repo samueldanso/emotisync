@@ -1,11 +1,11 @@
 "use server"
 
-import { unstable_noStore as noStore } from "next/cache"
+import { noStore } from "@/lib/utils/server"
 import { NextResponse } from "next/server"
 import { supabaseServerClient } from "@/lib/supabase/server"
 
 import { checkOnboardingStatus } from "@/actions/profiles"
-import { createUser } from "@/app/(auth)/actions"
+import { createUser } from "@/actions/users"
 
 export async function GET(request: Request) {
   noStore()
