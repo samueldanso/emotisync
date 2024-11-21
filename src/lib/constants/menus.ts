@@ -1,9 +1,9 @@
-import { Phone, FileText, ZapIcon, Sparkles, Users } from "lucide-react"
-import type { LucideIcon } from "lucide-react"
+import { Phone, FileText, ZapIcon, Sparkles, Users } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 export interface NavbarMenuProps {
-  title: string
-  href: string
+  title: string;
+  href: string;
 }
 
 export const NAVBAR_MENU: NavbarMenuProps[] = [
@@ -23,14 +23,14 @@ export const NAVBAR_MENU: NavbarMenuProps[] = [
     title: "FAQ",
     href: "/#faq",
   },
-]
+];
 
 export interface SidebarMenuProps {
-  title: string
-  href: string
-  icon: LucideIcon
-  primary?: boolean
-  description?: string
+  title: string;
+  href: string;
+  icon: LucideIcon;
+  primary?: boolean;
+  description?: string;
 }
 
 export const SIDEBAR_MENU: SidebarMenuProps[] = [
@@ -40,32 +40,7 @@ export const SIDEBAR_MENU: SidebarMenuProps[] = [
     icon: Phone,
     primary: true,
   },
-  {
-    title: "Journals",
-    href: "/app/journals",
-    icon: FileText,
-    description: "Your conversation history",
-  },
-  {
-    title: "Recommendations",
-    href: "/app/recommendations",
-    icon: ZapIcon,
-    description: "Personalized guidance",
-  },
-  {
-    title: "Insights",
-    href: "/app/insights",
-    icon: Sparkles,
-    description: "Progress & patterns",
-  },
-
-  {
-    title: "Invite",
-    href: "/app/invite",
-    icon: Users,
-    description: "Invite friends and family",
-  },
-]
+];
 
 export const FOOTER_MENU = {
   Product: [
@@ -80,4 +55,4 @@ export const FOOTER_MENU = {
     { title: "Twitter", href: "https://twitter.com/emotisync_xyz" },
     { title: "Telegram", href: "https://t.me/EmotiSync_bot" },
   ],
-} as const
+} as const;
