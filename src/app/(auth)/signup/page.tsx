@@ -9,7 +9,7 @@ export default async function SignupPage() {
 
   return (
     <main className="space-y-8">
-      <AuthForm user={user} />
+      <AuthForm />
 
       <div className="space-y-6">
         <p className="text-center text-muted-foreground text-sm">
