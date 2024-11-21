@@ -16,7 +16,7 @@ import {
 import { avatarSchema, type AvatarFormValues } from "@/lib/validations/avatar"
 import { showErrorToast } from "@/lib/utils/errors"
 import { toast } from "sonner"
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils/client"
 import { supabaseClient } from "@/lib/supabase/client"
 import { useWelcomeStore } from "@/lib/stores/welcome"
 import { createCompleteProfile } from "@/actions/profiles"
