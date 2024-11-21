@@ -25,8 +25,6 @@ export const env = createEnv({
     NEXT_PUBLIC_SUPABASE_URL: z.string(),
     NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string(),
 
-    NEXT_PUBLIC_HUME_CONFIG_ID: z.string().optional(),
-
     NEXT_PUBLIC_PRIVY_APP_ID: z.string().optional(),
     NEXT_PUBLIC_CAPX_CHAIN_ID: z.string().optional(),
     NEXT_PUBLIC_CAPX_CHAIN_NETWORK_NAME: z.string().optional(),
