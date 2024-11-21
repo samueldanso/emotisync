@@ -9,6 +9,7 @@ import {
 } from "react"
 import { useLaunchParams } from "@telegram-apps/sdk-react"
 import { useRouter } from "next/navigation"
+import { useTelegramState } from "@/lib/hooks/use-telegram-state"
 
 interface TelegramUser {
   id: string
@@ -37,10 +38,14 @@ export function TelegramAuthProvider({
 }: {
   children: React.ReactNode
 }) {
+  const {
+    isTelegramUserCreated,
+    setTelegramUserCreated,
+    setTelegramAccessToken,
+  } = useTelegramState()
   const [user, setUser] = useState<TelegramUser | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [isUserCreated, setIsUserCreated] = useState(false)
   const router = useRouter()
   const [txDetails, setTxDetails] = useState<any>(null)
 
@@ -92,7 +97,8 @@ export function TelegramAuthProvider({
         isOnboarded: authData.isOnboarded,
       })
       setTxDetails(authData.signup_tx)
-      setIsUserCreated(true)
+      setTelegramUserCreated(true)
+      setTelegramAccessToken(authData.tokens.access_token)
 
       // Redirect based on onboarding status
       if (!authData.isOnboarded) {
@@ -159,7 +165,7 @@ export function TelegramAuthProvider({
         logout,
         txDetails,
         getUserDetails,
-        isUserCreated,
+        isUserCreated: isTelegramUserCreated,
       }}
     >
       {children}

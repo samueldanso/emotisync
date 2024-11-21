@@ -4,7 +4,7 @@ import { defineChain } from "viem"
 import { useCallback, useEffect } from "react"
 import { PrivyProvider, usePrivy, useWallets } from "@privy-io/react-auth"
 import { env } from "@/env"
-import { useTelegramAuth } from "./telegram-auth"
+import { useTelegramState } from "@/lib/hooks/use-telegram-state"
 
 const Capx = defineChain({
   id: Number(env.NEXT_PUBLIC_CAPX_CHAIN_ID || "10245"),
@@ -57,16 +57,12 @@ export default function PrivyWalletProvider({
 }: {
   children: React.ReactNode
 }) {
-  const { isUserCreated } = useTelegramAuth()
+  const { isTelegramUserCreated, telegramAccessToken } = useTelegramState()
 
   const getCustomToken = useCallback(async () => {
-    if (!isUserCreated) return undefined
-    const cookies = document.cookie.split(";")
-    const accessToken = cookies
-      .find((c) => c.trim().startsWith("access_token="))
-      ?.split("=")[1]
-    return accessToken || undefined
-  }, [isUserCreated])
+    if (!isTelegramUserCreated) return undefined
+    return telegramAccessToken || undefined
+  }, [isTelegramUserCreated, telegramAccessToken])
 
   return (
     <PrivyProvider
