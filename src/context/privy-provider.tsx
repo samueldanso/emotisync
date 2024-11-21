@@ -1,7 +1,8 @@
 "use client"
 
-import { defineChain } from "viem"
+import type React from "react"
 import { useCallback, useEffect } from "react"
+import { defineChain } from "viem"
 import { PrivyProvider, usePrivy, useWallets } from "@privy-io/react-auth"
 import { env } from "@/env"
 import { useTelegramState } from "@/lib/hooks/use-telegram-state"
@@ -39,7 +40,9 @@ const Capx = defineChain({
   },
 })
 
-const PrivyWrapper = ({ children }: { children: React.ReactNode }) => {
+const PrivyWrapper: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const { wallets } = useWallets()
   const { authenticated, createWallet, user: privyUser } = usePrivy()
 

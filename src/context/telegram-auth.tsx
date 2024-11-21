@@ -1,5 +1,6 @@
 "use client"
 
+import type React from "react"
 import {
   createContext,
   useContext,
@@ -109,7 +110,7 @@ export function TelegramAuthProvider({
     } catch (err) {
       setError(err instanceof Error ? err.message : "Authentication failed")
     }
-  }, [initDataRaw, router])
+  }, [initDataRaw, router, setTelegramUserCreated, setTelegramAccessToken])
 
   const logout = useCallback(() => {
     // Clear cookies
