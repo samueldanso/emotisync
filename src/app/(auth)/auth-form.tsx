@@ -7,13 +7,8 @@ import { Spinner } from "@/components/icons/spinner"
 import { supabaseClient } from "@/lib/supabase/client"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
-import type { User } from "@supabase/supabase-js"
 
-interface AuthFormProps {
-  user?: User | null
-}
-
-export function AuthForm({ user: _user }: AuthFormProps) {
+export function AuthForm() {
   const [isPending, startTransition] = React.useTransition()
   const pathname = usePathname()
   const isSignUp = pathname === "/signup"

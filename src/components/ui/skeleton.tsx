@@ -1,6 +1,6 @@
 "use client"
 
-import { cn } from "@/lib/utils/client"
+import { cn } from "@/lib/utils/cn"
 
 function Skeleton({
   className,

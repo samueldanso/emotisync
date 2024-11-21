@@ -9,6 +9,8 @@ export async function createTelegramUser(
   email: string,
   id: string,
   telegram_id: string,
+  name?: string,
+  username?: string,
 ) {
   try {
     const existingUser = await db.query.users.findFirst({
@@ -24,7 +26,9 @@ export async function createTelegramUser(
       .values({
         id,
         email,
-        name: email.split("@")[0],
+        name,
+        username,
+        platform: "telegram",
         auth_provider: "telegram",
         telegram_id,
       })

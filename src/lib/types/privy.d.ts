@@ -37,3 +37,20 @@ declare module "@privy-io/react-auth" {
   export function usePrivy(): PrivyInterface
   export function useWallets(): { wallets: WalletClient[] }
 }
+
+declare module "@telegram-apps/sdk-react" {
+  export interface SDKError {
+    code: string
+    message: string
+    details?: any
+  }
+
+  export interface SDKProviderProps {
+    acceptCustomStyles?: boolean
+    debug?: boolean
+    onError?: (error: SDKError) => void
+    children: React.ReactNode
+  }
+
+  export function SDKProvider(props: SDKProviderProps): JSX.Element
+}

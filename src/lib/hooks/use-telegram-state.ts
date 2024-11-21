@@ -1,17 +1,28 @@
 "use client"
 
 import { create } from "zustand"
+import { persist } from "zustand/middleware"
 
 interface TelegramState {
   isTelegramUserCreated: boolean
-  setTelegramUserCreated: (value: boolean) => void
   telegramAccessToken: string | null
+  setTelegramUserCreated: (value: boolean) => void
   setTelegramAccessToken: (token: string | null) => void
+  reset: () => void
 }
 
-export const useTelegramState = create<TelegramState>((set) => ({
-  isTelegramUserCreated: false,
-  setTelegramUserCreated: (value) => set({ isTelegramUserCreated: value }),
-  telegramAccessToken: null,
-  setTelegramAccessToken: (token) => set({ telegramAccessToken: token }),
-}))
+export const useTelegramState = create<TelegramState>()(
+  persist(
+    (set) => ({
+      isTelegramUserCreated: false,
+      telegramAccessToken: null,
+      setTelegramUserCreated: (value) => set({ isTelegramUserCreated: value }),
+      setTelegramAccessToken: (token) => set({ telegramAccessToken: token }),
+      reset: () =>
+        set({ isTelegramUserCreated: false, telegramAccessToken: null }),
+    }),
+    {
+      name: "telegram-auth-store",
+    },
+  ),
+)

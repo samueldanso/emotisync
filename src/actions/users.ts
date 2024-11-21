@@ -42,9 +42,8 @@ export async function createUser(
       .values({
         id,
         email,
-        name: email.split("@")[0],
-        auth_provider: options.auth_provider || "google",
-        telegram_id: options.telegram_id,
+        platform: "web",
+        auth_provider: "google",
       })
       .returning()
 

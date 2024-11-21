@@ -1,23 +1,32 @@
 "use client"
 
-import type React from "react"
-import { ThemeProvider } from "./theme"
-import { Toaster } from "../ui/toaster"
+import { SDKProvider } from "@telegram-apps/sdk-react"
+import { UserAuthContext } from "@/context/user-auth-context"
+import PrivyWalletProvider from "@/context/privy-provider"
+import { ThemeProvider } from "next-themes"
+import type { ThemeProviderProps } from "next-themes/dist/types"
+import type { SDKError } from "@telegram-apps/sdk-react"
 
-interface ProvidersProps {
-  children: React.ReactNode
-}
-
-export default function Providers({ children }: ProvidersProps) {
+export function Providers({ children, ...props }: ThemeProviderProps) {
   return (
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="light"
-      enableSystem={false}
-      disableTransitionOnChange
+    <SDKProvider
+      acceptCustomStyles
+      debug
+      onError={(error: SDKError) => {
+        console.error("Telegram SDK error:", {
+          code: error.code,
+          message: error.message,
+          details: error.details,
+        })
+      }}
     >
-      {children}
-      <Toaster />
-    </ThemeProvider>
+      <UserAuthContext>
+        <PrivyWalletProvider>
+          <ThemeProvider {...props}>{children}</ThemeProvider>
+        </PrivyWalletProvider>
+      </UserAuthContext>
+    </SDKProvider>
   )
 }
+
+export default Providers

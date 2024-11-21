@@ -5,13 +5,13 @@ export const env = createEnv({
   server: {
     DATABASE_URL: z.string(),
 
-    UPSTASH_REDIS_REST_URL: z.string(),
-    UPSTASH_REDIS_REST_TOKEN: z.string(),
-
     SUPABASE_SERVICE_KEY: z.string(),
 
     HUME_API_KEY: z.string(),
     HUME_SECRET_KEY: z.string(),
+
+    UPSTASH_REDIS_REST_URL: z.string(),
+    UPSTASH_REDIS_REST_TOKEN: z.string(),
 
     TELEGRAM_BOT_TOKEN: z.string().optional(),
     CAPX_CLIENT_ID: z.string().optional(),

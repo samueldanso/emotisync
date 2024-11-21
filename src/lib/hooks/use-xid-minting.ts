@@ -3,28 +3,42 @@
 import { useCallback } from "react"
 import { useWallets } from "@privy-io/react-auth"
 import { ethers } from "ethers"
-import { useTelegramAuth } from "@/context/telegram-auth"
+import { useUserAuth } from "@/context/user-auth-context"
 import { env } from "@/env"
 import type { XIDTransactionDetails } from "@/lib/types/xid"
 
 export function useXIDMinting() {
   const { wallets } = useWallets()
-  const { getUserDetails } = useTelegramAuth()
+  const { getUserDetails } = useUserAuth()
 
   const mintXId = useCallback(
     async (txDetails: XIDTransactionDetails) => {
       if (!txDetails || Object.keys(txDetails).length === 0) return false
 
       try {
-        await fetch("/api/telegram/faucet", { method: "POST" })
+        const faucetResponse = await fetch("/api/telegram/faucet", {
+          method: "POST",
+        })
+        if (!faucetResponse.ok) {
+          throw new Error("Faucet request failed")
+        }
 
         const wallet = wallets.find((w) => w.walletClientType === "privy")
         if (!wallet) throw new Error("No wallet found")
 
         const chainId = env.NEXT_PUBLIC_CAPX_CHAIN_ID || "10245"
-        await wallet.switchChain(chainId)
+        try {
+          await wallet.switchChain(chainId)
+        } catch (error) {
+          console.error("Chain switch error:", error)
+          throw new Error("Failed to switch chain")
+        }
+
         const provider = await wallet.getEthersProvider()
         const signer = provider.getSigner()
+
+        const code = await provider.getCode(txDetails.contract_address)
+        if (code === "0x") throw new Error("Invalid contract address")
 
         const contract = new ethers.Contract(
           txDetails.contract_address,
@@ -41,7 +55,11 @@ export function useXIDMinting() {
           chainId: Number(chainId),
         })
 
-        await tx.wait()
+        const receipt = await tx.wait()
+        if (receipt.status !== 1) {
+          throw new Error("Transaction failed")
+        }
+
         await getUserDetails()
         return true
       } catch (error) {

@@ -2,10 +2,7 @@ import type { Metadata } from "next"
 import "@/styles/globals.css"
 import Providers from "@/components/providers"
 import { Outfit, Lexend } from "next/font/google"
-import { cn } from "@/lib/utils/client"
-import { TelegramAuthProvider } from "@/context/telegram-auth"
-import { SDKProvider } from "@telegram-apps/sdk-react"
-import PrivyWalletProvider from "@/context/privy-provider"
+import { cn } from "@/lib/utils/cn"
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -47,13 +44,14 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={cn(outfit.variable, lexend.variable)}>
-        <SDKProvider acceptCustomStyles debug>
-          <Providers>
-            <TelegramAuthProvider>
-              <PrivyWalletProvider>{children}</PrivyWalletProvider>
-            </TelegramAuthProvider>
-          </Providers>
-        </SDKProvider>
+        <Providers
+          attribute="class"
+          defaultTheme="light"
+          enableSystem={false}
+          disableTransitionOnChange
+        >
+          {children}
+        </Providers>
       </body>
     </html>
   )

@@ -5,18 +5,17 @@ export const users = pgTable(
   {
     id: uuid("id").defaultRandom().primaryKey(),
     email: text("email").notNull().unique(),
-    name: text("name").notNull(),
+    name: text("name"),
+    username: text("username"),
+    platform: text("platform", {
+      enum: ["web", "telegram"],
+    }).notNull(),
     auth_provider: text("auth_provider", {
       enum: ["google", "telegram"],
-    })
-      .notNull()
-      .default("google"),
+    }).notNull(),
     telegram_id: text("telegram_id").unique(),
-    created_at: timestamp("created_at").defaultNow().notNull(),
-    updated_at: timestamp("updated_at")
-      .defaultNow()
-      .notNull()
-      .$onUpdate(() => new Date()),
+    created_at: timestamp("created_at").defaultNow(),
+    updated_at: timestamp("updated_at").defaultNow(),
   },
   (table) => ({
     idx_users_email: index("idx_users_email").on(table.email),

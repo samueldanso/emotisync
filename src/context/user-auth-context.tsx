@@ -11,44 +11,51 @@ import {
 import { useLaunchParams } from "@telegram-apps/sdk-react"
 import { useRouter } from "next/navigation"
 import { useTelegramState } from "@/lib/hooks/use-telegram-state"
+import { jwtDecode } from "jwt-decode"
+import { setTokenCookies } from "@/lib/utils/tokens"
+import type { XIDTransactionDetails } from "@/lib/types/xid"
 
-interface TelegramUser {
+interface UserDetails {
   id: string
   email: string
   telegram_id: string
   isOnboarded: boolean
 }
 
-interface TelegramAuthContext {
-  user: TelegramUser | null
+interface UserAuthContextType {
+  user: UserDetails | null
   isLoading: boolean
   error: string | null
   login: () => Promise<void>
   logout: () => void
   isUserCreated: boolean
   getUserDetails: () => Promise<void>
-  txDetails: any
+  txDetails: XIDTransactionDetails | null
 }
 
-const TelegramAuthContext = createContext<TelegramAuthContext | undefined>(
-  undefined,
-)
+const AuthContext = createContext<UserAuthContextType | undefined>(undefined)
 
-export function TelegramAuthProvider({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+// Add type for JWT payload
+interface CAPXAuthPayload {
+  user: {
+    id: string
+    email: string
+    telegram_id: string
+  }
+  exp: number
+}
+
+export function UserAuthContext({ children }: { children: React.ReactNode }) {
   const {
     isTelegramUserCreated,
     setTelegramUserCreated,
     setTelegramAccessToken,
   } = useTelegramState()
-  const [user, setUser] = useState<TelegramUser | null>(null)
+  const [user, setUser] = useState<UserDetails | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
-  const [txDetails, setTxDetails] = useState<any>(null)
+  const [txDetails, setTxDetails] = useState<XIDTransactionDetails | null>(null)
 
   const initDataRaw = useLaunchParams()?.initDataRaw
 
@@ -68,10 +75,6 @@ export function TelegramAuthProvider({
 
       const verifyData = await verifyResponse.json()
 
-      if (!verifyData.success) {
-        throw new Error(verifyData.error || "Verification failed")
-      }
-
       // Then authenticate with Capx
       const authResponse = await fetch("/api/telegram/callback", {
         method: "POST",
@@ -83,34 +86,31 @@ export function TelegramAuthProvider({
 
       const authData = await authResponse.json()
 
-      if (!authData.success) {
-        throw new Error(authData.error || "Authentication failed")
+      if (authData.success) {
+        setTokenCookies(
+          authData.tokens.access_token,
+          authData.tokens.refresh_token,
+        )
+        // Using jwt-decode as per requirements
+        const decodedToken = jwtDecode<CAPXAuthPayload>(
+          authData.tokens.access_token,
+        )
+
+        setUser({
+          id: decodedToken.user.id,
+          email: decodedToken.user.email,
+          telegram_id: decodedToken.user.telegram_id,
+          isOnboarded: authData.isOnboarded,
+        })
+        setTelegramUserCreated(true)
+        setTelegramAccessToken(authData.tokens.access_token)
+        setTxDetails(authData.signup_tx)
       }
-
-      // Set cookies for tokens
-      document.cookie = `access_token=${authData.tokens.access_token}; path=/; secure; samesite=strict`
-      document.cookie = `refresh_token=${authData.tokens.refresh_token}; path=/; secure; samesite=strict`
-
-      setUser({
-        id: authData.user.id,
-        email: authData.user.email,
-        telegram_id: authData.user.telegram_id,
-        isOnboarded: authData.isOnboarded,
-      })
-      setTxDetails(authData.signup_tx)
-      setTelegramUserCreated(true)
-      setTelegramAccessToken(authData.tokens.access_token)
-
-      // Redirect based on onboarding status
-      if (!authData.isOnboarded) {
-        router.push("/welcome/profile")
-      } else {
-        router.push("/app")
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Authentication failed")
+    } catch (error) {
+      console.error("Login error:", error)
+      setError("Authentication failed")
     }
-  }, [initDataRaw, router, setTelegramUserCreated, setTelegramAccessToken])
+  }, [initDataRaw])
 
   const logout = useCallback(() => {
     // Clear cookies
@@ -157,7 +157,7 @@ export function TelegramAuthProvider({
   }, [initDataRaw, user, login])
 
   return (
-    <TelegramAuthContext.Provider
+    <AuthContext.Provider
       value={{
         user,
         isLoading,
@@ -170,16 +170,14 @@ export function TelegramAuthProvider({
       }}
     >
       {children}
-    </TelegramAuthContext.Provider>
+    </AuthContext.Provider>
   )
 }
 
-export const useTelegramAuth = () => {
-  const context = useContext(TelegramAuthContext)
+export const useUserAuth = () => {
+  const context = useContext(AuthContext)
   if (context === undefined) {
-    throw new Error(
-      "useTelegramAuth must be used within a TelegramAuthProvider",
-    )
+    throw new Error("useUserAuth must be used within a UserAuthContext")
   }
   return context
 }

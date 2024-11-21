@@ -80,7 +80,7 @@ export default function PrivyWalletProvider({
           showWalletLoginFirst: false,
         },
         customAuth: {
-          enabled: true,
+          enabled: isTelegramUserCreated,
           isLoading: false,
           getCustomAccessToken: getCustomToken,
         },
