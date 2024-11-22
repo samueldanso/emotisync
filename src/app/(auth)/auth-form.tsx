@@ -1,19 +1,19 @@
-"use client"
+"use client";
 
-import React from "react"
-import { Button } from "@/components/ui/button"
-import { Icons } from "@/components/icons"
-import { Spinner } from "@/components/icons/spinner"
-import { supabaseClient } from "@/lib/supabase/client"
-import Image from "next/image"
-import { usePathname } from "next/navigation"
+import React from "react";
+import { Button } from "@/components/ui/button";
+import { Icons } from "@/components/icons";
+import { Spinner } from "@/components/icons/spinner";
+import { supabaseClient } from "@/lib/supabase/client";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 export function AuthForm() {
-  const [isPending, startTransition] = React.useTransition()
-  const pathname = usePathname()
-  const isSignUp = pathname === "/signup"
+  const [isPending, startTransition] = React.useTransition();
+  const pathname = usePathname();
+  const isSignUp = pathname === "/signup";
 
-  const headingText = isSignUp ? "Create your account" : "Log in to EmotiSync"
+  const headingText = isSignUp ? "Create your account" : "Log in to EmotiSync";
 
   const handleGoogleAuth = () => {
     startTransition(async () => {
@@ -27,9 +27,9 @@ export function AuthForm() {
             scopes: "email profile",
           },
         },
-      })
-    })
-  }
+      });
+    });
+  };
 
   return (
     <div className="space-y-10">
@@ -62,5 +62,5 @@ export function AuthForm() {
         </Button>
       </div>
     </div>
-  )
+  );
 }

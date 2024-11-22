@@ -1,31 +1,32 @@
-"use client"
+"use client";
 
 export const Platform = {
   WEB: "web",
   TELEGRAM: "telegram",
-} as const
+} as const;
 
-export type PlatformType = (typeof Platform)[keyof typeof Platform]
+export type PlatformType = (typeof Platform)[keyof typeof Platform];
 
 export function getPlatform(): PlatformType {
-  // Handle SSR
-  if (typeof window === "undefined") return Platform.WEB
+  if (typeof window === "undefined") return Platform.WEB;
 
-  // Check for Telegram Mini App environment
+  // Better Telegram detection
   const isTelegramWebApp = Boolean(
-    // @ts-ignore - Telegram WebApp global
+    // @ts-ignore
     window?.Telegram?.WebApp ||
-      window.navigator.userAgent.includes("TelegramWebApp"),
-  )
+      window?.TelegramWebviewProxy || // Add this check
+      window.location.href.includes("tg://") || // Add this check
+      window.location.href.includes("t.me")
+  );
 
-  return isTelegramWebApp ? Platform.TELEGRAM : Platform.WEB
+  return isTelegramWebApp ? Platform.TELEGRAM : Platform.WEB;
 }
 
 // Helper functions
 export function isTelegramWebApp(): boolean {
-  return getPlatform() === Platform.TELEGRAM
+  return getPlatform() === Platform.TELEGRAM;
 }
 
 export function isWebBrowser(): boolean {
-  return getPlatform() === Platform.WEB
+  return getPlatform() === Platform.WEB;
 }
