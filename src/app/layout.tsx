@@ -1,20 +1,20 @@
-import type { Metadata } from "next";
-import "@/styles/globals.css";
-import Providers from "@/components/providers";
-import { Outfit, Lexend } from "next/font/google";
-import { cn } from "@/lib/utils/cn";
+import type { Metadata } from "next"
+import "@/styles/globals.css"
+import Providers from "@/components/providers"
+import { Outfit, Lexend } from "next/font/google"
+import { cn } from "@/lib/utils/cn"
 
 const outfit = Outfit({
   subsets: ["latin"],
   variable: "--font-outfit",
   display: "swap",
-});
+})
 
 const lexend = Lexend({
   subsets: ["latin"],
   variable: "--font-lexend",
   display: "swap",
-});
+})
 
 export const metadata: Metadata = {
   title: {
@@ -34,12 +34,12 @@ export const metadata: Metadata = {
     title: "EmotiSync — AI Voice Companion",
     description: "Your intelligent voice companion for emotional well-being.",
   },
-};
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -54,5 +54,5 @@ export default function RootLayout({
         </Providers>
       </body>
     </html>
-  );
+  )
 }
