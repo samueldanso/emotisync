@@ -78,7 +78,7 @@ Follow the deployment guides for [Vercel](https://nextjs.org/learn-pages-router/
 
 ## Roadmap
 
-- [ ] Implement social sharing and friend interaction features
+- [ ] Implement social sharing and friend interactions features
 - [ ] Implement mood insights feature
 - [ ] Implement rewards and invites feature
 - [ ] Implement AI avatar customization feature
