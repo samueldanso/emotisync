@@ -64,3 +64,14 @@ export async function getUser(id: string) {
     return catchError(error)
   }
 }
+
+export async function getTelegramUser(telegram_id: string) {
+  try {
+    const user = await db.query.users.findFirst({
+      where: eq(users.telegram_id, telegram_id),
+    })
+    return { data: user, error: null }
+  } catch (error) {
+    return catchError(error)
+  }
+}
