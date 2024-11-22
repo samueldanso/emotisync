@@ -13,10 +13,10 @@ export const env = createEnv({
     UPSTASH_REDIS_REST_URL: z.string(),
     UPSTASH_REDIS_REST_TOKEN: z.string(),
 
-    TELEGRAM_BOT_TOKEN: z.string().optional(),
-    CAPX_CLIENT_ID: z.string().optional(),
-    CAPX_CLIENT_SECRET: z.string().optional(),
-    CAPX_API_URL: z.string().url().optional(),
+    TELEGRAM_BOT_TOKEN: z.string(),
+    CAPX_CLIENT_ID: z.string(),
+    CAPX_CLIENT_SECRET: z.string(),
+    CAPX_API_URL: z.string().url(),
   },
 
   client: {
@@ -26,8 +26,8 @@ export const env = createEnv({
     NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string(),
 
     NEXT_PUBLIC_PRIVY_APP_ID: z.string().optional(),
-    NEXT_PUBLIC_CAPX_CHAIN_ID: z.string().optional(),
-    NEXT_PUBLIC_CAPX_CHAIN_NETWORK_NAME: z.string().optional(),
+    NEXT_PUBLIC_CAPX_CHAIN_ID: z.string(),
+    NEXT_PUBLIC_CAPX_CHAIN_NETWORK_NAME: z.string(),
     NEXT_PUBLIC_CAPX_CHAIN_RPC_URL: z.string().url().optional(),
     NEXT_PUBLIC_CAPX_CHAIN_EXPLORE_URL: z.string().url().optional(),
     NEXT_PUBLIC_CAPX_CHAIN_CURRENCY: z.string().optional(),

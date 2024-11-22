@@ -1,17 +1,31 @@
-// Platform detection for auth flows
-export function getPlatform(): "web" | "telegram" {
-  if (typeof window === "undefined") return "web"
-  return window.navigator.userAgent.includes("TelegramWebApp")
-    ? "telegram"
-    : "web"
+"use client"
+
+export const Platform = {
+  WEB: "web",
+  TELEGRAM: "telegram",
+} as const
+
+export type PlatformType = (typeof Platform)[keyof typeof Platform]
+
+export function getPlatform(): PlatformType {
+  // Handle SSR
+  if (typeof window === "undefined") return Platform.WEB
+
+  // Check for Telegram Mini App environment
+  const isTelegramWebApp = Boolean(
+    // @ts-ignore - Telegram WebApp global
+    window?.Telegram?.WebApp ||
+      window.navigator.userAgent.includes("TelegramWebApp"),
+  )
+
+  return isTelegramWebApp ? Platform.TELEGRAM : Platform.WEB
 }
 
-// Check if running in Telegram WebApp
+// Helper functions
 export function isTelegramWebApp(): boolean {
-  return getPlatform() === "telegram"
+  return getPlatform() === Platform.TELEGRAM
 }
 
-// Check if running in web browser
 export function isWebBrowser(): boolean {
-  return getPlatform() === "web"
+  return getPlatform() === Platform.WEB
 }
