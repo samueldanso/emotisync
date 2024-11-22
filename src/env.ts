@@ -14,8 +14,8 @@ export const env = createEnv({
     UPSTASH_REDIS_REST_TOKEN: z.string(),
 
     TELEGRAM_BOT_TOKEN: z.string(),
-    CAPX_CLIENT_ID: z.string(),
-    CAPX_CLIENT_SECRET: z.string(),
+    CAPX_CLIENT_ID: z.string().optional(),
+    CAPX_CLIENT_SECRET: z.string().optional(),
     CAPX_API_URL: z.string().url(),
   },
 
