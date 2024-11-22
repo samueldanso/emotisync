@@ -25,12 +25,12 @@ export const env = createEnv({
     NEXT_PUBLIC_SUPABASE_URL: z.string(),
     NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string(),
 
-    NEXT_PUBLIC_PRIVY_APP_ID: z.string().optional(),
+    NEXT_PUBLIC_PRIVY_APP_ID: z.string(),
     NEXT_PUBLIC_CAPX_CHAIN_ID: z.string(),
     NEXT_PUBLIC_CAPX_CHAIN_NETWORK_NAME: z.string(),
-    NEXT_PUBLIC_CAPX_CHAIN_RPC_URL: z.string().url().optional(),
-    NEXT_PUBLIC_CAPX_CHAIN_EXPLORE_URL: z.string().url().optional(),
-    NEXT_PUBLIC_CAPX_CHAIN_CURRENCY: z.string().optional(),
+    NEXT_PUBLIC_CAPX_CHAIN_RPC_URL: z.string().url(),
+    NEXT_PUBLIC_CAPX_CHAIN_EXPLORE_URL: z.string().url(),
+    NEXT_PUBLIC_CAPX_CHAIN_CURRENCY: z.string(),
   },
 
   runtimeEnv: {
