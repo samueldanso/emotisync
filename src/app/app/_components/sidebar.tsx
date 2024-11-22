@@ -2,21 +2,23 @@
 
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils/cn"
 import { SIDEBAR_MENU } from "@/lib/constants/menus"
 import { Logo } from "@/components/ui/logo"
-import { ThemeToggle } from "@/components/providers/switch"
+import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { LogOut } from "lucide-react"
 import { supabaseClient } from "@/lib/supabase/client"
 import { useEffect, useState } from "react"
 import type { User } from "@supabase/supabase-js"
+import { useTelegramState } from "@/lib/hooks/use-telegram-state"
 
 export function AppSidebar() {
   const pathname = usePathname()
   const router = useRouter()
   const [user, setUser] = useState<User | null>(null)
+  const { telegramAccessToken } = useTelegramState()
 
   useEffect(() => {
     const {
@@ -29,7 +31,16 @@ export function AppSidebar() {
   }, [])
 
   const handleSignOut = async () => {
-    await supabaseClient.auth.signOut()
+    if (telegramAccessToken) {
+      // Clear telegram tokens
+      document.cookie =
+        "access_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT"
+      document.cookie =
+        "refresh_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT"
+    } else {
+      // Supabase logout
+      await supabaseClient.auth.signOut()
+    }
     router.push("/login")
   }
 

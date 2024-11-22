@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils/cn"
 import { Icons } from "."
 
 interface SpinnerProps extends React.SVGAttributes<SVGElement> {
@@ -8,7 +8,7 @@ interface SpinnerProps extends React.SVGAttributes<SVGElement> {
 export function Spinner({ className, ...props }: SpinnerProps) {
   return (
     <Icons.spinner
-      className={cn("mr-2 size-4 animate-spin", className)}
+      className={cn("h-4 w-4 animate-spin", className)}
       aria-hidden="true"
       {...props}
     />

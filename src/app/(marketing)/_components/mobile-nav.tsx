@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { NAVBAR_MENU } from "@/lib/constants/menus"
-import { ThemeToggle } from "@/components/providers/switch"
+import { ThemeToggle } from "@/components/ui/theme-toggle"
 
 interface MobileNavProps {
   onOpenChange: (open: boolean) => void

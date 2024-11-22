@@ -1,4 +1,4 @@
-import { Phone, FileText, ZapIcon, Sparkles, Users } from "lucide-react"
+import { Phone } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 
 export interface NavbarMenuProps {
@@ -39,31 +39,6 @@ export const SIDEBAR_MENU: SidebarMenuProps[] = [
     href: "/app",
     icon: Phone,
     primary: true,
-  },
-  {
-    title: "Journals",
-    href: "/app/journals",
-    icon: FileText,
-    description: "Your conversation history",
-  },
-  {
-    title: "Recommendations",
-    href: "/app/recommendations",
-    icon: ZapIcon,
-    description: "Personalized guidance",
-  },
-  {
-    title: "Insights",
-    href: "/app/insights",
-    icon: Sparkles,
-    description: "Progress & patterns",
-  },
-
-  {
-    title: "Invite",
-    href: "/app/invite",
-    icon: Users,
-    description: "Invite friends and family",
   },
 ]
 

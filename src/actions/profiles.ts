@@ -83,9 +83,17 @@ export async function checkOnboardingStatus(userId: string) {
 
 export async function updateUserName(userId: string, name: string) {
   try {
+    const nameParts = name.trim().split(/\s+/)
+    const first_name = nameParts[0]
+    const last_name = nameParts.length > 1 ? nameParts.slice(1).join(" ") : null
+
     const [user] = await db
       .update(users)
-      .set({ name })
+      .set({
+        name,
+        first_name,
+        last_name,
+      })
       .where(eq(users.id, userId))
       .returning()
     return { data: user, error: null }

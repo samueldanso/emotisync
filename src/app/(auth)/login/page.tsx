@@ -9,8 +9,7 @@ export default async function LoginPage() {
 
   return (
     <main className="space-y-6">
-      <AuthForm user={user} />
-
+      <AuthForm />
       <p className="text-center text-muted-foreground text-sm">
         Don&apos;t have an account?{" "}
         <Link

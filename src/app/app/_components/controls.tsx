@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Mic, MicOff, X } from "lucide-react"
 import { motion } from "framer-motion"
 import MicFFT from "./mic-fft"
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils/cn"
 
 export default function Controls() {
   const { disconnect, status, isMuted, unmute, mute, micFft } = useVoice()

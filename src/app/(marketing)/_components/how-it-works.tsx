@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import { HOW_IT_WORKS } from "@/lib/constants/marketing"
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils/cn"
 
 export default function HowItWorkSection() {
   return (

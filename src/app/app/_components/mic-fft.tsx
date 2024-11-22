@@ -1,6 +1,6 @@
 "use client"
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils/cn"
 import { motion } from "framer-motion"
 import { AutoSizer } from "react-virtualized"
 

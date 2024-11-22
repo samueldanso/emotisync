@@ -1,10 +1,13 @@
 "use client"
 
 import { Logo } from "@/components/ui/logo"
+import { cn } from "@/lib/utils/cn"
 
 export default function Loading() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center">
+    <div
+      className={cn("flex min-h-screen flex-col items-center justify-center")}
+    >
       <div className="flex flex-col items-center space-y-8">
         <Logo className="h-12 w-12 animate-pulse" />
         <div className="space-y-6">

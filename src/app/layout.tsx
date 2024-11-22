@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import "@/styles/globals.css"
 import Providers from "@/components/providers"
 import { Outfit, Lexend } from "next/font/google"
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils/cn"
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -45,12 +45,19 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          "font-sans antialiased",
+          "min-h-screen font-sans antialiased",
           outfit.variable,
           lexend.variable,
         )}
       >
-        <Providers>{children}</Providers>
+        <Providers
+          attribute="class"
+          defaultTheme="light"
+          enableSystem={false}
+          disableTransitionOnChange
+        >
+          {children}
+        </Providers>
       </body>
     </html>
   )

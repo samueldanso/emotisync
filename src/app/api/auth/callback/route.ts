@@ -1,11 +1,11 @@
 "use server"
 
-import { unstable_noStore as noStore } from "next/cache"
+import { noStore } from "@/lib/utils/server"
 import { NextResponse } from "next/server"
 import { supabaseServerClient } from "@/lib/supabase/server"
 
 import { checkOnboardingStatus } from "@/actions/profiles"
-import { createUser } from "@/app/(auth)/actions"
+import { createUser } from "@/actions/users"
 
 export async function GET(request: Request) {
   noStore()
@@ -35,17 +35,24 @@ export async function GET(request: Request) {
       return NextResponse.redirect(`${requestUrl.origin}/login`)
     }
 
-    const { error: userError } = await createUser(
-      session.user.email,
-      session.user.id,
-    )
+    const { email, id, user_metadata } = session.user
 
-    console.log("User creation result:", { error: userError })
+    const firstName =
+      user_metadata.given_name ||
+      user_metadata.name?.split(" ")[0] ||
+      email.split("@")[0].replace(/[0-9]/g, "")
 
-    if (userError) {
-      console.log("User creation error:", userError)
-      return NextResponse.redirect(`${requestUrl.origin}/login`)
-    }
+    const lastName =
+      user_metadata.family_name ||
+      (user_metadata.name?.split(" ").length > 1
+        ? user_metadata.name?.split(" ").slice(1).join(" ")
+        : null)
+
+    await createUser(email, id, {
+      auth_provider: "google",
+      first_name: firstName,
+      last_name: lastName,
+    })
 
     const { isOnboarded, error: profileError } = await checkOnboardingStatus(
       session.user.id,
