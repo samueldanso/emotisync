@@ -5,7 +5,7 @@ import { UserAuthContext } from "@/context/user-auth-context"
 import PrivyWalletProvider from "@/context/privy-provider"
 import { ThemeProvider } from "next-themes"
 import type { ThemeProviderProps } from "next-themes/dist/types"
-import type { SDKError } from "@telegram-apps/sdk-react"
+import { getPlatform } from "@/lib/utils/client"
 
 // Dynamically import SDKProvider with no SSR
 const TelegramSDKProvider = dynamic(
@@ -14,25 +14,31 @@ const TelegramSDKProvider = dynamic(
 )
 
 export function Providers({ children, ...props }: ThemeProviderProps) {
-  return (
-    <TelegramSDKProvider
-      acceptCustomStyles
-      debug
-      onError={(error: SDKError) => {
-        console.error("Telegram SDK error:", {
-          code: error.code,
-          message: error.message,
-          details: error.details,
-        })
-      }}
-    >
-      <UserAuthContext>
-        <PrivyWalletProvider>
-          <ThemeProvider {...props}>{children}</ThemeProvider>
-        </PrivyWalletProvider>
-      </UserAuthContext>
-    </TelegramSDKProvider>
+  const platform = getPlatform()
+
+  const content = (
+    <UserAuthContext>
+      <PrivyWalletProvider>
+        <ThemeProvider {...props}>{children}</ThemeProvider>
+      </PrivyWalletProvider>
+    </UserAuthContext>
   )
+
+  if (platform === "telegram") {
+    return (
+      <TelegramSDKProvider
+        acceptCustomStyles
+        debug
+        onError={(error) => {
+          console.error("Telegram SDK error:", error)
+        }}
+      >
+        {content}
+      </TelegramSDKProvider>
+    )
+  }
+
+  return content
 }
 
 export default Providers

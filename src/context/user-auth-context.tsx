@@ -1,6 +1,7 @@
 "use client"
 
-import type React from "react"
+import { getPlatform } from "@/lib/utils/client"
+import { useLaunchParams } from "@telegram-apps/sdk-react"
 import {
   createContext,
   useContext,
@@ -8,7 +9,6 @@ import {
   useEffect,
   useState,
 } from "react"
-import { useLaunchParams } from "@telegram-apps/sdk-react"
 import { useRouter } from "next/navigation"
 import { useTelegramState } from "@/lib/hooks/use-telegram-state"
 import { jwtDecode } from "jwt-decode"
@@ -26,7 +26,7 @@ interface UserAuthContextType {
   user: UserDetails | null
   isLoading: boolean
   error: string | null
-  login: () => Promise<void>
+  login: (initDataRaw?: string) => Promise<void>
   logout: () => void
   isUserCreated: boolean
   getUserDetails: () => Promise<void>
@@ -46,6 +46,12 @@ interface CAPXAuthPayload {
 }
 
 export function UserAuthContext({ children }: { children: React.ReactNode }) {
+  const platform = getPlatform()
+
+  // Only use Telegram hooks in Telegram context
+  const telegramParams = platform === "telegram" ? useLaunchParams() : null
+  const initDataRaw = telegramParams?.initDataRaw
+
   const {
     isTelegramUserCreated,
     setTelegramUserCreated,
@@ -57,9 +63,11 @@ export function UserAuthContext({ children }: { children: React.ReactNode }) {
   const router = useRouter()
   const [txDetails, setTxDetails] = useState<XIDTransactionDetails | null>(null)
 
-  const initDataRaw = useLaunchParams()?.initDataRaw
+  const handleWebAuth = async () => {
+    // Your existing Supabase auth logic
+  }
 
-  const login = useCallback(async () => {
+  const handleTelegramAuth = async (initDataRaw: string) => {
     if (!initDataRaw) {
       setError("No Telegram init data found")
       return
@@ -110,7 +118,18 @@ export function UserAuthContext({ children }: { children: React.ReactNode }) {
       console.error("Login error:", error)
       setError("Authentication failed")
     }
-  }, [initDataRaw])
+  }
+
+  const auth = useCallback(
+    async (initDataRaw?: string) => {
+      if (platform === "telegram") {
+        if (!initDataRaw) return
+        return handleTelegramAuth(initDataRaw)
+      }
+      return handleWebAuth()
+    },
+    [platform],
+  )
 
   const logout = useCallback(() => {
     // Clear cookies
@@ -151,10 +170,10 @@ export function UserAuthContext({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (initDataRaw && !user) {
-      login()
+      auth(initDataRaw)
     }
     setIsLoading(false)
-  }, [initDataRaw, user, login])
+  }, [initDataRaw, user, auth])
 
   return (
     <AuthContext.Provider
@@ -162,7 +181,7 @@ export function UserAuthContext({ children }: { children: React.ReactNode }) {
         user,
         isLoading,
         error,
-        login,
+        login: auth,
         logout,
         txDetails,
         getUserDetails,
