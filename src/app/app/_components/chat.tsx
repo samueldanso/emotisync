@@ -70,7 +70,7 @@ function SessionContent({ user, avatar }: { user: User; avatar: Avatar }) {
 
             <div className="mb-8 text-center">
               <h2 className="mb-2 font-semibold text-2xl">
-                {greeting} {user.name}
+                {greeting} {user.first_name}
               </h2>
               <p className="text-muted-foreground">
                 I'm {avatar.name}, your AI companion

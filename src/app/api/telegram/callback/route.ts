@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server"
 import { noStore } from "@/lib/utils/server"
-import { createTelegramUser } from "@/actions/telegram"
 import { checkOnboardingStatus } from "@/actions/profiles"
 import { env } from "@/env"
+import { createUser } from "@/actions/users"
+import { v4 as uuidv4 } from "uuid"
 
 export async function POST(request: Request) {
   noStore()
@@ -33,22 +34,28 @@ export async function POST(request: Request) {
       )
     }
 
-    // Create or update user in our database
-    const { error: userError } = await createTelegramUser(
-      capxData.result.user.email,
-      capxData.result.user.id,
-      capxData.result.user.telegram_id,
+    const telegramUser = capxData.result.user
+
+    const { error } = await createUser(
+      `${telegramUser.id}@telegram.com`,
+      uuidv4(),
+      {
+        auth_provider: "telegram",
+        telegram_id: telegramUser.id.toString(),
+        first_name: telegramUser.first_name,
+        last_name: telegramUser.last_name || null,
+      },
     )
 
-    if (userError) {
+    if (error) {
       return NextResponse.json(
-        { success: false, error: userError },
+        { success: false, error: error },
         { status: 500 },
       )
     }
 
     const { isOnboarded, error: profileError } = await checkOnboardingStatus(
-      capxData.result.user.id,
+      telegramUser.id,
     )
 
     if (profileError) {
@@ -60,7 +67,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       success: true,
-      user: capxData.result.user,
+      user: telegramUser,
       tokens: {
         access_token: capxData.result.access_token,
         refresh_token: capxData.result.refresh_token,

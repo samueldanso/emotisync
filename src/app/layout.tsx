@@ -43,7 +43,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn(outfit.variable, lexend.variable)}>
+      <body
+        className={cn(
+          "min-h-screen font-sans antialiased",
+          outfit.variable,
+          lexend.variable,
+        )}
+      >
         <Providers
           attribute="class"
           defaultTheme="light"

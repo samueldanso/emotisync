@@ -42,10 +42,10 @@ export function AuthForm() {
           className="h-11 w-11"
           priority
         />
-        <h2 className="mt-8 text-center font-semibold text-2xl text-foreground/90 tracking-tight">
+        <h2 className="mt-8 text-center font-heading text-2xl text-foreground/90">
           {headingText}
         </h2>
-        <h1 className="mt-4 text-center font-medium text-foreground/70 text-lg tracking-tight">
+        <h1 className="mt-4 text-center font-sans text-foreground/70 text-lg">
           Your personalized AI companion.
         </h1>
       </div>

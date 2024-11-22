@@ -6,52 +6,61 @@ import { users } from "@/db/schemas"
 import { catchError } from "@/lib/utils/errors"
 
 interface CreateUserOptions {
-  auth_provider?: "google" | "telegram"
+  auth_provider: "google" | "telegram"
   telegram_id?: string
+  first_name: string
+  last_name?: string | null
 }
 
 export async function createUser(
   email: string,
   id: string,
-  options: CreateUserOptions = {},
+  options: CreateUserOptions,
 ) {
   try {
-    console.log("Creating user with:", { email, id, ...options })
-
-    const existingUser = await db.query.users.findFirst({
-      where: eq(users.id, id),
-    })
-
-    console.log("Existing user check:", existingUser)
+    // Check existing user
+    const existingUser = options.telegram_id
+      ? await db.query.users.findFirst({
+          where: eq(users.telegram_id, options.telegram_id),
+        })
+      : await db.query.users.findFirst({
+          where: eq(users.id, id),
+        })
 
     if (existingUser) {
-      // Update existing user if needed
-      if (options.telegram_id && !existingUser.telegram_id) {
-        const [updatedUser] = await db
-          .update(users)
-          .set({ telegram_id: options.telegram_id })
-          .where(eq(users.id, id))
-          .returning()
-        return { data: updatedUser, error: null }
-      }
       return { data: existingUser, error: null }
     }
 
+    // Create new user with proper name handling
     const [user] = await db
       .insert(users)
       .values({
         id,
         email,
-        platform: "web",
-        auth_provider: "google",
+        first_name: options.first_name,
+        last_name: options.last_name || null,
+        // Keep full name for compatibility
+        name: `${options.first_name}${
+          options.last_name ? ` ${options.last_name}` : ""
+        }`,
+        auth_provider: options.auth_provider,
+        telegram_id: options.telegram_id,
       })
       .returning()
 
-    console.log("Created new user:", user)
-
     return { data: user, error: null }
   } catch (error) {
-    console.error("Error creating user:", error)
+    return catchError(error)
+  }
+}
+
+export async function getUser(id: string) {
+  try {
+    const user = await db.query.users.findFirst({
+      where: eq(users.id, id),
+    })
+    return { data: user, error: null }
+  } catch (error) {
     return catchError(error)
   }
 }
