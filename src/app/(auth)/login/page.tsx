@@ -1,11 +1,11 @@
-import { redirect } from "next/navigation"
-import { AuthForm } from "../auth-form"
-import { getUser } from "@/lib/supabase/server"
-import Link from "next/link"
+import { redirect } from "next/navigation";
+import { AuthForm } from "../auth-form";
+import { getUser } from "@/lib/supabase/server";
+import Link from "next/link";
 
 export default async function LoginPage() {
-  const user = await getUser()
-  if (user) redirect("/app")
+  const user = await getUser();
+  if (user) redirect("/app");
 
   return (
     <main className="space-y-6">
@@ -20,5 +20,5 @@ export default async function LoginPage() {
         </Link>
       </p>
     </main>
-  )
+  );
 }
