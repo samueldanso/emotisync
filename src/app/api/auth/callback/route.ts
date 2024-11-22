@@ -37,16 +37,21 @@ export async function GET(request: Request) {
 
     const { email, id, user_metadata } = session.user
 
+    const firstName =
+      user_metadata.given_name ||
+      user_metadata.name?.split(" ")[0] ||
+      email.split("@")[0].replace(/[0-9]/g, "")
+
+    const lastName =
+      user_metadata.family_name ||
+      (user_metadata.name?.split(" ").length > 1
+        ? user_metadata.name?.split(" ").slice(1).join(" ")
+        : null)
+
     await createUser(email, id, {
       auth_provider: "google",
-      first_name:
-        user_metadata.given_name ||
-        user_metadata.name?.split(" ")[0] ||
-        email.split("@")[0],
-      last_name:
-        user_metadata.family_name ||
-        user_metadata.name?.split(" ").slice(1).join(" ") ||
-        null,
+      first_name: firstName,
+      last_name: lastName,
     })
 
     const { isOnboarded, error: profileError } = await checkOnboardingStatus(
