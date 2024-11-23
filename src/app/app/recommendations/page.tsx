@@ -27,9 +27,10 @@ export default function RecommendationsPage() {
       try {
         const { data, error } = await getRecommendations()
         if (error) throw new Error(error)
-        if (data) {
-          setRecommendations(data as Recommendation[])
-        }
+        if (!data) throw new Error("No data returned")
+
+        // Transform data to handle null values
+        setRecommendations(data.data ?? [])
       } catch (_error) {
         toast.error("Failed to load recommendations")
       } finally {

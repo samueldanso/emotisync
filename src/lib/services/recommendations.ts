@@ -1,11 +1,11 @@
 import { db } from "@/db/db"
 import { recommendations } from "@/db/schemas"
 import { eq } from "drizzle-orm"
-import { getUser } from "@/lib/supabase/server"
 import { catchError } from "@/lib/utils/errors"
+import { getUser } from "@/lib/supabase/server"
 
-// Define NewRecommendation type from the schema
-type NewRecommendation = typeof recommendations.$inferInsert
+// Export the type since it's used in seedDefaultRecommendations
+export type NewRecommendation = typeof recommendations.$inferInsert
 
 export async function getRecommendations() {
   try {
@@ -27,11 +27,11 @@ export async function getRecommendations() {
 
 export async function seedDefaultRecommendations(userId: string) {
   try {
-    const defaultExercises: NewRecommendation[] = [
+    const defaultExercises = [
       {
         userId,
         title: "4-7-8 Breathing",
-        type: "breathing",
+        type: "breathing" as const,
         description: "A calming breathing technique to reduce anxiety",
         content: "Inhale for 4 counts, hold for 7, exhale for 8",
         duration: "2 minutes",
@@ -46,7 +46,7 @@ export async function seedDefaultRecommendations(userId: string) {
       {
         userId,
         title: "Box Breathing",
-        type: "breathing",
+        type: "breathing" as const,
         description: "A simple technique to help you stay present and calm",
         content: "Equal counts of inhale, hold, exhale, and hold",
         duration: "2 minutes",

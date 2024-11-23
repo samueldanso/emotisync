@@ -1,23 +1,21 @@
 import { db } from "@/db/db"
 import { journals } from "@/db/schemas"
-import { getUser } from "@/lib/supabase/server"
 import { catchError } from "@/lib/utils/errors"
 import type { NewJournal } from "@/db/schemas"
 
-export async function generateJournalEntry({
+export function generateJournalEntry({
+  userId,
   conversation,
   emotional_state,
   user_goal,
 }: {
+  userId: string
   conversation: any[]
   emotional_state: string
   user_goal: string
-}): Promise<NewJournal> {
-  const user = await getUser()
-  if (!user?.id) throw new Error("Unauthorized")
-
+}): NewJournal {
   return {
-    userId: user.id,
+    userId,
     summary: `Conversation about ${emotional_state} emotions`,
     key_points: conversation
       .filter((msg) => msg.type === "user_message")

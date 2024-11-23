@@ -120,16 +120,14 @@ function SessionContent({ user, profile, avatar }: SessionProps): JSX.Element {
     setIsGeneratingJournal(true)
     try {
       const currentEmotions = getCurrentEmotions(messages)
-      const journalEntry = await generateJournalEntry({
+      const journalEntry = generateJournalEntry({
+        userId: user.id,
         conversation: messages,
         emotional_state: currentEmotions,
         user_goal: profile.goal,
       })
 
-      await saveJournalEntry({
-        userId: user.id,
-        ...journalEntry,
-      })
+      await saveJournalEntry(journalEntry)
       toast.success("Your journal entry and recommendations are ready!")
       router.push("/app/journals")
     } catch (_error) {
