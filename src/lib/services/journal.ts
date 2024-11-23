@@ -1,6 +1,6 @@
 import { db } from "@/db/db"
 import { journals } from "@/db/schemas"
-import { getUser } from "@/lib/supabase/server"
+import { getUser } from "@/actions/auth"
 import { catchError } from "@/lib/utils/errors"
 import type { NewJournal } from "@/db/schemas"
 

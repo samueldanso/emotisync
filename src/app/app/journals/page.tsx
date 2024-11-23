@@ -20,9 +20,11 @@ export default function JournalsPage() {
 
         const transformedData = data.map((journal) => ({
           ...journal,
-          emotional_insights: journal.emotional_insights ?? [],
           key_points: journal.key_points ?? [],
+          emotional_insights: journal.emotional_insights ?? [],
           recommendations: journal.recommendations ?? [],
+          created_at: journal.created_at ?? new Date(),
+          updated_at: journal.updated_at ?? new Date(),
         }))
 
         setJournals(transformedData)

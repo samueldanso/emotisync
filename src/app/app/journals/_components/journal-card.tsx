@@ -9,8 +9,8 @@ interface JournalCardProps {
   journal: {
     id: string
     summary: string
-    emotional_insights: string[]
-    created_at: Date
+    emotional_insights: string[] | null
+    created_at: Date | null
   }
 }
 
@@ -22,7 +22,7 @@ export function JournalCard({ journal }: JournalCardProps) {
           <div className="space-y-2">
             <p className="line-clamp-2 text-sm">{journal.summary}</p>
             <div className="flex flex-wrap gap-2">
-              {journal.emotional_insights.slice(0, 2).map((insight, index) => (
+              {journal.emotional_insights?.slice(0, 2).map((insight, index) => (
                 <span
                   key={`${journal.id}-insight-${index}`}
                   className="rounded-full bg-primary/10 px-2 py-1 text-primary text-xs"
@@ -33,7 +33,7 @@ export function JournalCard({ journal }: JournalCardProps) {
             </div>
           </div>
           <time className="text-muted-foreground text-xs">
-            {formatDate(journal.created_at)}
+            {journal.created_at ? formatDate(journal.created_at) : "No date"}
           </time>
         </div>
         <div className="mt-4 flex items-center text-muted-foreground text-sm">
