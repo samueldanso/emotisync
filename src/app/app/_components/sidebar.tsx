@@ -2,27 +2,11 @@
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { MessageSquare, Book, LogOut } from "lucide-react"
+import { LogOut } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { signOut } from "@/lib/supabase/client"
-
-const routes = [
-  {
-    label: "Chat",
-    icon: MessageSquare,
-    href: "/app",
-    color: "text-violet-500",
-    description: "Start a conversation with your companion",
-  },
-  {
-    label: "Journal Entries",
-    icon: Book,
-    href: "/app/journals",
-    color: "text-emerald-500",
-    description: "View your insights & recommendations",
-  },
-]
+import { supabaseClient } from "@/lib/supabase/client"
+import { SIDEBAR_MENU } from "@/lib/constants/menus"
 
 export function Sidebar() {
   const pathname = usePathname()
@@ -34,7 +18,7 @@ export function Sidebar() {
           EmotiSync
         </h2>
         <div className="space-y-1">
-          {routes.map((route) => (
+          {SIDEBAR_MENU.map((route) => (
             <Link
               key={route.href}
               href={route.href}
@@ -46,12 +30,14 @@ export function Sidebar() {
               )}
             >
               <div className="flex items-center">
-                <route.icon className={cn("mr-3 h-5 w-5", route.color)} />
-                {route.label}
+                <route.icon className={cn("mr-3 h-5 w-5")} />
+                {route.title}
               </div>
-              <p className="text-muted-foreground text-xs">
-                {route.description}
-              </p>
+              {route.description && (
+                <p className="text-muted-foreground text-xs">
+                  {route.description}
+                </p>
+              )}
             </Link>
           ))}
         </div>
@@ -59,7 +45,7 @@ export function Sidebar() {
 
       <div className="mt-auto px-3">
         <Button
-          onClick={() => signOut()}
+          onClick={() => supabaseClient.auth.signOut()}
           variant="ghost"
           className="w-full justify-start"
         >

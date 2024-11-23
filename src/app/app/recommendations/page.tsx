@@ -3,9 +3,20 @@
 import { RecommendationCard } from "./_components/recommendation-card"
 import { Spinner } from "@/components/icons/spinner"
 import { toast } from "sonner"
-import { getRecommendations } from "@/lib/services/recommendations"
+import { getRecommendations } from "@/actions/recommendations"
 import { useState, useEffect } from "react"
-import type { Recommendation } from "@/lib/types"
+import type { Recommendation } from "@/db/schemas/recommendations"
+
+// Convert database type to component type
+const convertRecommendation = (rec: Recommendation) => ({
+  title: rec.title,
+  type: rec.type,
+  description: rec.description,
+  duration: rec.duration ?? undefined,
+  content: rec.content,
+  audio_url: rec.audio_url ?? undefined,
+  steps: rec.steps ?? undefined,
+})
 
 export default function RecommendationsPage() {
   const [recommendations, setRecommendations] = useState<Recommendation[]>([])
@@ -16,7 +27,9 @@ export default function RecommendationsPage() {
       try {
         const { data, error } = await getRecommendations()
         if (error) throw new Error(error)
-        setRecommendations(data || [])
+        if (data) {
+          setRecommendations(data as Recommendation[])
+        }
       } catch (_error) {
         toast.error("Failed to load recommendations")
       } finally {
@@ -43,7 +56,10 @@ export default function RecommendationsPage() {
           {recommendations
             .filter((rec) => rec.type === "action")
             .map((rec) => (
-              <RecommendationCard key={rec.id} recommendation={rec} />
+              <RecommendationCard
+                key={rec.id}
+                recommendation={convertRecommendation(rec)}
+              />
             ))}
         </div>
         <div>
@@ -51,7 +67,10 @@ export default function RecommendationsPage() {
           {recommendations
             .filter((rec) => rec.type === "breathing")
             .map((rec) => (
-              <RecommendationCard key={rec.id} recommendation={rec} />
+              <RecommendationCard
+                key={rec.id}
+                recommendation={convertRecommendation(rec)}
+              />
             ))}
         </div>
       </div>

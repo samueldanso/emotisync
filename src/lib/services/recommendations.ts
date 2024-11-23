@@ -3,7 +3,9 @@ import { recommendations } from "@/db/schemas"
 import { eq } from "drizzle-orm"
 import { getUser } from "@/lib/supabase/server"
 import { catchError } from "@/lib/utils/errors"
-import type { NewRecommendation } from "@/db/schemas"
+
+// Define NewRecommendation type from the schema
+type NewRecommendation = typeof recommendations.$inferInsert
 
 export async function getRecommendations() {
   try {

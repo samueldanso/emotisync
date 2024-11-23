@@ -2,21 +2,23 @@
 
 import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
-import { RecommendationCard } from "../../recommendations/_compoments/recommendation-card"
 import { Spinner } from "@/components/icons/spinner"
 import { formatDate } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"
 import { toast } from "sonner"
-import { getJournal } from "../../../../actions/journals"
+import { getJournal } from "@/actions/journals"
+import { RecommendationCard } from "../../recommendations/_components/recommendation-card"
 
 interface JournalEntry {
   id: string
+  userId: string | null
   summary: string
   key_points: string[]
   emotional_insights: string[]
   recommendations: string[]
-  created_at: Date
+  created_at: Date | null
+  updated_at: Date | null
 }
 
 export default function JournalDetailPage() {
@@ -28,9 +30,15 @@ export default function JournalDetailPage() {
   useEffect(() => {
     async function fetchJournal() {
       try {
-        const data = await getJournal(id as string)
+        const { data, error } = await getJournal(id as string)
+        if (error) throw new Error(error)
         if (!data) throw new Error("Journal not found")
-        setJournal(data)
+        setJournal({
+          ...data,
+          key_points: data.key_points ?? [],
+          emotional_insights: data.emotional_insights ?? [],
+          recommendations: data.recommendations ?? [],
+        } as JournalEntry)
       } catch (_error) {
         toast.error("Failed to load journal entry")
         router.push("/app/journals")
@@ -67,7 +75,9 @@ export default function JournalDetailPage() {
           <div className="mb-2 flex items-center justify-between">
             <h1 className="font-heading text-3xl">Journal Entry</h1>
             <time className="text-muted-foreground text-sm">
-              {formatDate(new Date(journal.created_at))}
+              {journal.created_at
+                ? formatDate(new Date(journal.created_at))
+                : "No date"}
             </time>
           </div>
           <p className="text-lg">{journal.summary}</p>

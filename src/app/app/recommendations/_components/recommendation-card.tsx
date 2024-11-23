@@ -5,7 +5,7 @@ import { AudioPlayer } from "./audio-player"
 interface RecommendationCardProps {
   recommendation: {
     title: string
-    type: "breathing" | "meditation" | "sound" | "action"
+    type: "action" | "breathing" | "meditation" | "sound"
     description: string
     duration?: string
     content: string

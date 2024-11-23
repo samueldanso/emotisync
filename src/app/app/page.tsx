@@ -1,59 +1,59 @@
-import { getHumeAccessToken } from "@/lib/humeai/humeai";
-import dynamic from "next/dynamic";
-import { getUser } from "@/lib/supabase/server";
-import { redirect } from "next/navigation";
-import { db } from "@/db/db";
-import { eq } from "drizzle-orm";
-import { profiles, type Profile } from "@/db/schemas/profiles";
-import { avatars, type Avatar } from "@/db/schemas/avatars";
-import { users, type User } from "@/db/schemas/users";
+import { getHumeAccessToken } from "@/lib/humeai/humeai"
+import dynamic from "next/dynamic"
+import { getUser } from "@/lib/supabase/server"
+import { redirect } from "next/navigation"
+import { db } from "@/db/db"
+import { eq } from "drizzle-orm"
+import { profiles, type Profile } from "@/db/schemas/profiles"
+import { avatars, type Avatar } from "@/db/schemas/avatars"
+import { users, type User } from "@/db/schemas/users"
 
 interface ChatProps {
-  accessToken: string;
-  user: User;
-  profile: Profile;
-  avatar: Avatar;
+  accessToken: string
+  user: User
+  profile: Profile
+  avatar: Avatar
 }
 
 const Chat = dynamic<ChatProps>(() => import("./_components/chat"), {
   ssr: false,
-});
+})
 
 export default async function AppPage() {
-  const user = await getUser();
+  const user = await getUser()
 
   if (!user?.email) {
-    redirect("/login");
+    redirect("/login")
   }
 
   const profile = await db.query.profiles.findFirst({
     where: eq(profiles.userId, user.id),
-  });
+  })
 
   if (!profile?.onboarding_completed) {
-    redirect("/welcome/profile");
+    redirect("/welcome/profile")
   }
 
   const avatar = await db.query.avatars.findFirst({
     where: eq(avatars.id, profile.companion_avatar),
-  });
+  })
 
   if (!avatar) {
-    throw new Error("No avatar found");
+    throw new Error("No avatar found")
   }
 
-  const accessToken = await getHumeAccessToken();
+  const accessToken = await getHumeAccessToken()
 
   if (!accessToken) {
-    throw new Error("No access token available");
+    throw new Error("No access token available")
   }
 
   const dbUser = await db.query.users.findFirst({
     where: eq(users.id, user.id),
-  });
+  })
 
   if (!dbUser) {
-    throw new Error("User not found");
+    throw new Error("User not found")
   }
 
   return (
@@ -65,5 +65,5 @@ export default async function AppPage() {
         avatar={avatar}
       />
     </div>
-  );
+  )
 }

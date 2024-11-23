@@ -20,4 +20,3 @@ export const recommendations = pgTable("recommendations", {
 })
 
 export type Recommendation = typeof recommendations.$inferSelect
-export type NewRecommendation = typeof recommendations.$inferInsert

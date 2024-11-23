@@ -4,14 +4,8 @@ import { useEffect, useState } from "react"
 import { JournalCard } from "./_components/journal-card"
 import { Spinner } from "@/components/icons/spinner"
 import { toast } from "sonner"
-import { getJournals } from "../../../actions/journals"
-
-interface Journal {
-  id: string
-  summary: string
-  emotional_insights: string[]
-  created_at: Date
-}
+import { getJournals } from "@/actions/journals"
+import type { Journal } from "@/db/schemas/journals"
 
 export default function JournalsPage() {
   const [journals, setJournals] = useState<Journal[]>([])
@@ -22,7 +16,16 @@ export default function JournalsPage() {
       try {
         const { data, error } = await getJournals()
         if (error) throw new Error(error)
-        setJournals(data || [])
+        if (!data) throw new Error("No data returned")
+
+        const transformedData = data.map((journal) => ({
+          ...journal,
+          emotional_insights: journal.emotional_insights ?? [],
+          key_points: journal.key_points ?? [],
+          recommendations: journal.recommendations ?? [],
+        }))
+
+        setJournals(transformedData)
       } catch (_error) {
         toast.error("Failed to load journals")
       } finally {
