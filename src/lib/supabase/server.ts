@@ -19,7 +19,7 @@ export const supabase = createClient(
 
 export const supabaseAdmin = supabase.auth.admin
 
-export function supbaseServerClient() {
+export async function supabaseServerClient() {
   const cookieStore = cookies()
 
   const supabase = createServerClient(
@@ -27,19 +27,21 @@ export function supbaseServerClient() {
     env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     {
       cookies: {
-        getAll() {
-          return cookieStore.getAll()
+        get(name: string) {
+          return cookieStore.get(name)?.value
         },
-        setAll(cookiesToSet) {
+        set(name: string, value: string, options: any) {
           try {
-            cookiesToSet.forEach(({ name, value, options }) =>
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-              cookieStore.set(name, value, options),
-            )
+            cookieStore.set(name, value, options)
           } catch {
-            // The `setAll` method was called from a Server Component.
-            // This can be ignored if you have middleware refreshing
-            // user sessions.
+            // Handle cookies in middleware
+          }
+        },
+        remove(name: string, options: any) {
+          try {
+            cookieStore.set(name, "", { ...options, maxAge: 0 })
+          } catch {
+            // Handle cookies in middleware
           }
         },
       },
@@ -50,7 +52,7 @@ export function supbaseServerClient() {
 }
 
 export async function getUser() {
-  const supabase = supbaseServerClient()
+  const supabase = await supabaseServerClient()
 
   const {
     data: { user },
