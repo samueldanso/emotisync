@@ -18,7 +18,7 @@ export default function JournalsPage() {
         if (error) throw new Error(error)
         if (!data) throw new Error("No data returned")
 
-        const transformedData = data.map((journal) => ({
+        const transformedData = data.map((journal: Journal) => ({
           ...journal,
           key_points: journal.key_points ?? [],
           emotional_insights: journal.emotional_insights ?? [],

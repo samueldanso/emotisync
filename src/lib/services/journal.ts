@@ -1,7 +1,5 @@
-import { db } from "@/db/db"
-import { journals } from "@/db/schemas"
-import { catchError } from "@/lib/utils/errors"
-import type { NewJournal } from "@/db/schemas"
+import type { NewJournal } from "@/db/schemas/journals"
+import { saveJournalEntry as saveEntry } from "@/actions/journals"
 
 export function generateJournalEntry({
   userId,
@@ -25,11 +23,5 @@ export function generateJournalEntry({
   }
 }
 
-export async function saveJournalEntry(data: NewJournal) {
-  try {
-    const [journal] = await db.insert(journals).values(data).returning()
-    return { data: journal, error: null }
-  } catch (error) {
-    return catchError(error)
-  }
-}
+// Re-export saveJournalEntry for use in chat.tsx
+export { saveEntry as saveJournalEntry }

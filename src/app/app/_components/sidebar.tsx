@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation"
 import { supabaseClient } from "@/lib/supabase/client"
 import { SIDEBAR_MENU } from "@/lib/constants/menus"
 
-export function Sidebar() {
+export function AppSidebar() {
   const pathname = usePathname()
 
   return (

@@ -1,29 +1,8 @@
 import { db } from "@/db/db"
 import { recommendations } from "@/db/schemas"
-import { eq } from "drizzle-orm"
 import { catchError } from "@/lib/utils/errors"
-import { getUser } from "@/lib/supabase/server"
 
-// Export the type since it's used in seedDefaultRecommendations
 export type NewRecommendation = typeof recommendations.$inferInsert
-
-export async function getRecommendations() {
-  try {
-    const user = await getUser()
-    if (!user?.id) throw new Error("Unauthorized")
-
-    const result = await db.query.recommendations.findMany({
-      where: eq(recommendations.userId, user.id),
-      orderBy: (recommendations, { desc }) => [
-        desc(recommendations.created_at),
-      ],
-    })
-
-    return { data: result, error: null }
-  } catch (error) {
-    return catchError(error)
-  }
-}
 
 export async function seedDefaultRecommendations(userId: string) {
   try {
