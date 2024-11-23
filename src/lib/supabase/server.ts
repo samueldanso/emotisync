@@ -1,12 +1,13 @@
-"use server"
+"use server";
 
-import { cookies } from "next/headers"
+import { cookies } from "next/headers";
 
-import { env } from "@/env"
-import { createServerClient } from "@supabase/ssr"
-import { createClient } from "@supabase/supabase-js"
+import { env } from "@/env";
+import { createServerClient } from "@supabase/ssr";
+import { createClient } from "@supabase/supabase-js";
 
-export const supabase = createClient(
+// Create admin client for server-side operations
+const supabase = createClient(
   env.NEXT_PUBLIC_SUPABASE_URL,
   env.SUPABASE_SERVICE_KEY,
   {
@@ -14,49 +15,36 @@ export const supabase = createClient(
       autoRefreshToken: false,
       persistSession: false,
     },
-  },
-)
+  }
+);
 
-export const supabaseAdmin = supabase.auth.admin
+// Export admin functions as async
+export async function getAdmin() {
+  return supabase.auth.admin;
+}
 
+// Make server client async
 export async function supabaseServerClient() {
-  const cookieStore = cookies()
+  const cookieStore = cookies();
 
-  const supabase = createServerClient(
+  return createServerClient(
     env.NEXT_PUBLIC_SUPABASE_URL,
     env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     {
       cookies: {
         get(name: string) {
-          return cookieStore.get(name)?.value
-        },
-        set(name: string, value: string, options: any) {
-          try {
-            cookieStore.set(name, value, options)
-          } catch {
-            // Handle cookies in middleware
-          }
-        },
-        remove(name: string, options: any) {
-          try {
-            cookieStore.set(name, "", { ...options, maxAge: 0 })
-          } catch {
-            // Handle cookies in middleware
-          }
+          return cookieStore.get(name)?.value;
         },
       },
-    },
-  )
-
-  return supabase
+    }
+  );
 }
 
+// Keep getUser as async
 export async function getUser() {
-  const supabase = await supabaseServerClient()
-
+  const supabase = await supabaseServerClient();
   const {
     data: { user },
-  } = await supabase.auth.getUser()
-
-  return user
+  } = await supabase.auth.getUser();
+  return user;
 }
