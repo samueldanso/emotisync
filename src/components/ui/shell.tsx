@@ -1,6 +1,6 @@
 import React from "react"
 import { Card } from "@/components/ui/card"
-import { cn } from "@/lib/utils/cn"
+import { cn } from "@/lib/utils"
 
 export interface ShellHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   icon?: React.ReactNode

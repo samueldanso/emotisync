@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils/cn"
+import { cn } from "@/lib/utils"
 import { Icons } from "."
 
 interface SpinnerProps extends React.SVGAttributes<SVGElement> {

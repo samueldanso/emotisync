@@ -2,7 +2,7 @@ import { create } from "zustand"
 import { persist } from "zustand/middleware"
 
 /**
- * @store WelcomeStore
+ * @store OnboardingStore
  * @description Global state management for user onboarding flow using Zustand
  *
  * State Structure:
@@ -22,7 +22,7 @@ import { persist } from "zustand/middleware"
  * @method goNext - Navigate to next step
  */
 
-interface WelcomeState {
+interface OnboardingState {
   step: number
   goal: string
   name: string
@@ -37,7 +37,7 @@ interface WelcomeState {
   goNext: () => void
 }
 
-export const useWelcomeStore = create<WelcomeState>()(
+export const useOnboardingStore = create<OnboardingState>()(
   persist(
     (set, get) => ({
       step: 1,
@@ -72,7 +72,7 @@ export const useWelcomeStore = create<WelcomeState>()(
       },
     }),
     {
-      name: "welcome-store",
+      name: "onboarding-store",
     },
   ),
 )

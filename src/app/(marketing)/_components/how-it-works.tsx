@@ -1,8 +1,8 @@
 "use client"
 
 import Image from "next/image"
-import { HOW_IT_WORKS } from "@/lib/constants/marketing"
-import { cn } from "@/lib/utils/cn"
+import { HOW_IT_WORKS } from "@/lib/constants"
+import { cn } from "@/lib/utils"
 
 export default function HowItWorkSection() {
   return (

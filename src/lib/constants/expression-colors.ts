@@ -61,30 +61,3 @@ export const isExpressionColor = (
 ): color is keyof typeof ExpressionColors => {
   return color in ExpressionColors
 }
-
-export const colorPairs = [
-  {
-    bg: "#F3E8FF",
-    icon: "#9333EA",
-  },
-  {
-    bg: "#FFE4E8",
-    icon: "#E11D48",
-  },
-  {
-    bg: "#FFE4DD",
-    icon: "#F97316",
-  },
-  {
-    bg: "#E0F2FE",
-    icon: "#0EA5E9",
-  },
-  {
-    bg: "#E0EAFF",
-    icon: "#4F46E5",
-  },
-  {
-    bg: "#DCFCE7",
-    icon: "#16A34A",
-  },
-] as const

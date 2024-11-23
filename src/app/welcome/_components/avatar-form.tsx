@@ -16,9 +16,9 @@ import {
 import { avatarSchema, type AvatarFormValues } from "@/lib/validations/avatar"
 import { showErrorToast } from "@/lib/utils/errors"
 import { toast } from "sonner"
-import { cn } from "@/lib/utils/cn"
+import { cn } from "@/lib/utils"
 import { supabaseClient } from "@/lib/supabase/client"
-import { useWelcomeStore } from "@/lib/stores/welcome"
+import { useOnboardingStore } from "@/lib/stores/onboarding"
 import { createCompleteProfile } from "@/actions/profiles"
 import { ProgressSteps } from "./progress-steps"
 import { WelcomeButtons } from "./welcome-buttons"
@@ -36,7 +36,7 @@ export function AvatarSelection() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [avatars, setAvatars] = useState<Avatar[]>([])
-  const { goal, reset } = useWelcomeStore()
+  const { goal, reset } = useOnboardingStore()
 
   async function loadAvatars() {
     try {
@@ -228,7 +228,7 @@ export function AvatarSelection() {
                   isLoading={isLoading}
                   showBack={true}
                   onBack={() => {
-                    useWelcomeStore.getState().goBack()
+                    useOnboardingStore.getState().goBack()
                     router.push("/welcome/profile")
                   }}
                 />

@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { motion } from "framer-motion"
-import { NAVBAR_MENU } from "@/lib/constants/menus"
+import { NAVBAR_MENU } from "@/lib/constants"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 
 interface MobileNavProps {

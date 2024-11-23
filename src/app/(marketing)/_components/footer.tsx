@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { Logo } from "@/components/ui/logo"
-import { FOOTER_MENU } from "@/lib/constants/menus"
+import { FOOTER_MENU } from "@/lib/constants"
 
 export function Footer() {
   const currentYear = new Date().getFullYear()

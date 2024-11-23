@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card"
-import { cn } from "@/lib/utils/cn"
+import { cn } from "@/lib/utils"
 
 interface GlassCardProps {
   children: React.ReactNode

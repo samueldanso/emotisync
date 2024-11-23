@@ -1,7 +1,7 @@
 "use client"
 
 import { Logo } from "@/components/ui/logo"
-import { cn } from "@/lib/utils/cn"
+import { cn } from "@/lib/utils"
 
 export default function Loading() {
   return (

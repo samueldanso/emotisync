@@ -1,59 +1,61 @@
-"use client"
+"use client";
 
-import { VoiceProvider, useVoice } from "@humeai/voice-react"
-import Messages from "./messages"
-import Controls from "./controls"
-import { StartCall } from "./start-call"
-import { type ComponentRef, useRef, useState, useEffect } from "react"
-import { AvatarStatus } from "./avatar-status"
-import type { User } from "@/db/schemas/users"
-import type { Avatar } from "@/db/schemas/avatars"
+import { env } from "@/env";
+
+import { VoiceProvider, useVoice } from "@humeai/voice-react";
+import Messages from "./messages";
+import Controls from "./controls";
+import { StartCall } from "./start-call";
+import { type ComponentRef, useRef, useState, useEffect } from "react";
+import { AvatarStatus } from "./avatar-status";
+import type { User } from "@/db/schemas/users";
+import type { Avatar } from "@/db/schemas/avatars";
 import {
   Avatar as UIAvatar,
   AvatarImage,
   AvatarFallback,
-} from "@/components/ui/avatar"
+} from "@/components/ui/avatar";
 
 interface SessionProps {
-  accessToken: string
-  user: User
-  avatar: Avatar
+  accessToken: string;
+  user: User;
+  avatar: Avatar;
 }
 
 function SessionContent({ user, avatar }: { user: User; avatar: Avatar }) {
-  const { status, isMuted, messages } = useVoice()
-  const _timeout = useRef<number | null>(null)
-  const ref = useRef<ComponentRef<typeof Messages> | null>(null)
-  const [isSpeaking, setIsSpeaking] = useState(false)
+  const { status, isMuted, messages } = useVoice();
+  const _timeout = useRef<number | null>(null);
+  const ref = useRef<ComponentRef<typeof Messages> | null>(null);
+  const [isSpeaking, setIsSpeaking] = useState(false);
 
   // Reset speaking state when call ends
   useEffect(() => {
     if (status.value !== "connected") {
-      setIsSpeaking(false)
+      setIsSpeaking(false);
     }
-  }, [status.value])
+  }, [status.value]);
 
   // Monitor messages to detect AI speaking state
   useEffect(() => {
     if (status.value === "connected" && messages.length > 0) {
-      const lastMessage = messages[messages.length - 1]
+      const lastMessage = messages[messages.length - 1];
       if (lastMessage.type === "assistant_message") {
-        setIsSpeaking(true)
+        setIsSpeaking(true);
         // Add a small delay to simulate natural speech rhythm
         const timeout = setTimeout(() => {
-          setIsSpeaking(false)
-        }, 2000)
-        return () => clearTimeout(timeout)
+          setIsSpeaking(false);
+        }, 2000);
+        return () => clearTimeout(timeout);
       }
     }
-  }, [messages, status.value])
+  }, [messages, status.value]);
 
-  const hour = new Date().getHours()
+  const hour = new Date().getHours();
   const greeting =
-    hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening"
+    hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
 
-  const isActive = status.value === "connected"
-  const isListening = isActive ? isActive && !isMuted : false
+  const isActive = status.value === "connected";
+  const isListening = isActive ? isActive && !isMuted : false;
 
   return (
     <div className="relative flex h-full flex-col">
@@ -111,11 +113,11 @@ function SessionContent({ user, avatar }: { user: User; avatar: Avatar }) {
         )}
       </div>
     </div>
-  )
+  );
 }
 
 export default function Session({ accessToken, user, avatar }: SessionProps) {
-  const configId = process.env.NEXT_PUBLIC_HUME_CONFIG_ID
+  const configId = env.NEXT_PUBLIC_HUME_CONFIG_ID;
 
   return (
     <div className="relative flex h-[calc(100vh-4rem)] w-full grow flex-col overflow-hidden">
@@ -129,5 +131,5 @@ export default function Session({ accessToken, user, avatar }: SessionProps) {
         <SessionContent user={user} avatar={avatar} />
       </VoiceProvider>
     </div>
-  )
+  );
 }

@@ -1,6 +1,6 @@
 "use client"
 
-import { FAQS } from "@/lib/constants/marketing"
+import { FAQS } from "@/lib/constants"
 import { Minus, Plus } from "lucide-react"
 import {
   Accordion,

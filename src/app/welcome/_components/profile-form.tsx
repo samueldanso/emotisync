@@ -22,14 +22,14 @@ import { showErrorToast } from "@/lib/utils/errors"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { supabaseClient } from "@/lib/supabase/client"
-import { useWelcomeStore } from "@/lib/stores/welcome"
+import { useOnboardingStore } from "@/lib/stores/onboarding"
 import { ProgressSteps } from "./progress-steps"
 import { WelcomeButtons } from "./welcome-buttons"
 
 export function ProfileForm() {
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
-  const { setGoal, goNext } = useWelcomeStore()
+  const { setGoal, goNext } = useOnboardingStore()
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),

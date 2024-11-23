@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import "@/styles/globals.css"
 import Providers from "@/components/providers"
 import { Outfit, Lexend } from "next/font/google"
-import { cn } from "@/lib/utils/cn"
+import { cn } from "@/lib/utils"
 
 const outfit = Outfit({
   subsets: ["latin"],

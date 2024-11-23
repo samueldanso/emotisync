@@ -14,6 +14,7 @@ export const env = createEnv({
     UPSTASH_REDIS_REST_TOKEN: z.string(),
 
     TELEGRAM_BOT_TOKEN: z.string(),
+
     CAPX_CLIENT_ID: z.string().optional(),
     CAPX_CLIENT_SECRET: z.string().optional(),
     CAPX_API_URL: z.string().url(),
@@ -25,7 +26,10 @@ export const env = createEnv({
     NEXT_PUBLIC_SUPABASE_URL: z.string(),
     NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string(),
 
+    NEXT_PUBLIC_HUME_CONFIG_ID: z.string().optional(),
+
     NEXT_PUBLIC_PRIVY_APP_ID: z.string(),
+
     NEXT_PUBLIC_CAPX_CHAIN_ID: z.string(),
     NEXT_PUBLIC_CAPX_CHAIN_NETWORK_NAME: z.string(),
     NEXT_PUBLIC_CAPX_CHAIN_RPC_URL: z.string().url(),
@@ -48,11 +52,14 @@ export const env = createEnv({
 
     HUME_API_KEY: process.env.HUME_API_KEY,
     HUME_SECRET_KEY: process.env.HUME_SECRET_KEY,
+    NEXT_PUBLIC_HUME_CONFIG_ID: process.env.NEXT_PUBLIC_HUME_CONFIG_ID,
 
     TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN,
+
     CAPX_CLIENT_ID: process.env.CAPX_CLIENT_ID,
     CAPX_CLIENT_SECRET: process.env.CAPX_CLIENT_SECRET,
     CAPX_API_URL: process.env.CAPX_API_URL,
+
     NEXT_PUBLIC_PRIVY_APP_ID: process.env.NEXT_PUBLIC_PRIVY_APP_ID,
     NEXT_PUBLIC_CAPX_CHAIN_ID: process.env.NEXT_PUBLIC_CAPX_CHAIN_ID,
     NEXT_PUBLIC_CAPX_CHAIN_NETWORK_NAME:

@@ -157,3 +157,30 @@ export const FAQS: FAQProbs[] = [
       "EmotiSync AI is beneficial for anyone seeking accessible emotional health insights—whether you're dealing with daily stress, need a listening ear, or want to explore self-care routines. If you're experiencing severe mental health issues, we strongly recommend consulting a licensed therapist.",
   },
 ]
+
+export const colorPairs = [
+  {
+    bg: "#F3E8FF",
+    icon: "#9333EA",
+  },
+  {
+    bg: "#FFE4E8",
+    icon: "#E11D48",
+  },
+  {
+    bg: "#FFE4DD",
+    icon: "#F97316",
+  },
+  {
+    bg: "#E0F2FE",
+    icon: "#0EA5E9",
+  },
+  {
+    bg: "#E0EAFF",
+    icon: "#4F46E5",
+  },
+  {
+    bg: "#DCFCE7",
+    icon: "#16A34A",
+  },
+] as const

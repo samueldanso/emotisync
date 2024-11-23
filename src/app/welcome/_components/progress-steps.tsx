@@ -1,12 +1,12 @@
 "use client"
 
-import { useWelcomeStore } from "@/lib/stores/welcome"
+import { useOnboardingStore } from "@/lib/stores/onboarding"
 import { Check } from "lucide-react"
-import { cn } from "@/lib/utils/cn"
+import { cn } from "@/lib/utils"
 import { ONBOARDING_STEPS } from "@/lib/constants"
 
 export function ProgressSteps() {
-  const { step } = useWelcomeStore()
+  const { step } = useOnboardingStore()
 
   return (
     <div className="flex space-x-4 lg:block lg:space-x-0 lg:space-y-4">

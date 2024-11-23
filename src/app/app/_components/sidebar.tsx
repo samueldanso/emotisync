@@ -1,48 +1,48 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { usePathname, useRouter } from "next/navigation"
-import { cn } from "@/lib/utils/cn"
-import { SIDEBAR_MENU } from "@/lib/constants/menus"
-import { Logo } from "@/components/ui/logo"
-import { ThemeToggle } from "@/components/ui/theme-toggle"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
-import { LogOut } from "lucide-react"
-import { supabaseClient } from "@/lib/supabase/client"
-import { useEffect, useState } from "react"
-import type { User } from "@supabase/supabase-js"
-import { useTelegramState } from "@/lib/hooks/use-telegram-state"
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
+import { SIDEBAR_MENU } from "@/lib/constants";
+import { Logo } from "@/components/ui/logo";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { LogOut } from "lucide-react";
+import { supabaseClient } from "@/lib/supabase/client";
+import { useEffect, useState } from "react";
+import type { User } from "@supabase/supabase-js";
+import { useTelegramState } from "@/lib/hooks/use-telegram-state";
 
 export function AppSidebar() {
-  const pathname = usePathname()
-  const router = useRouter()
-  const [user, setUser] = useState<User | null>(null)
-  const { telegramAccessToken } = useTelegramState()
+  const pathname = usePathname();
+  const router = useRouter();
+  const [user, setUser] = useState<User | null>(null);
+  const { telegramAccessToken } = useTelegramState();
 
   useEffect(() => {
     const {
       data: { subscription },
     } = supabaseClient.auth.onAuthStateChange((_, session) => {
-      setUser(session?.user ?? null)
-    })
+      setUser(session?.user ?? null);
+    });
 
-    return () => subscription.unsubscribe()
-  }, [])
+    return () => subscription.unsubscribe();
+  }, []);
 
   const handleSignOut = async () => {
     if (telegramAccessToken) {
       // Clear telegram tokens
       document.cookie =
-        "access_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT"
+        "access_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
       document.cookie =
-        "refresh_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT"
+        "refresh_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
     } else {
       // Supabase logout
-      await supabaseClient.auth.signOut()
+      await supabaseClient.auth.signOut();
     }
-    router.push("/login")
-  }
+    router.push("/login");
+  };
 
   return (
     <aside className="fixed inset-y-0 left-0 z-30 hidden h-full w-[260px] flex-col border-r bg-background/80 shadow-sm backdrop-blur-sm lg:flex">
@@ -62,7 +62,7 @@ export function AppSidebar() {
               pathname === item.href
                 ? "bg-primary/10 text-primary hover:bg-primary/20"
                 : "text-muted-foreground",
-              index === 3 && "mb-3 border-b pb-4",
+              index === 3 && "mb-3 border-b pb-4"
             )}
           >
             <item.icon className="h-4 w-4" />
@@ -104,5 +104,5 @@ export function AppSidebar() {
         </div>
       </div>
     </aside>
-  )
+  );
 }

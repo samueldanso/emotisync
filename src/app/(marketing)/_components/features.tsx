@@ -2,7 +2,7 @@
 import GlassCard from "@/components/ui/glass"
 import { FeaturesGradient } from "@/components/ui/background-gradient"
 import { FEATURES } from "@/lib/constants/marketing"
-import { colorPairs } from "@/lib/constants/colors"
+import { colorPairs } from "@/lib/constants"
 
 export default function FeatureSection() {
   return (
