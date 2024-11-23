@@ -1,108 +1,72 @@
-"use client";
+"use client"
 
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { cn } from "@/lib/utils";
-import { SIDEBAR_MENU } from "@/lib/constants";
-import { Logo } from "@/components/ui/logo";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { LogOut } from "lucide-react";
-import { supabaseClient } from "@/lib/supabase/client";
-import { useEffect, useState } from "react";
-import type { User } from "@supabase/supabase-js";
-import { useTelegramState } from "@/lib/hooks/use-telegram-state";
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import { MessageSquare, Book, LogOut } from "lucide-react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { signOut } from "@/lib/supabase/client"
 
-export function AppSidebar() {
-  const pathname = usePathname();
-  const router = useRouter();
-  const [user, setUser] = useState<User | null>(null);
-  const { telegramAccessToken } = useTelegramState();
+const routes = [
+  {
+    label: "Chat",
+    icon: MessageSquare,
+    href: "/app",
+    color: "text-violet-500",
+    description: "Start a conversation with your companion",
+  },
+  {
+    label: "Journal Entries",
+    icon: Book,
+    href: "/app/journals",
+    color: "text-emerald-500",
+    description: "View your insights & recommendations",
+  },
+]
 
-  useEffect(() => {
-    const {
-      data: { subscription },
-    } = supabaseClient.auth.onAuthStateChange((_, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
-  const handleSignOut = async () => {
-    if (telegramAccessToken) {
-      // Clear telegram tokens
-      document.cookie =
-        "access_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-      document.cookie =
-        "refresh_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-    } else {
-      // Supabase logout
-      await supabaseClient.auth.signOut();
-    }
-    router.push("/login");
-  };
+export function Sidebar() {
+  const pathname = usePathname()
 
   return (
-    <aside className="fixed inset-y-0 left-0 z-30 hidden h-full w-[260px] flex-col border-r bg-background/80 shadow-sm backdrop-blur-sm lg:flex">
-      {/* Logo */}
-      <div className="flex h-16 items-center px-6">
-        <Logo className="relative z-10 text-foreground" />
-      </div>
-
-      {/* Navigation */}
-      <div className="flex-1 space-y-1 px-3 py-4">
-        {SIDEBAR_MENU.map((item, index) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className={cn(
-              "flex items-center gap-3 rounded-lg px-4 py-3 font-medium text-sm transition-colors hover:bg-accent hover:text-accent-foreground",
-              pathname === item.href
-                ? "bg-primary/10 text-primary hover:bg-primary/20"
-                : "text-muted-foreground",
-              index === 3 && "mb-3 border-b pb-4"
-            )}
-          >
-            <item.icon className="h-4 w-4" />
-            {item.title}
-          </Link>
-        ))}
-      </div>
-
-      {/* User Profile & Actions */}
-      <div className="border-t p-4">
-        <div className="mb-4 flex items-center gap-3 rounded-lg bg-accent/50 p-4">
-          <Avatar className="h-10 w-10">
-            <AvatarImage
-              src={user?.user_metadata.avatar_url}
-              alt={user?.email ?? ""}
-            />
-            <AvatarFallback>{user?.email?.[0].toUpperCase()}</AvatarFallback>
-          </Avatar>
-          <div className="flex-1 truncate">
-            <p className="truncate font-medium text-sm">
-              {user?.user_metadata.full_name}
-            </p>
-            <p className="truncate text-muted-foreground text-xs">
-              {user?.email}
-            </p>
-          </div>
-        </div>
-        <div className="space-y-2">
-          <ThemeToggle className="w-full justify-start" />
-          <Button
-            variant="ghost"
-            size="sm"
-            className="w-full justify-start text-muted-foreground"
-            onClick={handleSignOut}
-          >
-            <LogOut className="mr-2 h-4 w-4" />
-            Log out
-          </Button>
+    <div className="flex h-full flex-col space-y-4 bg-secondary/10 py-4">
+      <div className="px-3 py-2">
+        <h2 className="mb-2 px-4 font-semibold text-lg tracking-tight">
+          EmotiSync
+        </h2>
+        <div className="space-y-1">
+          {routes.map((route) => (
+            <Link
+              key={route.href}
+              href={route.href}
+              className={cn(
+                "group flex w-full cursor-pointer flex-col space-y-1 rounded-lg p-3 font-medium text-sm hover:bg-primary/10 hover:text-primary",
+                pathname === route.href
+                  ? "bg-primary/10 text-primary"
+                  : "text-muted-foreground",
+              )}
+            >
+              <div className="flex items-center">
+                <route.icon className={cn("mr-3 h-5 w-5", route.color)} />
+                {route.label}
+              </div>
+              <p className="text-muted-foreground text-xs">
+                {route.description}
+              </p>
+            </Link>
+          ))}
         </div>
       </div>
-    </aside>
-  );
+
+      <div className="mt-auto px-3">
+        <Button
+          onClick={() => signOut()}
+          variant="ghost"
+          className="w-full justify-start"
+        >
+          <LogOut className="mr-2 h-5 w-5" />
+          Logout
+        </Button>
+      </div>
+    </div>
+  )
 }
