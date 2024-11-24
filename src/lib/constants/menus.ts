@@ -1,18 +1,16 @@
 import {
-  Phone,
   MessageSquare,
   BookText,
   Lightbulb,
   LineChart,
-  Wind,
   Activity,
   Music,
-} from "lucide-react";
-import type { LucideIcon } from "lucide-react";
+} from "lucide-react"
+import type { LucideIcon } from "lucide-react"
 
 export interface NavbarMenuProps {
-  title: string;
-  href: string;
+  title: string
+  href: string
 }
 
 export const NAVBAR_MENU: NavbarMenuProps[] = [
@@ -32,16 +30,16 @@ export const NAVBAR_MENU: NavbarMenuProps[] = [
     title: "FAQ",
     href: "/#faq",
   },
-];
+]
 
 export interface SidebarMenuProps {
-  title: string;
-  href: string;
-  icon: LucideIcon;
-  primary?: boolean;
-  description?: string;
-  badge?: string;
-  children?: SidebarMenuProps[];
+  title: string
+  href: string
+  icon: LucideIcon
+  primary?: boolean
+  description?: string
+  badge?: string
+  children?: SidebarMenuProps[]
 }
 
 export const SIDEBAR_MENU: SidebarMenuProps[] = [
@@ -78,7 +76,7 @@ export const SIDEBAR_MENU: SidebarMenuProps[] = [
     icon: LineChart,
     badge: "Soon",
   },
-];
+]
 
 export const FOOTER_MENU = {
   Product: [
@@ -93,14 +91,14 @@ export const FOOTER_MENU = {
     { title: "Twitter", href: "https://twitter.com/emotisync_xyz" },
     { title: "Telegram", href: "https://t.me/EmotiSync_bot" },
   ],
-} as const;
+} as const
 
 export interface ProfileMenuProps {
-  title: string;
-  href?: string;
-  disabled?: boolean;
-  badge?: string;
-  onClick?: () => void;
+  title: string
+  href?: string
+  disabled?: boolean
+  badge?: string
+  onClick?: () => void
 }
 
 export const PROFILE_MENU: ProfileMenuProps[] = [
@@ -114,4 +112,4 @@ export const PROFILE_MENU: ProfileMenuProps[] = [
     disabled: true,
     badge: "Soon",
   },
-];
+]

@@ -11,6 +11,7 @@ interface CreateProfileData {
   companionName: string
   companionAvatar: string
   email: string
+  displayName?: string
 }
 
 export async function createCompleteProfile(
@@ -48,6 +49,7 @@ export async function createCompleteProfile(
           goal: data.goal,
           companion_name: data.companionName,
           companion_avatar: data.companionAvatar,
+          display_name: data.displayName,
           onboarding_completed: true,
         })
         .returning()
