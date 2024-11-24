@@ -1,10 +1,10 @@
-import "server-only"
+import "server-only";
 
-import { cookies } from "next/headers"
+import { cookies } from "next/headers";
 
-import { env } from "@/env"
-import { createServerClient } from "@supabase/ssr"
-import { createClient } from "@supabase/supabase-js"
+import { env } from "@/env";
+import { createServerClient } from "@supabase/ssr";
+import { createClient } from "@supabase/supabase-js";
 
 export const supabase = createClient(
   env.NEXT_PUBLIC_SUPABASE_URL,
@@ -14,13 +14,13 @@ export const supabase = createClient(
       autoRefreshToken: false,
       persistSession: false,
     },
-  },
-)
+  }
+);
 
-export const supabaseAdmin = supabase.auth.admin
+export const supabaseAdmin = supabase.auth.admin;
 
 export function supabaseServerClient() {
-  const cookieStore = cookies()
+  const cookieStore = cookies();
 
   const supabase = createServerClient(
     env.NEXT_PUBLIC_SUPABASE_URL,
@@ -28,14 +28,14 @@ export function supabaseServerClient() {
     {
       cookies: {
         getAll() {
-          return cookieStore.getAll()
+          return cookieStore.getAll();
         },
         setAll(cookiesToSet) {
           try {
             cookiesToSet.forEach(({ name, value, options }) =>
               // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-              cookieStore.set(name, value, options),
-            )
+              cookieStore.set(name, value, options)
+            );
           } catch {
             // The `setAll` method was called from a Server Component.
             // This can be ignored if you have middleware refreshing
@@ -43,18 +43,18 @@ export function supabaseServerClient() {
           }
         },
       },
-    },
-  )
+    }
+  );
 
-  return supabase
+  return supabase;
 }
 
 export async function getUser() {
-  const supabase = supabaseServerClient()
+  const supabase = supabaseServerClient();
 
   const {
     data: { user },
-  } = await supabase.auth.getUser()
+  } = await supabase.auth.getUser();
 
-  return user
+  return user;
 }
