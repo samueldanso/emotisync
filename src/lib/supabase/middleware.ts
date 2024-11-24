@@ -39,19 +39,19 @@ export async function updateSession(request: NextRequest) {
     },
   )
 
-  // IMPORTANT: Get user immediately after client creation
   const {
     data: { user },
   } = await supabase.auth.getUser()
 
-  // Handle auth redirects with platform awareness
   if (
     !user &&
     !request.nextUrl.pathname.startsWith("/login") &&
     !request.nextUrl.pathname.startsWith("/signup") &&
     !request.nextUrl.pathname.startsWith("/auth") &&
-    // Don't redirect Telegram paths
-    !request.nextUrl.pathname.startsWith("/api/telegram")
+    !request.nextUrl.pathname.startsWith("/api/telegram") &&
+    !request.nextUrl.pathname.startsWith("/privacy") &&
+    !request.nextUrl.pathname.startsWith("/terms") &&
+    request.nextUrl.pathname !== "/"
   ) {
     return NextResponse.redirect(new URL("/login", request.url))
   }
