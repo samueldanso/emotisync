@@ -1,4 +1,4 @@
-import type { CustomIconProps } from "./types";
+import type { CustomIconProps } from "./types"
 
 const FolderPlusDuotone = ({ className }: CustomIconProps) => {
   return (
@@ -19,7 +19,7 @@ const FolderPlusDuotone = ({ className }: CustomIconProps) => {
         fill="#545454"
       />
     </svg>
-  );
-};
+  )
+}
 
-export { FolderPlusDuotone };
+export { FolderPlusDuotone }
