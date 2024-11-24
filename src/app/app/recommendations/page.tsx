@@ -1,9 +1,9 @@
-"use client";
+"use client"
 
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Activity, Music, Timer, Brain } from "lucide-react";
-import { AudioPlayer } from "./_components/audio-player";
+import { Card } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Activity, Music, Timer, Brain } from "lucide-react"
+import { AudioPlayer } from "./_components/audio-player"
 
 export default function RecommendationsPage() {
   return (
@@ -66,7 +66,7 @@ export default function RecommendationsPage() {
               </div>
               <div className="flex-1">
                 <h3 className="font-semibold">Calming Nature Sounds</h3>
-                <p className="text-muted-foreground text-sm mb-4">
+                <p className="mb-4 text-muted-foreground text-sm">
                   Gentle rain and forest ambience to help you relax.
                 </p>
                 <AudioPlayer url="/sounds/nature.mp3" title="Nature Sounds" />
@@ -81,7 +81,7 @@ export default function RecommendationsPage() {
               </div>
               <div className="flex-1">
                 <h3 className="font-semibold">White Noise</h3>
-                <p className="text-muted-foreground text-sm mb-4">
+                <p className="mb-4 text-muted-foreground text-sm">
                   Consistent background noise to help you focus.
                 </p>
                 <AudioPlayer
@@ -94,5 +94,5 @@ export default function RecommendationsPage() {
         </div>
       </section>
     </div>
-  );
+  )
 }

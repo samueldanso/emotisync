@@ -1,49 +1,49 @@
-import { redirect } from "next/navigation";
-import { getUser } from "@/lib/supabase/server";
-import { AppSidebar } from "./_components/sidebar";
-import { db } from "@/db/db";
-import { eq } from "drizzle-orm";
-import { profiles, users } from "@/db/schemas";
-import { UserProfileButton } from "./_components/user-profile-button";
+import { redirect } from "next/navigation"
+import { getUser } from "@/lib/supabase/server"
+import { AppSidebar } from "./_components/sidebar"
+import { db } from "@/db/db"
+import { eq } from "drizzle-orm"
+import { profiles, users } from "@/db/schemas"
+import { UserProfileButton } from "./_components/user-profile-button"
 
 export default async function AppLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
-  const supabaseUser = await getUser();
+  const supabaseUser = await getUser()
 
   if (!supabaseUser?.email) {
-    redirect("/login");
+    redirect("/login")
   }
 
   const user = await db.query.users.findFirst({
     where: eq(users.id, supabaseUser.id),
-  });
+  })
 
   if (!user) {
-    redirect("/login");
+    redirect("/login")
   }
 
   const profile = await db.query.profiles.findFirst({
     where: eq(profiles.userId, user.id),
-  });
+  })
 
   if (!profile?.onboarding_completed) {
-    redirect("/welcome/profile");
+    redirect("/welcome/profile")
   }
 
   return (
-    <div className="flex min-h-screen flex-col lg:flex-row">
+    <div className="flex min-h-screen flex-col">
       <AppSidebar />
-      <main className="flex min-h-0 flex-1 lg:pl-[260px]">
-        <div className="container flex min-h-0 grow p-4 lg:p-8">
-          <div className="absolute top-4 right-4">
-            <UserProfileButton user={user} />
+      <main className="flex min-h-0 grow flex-col pb-16 lg:pb-0 lg:pl-[70px]">
+        <div className="container relative flex min-h-0 grow p-4">
+          <div className="absolute top-4 right-4 z-50">
+            <UserProfileButton user={user} profile={profile} />
           </div>
           {children}
         </div>
       </main>
     </div>
-  );
+  )
 }

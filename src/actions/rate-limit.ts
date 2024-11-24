@@ -5,11 +5,11 @@ import { Redis } from "@upstash/redis"
 import { getUser } from "@/lib/supabase/server"
 import type { SessionAvailabilityResponse } from "@/lib/types"
 
-export const rateLimiter = new Ratelimit({
+// Simplified rate limiter for MVP - 5 sessions per day
+const rateLimiter = new Ratelimit({
   redis: Redis.fromEnv(),
-  limiter: Ratelimit.slidingWindow(5, "1 d"),
-  analytics: true,
-  prefix: "emotisync:daily-limit",
+  limiter: Ratelimit.slidingWindow(5, "1 d"), // 5 sessions per day
+  prefix: "emotisync:limit",
 })
 
 export async function checkSessionAvailability(): Promise<SessionAvailabilityResponse> {
@@ -20,39 +20,38 @@ export async function checkSessionAvailability(): Promise<SessionAvailabilityRes
         canStart: false,
         remainingMinutes: 0,
         resetAt: new Date(),
-        message: "Unauthorized",
+        message: "Please log in to start a session",
         error: "Unauthorized",
       }
     }
 
     const { success, reset, remaining } = await rateLimiter.limit(user.id)
-    const remainingMinutes = remaining * 2 // Each session is 2 minutes
-    const resetDate = new Date(reset)
+    const resetAt = new Date(reset)
 
     if (!success) {
       return {
         canStart: false,
         remainingMinutes: 0,
-        resetAt: resetDate,
-        message: "You've reached your daily limit. Try again tomorrow.",
+        resetAt,
+        message: "Daily limit reached. Try again tomorrow!",
         error: null,
       }
     }
 
     return {
       canStart: true,
-      remainingMinutes,
-      resetAt: resetDate,
-      message: `You have ${remainingMinutes} minutes remaining today`,
+      remainingMinutes: remaining * 2,
+      resetAt,
+      message: `You have ${remaining} sessions remaining today`,
       error: null,
     }
-  } catch (error) {
+  } catch {
     return {
       canStart: false,
       remainingMinutes: 0,
       resetAt: new Date(),
-      message: error instanceof Error ? error.message : "An error occurred",
-      error: error instanceof Error ? error.message : "An error occurred",
+      message: "Unable to check session availability",
+      error: "Server error",
     }
   }
 }

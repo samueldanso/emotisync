@@ -10,7 +10,7 @@ import { AvatarStatus } from "./avatar-status"
 import type { User } from "@/db/schemas/users"
 import type { Profile } from "@/db/schemas/profiles"
 import type { Avatar } from "@/db/schemas/avatars"
-import { sessionManager } from "@/lib/humeai/session-manager"
+import { sessionManager } from "@/lib/ai/session-manager"
 import { Timer } from "./timer"
 import { Spinner } from "@/components/icons/spinner"
 import { toast } from "sonner"
@@ -138,6 +138,17 @@ function SessionContent({ user, profile, avatar }: SessionProps): JSX.Element {
     }
   }
 
+  // Get user's display name
+  const displayName = profile?.display_name || user.first_name
+
+  // Get time of day for greeting
+  const getGreeting = () => {
+    const hour = new Date().getHours()
+    if (hour < 12) return "Good morning"
+    if (hour < 17) return "Good afternoon"
+    return "Good evening"
+  }
+
   if (!canStart) {
     return (
       <div className="flex h-full flex-col items-center justify-center p-4">
@@ -160,7 +171,7 @@ function SessionContent({ user, profile, avatar }: SessionProps): JSX.Element {
             />
             <div className="mb-8 text-center">
               <h2 className="mb-2 font-semibold text-2xl">
-                Welcome back {user.first_name}
+                {`${getGreeting()}, ${displayName}`}
               </h2>
               <p className="text-muted-foreground">
                 I'm {avatar.name}, your AI companion

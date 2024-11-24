@@ -7,6 +7,7 @@ export const profiles = pgTable("profiles", {
   userId: uuid("user_id")
     .references(() => users.id)
     .notNull(),
+  display_name: text("display_name"),
   goal: text("goal").notNull(),
   companion_name: text("companion_name").notNull(),
   companion_avatar: uuid("companion_avatar")
