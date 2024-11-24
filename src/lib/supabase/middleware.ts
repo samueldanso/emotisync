@@ -3,8 +3,10 @@ import { NextResponse, type NextRequest } from "next/server"
 import { env } from "@/env"
 
 export async function updateSession(request: NextRequest) {
-  let response = NextResponse.next({
-    request,
+  const response = NextResponse.next({
+    request: {
+      headers: request.headers,
+    },
   })
 
   const supabase = createServerClient(
@@ -12,28 +14,14 @@ export async function updateSession(request: NextRequest) {
     env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     {
       cookies: {
-        get: (name) => request.cookies.get(name)?.value,
-        set: (name, value, options) => {
-          request.cookies.set({
-            name,
-            value,
-            ...options,
-          })
-          response = NextResponse.next({
-            request,
-          })
-          response.cookies.set({
-            name,
-            value,
-            ...options,
-          })
+        getAll() {
+          return request.cookies.getAll()
         },
-        remove: (name) => {
-          request.cookies.delete(name)
-          response = NextResponse.next({
-            request,
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value, options }) => {
+            request.cookies.set({ name, value, ...options })
+            response.cookies.set({ name, value, ...options })
           })
-          response.cookies.delete(name)
         },
       },
     },
@@ -43,17 +31,34 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
+  // 1. Public marketing pages - always accessible
   if (
-    !user &&
-    !request.nextUrl.pathname.startsWith("/login") &&
-    !request.nextUrl.pathname.startsWith("/signup") &&
-    !request.nextUrl.pathname.startsWith("/auth") &&
-    !request.nextUrl.pathname.startsWith("/api/telegram") &&
-    !request.nextUrl.pathname.startsWith("/privacy") &&
-    !request.nextUrl.pathname.startsWith("/terms") &&
-    request.nextUrl.pathname !== "/"
+    request.nextUrl.pathname === "/" ||
+    request.nextUrl.pathname.startsWith("/privacy") ||
+    request.nextUrl.pathname.startsWith("/terms")
   ) {
-    return NextResponse.redirect(new URL("/login", request.url))
+    return response
+  }
+
+  // 2. Auth pages - redirect to /app if already logged in
+  if (
+    request.nextUrl.pathname.startsWith("/login") ||
+    request.nextUrl.pathname.startsWith("/signup")
+  ) {
+    if (user) {
+      return NextResponse.redirect(new URL("/app", request.url))
+    }
+    return response
+  }
+
+  // 3. Protected routes - require authentication
+  if (
+    request.nextUrl.pathname.startsWith("/welcome") ||
+    request.nextUrl.pathname.startsWith("/app")
+  ) {
+    if (!user) {
+      return NextResponse.redirect(new URL("/login", request.url))
+    }
   }
 
   return response

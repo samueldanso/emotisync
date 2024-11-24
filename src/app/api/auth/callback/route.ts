@@ -4,45 +4,43 @@ import { createUser } from "@/actions/users"
 
 export async function GET(request: Request) {
   try {
-    const { searchParams } = new URL(request.url)
-    const code = searchParams.get("code")
-    const next = searchParams.get("next") ?? "/welcome/profile"
+    const requestUrl = new URL(request.url)
+    const code = requestUrl.searchParams.get("code")
+    const origin = requestUrl.origin
+    const next = requestUrl.searchParams.get("next") ?? "/welcome/profile"
 
     if (!code) {
-      return NextResponse.json({ error: "No code provided" }, { status: 400 })
+      return NextResponse.redirect(`${origin}/signup?error=NoCode`)
     }
 
     const supabase = await supabaseServerClient()
+
+    const { error: exchangeError } =
+      await supabase.auth.exchangeCodeForSession(code)
+    if (exchangeError) {
+      return NextResponse.redirect(
+        `${origin}/signup?error=${encodeURIComponent(exchangeError.message)}`,
+      )
+    }
+
     const {
       data: { session },
-      error,
-    } = await supabase.auth.exchangeCodeForSession(code)
-
-    if (error) {
-      return NextResponse.redirect(
-        new URL(
-          `/signup?error=${encodeURIComponent(error.message)}`,
-          request.url,
-        ),
-      )
-    }
-
+    } = await supabase.auth.getSession()
     if (session?.user?.email) {
-      await createUser(session.user.email, session.user.id, {
-        auth_provider: "google",
-        first_name: session.user.user_metadata.full_name?.split(" ")[0] || "",
-        last_name: session.user.user_metadata.full_name?.split(" ")[1] || null,
-      })
-    } else {
-      return NextResponse.redirect(
-        new URL("/signup?error=NoUserEmail", request.url),
-      )
+      try {
+        await createUser(session.user.email, session.user.id, {
+          auth_provider: "google",
+          first_name: session.user.user_metadata.full_name?.split(" ")[0] || "",
+          last_name:
+            session.user.user_metadata.full_name?.split(" ")[1] || null,
+        })
+      } catch (createError) {
+        console.error("User creation error:", createError)
+      }
     }
 
-    return NextResponse.redirect(new URL(next, request.url))
+    return NextResponse.redirect(`${origin}${next}`)
   } catch (_error) {
-    return NextResponse.redirect(
-      new URL("/signup?error=ServerError", request.url),
-    )
+    return NextResponse.redirect(`${origin}/signup?error=ServerError`)
   }
 }
