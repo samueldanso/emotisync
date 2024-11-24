@@ -39,7 +39,7 @@ export function AppSidebar() {
     <>
       {/* Mobile Bottom Navigation */}
       <nav className="fixed bottom-0 left-0 z-50 w-full border-t bg-background/95 backdrop-blur-md lg:hidden">
-        <div className="flex h-16 items-center justify-around px-4">
+        <div className="flex h-14 items-center justify-around">
           {NAV_ITEMS.map((item) => {
             const isActive = pathname === item.href
 
@@ -48,16 +48,16 @@ export function AppSidebar() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "relative flex flex-col items-center rounded-lg px-3 py-2",
+                  "relative flex flex-col items-center px-2 py-1.5",
                   isActive
                     ? "text-primary"
                     : "text-muted-foreground hover:text-foreground",
                 )}
               >
-                <IconWrapper Icon={item.icon} className="h-6 w-6" />
-                <span className="mt-1 text-xs">{item.label}</span>
+                <IconWrapper Icon={item.icon} className="mb-0.5 h-5 w-5" />
+                <span className="font-medium text-[10px]">{item.label}</span>
                 {item.badge && (
-                  <span className="-right-1 -top-1 absolute rounded-full bg-primary/10 px-2 py-0.5 text-[10px] text-primary">
+                  <span className="-right-0.5 absolute top-0 rounded-full bg-primary/10 px-1.5 py-px text-[8px] text-primary">
                     {item.badge}
                   </span>
                 )}
@@ -69,9 +69,9 @@ export function AppSidebar() {
 
       {/* Desktop Side Navigation */}
       <motion.nav
-        className="fixed top-0 left-0 hidden h-full w-[70px] border-r bg-background/95 backdrop-blur-md lg:block"
+        className="fixed top-0 left-0 hidden h-full w-[80px] border-r bg-background/95 backdrop-blur-md lg:block"
         initial={false}
-        animate={{ width: "70px" }}
+        animate={{ width: "80px" }}
         transition={{ duration: 0.2 }}
       >
         <div className="flex h-full flex-col p-3">

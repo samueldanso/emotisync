@@ -1,4 +1,4 @@
-import type { CustomIconProps } from "./types";
+import type { CustomIconProps } from "./types"
 
 const VideoRecorderIcon = ({ className }: CustomIconProps) => {
   return (
@@ -16,7 +16,7 @@ const VideoRecorderIcon = ({ className }: CustomIconProps) => {
       />
       <rect x="2" y="5" width="15" height="14" rx="3" fill="#292929" />
     </svg>
-  );
-};
+  )
+}
 
-export { VideoRecorderIcon };
+export { VideoRecorderIcon }
