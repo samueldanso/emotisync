@@ -1,11 +1,8 @@
 "use client"
 
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { LogOut } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { supabaseClient } from "@/lib/supabase/client"
 import { SIDEBAR_MENU } from "@/lib/constants/menus"
 
 export function AppSidebar() {
@@ -41,17 +38,6 @@ export function AppSidebar() {
             </Link>
           ))}
         </div>
-      </div>
-
-      <div className="mt-auto px-3">
-        <Button
-          onClick={() => supabaseClient.auth.signOut()}
-          variant="ghost"
-          className="w-full justify-start"
-        >
-          <LogOut className="mr-2 h-5 w-5" />
-          Logout
-        </Button>
       </div>
     </div>
   )

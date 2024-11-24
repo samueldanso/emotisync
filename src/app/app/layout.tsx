@@ -3,16 +3,25 @@ import { getUser } from "@/lib/supabase/server"
 import { AppSidebar } from "./_components/sidebar"
 import { db } from "@/db/db"
 import { eq } from "drizzle-orm"
-import { profiles } from "@/db/schemas"
+import { profiles, users } from "@/db/schemas"
+import { UserProfileButton } from "./_components/user-profile-button"
 
 export default async function AppLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  const user = await getUser()
+  const supabaseUser = await getUser()
 
-  if (!user?.email) {
+  if (!supabaseUser?.email) {
+    redirect("/login")
+  }
+
+  const user = await db.query.users.findFirst({
+    where: eq(users.id, supabaseUser.id),
+  })
+
+  if (!user) {
     redirect("/login")
   }
 
@@ -28,7 +37,12 @@ export default async function AppLayout({
     <div className="flex min-h-screen flex-col lg:flex-row">
       <AppSidebar />
       <main className="flex min-h-0 flex-1 lg:pl-[260px]">
-        <div className="container flex min-h-0 grow p-4 lg:p-8">{children}</div>
+        <div className="container flex min-h-0 grow p-4 lg:p-8">
+          <div className="absolute top-4 right-4">
+            <UserProfileButton user={user} />
+          </div>
+          {children}
+        </div>
       </main>
     </div>
   )
