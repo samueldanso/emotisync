@@ -1,4 +1,4 @@
-"use server"
+import "server-only"
 
 import { cookies } from "next/headers"
 
@@ -6,8 +6,7 @@ import { env } from "@/env"
 import { createServerClient } from "@supabase/ssr"
 import { createClient } from "@supabase/supabase-js"
 
-// Create admin client for server-side operations
-const supabase = createClient(
+export const supabase = createClient(
   env.NEXT_PUBLIC_SUPABASE_URL,
   env.SUPABASE_SERVICE_KEY,
   {
@@ -18,33 +17,44 @@ const supabase = createClient(
   },
 )
 
-// Export admin functions as async
-export async function getAdmin() {
-  return supabase.auth.admin
-}
+export const supabaseAdmin = supabase.auth.admin
 
-// Make server client async
-export async function supabaseServerClient() {
+export function supabaseServerClient() {
   const cookieStore = cookies()
 
-  return createServerClient(
+  const supabase = createServerClient(
     env.NEXT_PUBLIC_SUPABASE_URL,
     env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     {
       cookies: {
-        get(name: string) {
-          return cookieStore.get(name)?.value
+        getAll() {
+          return cookieStore.getAll()
+        },
+        setAll(cookiesToSet) {
+          try {
+            cookiesToSet.forEach(({ name, value, options }) =>
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+              cookieStore.set(name, value, options),
+            )
+          } catch {
+            // The `setAll` method was called from a Server Component.
+            // This can be ignored if you have middleware refreshing
+            // user sessions.
+          }
         },
       },
     },
   )
+
+  return supabase
 }
 
-// Keep getUser as async
 export async function getUser() {
-  const supabase = await supabaseServerClient()
+  const supabase = supabaseServerClient()
+
   const {
     data: { user },
   } = await supabase.auth.getUser()
+
   return user
 }

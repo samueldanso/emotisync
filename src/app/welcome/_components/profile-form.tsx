@@ -51,9 +51,10 @@ export function ProfileForm() {
   async function onSubmit(data: ProfileFormValues) {
     setIsLoading(true)
     try {
+      // Just update store and navigate - profile creation happens in avatar step
       setGoal(data.goal)
       goNext()
-      router.push("/welcome/avatar")
+      await router.push("/welcome/avatar")
     } catch (error) {
       showErrorToast(error)
     } finally {
