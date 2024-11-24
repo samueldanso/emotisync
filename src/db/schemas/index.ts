@@ -1,3 +1,6 @@
 export * from "./users"
 export * from "./profiles"
 export * from "./avatars"
+export * from "./journals"
+export * from "./sessions"
+export * from "./recommendations"

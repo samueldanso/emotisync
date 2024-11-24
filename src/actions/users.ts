@@ -31,7 +31,7 @@ export async function createUser(
       return { data: existingUser, error: null }
     }
 
-    // Create new user with proper name handling
+    // Create new user
     const [user] = await db
       .insert(users)
       .values({
@@ -39,7 +39,6 @@ export async function createUser(
         email,
         first_name: options.first_name,
         last_name: options.last_name || null,
-        // Keep full name for compatibility
         name: `${options.first_name}${
           options.last_name ? ` ${options.last_name}` : ""
         }`,

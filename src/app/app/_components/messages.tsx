@@ -29,9 +29,12 @@ const Messages = forwardRef<ComponentRef<typeof motion.div>, MessagesProps>(
                 msg.type === "assistant_message"
               ) {
                 const isUser = msg.type === "user_message"
+                const content = msg.message?.content || ""
+                const scores = msg.models?.prosody?.scores || {}
+
                 return (
                   <motion.div
-                    key={`${msg.type}-${msg.message.content?.slice(0, 10)}`}
+                    key={`${msg.type}-${content.slice(0, 10)}`}
                     className={cn("flex gap-4", isUser && "flex-row-reverse")}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -64,9 +67,9 @@ const Messages = forwardRef<ComponentRef<typeof motion.div>, MessagesProps>(
                             : "bg-muted",
                         )}
                       >
-                        {msg.message.content}
+                        {content}
                       </div>
-                      <Expressions values={{ ...msg.models.prosody?.scores }} />
+                      <Expressions values={scores} />
                     </div>
                   </motion.div>
                 )

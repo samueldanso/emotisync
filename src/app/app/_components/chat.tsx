@@ -1,90 +1,176 @@
-"use client";
+"use client"
 
-import { env } from "@/env";
-
-import { VoiceProvider, useVoice } from "@humeai/voice-react";
-import Messages from "./messages";
-import Controls from "./controls";
-import { StartCall } from "./start-call";
-import { type ComponentRef, useRef, useState, useEffect } from "react";
-import { AvatarStatus } from "./avatar-status";
-import type { User } from "@/db/schemas/users";
-import type { Avatar } from "@/db/schemas/avatars";
-import {
-  Avatar as UIAvatar,
-  AvatarImage,
-  AvatarFallback,
-} from "@/components/ui/avatar";
+import { env } from "@/env"
+import { VoiceProvider, useVoice } from "@humeai/voice-react"
+import Messages from "./messages"
+import Controls from "./controls"
+import { StartCall } from "./start-call"
+import { type ComponentRef, useRef, useState, useEffect } from "react"
+import { AvatarStatus } from "./avatar-status"
+import type { User } from "@/db/schemas/users"
+import type { Profile } from "@/db/schemas/profiles"
+import type { Avatar } from "@/db/schemas/avatars"
+import { sessionManager } from "@/lib/humeai/session-manager"
+import { Timer } from "./timer"
+import { Spinner } from "@/components/icons/spinner"
+import { toast } from "sonner"
+import { useRouter } from "next/navigation"
+import { generateJournalEntry, saveJournalEntry } from "@/lib/services/journal"
+import { getCurrentEmotions } from "@/lib/services/emotions"
+import { checkSessionAvailability } from "@/actions/rate-limit"
+import { UsageWarning } from "./usage-warning"
 
 interface SessionProps {
-  accessToken: string;
-  user: User;
-  avatar: Avatar;
+  accessToken: string
+  user: User
+  profile: Profile
+  avatar: Avatar
 }
 
-function SessionContent({ user, avatar }: { user: User; avatar: Avatar }) {
-  const { status, isMuted, messages } = useVoice();
-  const _timeout = useRef<number | null>(null);
-  const ref = useRef<ComponentRef<typeof Messages> | null>(null);
-  const [isSpeaking, setIsSpeaking] = useState(false);
+function SessionContent({ user, profile, avatar }: SessionProps): JSX.Element {
+  const { status, disconnect, messages, sendMessage, sendSessionSettings } =
+    useVoice()
+  const [isSpeaking, setIsSpeaking] = useState(false)
+  const messagesRef = useRef<ComponentRef<typeof Messages>>(null)
+  const [isGeneratingJournal, setIsGeneratingJournal] = useState(false)
+  const router = useRouter()
+  const [canStart, setCanStart] = useState(true)
+  const [limitMessage, setLimitMessage] = useState("")
+  const [resetAt, setResetAt] = useState(new Date())
 
-  // Reset speaking state when call ends
   useEffect(() => {
-    if (status.value !== "connected") {
-      setIsSpeaking(false);
+    async function checkLimit() {
+      const limit = await checkSessionAvailability()
+      setCanStart(limit.canStart)
+      setLimitMessage(limit.message)
+      setResetAt(limit.resetAt)
     }
-  }, [status.value]);
+    checkLimit()
+  }, [])
 
   // Monitor messages to detect AI speaking state
   useEffect(() => {
-    if (status.value === "connected" && messages.length > 0) {
-      const lastMessage = messages[messages.length - 1];
+    if (status.value === "connected" && messages?.length > 0) {
+      const lastMessage = messages[messages.length - 1]
       if (lastMessage.type === "assistant_message") {
-        setIsSpeaking(true);
-        // Add a small delay to simulate natural speech rhythm
-        const timeout = setTimeout(() => {
-          setIsSpeaking(false);
-        }, 2000);
-        return () => clearTimeout(timeout);
+        setIsSpeaking(true)
+        const timeout = setTimeout(() => setIsSpeaking(false), 2000)
+        return () => clearTimeout(timeout)
       }
     }
-  }, [messages, status.value]);
+  }, [messages, status.value])
 
-  const hour = new Date().getHours();
-  const greeting =
-    hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
+  useEffect(() => {
+    if (status.value === "connected") {
+      const settings = sessionManager.initializeSession(user, profile, avatar)
 
-  const isActive = status.value === "connected";
-  const isListening = isActive ? isActive && !isMuted : false;
+      sendSessionSettings(settings)
+
+      const timing = sessionManager.handleTiming(
+        // Warning callback
+        () => {
+          sendMessage(
+            "We have about 1 minute left. Remember, I'll generate a journal entry and recommendations based on our conversation.",
+          )
+        },
+        // End session callback
+        () => {
+          sendMessage(
+            "Thank you for sharing. I'll generate your journal entry now. Looking forward to our next conversation!",
+          ).then(() => {
+            setTimeout(disconnect, 2000)
+          })
+        },
+      )
+
+      timing.startSession()
+
+      return () => {
+        timing.cleanup()
+      }
+    }
+  }, [
+    status.value,
+    sendMessage,
+    disconnect,
+    sendSessionSettings,
+    user,
+    profile,
+    avatar,
+  ])
+
+  const isActive = status.value === "connected"
+  const isListening = isActive && !isSpeaking
+
+  const handleTimeWarning = () => {
+    if (!isSpeaking) {
+      sendMessage("We have about 1 minute left. Feel free to continue sharing.")
+    }
+  }
+
+  const handleTimeEnd = () => {
+    sendMessage(
+      "Thank you for sharing. I'll generate your journal entry now.",
+    ).then(() => {
+      setTimeout(disconnect, 2000)
+    })
+  }
+
+  const _handleSessionEnd = async () => {
+    setIsGeneratingJournal(true)
+    try {
+      const currentEmotions = getCurrentEmotions(messages)
+      const journalEntry = generateJournalEntry({
+        userId: user.id,
+        conversation: messages,
+        emotional_state: currentEmotions,
+        user_goal: profile.goal,
+      })
+
+      await saveJournalEntry(journalEntry)
+      toast.success("Your journal entry and recommendations are ready!")
+      router.push("/app/journals")
+    } catch (_error) {
+      toast.error("Failed to generate journal entry")
+    } finally {
+      setIsGeneratingJournal(false)
+      disconnect()
+    }
+  }
+
+  if (!canStart) {
+    return (
+      <div className="flex h-full flex-col items-center justify-center p-4">
+        <UsageWarning message={limitMessage} resetAt={resetAt} />
+      </div>
+    )
+  }
 
   return (
     <div className="relative flex h-full flex-col">
       <div className="flex h-full flex-col items-center">
         {!isActive ? (
-          // Welcome State - Centered vertically and horizontally
+          // Welcome State
           <div className="flex h-full flex-col items-center justify-center">
-            <div className="relative mb-6">
-              <UIAvatar className="h-40 w-40">
-                <AvatarImage src={avatar.image_url} alt={avatar.name} />
-                <AvatarFallback>{avatar.name[0]}</AvatarFallback>
-              </UIAvatar>
-            </div>
-
+            <AvatarStatus
+              avatar={avatar.image_url}
+              name={avatar.name}
+              isListening={false}
+              isSpeaking={false}
+            />
             <div className="mb-8 text-center">
               <h2 className="mb-2 font-semibold text-2xl">
-                {greeting} {user.first_name}
+                Welcome back {user.first_name}
               </h2>
               <p className="text-muted-foreground">
                 I'm {avatar.name}, your AI companion
               </p>
             </div>
-
             <StartCall />
           </div>
         ) : (
           // Active Chat State
           <>
-            {/* Top Section: Avatar + Status */}
             <div className="relative z-20 pt-16 pb-8">
               <AvatarStatus
                 avatar={avatar.image_url}
@@ -94,10 +180,9 @@ function SessionContent({ user, avatar }: { user: User; avatar: Avatar }) {
               />
             </div>
 
-            {/* Messages Section - Scrollable area */}
             <div className="relative z-10 h-full w-full max-w-3xl overflow-hidden px-4">
               <Messages
-                ref={ref}
+                ref={messagesRef}
                 companionName={avatar.name}
                 companionAvatar={avatar.image_url}
               />
@@ -105,31 +190,59 @@ function SessionContent({ user, avatar }: { user: User; avatar: Avatar }) {
           </>
         )}
 
-        {/* Controls Section - Fixed at bottom and centered */}
         {isActive && (
-          <div className="-translate-x-1/2 fixed bottom-8 left-1/2 z-50">
-            <Controls />
+          <>
+            <div className="fixed top-4 right-4 z-50">
+              <Timer
+                duration={120}
+                onTimeWarning={handleTimeWarning}
+                onTimeEnd={handleTimeEnd}
+              />
+            </div>
+            <div className="-translate-x-1/2 fixed bottom-8 left-1/2 z-50">
+              <Controls />
+            </div>
+          </>
+        )}
+
+        {/* Journal generation overlay */}
+        {isGeneratingJournal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm">
+            <div className="text-center">
+              <Spinner className="mb-4 h-8 w-8" />
+              <p className="text-lg">
+                Generating your personalized journal entry and
+                recommendations...
+              </p>
+            </div>
           </div>
         )}
       </div>
     </div>
-  );
+  )
 }
 
-export default function Session({ accessToken, user, avatar }: SessionProps) {
-  const configId = env.NEXT_PUBLIC_HUME_CONFIG_ID;
+export default function Session({
+  accessToken,
+  user,
+  profile,
+  avatar,
+}: SessionProps) {
+  const configId = env.NEXT_PUBLIC_HUME_CONFIG_ID
 
   return (
     <div className="relative flex h-[calc(100vh-4rem)] w-full grow flex-col overflow-hidden">
       <VoiceProvider
         auth={{ type: "accessToken", value: accessToken }}
         configId={configId}
-        onMessage={() => {
-          // Message handling preserved
-        }}
       >
-        <SessionContent user={user} avatar={avatar} />
+        <SessionContent
+          user={user}
+          profile={profile}
+          avatar={avatar}
+          accessToken={accessToken}
+        />
       </VoiceProvider>
     </div>
-  );
+  )
 }

@@ -3,7 +3,7 @@ import "server-only"
 import { cookies } from "next/headers"
 
 import { env } from "@/env"
-import { createServerClient, type CookieOptions } from "@supabase/ssr"
+import { createServerClient } from "@supabase/ssr"
 import { createClient } from "@supabase/supabase-js"
 
 export const supabase = createClient(
@@ -11,8 +11,8 @@ export const supabase = createClient(
   env.SUPABASE_SERVICE_KEY,
   {
     auth: {
-      autoRefreshToken: true,
-      persistSession: true,
+      autoRefreshToken: false,
+      persistSession: false,
     },
   },
 )
@@ -27,21 +27,19 @@ export function supabaseServerClient() {
     env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     {
       cookies: {
-        get(name: string) {
-          return cookieStore.get(name)?.value
+        getAll() {
+          return cookieStore.getAll()
         },
-        set(name: string, value: string, options: CookieOptions) {
+        setAll(cookiesToSet) {
           try {
-            cookieStore.set({ name, value, ...options })
-          } catch (_error) {
-            // Handle error
-          }
-        },
-        remove(name: string, options: CookieOptions) {
-          try {
-            cookieStore.set({ name, value: "", ...options })
-          } catch (_error) {
-            // Handle error
+            cookiesToSet.forEach(({ name, value, options }) =>
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+              cookieStore.set(name, value, options),
+            )
+          } catch {
+            // The `setAll` method was called from a Server Component.
+            // This can be ignored if you have middleware refreshing
+            // user sessions.
           }
         },
       },
