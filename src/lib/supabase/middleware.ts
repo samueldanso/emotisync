@@ -1,13 +1,13 @@
-import { createServerClient } from "@supabase/ssr"
-import { NextResponse, type NextRequest } from "next/server"
-import { env } from "@/env"
+import { createServerClient } from "@supabase/ssr";
+import { NextResponse, type NextRequest } from "next/server";
+import { env } from "@/env";
 
 export async function updateSession(request: NextRequest) {
   const response = NextResponse.next({
     request: {
       headers: request.headers,
     },
-  })
+  });
 
   const supabase = createServerClient(
     env.NEXT_PUBLIC_SUPABASE_URL,
@@ -15,21 +15,21 @@ export async function updateSession(request: NextRequest) {
     {
       cookies: {
         getAll() {
-          return request.cookies.getAll()
+          return request.cookies.getAll();
         },
         setAll(cookiesToSet) {
           cookiesToSet.forEach(({ name, value, options }) => {
-            request.cookies.set({ name, value, ...options })
-            response.cookies.set({ name, value, ...options })
-          })
+            request.cookies.set({ name, value, ...options });
+            response.cookies.set({ name, value, ...options });
+          });
         },
       },
-    },
-  )
+    }
+  );
 
   const {
     data: { user },
-  } = await supabase.auth.getUser()
+  } = await supabase.auth.getUser();
 
   // 1. Public marketing pages - always accessible
   if (
@@ -37,7 +37,7 @@ export async function updateSession(request: NextRequest) {
     request.nextUrl.pathname.startsWith("/privacy") ||
     request.nextUrl.pathname.startsWith("/terms")
   ) {
-    return response
+    return response;
   }
 
   // 2. Auth pages - redirect to /app if already logged in
@@ -46,9 +46,9 @@ export async function updateSession(request: NextRequest) {
     request.nextUrl.pathname.startsWith("/signup")
   ) {
     if (user) {
-      return NextResponse.redirect(new URL("/app", request.url))
+      return NextResponse.redirect(new URL("/app", request.url));
     }
-    return response
+    return response;
   }
 
   // 3. Protected routes - require authentication
@@ -57,9 +57,9 @@ export async function updateSession(request: NextRequest) {
     request.nextUrl.pathname.startsWith("/app")
   ) {
     if (!user) {
-      return NextResponse.redirect(new URL("/login", request.url))
+      return NextResponse.redirect(new URL("/login", request.url));
     }
   }
 
-  return response
+  return response;
 }
