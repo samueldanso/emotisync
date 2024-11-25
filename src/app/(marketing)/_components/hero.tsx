@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { ArrowRight } from "lucide-react"
-import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { HeroMeshGradient } from "@/components/ui/mesh-gradient"
-import AppSnippet from "./snippet"
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { HeroMeshGradient } from "@/components/ui/mesh-gradient";
+import AppSnippet from "./snippet";
 
 export default function HeroSection() {
   return (
@@ -56,9 +56,9 @@ export default function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.6 }}
         >
-          <Link href="/signup">
+          <Link href="/login">
             <Button className="relative rounded-full bg-gradient-to-t from-brand-primary via-brand-primary to-brand-accent/80 px-8 py-6 font-medium text-white shadow-[0_2px_4px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.15)] transition-all duration-300 before:absolute before:inset-0 before:rounded-full before:bg-gradient-to-t before:from-transparent before:to-white/20 hover:scale-[1.02] hover:shadow-[0_4px_8px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.25)] hover:before:to-white/30 active:scale-[0.98]">
-              Get started for free
+              Start talking
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </Link>
@@ -70,5 +70,5 @@ export default function HeroSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }

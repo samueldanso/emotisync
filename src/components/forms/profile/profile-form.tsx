@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { useState } from "react"
-import { Trophy, User } from "lucide-react"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { Trophy, User } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -11,55 +11,54 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import {
   profileSchema,
   type ProfileFormValues,
-} from "@/components/forms/profile/profile-schema"
-import { showErrorToast } from "@/lib/utils/errors"
-import { useRouter } from "next/navigation"
-import Image from "next/image"
-import { supabaseClient } from "@/lib/supabase/client"
-import { useOnboardingStore } from "@/lib/stores/onboarding-store"
-import { ProgressSteps } from "../../global/progress-steps"
-import { WelcomeButtons } from "../../global/welcome-buttons"
+} from "@/components/forms/profile/profile-schema";
+import { showErrorToast } from "@/lib/utils/errors";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { supabaseClient } from "@/lib/supabase/client";
+import { useOnboardingStore } from "@/lib/stores/onboarding-store";
+import { ProgressSteps } from "../../global/progress-steps";
+import { WelcomeButtons } from "../../global/welcome-buttons";
 
 export function ProfileForm() {
-  const [isLoading, setIsLoading] = useState(false)
-  const router = useRouter()
-  const { setGoal, goNext, setName } = useOnboardingStore()
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+  const { setGoal, goNext, setName } = useOnboardingStore();
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
     defaultValues: async () => {
       const {
         data: { user },
-      } = await supabaseClient.auth.getUser()
+      } = await supabaseClient.auth.getUser();
       const firstName = user?.user_metadata?.full_name
         ? user.user_metadata.full_name.split(" ")[0]
-        : user?.email?.split("@")[0] || ""
+        : user?.email?.split("@")[0] || "";
 
       return {
         name: firstName,
         goal: "",
-      }
+      };
     },
-  })
+  });
 
   async function onSubmit(data: ProfileFormValues) {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
-      // Just store the custom name in the profile data
-      setName(data.name) // Store in onboarding state
-      setGoal(data.goal)
-      goNext()
-      await router.push("/welcome/avatar")
+      setName(data.name);
+      setGoal(data.goal);
+      goNext();
+      await router.push("/welcome/companion");
     } catch (error) {
-      showErrorToast(error)
+      showErrorToast(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   }
 
@@ -157,5 +156,5 @@ export function ProfileForm() {
         </div>
       </div>
     </div>
-  )
+  );
 }
