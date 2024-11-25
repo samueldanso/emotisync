@@ -93,7 +93,7 @@ export function CompanionSelection() {
 
       reset()
       toast.success(`${data.companionName} is ready to be your AI companion!`)
-      router.push("/app")
+      router.push("/app/chat")
     } catch (error) {
       showErrorToast(error)
     } finally {

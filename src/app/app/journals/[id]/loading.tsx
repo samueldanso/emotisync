@@ -1,9 +1,11 @@
+"use client"
+
 import { Spinner } from "@/components/icons/spinner"
 
-export default function JournalDetailLoading() {
+export default function Loading() {
   return (
-    <div className="flex h-full items-center justify-center">
-      <Spinner className="h-8 w-8 text-muted-foreground" />
+    <div className="flex min-h-[400px] items-center justify-center">
+      <Spinner className="h-10 w-10" />
     </div>
   )
 }

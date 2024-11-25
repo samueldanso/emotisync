@@ -38,7 +38,7 @@ export function AuthForm() {
           priority
         />
         <h2 className="mt-8 text-center font-heading text-2xl text-foreground/90">
-          EmotiSync
+          Welcome to EmotiSync AI
         </h2>
         <h1 className="mt-4 text-center font-sans text-foreground/70 text-lg">
           Your personalized AI companion.

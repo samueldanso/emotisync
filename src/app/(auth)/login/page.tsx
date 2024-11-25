@@ -5,7 +5,7 @@ import { AuthForm } from "@/components/forms/auth/auth-form"
 
 export default async function SignupPage() {
   const user = await getUser()
-  if (user) redirect("/app")
+  if (user) redirect("/app/chat")
 
   return (
     <main className="space-y-8">
