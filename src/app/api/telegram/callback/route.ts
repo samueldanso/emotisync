@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server"
-import { noStore } from "@/lib/utils/server"
-import { checkOnboardingStatus } from "@/actions/profiles"
+import { noStore } from "@/lib/utils/server-utils"
+import { checkOnboardingStatus } from "@/actions/profile"
 import { env } from "@/env"
-import { createUser } from "@/actions/users"
+import { createUser } from "@/actions/user"
 import { v4 as uuidv4 } from "uuid"
 
 export async function POST(request: Request) {

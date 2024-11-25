@@ -1,6 +1,6 @@
-<a href="">
-  <img alt="EmotiSync — Your personalized AI companion" src="public/images/app.png">
-  <h1 align="center">EmotiSync — Meet your personalized AI voice companion for reflections and emotional wellbeing.</h1>
+<a href="https://emotisync.xyz">
+  <img alt="Your personalized AI voice companion." src="src/app/app/opengraph-image.png">
+  <h1 align="center">Meet EmotiSync — Your personalized AI voice companion for emotional health</h1>
 </a>
 
 <p align="center">
@@ -78,7 +78,7 @@ Follow the deployment guides for [Vercel](https://nextjs.org/learn-pages-router/
 
 ## Roadmap
 
-- [ ] Implement social sharing and friend interactions features
+- [ ] Implement social sharing and group chats feature
 - [ ] Implement mood insights feature
 - [ ] Implement rewards and invites feature
 - [ ] Implement AI avatar customization feature

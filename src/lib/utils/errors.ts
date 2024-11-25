@@ -28,9 +28,13 @@ export function showErrorToast(err: unknown) {
   return toast.error(errorMessage)
 }
 
-export function catchError(error: unknown) {
-  console.error(error)
-  const message =
-    error instanceof Error ? error.message : "Something went wrong"
+export interface ApiError {
+  message: string
+  code?: string
+}
+
+export function catchError(error: unknown): { data: null; error: string } {
+  console.error("API Error:", error)
+  const message = error instanceof Error ? error.message : "An error occurred"
   return { data: null, error: message }
 }

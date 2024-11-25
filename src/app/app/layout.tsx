@@ -1,10 +1,10 @@
 import { redirect } from "next/navigation"
 import { getUser } from "@/lib/supabase/server"
-import { AppSidebar } from "./_components/sidebar"
-import { db } from "@/db/db"
+import { AppSidebar } from "../../components/global/sidebar"
+import { db } from "@/lib/db/db"
 import { eq } from "drizzle-orm"
-import { profiles, users } from "@/db/schemas"
-import { UserProfileButton } from "./_components/user-profile"
+import { profiles, users } from "@/lib/db/schemas"
+import { UserProfileButton } from "../../components/global/user-profile"
 
 export default async function AppLayout({
   children,

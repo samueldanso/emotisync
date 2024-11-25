@@ -9,7 +9,7 @@ import { NAVBAR_MENU } from "@/lib/constants"
 import { Logo } from "@/components/ui/logo"
 import { Button, buttonVariants } from "@/components/ui/button"
 import { MobileNav } from "./mobile-nav"
-import { useWindow } from "@/lib/hooks/use-window"
+import { useWindow } from "@/hooks/use-window"
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)

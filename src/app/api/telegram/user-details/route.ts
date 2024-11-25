@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 import { env } from "@/env"
-import { getTelegramUser } from "@/actions/users"
+import { getTelegramUser } from "@/actions/user"
 
 export async function POST(request: Request) {
   try {

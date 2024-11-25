@@ -22,18 +22,6 @@ export interface SlidingWindowConfig {
 
 export type PersonalityType = "The Listener" | "The Energizer" | "The Anchor"
 
-export interface Recommendation {
-  id: string
-  title: string
-  type: "breathing" | "meditation" | "sound" | "action"
-  description: string
-  content: string
-  duration?: string
-  audio_url?: string
-  created_at: Date
-  userId: string
-}
-
 export interface SessionAvailabilityResponse {
   canStart: boolean
   remainingMinutes: number

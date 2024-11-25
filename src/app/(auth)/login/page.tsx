@@ -1,24 +1,36 @@
 import { redirect } from "next/navigation"
-import { AuthForm } from "../auth-form"
 import { getUser } from "@/lib/supabase/server"
 import Link from "next/link"
+import { AuthForm } from "@/components/forms/auth/auth-form"
 
-export default async function LoginPage() {
+export default async function SignupPage() {
   const user = await getUser()
   if (user) redirect("/app")
 
   return (
-    <main className="space-y-6">
+    <main className="space-y-8">
       <AuthForm />
-      <p className="text-center text-muted-foreground text-sm">
-        Don&apos;t have an account?{" "}
-        <Link
-          href="/signup"
-          className="underline underline-offset-4 hover:text-primary"
-        >
-          Sign up
-        </Link>
-      </p>
+
+      <div className="space-y-6">
+        <p className="mx-auto max-w-sm text-center text-muted-foreground text-xs leading-relaxed">
+          By continuing with Google, you acknowledge that you have read and
+          agree to our{" "}
+          <Link
+            href="/terms"
+            className="font-medium underline underline-offset-4 hover:text-primary"
+          >
+            Terms & Conditions
+          </Link>{" "}
+          and{" "}
+          <Link
+            href="/privacy"
+            className="font-medium underline underline-offset-4 hover:text-primary"
+          >
+            Privacy Policy
+          </Link>
+          .
+        </p>
+      </div>
     </main>
   )
 }

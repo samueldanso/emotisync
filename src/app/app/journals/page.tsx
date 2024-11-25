@@ -1,7 +1,7 @@
-import { getJournals } from "@/actions/journals"
 import { getUser } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
-import { JournalCard } from "./_components/journal-card"
+import { getJournals } from "@/actions/journal"
+import { JournalList } from "@/components/global/journal-list"
 
 export default async function JournalsPage() {
   const user = await getUser()
@@ -19,24 +19,7 @@ export default async function JournalsPage() {
         </p>
       </div>
 
-      <div className="space-y-4">
-        {journals?.map((journal) => (
-          <JournalCard
-            key={journal.id}
-            id={journal.id}
-            title={journal.title}
-            summary={journal.summary}
-            created_at={journal.created_at}
-            dominant_emotion={journal.emotional_insights.dominant_emotion}
-          />
-        ))}
-
-        {journals?.length === 0 && (
-          <div className="py-12 text-center">
-            <p className="text-muted-foreground">No journal entries yet</p>
-          </div>
-        )}
-      </div>
+      <JournalList initialJournals={journals || []} />
     </div>
   )
 }

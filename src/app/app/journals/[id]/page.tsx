@@ -1,4 +1,4 @@
-import { getJournal } from "@/actions/journals"
+import { getJournal } from "@/actions/journal"
 import { getUser } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
 import Link from "next/link"

@@ -4,7 +4,7 @@ import dynamic from "next/dynamic"
 import { UserAuthContext } from "@/context/user-auth-context"
 import { ThemeProvider } from "next-themes"
 import type { ThemeProviderProps } from "next-themes/dist/types"
-import { getPlatform } from "@/lib/utils/client"
+import { getPlatform } from "@/lib/utils/platform-utils"
 
 // Dynamically import providers
 const TelegramSDKProvider = dynamic(
