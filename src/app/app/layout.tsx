@@ -5,6 +5,7 @@ import { db } from "@/lib/db/db"
 import { eq } from "drizzle-orm"
 import { profiles, users } from "@/lib/db/schemas"
 import { UserProfileButton } from "../../components/global/user-profile"
+import { Logo } from "@/components/ui/logo"
 
 export default async function AppLayout({
   children,
@@ -34,15 +35,20 @@ export default async function AppLayout({
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-background">
-      <main className="flex-1 pb-16">
-        <div className="container relative flex min-h-0 grow p-4 lg:p-6">
-          <div className="absolute top-6 right-6 z-40">
-            <UserProfileButton user={user} profile={profile} />
-          </div>
-          {children}
+    <div className="relative min-h-screen bg-gradient-to-b from-background to-background/80">
+      <div className="absolute inset-0 bg-gradient-to-br from-[#6842d8]/5 via-[#9064d5]/5 to-[#f4b1c8]/5" />
+
+      <header className="fixed top-0 right-0 left-0 z-50 border-b bg-background/80 backdrop-blur-sm">
+        <div className="container flex h-16 items-center justify-between px-4">
+          <Logo className="h-8 w-8" />
+          <UserProfileButton user={user} profile={profile} />
         </div>
+      </header>
+
+      <main className="container relative pt-16 pb-16 md:pl-20">
+        <div className="relative mx-auto max-w-5xl">{children}</div>
       </main>
+
       <AppSidebar />
     </div>
   )

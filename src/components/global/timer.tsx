@@ -1,40 +1,40 @@
-"use client";
+"use client"
 
-import { useEffect } from "react";
-import { useSessionStore } from "@/lib/stores/session-store";
+import { useEffect } from "react"
+import { useSessionStore } from "@/lib/stores/session-store"
 
 interface TimerProps {
-  onTimeWarning: () => void;
-  onTimeEnd: () => void;
-  duration: number;
+  onTimeWarning: () => void
+  onTimeEnd: () => void
+  duration: number
 }
 
 export function Timer({ onTimeWarning, onTimeEnd, duration }: TimerProps) {
-  const { timeRemaining, setTimeRemaining } = useSessionStore();
+  const { timeRemaining, setTimeRemaining } = useSessionStore()
 
   useEffect(() => {
-    setTimeRemaining(duration);
+    setTimeRemaining(duration)
 
     const timer = setInterval(() => {
-      setTimeRemaining(timeRemaining - 1);
+      setTimeRemaining(timeRemaining - 1)
 
       if (timeRemaining === 60) {
-        onTimeWarning();
+        onTimeWarning()
       }
       if (timeRemaining === 1) {
-        onTimeEnd();
+        onTimeEnd()
       }
-    }, 1000);
+    }, 1000)
 
-    return () => clearInterval(timer);
-  }, [timeRemaining, onTimeWarning, onTimeEnd, setTimeRemaining, duration]);
+    return () => clearInterval(timer)
+  }, [timeRemaining, onTimeWarning, onTimeEnd, setTimeRemaining, duration])
 
-  const minutes = Math.floor(timeRemaining / 60);
-  const seconds = timeRemaining % 60;
+  const minutes = Math.floor(timeRemaining / 60)
+  const seconds = timeRemaining % 60
 
   return (
     <div className="rounded-full bg-primary/10 px-4 py-1.5 text-sm">
       {minutes}:{seconds.toString().padStart(2, "0")}
     </div>
-  );
+  )
 }

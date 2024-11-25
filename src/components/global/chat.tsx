@@ -20,6 +20,9 @@ import { getCurrentEmotions } from "@/lib/services/emotions"
 import { checkChatAvailability } from "@/actions/rate-limit"
 import { UsageWarning } from "./usage-warning"
 import { useChatStore } from "@/lib/stores/chat-store"
+import { Button } from "../ui/button"
+import { ArrowLeft } from "lucide-react"
+import Link from "next/link"
 
 interface SessionProps {
   accessToken: string
@@ -146,10 +149,10 @@ function SessionContent({ user, profile, avatar }: SessionProps): JSX.Element {
   }
 
   // Get user's display name
-  const displayName = profile?.display_name || user.first_name
+  const _displayName = profile?.display_name || user.first_name
 
   // Get time of day for greeting
-  const getGreeting = () => {
+  const _getGreeting = () => {
     const hour = new Date().getHours()
     if (hour < 12) return "Good morning"
     if (hour < 17) return "Good afternoon"
@@ -174,9 +177,19 @@ function SessionContent({ user, profile, avatar }: SessionProps): JSX.Element {
 
   return (
     <div className="relative flex h-full flex-col">
+      {!isActive && (
+        <div className="absolute top-4 left-4 z-50">
+          <Link href="/app">
+            <Button variant="ghost" size="icon">
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+          </Link>
+        </div>
+      )}
+
       <div className="flex h-full flex-col items-center">
         {!isActive ? (
-          // Welcome State
+          // Welcome State - Centered content
           <div className="flex h-full flex-col items-center justify-center">
             <AvatarStatus
               avatar={avatar.image_url}
@@ -186,16 +199,16 @@ function SessionContent({ user, profile, avatar }: SessionProps): JSX.Element {
             />
             <div className="mb-8 text-center">
               <h2 className="mb-2 font-semibold text-2xl">
-                {`${getGreeting()}, ${displayName}`}
+                Ready to start your session?
               </h2>
               <p className="text-muted-foreground">
-                I'm {avatar.name}, your AI companion
+                Click the button below to begin
               </p>
             </div>
             <StartCall />
           </div>
         ) : (
-          // Active Chat State
+          // Active Chat State - Full immersive mode
           <>
             <div className="relative z-20 pt-16 pb-8">
               <AvatarStatus
@@ -216,6 +229,7 @@ function SessionContent({ user, profile, avatar }: SessionProps): JSX.Element {
           </>
         )}
 
+        {/* Timer and Controls */}
         {isActive && (
           <>
             <div className="fixed top-4 right-4 z-50">
@@ -237,8 +251,7 @@ function SessionContent({ user, profile, avatar }: SessionProps): JSX.Element {
             <div className="text-center">
               <Spinner className="mb-4 h-8 w-8" />
               <p className="text-lg">
-                Generating your personalized journal entry and
-                recommendations...
+                Generating your personalized journal entry...
               </p>
             </div>
           </div>
