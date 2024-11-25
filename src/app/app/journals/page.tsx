@@ -2,7 +2,6 @@ import { getJournals } from "@/actions/journals"
 import { getUser } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
 import { JournalCard } from "./_components/journal-card"
-import type { Journal } from "@/db/schemas/journals"
 
 export default async function JournalsPage() {
   const user = await getUser()
@@ -21,8 +20,15 @@ export default async function JournalsPage() {
       </div>
 
       <div className="space-y-4">
-        {journals?.map((journal: Journal) => (
-          <JournalCard key={journal.id} journal={journal} />
+        {journals?.map((journal) => (
+          <JournalCard
+            key={journal.id}
+            id={journal.id}
+            title={journal.title}
+            summary={journal.summary}
+            created_at={journal.created_at}
+            dominant_emotion={journal.emotional_insights.dominant_emotion}
+          />
         ))}
 
         {journals?.length === 0 && (
