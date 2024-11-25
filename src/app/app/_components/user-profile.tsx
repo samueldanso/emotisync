@@ -1,6 +1,6 @@
-"use client";
+"use client"
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,38 +8,38 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { getPlatform } from "@/lib/utils/client";
-import { supabaseClient } from "@/lib/supabase/client";
-import { useRouter } from "next/navigation";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { Settings, Logout, Bell } from "@/components/icons";
-import type { User } from "@/db/schemas/users";
-import type { Profile } from "@/db/schemas";
-import { PROFILE_MENU } from "@/lib/constants/menus";
+} from "@/components/ui/dropdown-menu"
+import { getPlatform } from "@/lib/utils/client"
+import { supabaseClient } from "@/lib/supabase/client"
+import { useRouter } from "next/navigation"
+import { ThemeToggle } from "@/components/ui/theme-toggle"
+import { Settings, Logout, Bell } from "@/components/icons"
+import type { User } from "@/db/schemas/users"
+import type { Profile } from "@/db/schemas"
+import { PROFILE_MENU } from "@/lib/constants/menus"
 
 interface UserProfileButtonProps {
-  user: User;
-  profile: Profile;
+  user: User
+  profile: Profile
 }
 
 const IconWrapper = ({
   Icon,
   className,
 }: {
-  Icon: React.ComponentType;
-  className?: string;
+  Icon: React.ComponentType
+  className?: string
 }) => (
   <div className={className}>
     <Icon />
   </div>
-);
+)
 
 export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
-  const router = useRouter();
-  const platform = getPlatform();
+  const router = useRouter()
+  const platform = getPlatform()
 
-  const displayName = profile?.display_name || user.first_name;
+  const displayName = profile?.display_name || user.first_name
 
   return (
     <DropdownMenu>
@@ -103,8 +103,8 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => {
-            supabaseClient.auth.signOut();
-            router.push("/login");
+            supabaseClient.auth.signOut()
+            router.push("/login")
           }}
           className="flex items-center gap-2.5 px-2 py-2 text-sm"
         >
@@ -116,5 +116,5 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  );
+  )
 }
