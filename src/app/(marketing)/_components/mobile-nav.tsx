@@ -3,7 +3,6 @@
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { NAVBAR_MENU } from "@/lib/constants"
-import { ThemeToggle } from "@/components/ui/theme-toggle"
 
 interface MobileNavProps {
   onOpenChange: (open: boolean) => void
@@ -30,10 +29,6 @@ export function MobileNav({ onOpenChange }: MobileNavProps) {
             </li>
           ))}
         </ul>
-
-        <div className="mt-4 flex justify-end px-3">
-          <ThemeToggle />
-        </div>
       </nav>
     </motion.div>
   )

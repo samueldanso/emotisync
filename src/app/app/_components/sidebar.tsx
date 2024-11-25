@@ -3,8 +3,8 @@
 import { cn } from "@/lib/utils"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Home, Chat, Document, IDuotoneBlack } from "@/components/icons"
 import type { CustomIconProps } from "@/components/icons/types"
+import { SIDEBAR_ITEMS } from "@/lib/constants/menus"
 
 // Icon wrapper to handle className prop
 const IconWrapper = ({
@@ -18,18 +18,6 @@ const IconWrapper = ({
     <Icon className={className} />
   </div>
 )
-//extract
-const NAV_ITEMS = [
-  { icon: Home, label: "Home", href: "/app" },
-  { icon: Chat, label: "Chat", href: "/app/chat" },
-  { icon: Document, label: "Journals", href: "/app/journals" },
-  {
-    icon: IDuotoneBlack,
-    label: "Insights",
-    href: "/app/insights",
-    badge: "Soon",
-  },
-]
 
 export function AppSidebar() {
   const pathname = usePathname()
@@ -37,7 +25,7 @@ export function AppSidebar() {
   return (
     <nav className="fixed right-0 bottom-0 left-0 z-40 border-t bg-background">
       <div className="flex h-16 items-center justify-around px-4">
-        {NAV_ITEMS.map((item) => {
+        {SIDEBAR_ITEMS.map((item) => {
           const isActive = pathname === item.href
 
           return (
