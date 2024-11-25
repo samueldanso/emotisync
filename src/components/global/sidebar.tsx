@@ -16,8 +16,9 @@ export function AppSidebar() {
         "fixed z-40 transition-all duration-300",
         // Mobile: Bottom navigation
         isMobile && "inset-x-0 bottom-0 flex justify-center",
-        // Desktop: Side navigation
-        !isMobile && "top-24 left-8 flex w-16 flex-col items-center"
+        // Desktop: Side navigation - centered vertically
+        !isMobile &&
+          "left-8 top-1/2 -translate-y-1/2 flex w-16 flex-col items-center"
       )}
     >
       <div
@@ -46,7 +47,7 @@ export function AppSidebar() {
               <item.icon className="h-6 w-6" />
               <span className="mt-1 text-xs">{item.label}</span>
               {item.badge && (
-                <span className="-right-1 -top-1 absolute rounded-full bg-primary/10 px-1.5 py-px text-[8px] text-primary">
+                <span className="absolute -right-1 -top-1 rounded-full bg-primary/10 px-1.5 py-px text-[8px] text-primary">
                   {item.badge}
                 </span>
               )}
