@@ -1,32 +1,32 @@
-import { getUser } from "@/lib/supabase/server"
-import { redirect } from "next/navigation"
-import { db } from "@/lib/db/db"
-import { eq } from "drizzle-orm"
-import { profiles, companions, users } from "@/lib/db/schemas"
-import Link from "next/link"
-import Image from "next/image"
-import { getGreeting } from "@/lib/utils"
+import { getUser } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
+import { db } from "@/lib/db/db";
+import { eq } from "drizzle-orm";
+import { profiles, companions, users } from "@/lib/db/schemas";
+import Link from "next/link";
+import Image from "next/image";
+import { getGreeting } from "@/lib/utils";
 
 export default async function HomePage() {
-  const supabaseUser = await getUser()
-  if (!supabaseUser) redirect("/login")
+  const supabaseUser = await getUser();
+  if (!supabaseUser) redirect("/login");
 
   const dbUser = await db.query.users.findFirst({
     where: eq(users.id, supabaseUser.id),
-  })
-  if (!dbUser) redirect("/login")
+  });
+  if (!dbUser) redirect("/login");
 
   const profile = await db.query.profiles.findFirst({
     where: eq(profiles.userId, dbUser.id),
-  })
-  if (!profile) redirect("/welcome/profile")
+  });
+  if (!profile) redirect("/welcome/profile");
 
   const companion = await db.query.companions.findFirst({
     where: eq(companions.id, profile.companion_avatar),
-  })
-  if (!companion) throw new Error("Companion not found")
+  });
+  if (!companion) throw new Error("Companion not found");
 
-  const displayName = profile.display_name || dbUser.name
+  const displayName = profile.display_name || dbUser.name;
 
   return (
     <div className="flex min-h-[calc(100vh-4rem)] flex-col px-4 pt-8 md:px-6">
@@ -62,5 +62,5 @@ export default async function HomePage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
