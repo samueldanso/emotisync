@@ -1,7 +1,5 @@
 "use client"
-
-import { env } from "@/env"
-import { VoiceProvider, useVoice } from "@humeai/voice-react"
+import { useVoice } from "@humeai/voice-react"
 import Messages from "./messages"
 import Controls from "./controls"
 import { StartCall } from "./start-call"
@@ -267,21 +265,14 @@ export default function Session({
   profile,
   avatar,
 }: SessionProps) {
-  const configId = env.NEXT_PUBLIC_HUME_CONFIG_ID
-
   return (
     <div className="relative flex h-[calc(100vh-4rem)] w-full grow flex-col overflow-hidden">
-      <VoiceProvider
-        auth={{ type: "accessToken", value: accessToken }}
-        configId={configId}
-      >
-        <SessionContent
-          user={user}
-          profile={profile}
-          avatar={avatar}
-          accessToken={accessToken}
-        />
-      </VoiceProvider>
+      <SessionContent
+        user={user}
+        profile={profile}
+        avatar={avatar}
+        accessToken={accessToken}
+      />
     </div>
   )
 }
