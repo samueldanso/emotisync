@@ -1,23 +1,21 @@
 "use client"
+
 import { cn } from "@/lib/utils"
 import { useVoice } from "@humeai/voice-react"
 import { AnimatePresence, motion } from "framer-motion"
 import { type ComponentRef, forwardRef, useEffect } from "react"
 import Expressions from "./expressions"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useChatStore } from "@/lib/stores/chat-store"
 
-interface MessagesProps {
-  companionName: string
-  companionAvatar?: string
+type MessagesProps = {
+  ref: ComponentRef<typeof motion.div>
 }
 
 const Messages = forwardRef<ComponentRef<typeof motion.div>, MessagesProps>(
-  function Messages({ companionName, companionAvatar }, ref) {
+  function Messages(_, ref) {
     const { messages } = useVoice()
     const { setMessages } = useChatStore()
 
-    // Update chat store when messages change
     useEffect(() => {
       setMessages(messages)
     }, [messages, setMessages])
@@ -25,10 +23,10 @@ const Messages = forwardRef<ComponentRef<typeof motion.div>, MessagesProps>(
     return (
       <motion.div
         layoutScroll
-        className="h-full overflow-y-auto px-4"
+        className="hide_scrollbar h-full overflow-y-auto px-4"
         ref={ref}
       >
-        <motion.div className="flex flex-col space-y-6 pt-4 pb-20" layout>
+        <motion.div className="flex flex-col space-y-2 pt-4 pb-20" layout>
           <AnimatePresence mode="popLayout" initial={false}>
             {messages.map((msg) => {
               if (
@@ -42,27 +40,18 @@ const Messages = forwardRef<ComponentRef<typeof motion.div>, MessagesProps>(
                 return (
                   <motion.div
                     key={`${msg.type}-${content.slice(0, 10)}`}
-                    className={cn("flex gap-4", isUser && "flex-row-reverse")}
-                    initial={{ opacity: 0, y: 20 }}
+                    className={cn(
+                      "flex w-full flex-col",
+                      isUser ? "items-end" : "items-start",
+                    )}
+                    initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2 }}
                   >
-                    <Avatar className="h-8 w-8 shrink-0">
-                      {isUser ? (
-                        <AvatarFallback>U</AvatarFallback>
-                      ) : (
-                        <>
-                          <AvatarImage
-                            src={companionAvatar}
-                            alt={companionName}
-                          />
-                          <AvatarFallback>{companionName[0]}</AvatarFallback>
-                        </>
-                      )}
-                    </Avatar>
                     <div
                       className={cn(
-                        "flex max-w-[80%] flex-col gap-2",
+                        "flex max-w-[80%] flex-col gap-1.5",
                         isUser && "items-end",
                       )}
                     >
@@ -76,12 +65,15 @@ const Messages = forwardRef<ComponentRef<typeof motion.div>, MessagesProps>(
                       >
                         {content}
                       </div>
-                      <Expressions values={scores} />
+                      {!isUser && (
+                        <div className="px-1">
+                          <Expressions values={scores} />
+                        </div>
+                      )}
                     </div>
                   </motion.div>
                 )
               }
-              return null
             })}
           </AnimatePresence>
         </motion.div>

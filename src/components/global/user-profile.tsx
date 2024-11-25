@@ -53,7 +53,7 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
         {/* Menu Items */}
         <div className="p-1.5">
           {/* Points */}
-          <DropdownMenuItem className="flex items-center justify-between rounded-lg px-2 py-2">
+          <DropdownMenuItem className="flex items-center justify-between rounded-lg px-2 py-2 transition-colors hover:bg-primary/5">
             <span>Points</span>
             <span className="rounded-full bg-primary/10 px-2 py-0.5 text-primary text-xs">
               Soon
@@ -62,7 +62,7 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
 
           {/* Voice */}
           <DropdownMenuItem
-            className="flex items-center justify-between rounded-lg px-2 py-2"
+            className="flex items-center justify-between rounded-lg px-2 py-2 transition-colors hover:bg-primary/5"
             disabled
           >
             <span className="text-sm">Voice</span>
@@ -73,7 +73,7 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
 
           {/* Group chats */}
           <DropdownMenuItem
-            className="flex items-center justify-between rounded-lg px-2 py-2"
+            className="flex items-center justify-between rounded-lg px-2 py-2 transition-colors hover:bg-primary/5"
             disabled
           >
             <span className="text-sm">Group chats</span>
@@ -84,7 +84,7 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
 
           {/* Invite Friends */}
           <DropdownMenuItem
-            className="flex items-center justify-between rounded-lg px-2 py-2"
+            className="flex items-center justify-between rounded-lg px-2 py-2 transition-colors hover:bg-primary/5"
             disabled
           >
             <span className="text-sm">Invite Friends</span>
@@ -94,7 +94,7 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
           </DropdownMenuItem>
 
           {/* Theme Toggle */}
-          <DropdownMenuItem className="flex items-center justify-between rounded-lg px-2 py-2">
+          <DropdownMenuItem className="flex items-center justify-between rounded-lg px-2 py-2 transition-colors hover:bg-primary/5">
             <span>Theme</span>
             <ThemeToggle />
           </DropdownMenuItem>
@@ -108,7 +108,7 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
               supabaseClient.auth.signOut()
               router.push("/login")
             }}
-            className="flex items-center gap-2 rounded-lg px-2 py-2 text-red-500 hover:text-red-600"
+            className="flex items-center gap-2 rounded-lg px-2 py-2 transition-colors hover:bg-primary/5"
           >
             <LogOut className="h-4 w-4" />
             <span>Sign out</span>

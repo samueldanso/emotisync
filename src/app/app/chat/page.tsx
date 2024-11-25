@@ -41,7 +41,7 @@ export default async function ChatPage() {
   if (!accessToken) throw new Error("Failed to get Hume access token")
 
   return (
-    <div className="-mt-12 mx-auto flex min-h-[calc(100vh-8rem)] max-w-2xl flex-col items-center justify-center px-4 md:mt-0">
+    <div className="mx-auto flex min-h-[calc(100vh-16rem)] max-w-2xl flex-col items-center justify-center px-4 pt-8 md:pt-0">
       <Session
         accessToken={accessToken}
         user={dbUser}
