@@ -17,7 +17,12 @@ export function AvatarStatus({
   isSpeaking,
 }: AvatarStatusProps) {
   return (
-    <div className="relative flex flex-col items-center">
+    <motion.div
+      className="relative flex flex-col items-center"
+      initial={{ scale: 0.9, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      transition={{ duration: 0.3 }}
+    >
       <div className="relative mb-4">
         <Avatar className="h-40 w-40">
           <AvatarImage src={avatar} alt={name} />
@@ -62,6 +67,6 @@ export function AvatarStatus({
           {isSpeaking ? "Speaking..." : "Listening..."}
         </div>
       )}
-    </div>
+    </motion.div>
   )
 }

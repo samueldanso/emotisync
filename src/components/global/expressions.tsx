@@ -22,52 +22,34 @@ export default function Expressions({
   )
 
   return (
-    <div
-      className={
-        "flex w-full flex-col gap-3 border-border border-t p-3 text-xs md:flex-row"
-      }
+    <motion.div
+      initial={{ opacity: 0, y: 5 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="flex gap-2"
     >
       {top3.map(([key, value]) => (
-        <div key={key} className={"w-full overflow-hidden"}>
+        <motion.div
+          key={key}
+          className="flex items-center gap-1.5 rounded-full bg-muted/50 px-2 py-1 text-xs"
+          whileHover={{ scale: 1.05 }}
+          style={
+            {
+              "--bg": isExpressionColor(key)
+                ? ExpressionColors[key]
+                : "var(--bg)",
+            } as CSSProperties
+          }
+        >
           <div
-            className={"flex items-center justify-between gap-1 pb-1 font-mono"}
-          >
-            <div className={"truncate font-medium"}>
-              {expressionLabels[key]}
-            </div>
-            <div className={"tabular-nums opacity-50"}>{value.toFixed(2)}</div>
-          </div>
-          <div
-            className={"relative h-1"}
-            style={
-              {
-                "--bg": isExpressionColor(key)
-                  ? ExpressionColors[key]
-                  : "var(--bg)",
-              } as CSSProperties
-            }
-          >
-            <div
-              className={
-                "absolute top-0 left-0 size-full rounded-full bg-[var(--bg)] opacity-10"
-              }
-            />
-            <motion.div
-              className={
-                "absolute top-0 left-0 h-full rounded-full bg-[var(--bg)]"
-              }
-              initial={{ width: 0 }}
-              animate={{
-                width: `${R.pipe(
-                  value,
-                  R.clamp({ min: 0, max: 1 }),
-                  (value) => `${value * 100}%`,
-                )}`,
-              }}
-            />
-          </div>
-        </div>
+            className="h-1.5 w-1.5 rounded-full"
+            style={{ backgroundColor: "var(--bg)" }}
+          />
+          <span className="font-medium">{expressionLabels[key]}</span>
+          <span className="text-muted-foreground">
+            {(value * 100).toFixed(0)}%
+          </span>
+        </motion.div>
       ))}
-    </div>
+    </motion.div>
   )
 }

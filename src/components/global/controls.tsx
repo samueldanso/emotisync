@@ -16,6 +16,7 @@ export default function Controls() {
       initial={{ y: 20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: 20, opacity: 0 }}
+      transition={{ duration: 0.3 }}
     >
       <div className="flex items-center gap-3 rounded-full border border-border/50 bg-card/95 px-3 py-2.5 shadow-lg backdrop-blur-sm">
         {/* Left: Mute Button */}

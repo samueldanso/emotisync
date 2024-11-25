@@ -1,60 +1,42 @@
 "use client"
 
-import { cn } from "@/lib/utils"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { useWindow } from "@/hooks/use-window"
 import { SIDEBAR_ITEMS } from "@/lib/constants/menus"
+import { cn } from "@/lib/utils"
 
 export function AppSidebar() {
   const pathname = usePathname()
-  const { isMobile } = useWindow()
 
   return (
-    <nav
-      className={cn(
-        "fixed z-40 transition-all duration-300",
-        // Mobile: Bottom navigation
-        isMobile && "inset-x-0 bottom-0 flex justify-center",
-        // Desktop: Side navigation - centered vertically
-        !isMobile &&
-          "-translate-y-1/2 top-1/2 left-8 flex w-16 flex-col items-center",
-      )}
-    >
-      <div
-        className={cn(
-          "flex items-center gap-6",
-          // Mobile: Horizontal layout
-          isMobile && "h-16 w-full max-w-md justify-around px-4",
-          // Desktop: Vertical layout
-          !isMobile && "flex-col",
-        )}
-      >
+    <aside className="fixed inset-y-0 left-0 z-30 hidden w-20 flex-col items-center border-border/50 border-r bg-background/95 backdrop-blur-sm md:flex">
+      <div className="flex h-16 shrink-0 items-center">{/* Logo space */}</div>
+
+      <nav className="flex w-full flex-1 flex-col items-center gap-4 p-4">
         {SIDEBAR_ITEMS.map((item) => {
           const isActive = pathname === item.href
-
           return (
             <Link
               key={item.href}
               href={item.href}
               className={cn(
-                "relative flex flex-col items-center p-2 transition-colors",
+                "group flex h-10 w-10 items-center justify-center rounded-lg transition-all duration-200",
                 isActive
-                  ? "text-primary"
-                  : "text-muted-foreground/60 hover:text-muted-foreground",
+                  ? "bg-primary/10 text-primary"
+                  : "text-muted-foreground hover:bg-primary/5 hover:text-primary",
               )}
+              title={item.label}
             >
-              <item.icon className="h-6 w-6" />
-              <span className="mt-1 text-xs">{item.label}</span>
-              {item.badge && (
-                <span className="-right-1 -top-1 absolute rounded-full bg-primary/10 px-1.5 py-px text-[8px] text-primary">
-                  {item.badge}
-                </span>
-              )}
+              <item.icon
+                className={cn(
+                  "h-5 w-5 transition-transform duration-200",
+                  "group-hover:scale-110", // Added hover scale effect
+                )}
+              />
             </Link>
           )
         })}
-      </div>
-    </nav>
+      </nav>
+    </aside>
   )
 }

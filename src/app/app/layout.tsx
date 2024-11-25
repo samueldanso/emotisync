@@ -7,6 +7,7 @@ import { profiles, users } from "@/lib/db/schemas"
 import { AppHeader } from "@/components/global/app-header"
 import { AppSidebar } from "@/components/global/sidebar"
 import { AppMeshGradient } from "@/components/ui/app-gradient"
+import { motion } from "framer-motion"
 
 export default async function AppLayout({
   children,
@@ -32,9 +33,14 @@ export default async function AppLayout({
     <div className="relative min-h-screen bg-background">
       <AppMeshGradient />
       <AppHeader user={dbUser} profile={profile} />
-      <main className="relative mx-auto max-w-5xl px-4 pt-24 pb-20 md:px-8 md:pl-32">
+      <motion.main
+        className="relative mx-auto max-w-5xl px-4 pt-24 pb-20 md:px-8 md:pl-32"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+      >
         {children}
-      </main>
+      </motion.main>
       <AppSidebar />
     </div>
   )

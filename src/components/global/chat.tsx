@@ -18,9 +18,6 @@ import { getCurrentEmotions } from "@/lib/services/emotions"
 import { checkChatAvailability } from "@/actions/rate-limit"
 import { UsageWarning } from "./usage-warning"
 import { useChatStore } from "@/lib/stores/chat-store"
-import { Button } from "../ui/button"
-import { ArrowLeft } from "lucide-react"
-import Link from "next/link"
 import { VoiceProvider } from "@humeai/voice-react"
 import { env } from "@/env"
 
@@ -177,27 +174,17 @@ function SessionContent({ user, profile, avatar }: SessionProps): JSX.Element {
 
   return (
     <div className="relative flex h-full flex-col">
-      {!isActive && (
-        <div className="absolute top-4 left-4 z-50">
-          <Link href="/app">
-            <Button variant="ghost" size="icon">
-              <ArrowLeft className="h-4 w-4" />
-            </Button>
-          </Link>
-        </div>
-      )}
-
       <div className="flex h-full flex-col items-center">
         {!isActive ? (
-          <div className="-mt-20 flex h-full flex-col items-center justify-center">
-            <div className="mb-8 text-center">
-              <h1 className="mb-3 font-semibold text-3xl">
+          <div className="flex h-full flex-col items-center justify-center px-4 pt-16 md:pt-0">
+            <div className="mb-6 text-center">
+              <h1 className="mb-3 font-semibold text-3xl tracking-tight md:text-4xl lg:text-5xl">
                 {getGreeting()}, {profile.display_name}
               </h1>
-              <h2 className="mb-2 text-xl">
+              <h2 className="mb-2 font-medium text-xl md:text-2xl lg:text-3xl">
                 I'm {profile.companion_name}, your personal AI companion
               </h2>
-              <p className="text-muted-foreground">
+              <p className="text-base text-muted-foreground md:text-lg">
                 How are you feeling today? I'm here to listen and chat.
               </p>
             </div>
