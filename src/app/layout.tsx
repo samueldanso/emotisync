@@ -1,8 +1,8 @@
-import type { Metadata } from "next"
 import "@/styles/globals.css"
 import Providers from "@/components/providers"
-import { Outfit, Lexend } from "next/font/google"
+import { Outfit, Urbanist } from "next/font/google"
 import { cn } from "@/lib/utils"
+import { getSEOTags } from "@/lib/utils/seo"
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -10,31 +10,18 @@ const outfit = Outfit({
   display: "swap",
 })
 
-const lexend = Lexend({
+const urbanist = Urbanist({
   subsets: ["latin"],
-  variable: "--font-lexend",
+  variable: "--font-urbanist",
   display: "swap",
 })
 
-export const metadata: Metadata = {
-  title: {
-    default: "EmotiSync — Your AI voice companion for emotional well-being",
-    template: "%s — EmotiSync",
-  },
+export const metadata = getSEOTags({
+  title: "EmotiSync - Your AI voice companion for emotional well-being.",
   description:
-    "EmotiSync is your intelligent voice companion for emotional well-being and journaling. Skip writing, just talk naturally. Your AI companion transforms your daily voice conversations into personalized insights and recommendations, helping you find clarity and growth in minutes.",
-  openGraph: {
-    title: "EmotiSync — AI Voice Companion",
-    description:
-      "Your intelligent voice companion for mood journaling and reflections.",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "EmotiSync — AI Voice Companion",
-    description: "Your intelligent voice companion for emotional well-being.",
-  },
-}
+    "Skip writing, just talk naturally. Your AI companion transforms your daily voice conversations into personalized insights and recommendations, helping you find clarity and growth in minutes.",
+  canonicalUrlRelative: "/",
+})
 
 export default function RootLayout({
   children,
@@ -47,7 +34,7 @@ export default function RootLayout({
         className={cn(
           "min-h-screen font-sans antialiased",
           outfit.variable,
-          lexend.variable,
+          urbanist.variable,
         )}
       >
         <Providers

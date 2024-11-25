@@ -36,8 +36,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-#todo
-TODO.md
-
 #prompts
 /prompts

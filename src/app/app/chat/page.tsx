@@ -1,9 +1,9 @@
 import { redirect } from "next/navigation"
 import { getUser } from "@/lib/supabase/server"
-import { db } from "@/db/db"
+import { db } from "@/lib/db/db"
 import { eq } from "drizzle-orm"
-import { profiles, users, avatars } from "@/db/schemas"
-import Session from "@/app/app/_components/chat"
+import { profiles, users, companions } from "@/lib/db/schemas"
+import Session from "@/components/global/chat"
 import { getHumeAccessToken } from "@/lib/ai/humeai"
 
 export default async function ChatPage() {
@@ -20,8 +20,8 @@ export default async function ChatPage() {
   })
   if (!profile) redirect("/welcome/profile")
 
-  const avatar = await db.query.avatars.findFirst({
-    where: eq(avatars.id, profile.companion_avatar),
+  const avatar = await db.query.companions.findFirst({
+    where: eq(companions.id, profile.companion_avatar),
   })
   if (!avatar) throw new Error("Avatar not found")
 

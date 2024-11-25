@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 import { supabaseServerClient } from "@/lib/supabase/server"
-import { createUser } from "@/actions/users"
+import { createUser } from "@/actions/user"
 
 export async function GET(request: Request) {
   try {
@@ -9,7 +9,7 @@ export async function GET(request: Request) {
     const next = requestUrl.searchParams.get("next") ?? "/welcome/profile"
 
     if (!code) {
-      return NextResponse.redirect(new URL("/signup?error=NoCode", request.url))
+      return NextResponse.redirect(new URL("/login?error=NoCode", request.url))
     }
 
     const supabase = await supabaseServerClient()
@@ -19,7 +19,7 @@ export async function GET(request: Request) {
     if (exchangeError) {
       return NextResponse.redirect(
         new URL(
-          `/signup?error=${encodeURIComponent(exchangeError.message)}`,
+          `/login?error=${encodeURIComponent(exchangeError.message)}`,
           request.url,
         ),
       )
@@ -44,7 +44,7 @@ export async function GET(request: Request) {
     return NextResponse.redirect(new URL(next, request.url))
   } catch (_error) {
     return NextResponse.redirect(
-      new URL("/signup?error=ServerError", request.url),
+      new URL("/login?error=ServerError", request.url),
     )
   }
 }

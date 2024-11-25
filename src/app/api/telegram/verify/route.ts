@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 import { verifyTelegramInitData } from "@/lib/telegram/verify"
-import { noStore } from "@/lib/utils/server"
+import { noStore } from "@/lib/utils/server-utils"
 
 export async function POST(request: Request) {
   noStore()

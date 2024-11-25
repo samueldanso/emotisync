@@ -1,8 +1,8 @@
 import type { Message } from "@humeai/voice-react"
-import type { NewJournal } from "@/db/schemas/journals"
+import type { NewJournal } from "@/lib/db/schemas/journals"
 import type { EmotionalInsight } from "@/lib/types/journal"
-import { db } from "@/db/db"
-import { journals } from "@/db/schemas"
+import { db } from "@/lib/db/db"
+import { journals } from "@/lib/db/schemas"
 
 export function generateJournalEntry({
   userId,

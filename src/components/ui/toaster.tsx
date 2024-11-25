@@ -2,7 +2,7 @@
 
 import { Toaster as RadToaster } from "sonner"
 
-import { useWindow } from "@/lib/hooks/use-window"
+import { useWindow } from "@/hooks/use-window"
 
 export function Toaster() {
   const { isMobile } = useWindow()

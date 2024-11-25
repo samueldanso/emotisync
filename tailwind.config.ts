@@ -18,7 +18,7 @@ const config: Config = {
     },
     extend: {
       fontFamily: {
-        sans: ["var(--font-lexend)", ...fontFamily.sans],
+        sans: ["var(--font-urbanist)", ...fontFamily.sans],
         heading: ["var(--font-outfit)", ...fontFamily.sans],
       },
       colors: {

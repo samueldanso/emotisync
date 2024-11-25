@@ -1,6 +1,6 @@
 "use client"
 
-import { getPlatform } from "@/lib/utils/client"
+import { getPlatform } from "@/lib/utils/platform-utils"
 import { useLaunchParams } from "@telegram-apps/sdk-react"
 import {
   createContext,
@@ -10,8 +10,8 @@ import {
   useState,
 } from "react"
 import { useRouter } from "next/navigation"
-import { useTelegramState } from "@/lib/hooks/use-telegram-state"
-import { setTokenCookies } from "@/lib/utils/tokens"
+import { useTelegramState } from "@/hooks/use-telegram-state"
+import { setTokenCookies } from "@/lib/utils/cookies-utils"
 import type { XIDTransactionDetails } from "@/lib/types/xid"
 
 interface UserDetails {
