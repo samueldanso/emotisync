@@ -7,13 +7,10 @@ import { type ComponentRef, forwardRef, useEffect } from "react";
 import Expressions from "./expressions";
 import { useChatStore } from "@/lib/stores/chat-store";
 
-interface MessagesProps {
-  companionName: string;
-  companionAvatar: string;
-}
+type MessagesProps = Record<string, never>;
 
 const Messages = forwardRef<ComponentRef<typeof motion.div>, MessagesProps>(
-  function Messages({ companionName, companionAvatar }, ref) {
+  function Messages(_, ref) {
     const { messages } = useVoice();
     const { setMessages } = useChatStore();
 

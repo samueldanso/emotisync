@@ -1,5 +1,5 @@
 "use client";
-import { useVoice } from "@humeai/voice-react";
+import { useVoice, VoiceProvider } from "@humeai/voice-react";
 import Messages from "./messages";
 import Controls from "./controls";
 import { StartCall } from "./start-call";
@@ -18,7 +18,6 @@ import { getCurrentEmotions } from "@/lib/services/emotions";
 import { checkChatAvailability } from "@/actions/rate-limit";
 import { UsageWarning } from "./usage-warning";
 import { useChatStore } from "@/lib/stores/chat-store";
-import { VoiceProvider } from "@humeai/voice-react";
 import { env } from "@/env";
 
 interface SessionProps {
@@ -28,7 +27,12 @@ interface SessionProps {
   avatar: Companion;
 }
 
-function SessionContent({ user, profile, avatar }: SessionProps): JSX.Element {
+function SessionContent({
+  user,
+  profile,
+  avatar,
+  accessToken,
+}: SessionProps): JSX.Element {
   const { status, disconnect, messages, sendMessage, sendSessionSettings } =
     useVoice();
   const [isSpeaking, setIsSpeaking] = useState(false);
@@ -214,11 +218,7 @@ function SessionContent({ user, profile, avatar }: SessionProps): JSX.Element {
             </div>
 
             <div className="relative z-10 h-full w-full max-w-3xl overflow-hidden px-4">
-              <Messages
-                ref={messagesRef}
-                companionName={avatar.name}
-                companionAvatar={avatar.image_url}
-              />
+              <Messages ref={messagesRef} />
             </div>
           </>
         )}
@@ -268,10 +268,10 @@ export default function Session({
         configId={env.NEXT_PUBLIC_HUME_CONFIG_ID}
       >
         <SessionContent
-          accessToken={accessToken}
           user={user}
           profile={profile}
           avatar={avatar}
+          accessToken={accessToken}
         />
       </VoiceProvider>
     </div>
