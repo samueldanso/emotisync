@@ -1,6 +1,6 @@
-"use client";
+"use client"
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,45 +8,32 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { getPlatform } from "@/lib/utils/platform-utils";
-import { supabaseClient } from "@/lib/supabase/client";
-import { useRouter } from "next/navigation";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { LogOut } from "lucide-react";
-import type { User } from "@/lib/db/schemas/users";
-import type { Profile } from "@/lib/db/schemas";
+} from "@/components/ui/dropdown-menu"
+import { getPlatform } from "@/lib/utils/platform-utils"
+import { supabaseClient } from "@/lib/supabase/client"
+import { useRouter } from "next/navigation"
+import { ThemeToggle } from "@/components/ui/theme-toggle"
+import { LogOut } from "lucide-react"
+import type { User } from "@/lib/db/schemas/users"
+import type { Profile } from "@/lib/db/schemas"
 
 interface UserProfileButtonProps {
-  user: User;
-  profile: Profile;
+  user: User
+  profile: Profile
 }
 
 export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
-  const router = useRouter();
-  const platform = getPlatform();
-  const displayName = profile?.display_name || user.first_name;
-
-  const avatarUrl =
-    user.user_metadata?.avatar_url || // Google
-    user.user_metadata?.picture || // Alternative Google format
-    user.user_metadata?.telegram_photo_url; // Telegram
+  const router = useRouter()
+  const platform = getPlatform()
+  const displayName = profile?.display_name || user.first_name
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Avatar className="h-9 w-9 cursor-pointer">
-          {avatarUrl ? (
-            <AvatarImage
-              src={avatarUrl}
-              alt={displayName}
-              className="object-cover"
-            />
-          ) : (
-            <AvatarFallback className="bg-primary/10 text-primary">
-              {displayName[0].toUpperCase()}
-            </AvatarFallback>
-          )}
+          <AvatarFallback className="bg-primary/10 text-primary">
+            {displayName[0].toUpperCase()}
+          </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent
@@ -68,7 +55,7 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
           {/* Points */}
           <DropdownMenuItem className="flex items-center justify-between rounded-lg px-2 py-2">
             <span>Points</span>
-            <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs text-primary">
+            <span className="rounded-full bg-primary/10 px-2 py-0.5 text-primary text-xs">
               Soon
             </span>
           </DropdownMenuItem>
@@ -118,8 +105,8 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
         <div className="p-1.5">
           <DropdownMenuItem
             onClick={() => {
-              supabaseClient.auth.signOut();
-              router.push("/login");
+              supabaseClient.auth.signOut()
+              router.push("/login")
             }}
             className="flex items-center gap-2 rounded-lg px-2 py-2 text-red-500 hover:text-red-600"
           >
@@ -129,5 +116,5 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
         </div>
       </DropdownMenuContent>
     </DropdownMenu>
-  );
+  )
 }

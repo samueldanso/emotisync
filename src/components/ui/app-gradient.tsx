@@ -11,5 +11,5 @@ export function AppMeshGradient() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_0%,#f4b1c8/15,transparent_50%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,#9064d5/15,transparent_50%)]" />
     </div>
-  );
+  )
 }

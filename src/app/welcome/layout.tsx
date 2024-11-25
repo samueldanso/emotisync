@@ -1,25 +1,25 @@
-import { redirect } from "next/navigation";
-import { getUser } from "@/lib/supabase/server";
-import type { Metadata } from "next";
+import { redirect } from "next/navigation"
+import { getUser } from "@/lib/supabase/server"
+import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "Onboarding",
-};
+}
 
 export default async function WelcomeLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
-  const user = await getUser();
+  const user = await getUser()
 
   if (!user?.email) {
-    redirect("/login");
+    redirect("/login")
   }
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center p-4">
       {children}
     </div>
-  );
+  )
 }

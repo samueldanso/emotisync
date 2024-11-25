@@ -1,13 +1,13 @@
-"use client";
+"use client"
 
-import Image from "next/image";
-import { cn } from "@/lib/utils";
+import Image from "next/image"
+import { cn } from "@/lib/utils"
 
 interface AvatarCardProps {
-  imageUrl: string;
-  name: string;
-  description?: string;
-  className?: string;
+  imageUrl: string
+  name: string
+  description?: string
+  className?: string
 }
 
 export function AvatarCard({
@@ -20,7 +20,7 @@ export function AvatarCard({
     <div
       className={cn(
         "relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/5 via-primary/10 to-transparent p-8 backdrop-blur-sm",
-        className
+        className,
       )}
     >
       <div className="flex flex-col items-center">
@@ -32,11 +32,11 @@ export function AvatarCard({
           className="mb-6 rounded-full shadow-lg ring-1 ring-primary/10"
           priority
         />
-        <h2 className="mb-2 text-xl font-medium">{name}</h2>
+        <h2 className="mb-2 font-medium text-xl">{name}</h2>
         {description && (
           <p className="text-center text-muted-foreground">{description}</p>
         )}
       </div>
     </div>
-  );
+  )
 }

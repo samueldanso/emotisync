@@ -1,6 +1,6 @@
-import { pgTable, text, uuid, timestamp, jsonb } from "drizzle-orm/pg-core";
-import { users } from "@/lib/db/schemas/users";
-import type { EmotionalInsight } from "@/lib/types/journal";
+import { pgTable, text, uuid, timestamp, jsonb } from "drizzle-orm/pg-core"
+import { users } from "@/lib/db/schemas/users"
+import type { EmotionalInsight } from "@/lib/types/journal"
 
 export const journals = pgTable("journals", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -16,7 +16,7 @@ export const journals = pgTable("journals", {
   updated_at: timestamp("updated_at")
     .defaultNow()
     .$onUpdate(() => new Date()),
-});
+})
 
-export type Journal = typeof journals.$inferSelect;
-export type NewJournal = typeof journals.$inferInsert;
+export type Journal = typeof journals.$inferSelect
+export type NewJournal = typeof journals.$inferInsert
