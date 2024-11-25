@@ -15,8 +15,8 @@ export const env = createEnv({
 
     TELEGRAM_BOT_TOKEN: z.string(),
 
-    CAPX_CLIENT_ID: z.string().optional(),
-    CAPX_CLIENT_SECRET: z.string().optional(),
+    CAPX_CLIENT_ID: z.string(),
+    CAPX_CLIENT_SECRET: z.string(),
     CAPX_API_URL: z.string().url(),
   },
 
@@ -26,7 +26,7 @@ export const env = createEnv({
     NEXT_PUBLIC_SUPABASE_URL: z.string(),
     NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string(),
 
-    NEXT_PUBLIC_HUME_CONFIG_ID: z.string().optional(),
+    NEXT_PUBLIC_HUME_CONFIG_ID: z.string(),
 
     NEXT_PUBLIC_PRIVY_APP_ID: z.string(),
 

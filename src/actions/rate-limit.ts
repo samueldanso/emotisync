@@ -12,7 +12,7 @@ const rateLimiter = new Ratelimit({
   prefix: "emotisync:limit",
 })
 
-export async function checkSessionAvailability(): Promise<SessionAvailabilityResponse> {
+export async function checkChatAvailability(): Promise<SessionAvailabilityResponse> {
   try {
     const user = await getUser()
     if (!user?.id) {

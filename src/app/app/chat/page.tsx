@@ -7,16 +7,16 @@ import Session from "@/app/app/_components/chat"
 import { getHumeAccessToken } from "@/lib/ai/humeai"
 
 export default async function ChatPage() {
-  const user = await getUser()
-  if (!user) redirect("/login")
+  const supabaseUser = await getUser()
+  if (!supabaseUser) redirect("/login")
 
   const dbUser = await db.query.users.findFirst({
-    where: eq(users.id, user.id),
+    where: eq(users.id, supabaseUser.id),
   })
   if (!dbUser) redirect("/login")
 
   const profile = await db.query.profiles.findFirst({
-    where: eq(profiles.userId, user.id),
+    where: eq(profiles.userId, dbUser.id),
   })
   if (!profile) redirect("/welcome/profile")
 
