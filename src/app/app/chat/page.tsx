@@ -20,10 +20,10 @@ export default async function ChatPage() {
   })
   if (!profile) redirect("/welcome/profile")
 
-  const avatar = await db.query.companions.findFirst({
+  const companion = await db.query.companions.findFirst({
     where: eq(companions.id, profile.companion_avatar),
   })
-  if (!avatar) throw new Error("Avatar not found")
+  if (!companion) throw new Error("Companion not found")
 
   const accessToken = await getHumeAccessToken()
   if (!accessToken) {
@@ -31,13 +31,16 @@ export default async function ChatPage() {
   }
 
   return (
-    <div className="relative flex min-h-[calc(100vh-4rem)] flex-col">
-      <Session
-        accessToken={accessToken}
-        user={dbUser}
-        profile={profile}
-        avatar={avatar}
-      />
+    <div className="fixed inset-0 bg-background">
+      <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background" />
+      <div className="relative h-full">
+        <Session
+          accessToken={accessToken}
+          user={dbUser}
+          profile={profile}
+          avatar={companion}
+        />
+      </div>
     </div>
   )
 }

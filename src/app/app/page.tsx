@@ -29,38 +29,38 @@ export default async function HomePage() {
   const displayName = profile.display_name || dbUser.name
 
   return (
-    <div className="flex h-full flex-col items-center justify-center p-4">
-      {/* AI Companion */}
-      <div className="mb-8">
-        <Image
-          src={companion.image_url}
-          alt={companion.name}
-          width={120}
-          height={120}
-          className="rounded-full"
-        />
-      </div>
-
+    <div className="flex min-h-[calc(100vh-4rem)] flex-col px-4 pt-8 md:px-6">
       {/* Welcome Section */}
-      <div className="mb-8 text-center">
-        <h2 className="mb-2 font-semibold text-2xl">
+      <div className="mb-12 text-left">
+        <h1 className="mb-2 font-heading font-semibold text-3xl tracking-tight">
           {`${getGreeting()}, ${displayName}`}
-        </h2>
-        <p className="text-muted-foreground">
-          I'm {companion.name}, your AI companion
-        </p>
-        <p className="mt-2 text-muted-foreground text-sm">
-          Ready to start a conversation?
-        </p>
+        </h1>
+        <p className="text-muted-foreground">How are you feeling today?</p>
       </div>
 
-      {/* Start Button */}
-      <Link
-        href="/app/chat"
-        className="inline-flex items-center justify-center rounded-full bg-primary px-8 py-3 font-medium text-primary-foreground text-sm shadow-lg transition-colors hover:bg-primary/90"
-      >
-        Start Conversation
-      </Link>
+      {/* AI Companion Card */}
+      <div className="mx-auto w-full max-w-md rounded-2xl bg-gradient-to-br from-primary/5 via-primary/10 to-transparent p-8">
+        <div className="flex flex-col items-center">
+          <Image
+            src={companion.image_url}
+            alt={companion.name}
+            width={120}
+            height={120}
+            className="mb-6 rounded-full shadow-lg"
+            priority
+          />
+          <h2 className="mb-2 font-medium text-xl">{companion.name}</h2>
+          <p className="mb-8 text-center text-muted-foreground">
+            Your AI companion for emotional well-being
+          </p>
+          <Link
+            href="/app/chat"
+            className="inline-flex items-center justify-center rounded-full bg-primary px-8 py-3 font-medium text-primary-foreground text-sm shadow-lg transition-all hover:bg-primary/90 hover:shadow-xl"
+          >
+            Start Conversation
+          </Link>
+        </div>
+      </div>
     </div>
   )
 }
