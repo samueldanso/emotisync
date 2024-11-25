@@ -1,10 +1,10 @@
-"use client";
+"use client"
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
-import { Input } from "@/components/ui/input";
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useRouter } from "next/navigation"
+import { useState, useEffect } from "react"
+import { Input } from "@/components/ui/input"
 import {
   FormControl,
   FormField,
@@ -12,53 +12,53 @@ import {
   FormLabel,
   FormMessage,
   Form,
-} from "@/components/ui/form";
+} from "@/components/ui/form"
 import {
   companionSchema,
   type CompanionFormValues,
-} from "@/components/forms/companion/companion-schema";
-import { showErrorToast } from "@/lib/utils/errors";
-import { toast } from "sonner";
-import { cn } from "@/lib/utils";
-import { supabaseClient } from "@/lib/supabase/client";
-import { useOnboardingStore } from "@/lib/stores/onboarding-store";
-import { createCompleteProfile } from "@/actions/profile";
-import { ProgressSteps } from "../../global/progress-steps";
-import { WelcomeButtons } from "../../global/welcome-buttons";
-import { getCompanions } from "@/actions/companion";
-import type { Companion } from "@/lib/db/schemas";
-import Image from "next/image";
+} from "@/components/forms/companion/companion-schema"
+import { showErrorToast } from "@/lib/utils/errors"
+import { toast } from "sonner"
+import { cn } from "@/lib/utils"
+import { supabaseClient } from "@/lib/supabase/client"
+import { useOnboardingStore } from "@/lib/stores/onboarding-store"
+import { createCompleteProfile } from "@/actions/profile"
+import { ProgressSteps } from "../../global/progress-steps"
+import { WelcomeButtons } from "../../global/welcome-buttons"
+import { getCompanions } from "@/actions/companion"
+import type { Companion } from "@/lib/db/schemas"
+import Image from "next/image"
 import {
   PERSONALITY_MAPPING,
   PERSONALITY_DESCRIPTIONS,
   ONBOARDING_LABELS,
   ONBOARDING_PLACEHOLDERS,
-} from "@/lib/constants";
+} from "@/lib/constants"
 
 export function CompanionSelection() {
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
-  const [companions, setCompanions] = useState<Companion[]>([]);
-  const { goal, reset } = useOnboardingStore();
+  const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false)
+  const [companions, setCompanions] = useState<Companion[]>([])
+  const { goal, reset } = useOnboardingStore()
 
   async function loadCompanions() {
     try {
-      const { data, error } = await getCompanions();
+      const { data, error } = await getCompanions()
       if (error) {
-        showErrorToast(error);
-        return;
+        showErrorToast(error)
+        return
       }
       if (data) {
-        setCompanions(data);
+        setCompanions(data)
       }
     } catch (error) {
-      showErrorToast(error);
+      showErrorToast(error)
     }
   }
 
   useEffect(() => {
-    loadCompanions();
-  }, []);
+    loadCompanions()
+  }, [])
 
   const form = useForm<CompanionFormValues>({
     resolver: zodResolver(companionSchema),
@@ -66,38 +66,38 @@ export function CompanionSelection() {
       avatar: "",
       companionName: "",
     },
-  });
+  })
 
   async function onSubmit(data: CompanionFormValues) {
-    setIsLoading(true);
+    setIsLoading(true)
     try {
       if (!goal) {
-        throw new Error("Please complete the previous step first");
+        throw new Error("Please complete the previous step first")
       }
 
       const {
         data: { user },
-      } = await supabaseClient.auth.getUser();
-      if (!user?.id || !user?.email) throw new Error("User not found");
+      } = await supabaseClient.auth.getUser()
+      if (!user?.id || !user?.email) throw new Error("User not found")
 
       const { error } = await createCompleteProfile(user.id, {
         goal,
         companionName: data.companionName,
         companionAvatar: data.avatar,
         email: user.email,
-      });
+      })
 
       if (error) {
-        throw new Error(error);
+        throw new Error(error)
       }
 
-      reset();
-      toast.success(`${data.companionName} is ready to be your AI companion!`);
-      router.push("/app/chat");
+      reset()
+      toast.success(`${data.companionName} is ready to be your AI companion!`)
+      router.push("/app/chat")
     } catch (error) {
-      showErrorToast(error);
+      showErrorToast(error)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
   }
 
@@ -147,7 +147,7 @@ export function CompanionSelection() {
                           const mappedPersonality =
                             PERSONALITY_MAPPING[
                               companion.personality as keyof typeof PERSONALITY_MAPPING
-                            ];
+                            ]
 
                           return (
                             <label
@@ -169,7 +169,7 @@ export function CompanionSelection() {
                                       "ring-brand-primary",
                                       "shadow-lg",
                                       "scale-125",
-                                    ]
+                                    ],
                                   )}
                                 >
                                   <img
@@ -184,7 +184,7 @@ export function CompanionSelection() {
                                       "font-medium",
                                       field.value === companion.id
                                         ? "text-brand-primary"
-                                        : "text-muted-foreground"
+                                        : "text-muted-foreground",
                                     )}
                                   >
                                     {mappedPersonality}
@@ -197,7 +197,7 @@ export function CompanionSelection() {
                                 </div>
                               </div>
                             </label>
-                          );
+                          )
                         })}
                       </div>
                     </FormControl>
@@ -231,8 +231,8 @@ export function CompanionSelection() {
                   isLoading={isLoading}
                   showBack={true}
                   onBack={() => {
-                    useOnboardingStore.getState().goBack();
-                    router.push("/welcome/profile");
+                    useOnboardingStore.getState().goBack()
+                    router.push("/welcome/profile")
                   }}
                 />
               </div>
@@ -241,5 +241,5 @@ export function CompanionSelection() {
         </div>
       </div>
     </div>
-  );
+  )
 }

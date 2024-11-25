@@ -1,12 +1,12 @@
-"use client";
-import { Logo } from "@/components/ui/logo";
-import { UserProfileButton } from "./user-profile";
-import type { User } from "@/lib/db/schemas/users";
-import type { Profile } from "@/lib/db/schemas";
+"use client"
+import { Logo } from "@/components/ui/logo"
+import { UserProfileButton } from "./user-profile"
+import type { User } from "@/lib/db/schemas/users"
+import type { Profile } from "@/lib/db/schemas"
 
 interface AppHeaderProps {
-  user: User;
-  profile: Profile;
+  user: User
+  profile: Profile
 }
 
 export function AppHeader({ user, profile }: AppHeaderProps) {
@@ -17,5 +17,5 @@ export function AppHeader({ user, profile }: AppHeaderProps) {
         <UserProfileButton user={user} profile={profile} />
       </div>
     </header>
-  );
+  )
 }

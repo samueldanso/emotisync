@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
-import { config } from "@/lib/utils/config";
+import type { Metadata } from "next"
+import { config } from "@/lib/utils/config"
 
 interface SEOProps {
-  title?: string;
-  description?: string;
-  canonicalUrlRelative?: string;
+  title?: string
+  description?: string
+  canonicalUrlRelative?: string
 }
 
 export function getSEOTags({
@@ -12,7 +12,7 @@ export function getSEOTags({
   description = config.appDescription,
   canonicalUrlRelative = "/",
 }: SEOProps): Metadata {
-  const siteUrl = `https://${config.domainName}`;
+  const siteUrl = `https://${config.domainName}`
 
   return {
     title: {
@@ -32,5 +32,5 @@ export function getSEOTags({
       title,
       description,
     },
-  };
+  }
 }
