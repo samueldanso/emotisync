@@ -122,9 +122,8 @@ function SessionContent({ user, profile, avatar }: SessionProps): JSX.Element {
       const currentEmotions = getCurrentEmotions(messages)
       const journalEntry = generateJournalEntry({
         userId: user.id,
-        conversation: messages,
+        messages,
         emotional_state: currentEmotions,
-        user_goal: profile.goal,
       })
 
       await saveJournalEntry(journalEntry)

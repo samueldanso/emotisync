@@ -6,12 +6,13 @@ import { catchError } from "@/lib/utils/errors"
 import type { NewJournal } from "@/db/schemas/journals"
 import { eq } from "drizzle-orm"
 
-export async function getJournals() {
+export async function getJournals(userId: string) {
   try {
-    const result = await db.query.journals.findMany({
+    const entries = await db.query.journals.findMany({
+      where: eq(journals.userId, userId),
       orderBy: (journals, { desc }) => [desc(journals.created_at)],
     })
-    return { data: result, error: null }
+    return { data: entries, error: null }
   } catch (error) {
     return catchError(error)
   }
@@ -32,6 +33,15 @@ export async function saveJournalEntry(data: NewJournal) {
   try {
     const [journal] = await db.insert(journals).values(data).returning()
     return { data: journal, error: null }
+  } catch (error) {
+    return catchError(error)
+  }
+}
+
+export async function deleteJournal(id: string) {
+  try {
+    await db.delete(journals).where(eq(journals.id, id))
+    return { error: null }
   } catch (error) {
     return catchError(error)
   }

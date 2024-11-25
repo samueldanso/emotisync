@@ -14,7 +14,7 @@ import { supabaseClient } from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { Settings, Logout, Bell } from "@/components/icons"
-import type { User } from "@/db/schemas"
+import type { User } from "@/db/schemas/users"
 import type { Profile } from "@/db/schemas"
 import { PROFILE_MENU } from "@/lib/constants/menus"
 
