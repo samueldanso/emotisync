@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react"
-import { Home, Chat, Document, IDuotoneBlack } from "@/components/icons"
+import { Home, Document } from "@/components/icons"
 
 export interface NavbarMenuProps {
   title: string
@@ -69,13 +69,7 @@ interface SidebarItem {
 }
 
 export const SIDEBAR_ITEMS: SidebarItem[] = [
-  { icon: Home, label: "Home", href: "/app" },
-  { icon: Chat, label: "Chat", href: "/app/chat" },
+  { icon: Home, label: "Chat", href: "/app/chat" },
+  { icon: Home, label: "Insights", href: "/app/insights" },
   { icon: Document, label: "Journals", href: "/app/journals" },
-  {
-    icon: IDuotoneBlack,
-    label: "Insights",
-    href: "/app/insights",
-    badge: "Soon",
-  },
 ]

@@ -46,7 +46,7 @@ export async function updateSession(request: NextRequest) {
     request.nextUrl.pathname.startsWith("/signup")
   ) {
     if (user) {
-      return NextResponse.redirect(new URL("/app", request.url))
+      return NextResponse.redirect(new URL("/app/chat", request.url))
     }
     return response
   }
