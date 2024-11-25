@@ -1,24 +1,25 @@
-"use client"
+"use client";
 
-import { cn } from "@/lib/utils"
-import { useVoice } from "@humeai/voice-react"
-import { AnimatePresence, motion } from "framer-motion"
-import { type ComponentRef, forwardRef, useEffect } from "react"
-import Expressions from "./expressions"
-import { useChatStore } from "@/lib/stores/chat-store"
+import { cn } from "@/lib/utils";
+import { useVoice } from "@humeai/voice-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { type ComponentRef, forwardRef, useEffect } from "react";
+import Expressions from "./expressions";
+import { useChatStore } from "@/lib/stores/chat-store";
 
-type MessagesProps = {
-  ref: ComponentRef<typeof motion.div>
+interface MessagesProps {
+  companionName: string;
+  companionAvatar: string;
 }
 
 const Messages = forwardRef<ComponentRef<typeof motion.div>, MessagesProps>(
-  function Messages(_, ref) {
-    const { messages } = useVoice()
-    const { setMessages } = useChatStore()
+  function Messages({ companionName, companionAvatar }, ref) {
+    const { messages } = useVoice();
+    const { setMessages } = useChatStore();
 
     useEffect(() => {
-      setMessages(messages)
-    }, [messages, setMessages])
+      setMessages(messages);
+    }, [messages, setMessages]);
 
     return (
       <motion.div
@@ -33,16 +34,16 @@ const Messages = forwardRef<ComponentRef<typeof motion.div>, MessagesProps>(
                 msg.type === "user_message" ||
                 msg.type === "assistant_message"
               ) {
-                const isUser = msg.type === "user_message"
-                const content = msg.message?.content || ""
-                const scores = msg.models?.prosody?.scores || {}
+                const isUser = msg.type === "user_message";
+                const content = msg.message?.content || "";
+                const scores = msg.models?.prosody?.scores || {};
 
                 return (
                   <motion.div
                     key={`${msg.type}-${content.slice(0, 10)}`}
                     className={cn(
                       "flex w-full flex-col",
-                      isUser ? "items-end" : "items-start",
+                      isUser ? "items-end" : "items-start"
                     )}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -52,7 +53,7 @@ const Messages = forwardRef<ComponentRef<typeof motion.div>, MessagesProps>(
                     <div
                       className={cn(
                         "flex max-w-[80%] flex-col gap-1.5",
-                        isUser && "items-end",
+                        isUser && "items-end"
                       )}
                     >
                       <div
@@ -60,7 +61,7 @@ const Messages = forwardRef<ComponentRef<typeof motion.div>, MessagesProps>(
                           "rounded-2xl px-4 py-2.5",
                           isUser
                             ? "bg-primary text-primary-foreground"
-                            : "bg-muted",
+                            : "bg-muted"
                         )}
                       >
                         {content}
@@ -72,14 +73,14 @@ const Messages = forwardRef<ComponentRef<typeof motion.div>, MessagesProps>(
                       )}
                     </div>
                   </motion.div>
-                )
+                );
               }
             })}
           </AnimatePresence>
         </motion.div>
       </motion.div>
-    )
-  },
-)
+    );
+  }
+);
 
-export default Messages
+export default Messages;
