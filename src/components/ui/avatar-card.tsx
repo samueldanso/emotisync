@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils"
 interface AvatarCardProps {
   imageUrl: string
   name: string
-  description?: string
+  description: string
   className?: string
 }
 
@@ -17,25 +17,19 @@ export function AvatarCard({
   className,
 }: AvatarCardProps) {
   return (
-    <div
-      className={cn(
-        "relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/5 via-primary/10 to-transparent p-8 backdrop-blur-sm",
-        className,
-      )}
-    >
+    <div className={cn("relative rounded-lg bg-card p-6", className)}>
       <div className="flex flex-col items-center">
-        <Image
-          src={imageUrl}
-          alt={name}
-          width={140}
-          height={140}
-          className="mb-6 rounded-full shadow-lg ring-1 ring-primary/10"
-          priority
-        />
-        <h2 className="mb-2 font-medium text-xl">{name}</h2>
-        {description && (
-          <p className="text-center text-muted-foreground">{description}</p>
-        )}
+        <div className="relative h-32 w-32 overflow-hidden rounded-full">
+          <Image
+            src={imageUrl}
+            alt={name}
+            fill
+            className="object-cover"
+            priority
+          />
+        </div>
+        <h3 className="mt-4 font-medium">{name}</h3>
+        <p className="text-muted-foreground text-sm">{description}</p>
       </div>
     </div>
   )

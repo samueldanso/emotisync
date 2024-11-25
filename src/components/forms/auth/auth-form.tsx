@@ -1,14 +1,14 @@
-"use client";
+"use client"
 
-import React from "react";
-import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/icons/spinner";
-import { supabaseClient } from "@/lib/supabase/client";
-import Image from "next/image";
-import { Icons } from "@/components/icons/icon-index";
+import React from "react"
+import { Button } from "@/components/ui/button"
+import { Spinner } from "@/components/icons/spinner"
+import { supabaseClient } from "@/lib/supabase/client"
+import Image from "next/image"
+import { Icons } from "@/components/icons/icon-index"
 
 export function AuthForm() {
-  const [isPending, startTransition] = React.useTransition();
+  const [isPending, startTransition] = React.useTransition()
 
   const handleGoogleAuth = () => {
     startTransition(async () => {
@@ -22,9 +22,9 @@ export function AuthForm() {
             scopes: "email profile",
           },
         },
-      });
-    });
-  };
+      })
+    })
+  }
 
   return (
     <div className="space-y-10">
@@ -40,7 +40,7 @@ export function AuthForm() {
         <h2 className="mt-8 text-center font-heading text-2xl text-foreground/90">
           Welcome to EmotiSync
         </h2>
-        <h1 className="mt-4 text-center font-sans text-foreground/70 text-lg">
+        <h1 className="mt-4 text-center font-sans text-foreground/80 text-lg">
           Your personalized AI companion.
         </h1>
       </div>
@@ -57,5 +57,5 @@ export function AuthForm() {
         </Button>
       </div>
     </div>
-  );
+  )
 }
