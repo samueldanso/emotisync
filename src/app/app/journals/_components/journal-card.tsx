@@ -1,13 +1,13 @@
-"use client"
+"use client";
 
-import { formatDate } from "@/lib/utils"
-import Link from "next/link"
-import { Card } from "@/components/ui/card"
-import { Document } from "lucide-react"
-import type { Journal } from "@/db/schemas/journals"
+import { formatDate } from "@/lib/utils";
+import Link from "next/link";
+import { Card } from "@/components/ui/card";
+import { FileText } from "lucide-react";
+import type { Journal } from "@/db/schemas/journals";
 
 interface JournalCardProps {
-  journal: Journal
+  journal: Journal;
 }
 
 export function JournalCard({ journal }: JournalCardProps) {
@@ -16,7 +16,7 @@ export function JournalCard({ journal }: JournalCardProps) {
       <Card className="p-4 hover:bg-accent/50">
         <div className="mb-2 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Document className="h-4 w-4 text-muted-foreground" />
+            <FileText className="h-4 w-4 text-muted-foreground" />
             <h3 className="font-medium">{journal.title}</h3>
           </div>
           <time className="text-muted-foreground text-sm">
@@ -31,5 +31,5 @@ export function JournalCard({ journal }: JournalCardProps) {
         </div>
       </Card>
     </Link>
-  )
+  );
 }
