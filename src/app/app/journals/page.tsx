@@ -1,14 +1,14 @@
-import { getUser } from "@/lib/supabase/server"
-import { redirect } from "next/navigation"
-import { getJournals } from "@/actions/journal"
-import { JournalList } from "@/components/global/journal-list"
+import { getUser } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
+import { getJournals } from "@/actions/journal";
+import { JournalList } from "@/components/global/journal-list";
 
 export default async function JournalsPage() {
-  const user = await getUser()
-  if (!user) redirect("/login")
+  const user = await getUser();
+  if (!user) redirect("/login");
 
-  const { data: journals, error } = await getJournals(user.id)
-  if (error) throw new Error(error)
+  const { data: journals, error } = await getJournals(user.id);
+  if (error) throw new Error(error);
 
   return (
     <div className="mx-auto w-full max-w-2xl">
@@ -21,5 +21,5 @@ export default async function JournalsPage() {
 
       <JournalList initialJournals={journals || []} />
     </div>
-  )
+  );
 }

@@ -1,7 +1,7 @@
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 interface SpinnerProps extends React.SVGAttributes<SVGElement> {
-  className?: string
+  className?: string;
 }
 
 export function Spinner({ className, ...props }: SpinnerProps) {
@@ -19,5 +19,5 @@ export function Spinner({ className, ...props }: SpinnerProps) {
     >
       <path d="M21 12a9 9 0 1 1-6.219-8.56" />
     </svg>
-  )
+  );
 }

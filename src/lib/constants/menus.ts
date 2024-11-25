@@ -1,9 +1,9 @@
-import type { LucideIcon } from "lucide-react"
-import { Home, Document } from "@/components/icons"
+import type { LucideIcon } from "lucide-react";
+import { Home, Document } from "@/components/icons";
 
 export interface NavbarMenuProps {
-  title: string
-  href: string
+  title: string;
+  href: string;
 }
 
 export const NAVBAR_MENU: NavbarMenuProps[] = [
@@ -23,7 +23,7 @@ export const NAVBAR_MENU: NavbarMenuProps[] = [
     title: "FAQ",
     href: "/#faq",
   },
-]
+];
 
 export const FOOTER_MENU = {
   Product: [
@@ -38,14 +38,14 @@ export const FOOTER_MENU = {
     { title: "Twitter", href: "https://twitter.com/emotisync_xyz" },
     { title: "Telegram", href: "https://t.me/EmotiSync_bot" },
   ],
-} as const
+} as const;
 
 interface MenuItem {
-  title: string
-  href?: string
-  icon?: LucideIcon
-  disabled?: boolean
-  badge?: string
+  title: string;
+  href?: string;
+  icon?: LucideIcon;
+  disabled?: boolean;
+  badge?: string;
 }
 
 export const PROFILE_MENU: MenuItem[] = [
@@ -59,17 +59,17 @@ export const PROFILE_MENU: MenuItem[] = [
     badge: "Soon",
     disabled: true,
   },
-]
+];
 
 interface SidebarItem {
-  icon: React.ComponentType<{ className?: string }>
-  label: string
-  href: string
-  badge?: string
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+  href: string;
+  badge?: string;
 }
 
 export const SIDEBAR_ITEMS: SidebarItem[] = [
   { icon: Home, label: "Chat", href: "/app/chat" },
   { icon: Home, label: "Insights", href: "/app/insights" },
   { icon: Document, label: "Journals", href: "/app/journals" },
-]
+];

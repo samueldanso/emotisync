@@ -5,6 +5,7 @@ import { eq } from "drizzle-orm";
 import { profiles, users } from "@/lib/db/schemas";
 import { AppHeader } from "@/components/global/app-header";
 import { AppSidebar } from "@/components/global/sidebar";
+import { AppMeshGradient } from "@/components/ui/app-gradient";
 
 export default async function AppLayout({
   children,
@@ -26,8 +27,8 @@ export default async function AppLayout({
 
   return (
     <div className="relative min-h-screen bg-background">
-      {/* Subtle gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#6842d8]/5 via-[#9064d5]/5 to-[#f4b1c8]/5" />
+      {/* Mesh gradient */}
+      <AppMeshGradient />
 
       {/* Header */}
       <AppHeader user={dbUser} profile={profile} />

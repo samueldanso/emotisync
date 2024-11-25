@@ -1,38 +1,50 @@
-"use client"
+"use client";
 
-import { useTheme } from "next-themes"
-import { Moon, Sun } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { useEffect, useState } from "react"
+import { useTheme } from "next-themes";
+import { Moon, Sun } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
 
 interface ThemeToggleProps {
-  className?: string
+  className?: string;
 }
 
 export function ThemeToggle({ className }: ThemeToggleProps) {
-  const { setTheme, theme } = useTheme()
-  const [mounted, setMounted] = useState(false)
+  const { setTheme, theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true)
-  }, [])
+    setMounted(true);
+  }, []);
 
-  if (!mounted) {
-    return <div className={cn("h-8 w-8 p-2", className)} />
-  }
+  if (!mounted) return null;
 
   return (
-    <button
-      type="button"
-      onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-      className={cn("p-2 transition-colors duration-200", className)}
-      aria-label="Toggle theme"
-    >
-      {theme === "light" ? (
-        <Sun className="h-4 w-4 text-brand-paragraph hover:text-brand-heading" />
-      ) : (
-        <Moon className="h-4 w-4 text-brand-paragraph hover:text-brand-heading" />
-      )}
-    </button>
-  )
+    <div className={cn("flex items-center gap-1", className)}>
+      <button
+        type="button"
+        onClick={() => setTheme("light")}
+        className={cn(
+          "rounded-lg p-1.5 transition-colors",
+          theme === "light"
+            ? "bg-primary/10 text-primary"
+            : "text-muted-foreground hover:text-foreground"
+        )}
+      >
+        <Sun className="h-4 w-4" />
+      </button>
+      <button
+        type="button"
+        onClick={() => setTheme("dark")}
+        className={cn(
+          "rounded-lg p-1.5 transition-colors",
+          theme === "dark"
+            ? "bg-primary/10 text-primary"
+            : "text-muted-foreground hover:text-foreground"
+        )}
+      >
+        <Moon className="h-4 w-4" />
+      </button>
+    </div>
+  );
 }
