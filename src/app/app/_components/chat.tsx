@@ -17,7 +17,7 @@ import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 import { generateJournalEntry, saveJournalEntry } from "@/lib/services/journal"
 import { getCurrentEmotions } from "@/lib/services/emotions"
-import { checkSessionAvailability } from "@/actions/rate-limit"
+import { checkChatAvailability } from "@/actions/rate-limit"
 import { UsageWarning } from "./usage-warning"
 
 interface SessionProps {
@@ -40,7 +40,7 @@ function SessionContent({ user, profile, avatar }: SessionProps): JSX.Element {
 
   useEffect(() => {
     async function checkLimit() {
-      const limit = await checkSessionAvailability()
+      const limit = await checkChatAvailability()
       setCanStart(limit.canStart)
       setLimitMessage(limit.message)
       setResetAt(limit.resetAt)
@@ -127,10 +127,10 @@ function SessionContent({ user, profile, avatar }: SessionProps): JSX.Element {
       })
 
       await saveJournalEntry(journalEntry)
-      toast.success("Your journal entry and recommendations are ready!")
+      toast.success("Your journal entry has been saved!")
       router.push("/app/journals")
     } catch (_error) {
-      toast.error("Failed to generate journal entry")
+      toast.error("Failed to save journal entry")
     } finally {
       setIsGeneratingJournal(false)
       disconnect()

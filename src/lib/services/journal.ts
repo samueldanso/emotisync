@@ -1,5 +1,6 @@
 import type { Message } from "@humeai/voice-react"
 import type { NewJournal } from "@/db/schemas/journals"
+import type { EmotionalInsight } from "@/lib/types/journal"
 import { db } from "@/db/db"
 import { journals } from "@/db/schemas"
 
@@ -18,6 +19,11 @@ export function generateJournalEntry({
     minute: "2-digit",
   })
 
+  const emotional_insights: EmotionalInsight = {
+    dominant_emotion: emotional_state,
+    timestamp: now.toISOString(),
+  }
+
   return {
     userId,
     title: `Chat Session - ${timeStr}`,
@@ -25,10 +31,7 @@ export function generateJournalEntry({
       .filter((m) => m.type === "user_message")
       .map((m) => m.text)
       .join(" "),
-    emotional_insights: {
-      dominant_emotion: emotional_state,
-      timestamp: now.toISOString(),
-    },
+    emotional_insights,
     created_at: now,
     updated_at: now,
   }

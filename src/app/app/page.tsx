@@ -2,17 +2,22 @@ import { getUser } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
 import { db } from "@/db/db"
 import { eq } from "drizzle-orm"
-import { profiles, avatars } from "@/db/schemas"
+import { profiles, avatars, users } from "@/db/schemas"
 import Link from "next/link"
 import Image from "next/image"
 import { getGreeting } from "@/lib/utils"
 
 export default async function HomePage() {
-  const user = await getUser()
-  if (!user) redirect("/login")
+  const supabaseUser = await getUser()
+  if (!supabaseUser) redirect("/login")
+
+  const dbUser = await db.query.users.findFirst({
+    where: eq(users.id, supabaseUser.id),
+  })
+  if (!dbUser) redirect("/login")
 
   const profile = await db.query.profiles.findFirst({
-    where: eq(profiles.userId, user.id),
+    where: eq(profiles.userId, dbUser.id),
   })
   if (!profile) redirect("/welcome/profile")
 
@@ -21,7 +26,7 @@ export default async function HomePage() {
   })
   if (!avatar) throw new Error("Avatar not found")
 
-  const displayName = profile?.display_name || user.first_name
+  const displayName = profile.display_name || dbUser.name
 
   return (
     <div className="flex h-full flex-col items-center justify-center p-4">

@@ -1,5 +1,4 @@
 import { toast } from "sonner"
-import { z } from "zod"
 
 /**
  * Error handling utilities for consistent error management across the app
@@ -13,13 +12,6 @@ import { z } from "zod"
  * @returns {string} Human-readable error message
  */
 export function getErrorMessage(err: unknown) {
-  if (err instanceof z.ZodError) {
-    const errors = err.issues.map((issue) => {
-      return issue.message
-    })
-    return errors.join("\n")
-  }
-
   if (err instanceof Error) {
     return err.message
   }
@@ -36,9 +28,9 @@ export function showErrorToast(err: unknown) {
   return toast.error(errorMessage)
 }
 
-export function catchError(err: unknown) {
-  return {
-    data: null,
-    error: getErrorMessage(err),
-  }
+export function catchError(error: unknown) {
+  console.error(error)
+  const message =
+    error instanceof Error ? error.message : "Something went wrong"
+  return { data: null, error: message }
 }

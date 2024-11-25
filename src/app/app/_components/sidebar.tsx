@@ -18,7 +18,7 @@ const IconWrapper = ({
     <Icon className={className} />
   </div>
 )
-
+//extract
 const NAV_ITEMS = [
   { icon: Home, label: "Home", href: "/app" },
   { icon: Chat, label: "Chat", href: "/app/chat" },

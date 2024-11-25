@@ -1,8 +1,8 @@
-"use client"
 import { getJournals } from "@/actions/journals"
 import { getUser } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
-import { formatDate } from "@/lib/utils"
+import { JournalCard } from "./_components/journal-card"
+import type { Journal } from "@/db/schemas/journals"
 
 export default async function JournalsPage() {
   const user = await getUser()
@@ -21,28 +21,8 @@ export default async function JournalsPage() {
       </div>
 
       <div className="space-y-4">
-        {journals?.map((journal) => (
-          <div
-            key={journal.id}
-            className="rounded-lg border bg-card p-4 shadow-sm"
-          >
-            <div className="mb-2 flex items-center justify-between">
-              <h3 className="font-medium">{journal.title}</h3>
-              <time className="text-muted-foreground text-sm">
-                {journal.created_at ? formatDate(journal.created_at) : ""}
-              </time>
-            </div>
-            <p className="line-clamp-2 text-muted-foreground text-sm">
-              {journal.summary}
-            </p>
-            <div className="mt-2 text-xs">
-              Mood:{" "}
-              {
-                (journal.emotional_insights as { dominant_emotion: string })
-                  .dominant_emotion
-              }
-            </div>
-          </div>
+        {journals?.map((journal: Journal) => (
+          <JournalCard key={journal.id} journal={journal} />
         ))}
 
         {journals?.length === 0 && (

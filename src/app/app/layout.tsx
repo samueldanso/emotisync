@@ -4,7 +4,7 @@ import { AppSidebar } from "./_components/sidebar"
 import { db } from "@/db/db"
 import { eq } from "drizzle-orm"
 import { profiles, users } from "@/db/schemas"
-import { UserProfileButton } from "./_components/user-profile-button"
+import { UserProfileButton } from "./_components/user-profile"
 
 export default async function AppLayout({
   children,
