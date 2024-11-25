@@ -1,4 +1,3 @@
-import { VoiceProvider } from "@humeai/voice-react"
 import { env } from "@/env"
 import { redirect } from "next/navigation"
 import { getUser } from "@/lib/supabase/server"
@@ -33,14 +32,9 @@ export default async function AppLayout({
     <div className="relative min-h-screen bg-background">
       <AppMeshGradient />
       <AppHeader user={dbUser} profile={profile} />
-      <VoiceProvider
-        auth={{ type: "accessToken", value: env.HUME_API_KEY }}
-        configId={env.NEXT_PUBLIC_HUME_CONFIG_ID}
-      >
-        <main className="relative mx-auto max-w-5xl px-4 pt-24 pb-20 md:px-8 md:pl-32">
-          {children}
-        </main>
-      </VoiceProvider>
+      <main className="relative mx-auto max-w-5xl px-4 pt-24 pb-20 md:px-8 md:pl-32">
+        {children}
+      </main>
       <AppSidebar />
     </div>
   )

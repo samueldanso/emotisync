@@ -4,8 +4,8 @@ import { Spinner } from "@/components/icons/spinner"
 
 export default function Loading() {
   return (
-    <div className="flex min-h-[400px] items-center justify-center">
-      <Spinner className="h-10 w-10" />
+    <div className="flex min-h-[calc(100vh-8rem)] items-center justify-center">
+      <Spinner className="h-10 w-10 text-muted-foreground" />
     </div>
   )
 }
