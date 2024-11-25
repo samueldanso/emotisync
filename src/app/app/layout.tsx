@@ -34,9 +34,8 @@ export default async function AppLayout({
   }
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <AppSidebar />
-      <main className="flex min-h-0 grow flex-col pb-14 lg:pb-0 lg:pl-[80px]">
+    <div className="flex min-h-screen flex-col bg-background">
+      <main className="flex-1 pb-16">
         <div className="container relative flex min-h-0 grow p-4 lg:p-6">
           <div className="absolute top-6 right-6 z-40">
             <UserProfileButton user={user} profile={profile} />
@@ -44,6 +43,7 @@ export default async function AppLayout({
           {children}
         </div>
       </main>
+      <AppSidebar />
     </div>
   )
 }

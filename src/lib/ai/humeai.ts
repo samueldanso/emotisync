@@ -1,6 +1,5 @@
 import "server-only"
 import { env } from "@/env"
-
 import { fetchAccessToken } from "hume"
 
 export const getHumeAccessToken = async () => {

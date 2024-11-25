@@ -1,70 +1,55 @@
 "use client"
-
-import { useEffect, useState } from "react"
-import { JournalCard } from "./_components/journal-card"
-import { Spinner } from "@/components/icons/spinner"
-import { toast } from "sonner"
 import { getJournals } from "@/actions/journals"
-import type { Journal } from "@/db/schemas/journals"
+import { getUser } from "@/lib/supabase/server"
+import { redirect } from "next/navigation"
+import { formatDate } from "@/lib/utils"
 
-export default function JournalsPage() {
-  const [journals, setJournals] = useState<Journal[]>([])
-  const [loading, setLoading] = useState(true)
+export default async function JournalsPage() {
+  const user = await getUser()
+  if (!user) redirect("/login")
 
-  useEffect(() => {
-    async function fetchJournals() {
-      try {
-        const { data, error } = await getJournals()
-        if (error) throw new Error(error)
-        if (!data) throw new Error("No data returned")
-
-        const transformedData = data.map((journal: Journal) => ({
-          ...journal,
-          key_points: journal.key_points ?? [],
-          emotional_insights: journal.emotional_insights ?? [],
-          recommendations: journal.recommendations ?? [],
-          created_at: journal.created_at ?? new Date(),
-          updated_at: journal.updated_at ?? new Date(),
-        }))
-
-        setJournals(transformedData)
-      } catch (_error) {
-        toast.error("Failed to load journals")
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchJournals()
-  }, [])
-
-  if (loading) {
-    return (
-      <div className="flex h-full items-center justify-center">
-        <Spinner />
-      </div>
-    )
-  }
-
-  if (journals.length === 0) {
-    return (
-      <div className="container py-8">
-        <h1 className="mb-8 font-heading text-3xl">Your Journal Entries</h1>
-        <div className="rounded-lg border border-dashed p-8 text-center">
-          <p className="text-muted-foreground">
-            No journal entries yet. Start a conversation to create one!
-          </p>
-        </div>
-      </div>
-    )
-  }
+  const { data: journals, error } = await getJournals(user.id)
+  if (error) throw new Error(error)
 
   return (
-    <div className="container py-8">
-      <h1 className="mb-8 font-heading text-3xl">Your Journal Entries</h1>
-      <div className="grid gap-6 md:grid-cols-2">
-        {journals.map((journal) => (
-          <JournalCard key={journal.id} journal={journal} />
+    <div className="mx-auto w-full max-w-2xl">
+      <div className="mb-6">
+        <h1 className="font-semibold text-2xl">Your Journal Entries</h1>
+        <p className="text-muted-foreground">
+          Review your past conversations and emotional insights
+        </p>
+      </div>
+
+      <div className="space-y-4">
+        {journals?.map((journal) => (
+          <div
+            key={journal.id}
+            className="rounded-lg border bg-card p-4 shadow-sm"
+          >
+            <div className="mb-2 flex items-center justify-between">
+              <h3 className="font-medium">{journal.title}</h3>
+              <time className="text-muted-foreground text-sm">
+                {journal.created_at ? formatDate(journal.created_at) : ""}
+              </time>
+            </div>
+            <p className="line-clamp-2 text-muted-foreground text-sm">
+              {journal.summary}
+            </p>
+            <div className="mt-2 text-xs">
+              Mood:{" "}
+              {
+                (journal.emotional_insights as { dominant_emotion: string })
+                  .dominant_emotion
+              }
+            </div>
+          </div>
         ))}
+
+        {journals?.length === 0 && (
+          <div className="py-12 text-center">
+            <p className="text-muted-foreground">No journal entries yet</p>
+          </div>
+        )}
       </div>
     </div>
   )

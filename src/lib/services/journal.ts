@@ -1,27 +1,39 @@
+import type { Message } from "@humeai/voice-react"
 import type { NewJournal } from "@/db/schemas/journals"
-import { saveJournalEntry as saveEntry } from "@/actions/journals"
+import { db } from "@/db/db"
+import { journals } from "@/db/schemas"
 
 export function generateJournalEntry({
   userId,
-  conversation,
+  messages,
   emotional_state,
-  user_goal,
 }: {
   userId: string
-  conversation: any[]
+  messages: Message[]
   emotional_state: string
-  user_goal: string
 }): NewJournal {
+  const now = new Date()
+  const timeStr = now.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+  })
+
   return {
     userId,
-    summary: `Conversation about ${emotional_state} emotions`,
-    key_points: conversation
-      .filter((msg) => msg.type === "user_message")
-      .map((msg) => msg.text || ""),
-    emotional_insights: [emotional_state],
-    recommendations: [`Based on your goal to ${user_goal}, try...`],
+    title: `Chat Session - ${timeStr}`,
+    summary: messages
+      .filter((m) => m.type === "user_message")
+      .map((m) => m.text)
+      .join(" "),
+    emotional_insights: {
+      dominant_emotion: emotional_state,
+      timestamp: now.toISOString(),
+    },
+    created_at: now,
+    updated_at: now,
   }
 }
 
-// Re-export saveJournalEntry for use in chat.tsx
-export { saveEntry as saveJournalEntry }
+export async function saveJournalEntry(entry: NewJournal) {
+  return await db.insert(journals).values(entry).returning()
+}
