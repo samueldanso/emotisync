@@ -1,20 +1,16 @@
-export function AppMeshGradient() {
+"use client";
+
+interface AppMeshGradientProps {
+  className?: string;
+}
+
+export function AppMeshGradient({ className }: AppMeshGradientProps) {
   return (
-    <div className="pointer-events-none fixed inset-0 z-0">
-      {/* Main gradient wrap */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-rose-500/10 to-brand-background" />
-
-      {/* Radial glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,#6e38d6/20,transparent_70%)]" />
-
-      {/* Side accents with rose pink */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_0%,#f5bad0/25,transparent_50%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,#ffb4e1/25,transparent_50%)]" />
-
-      {/* Noise texture */}
-      <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.02] mix-blend-overlay" />
+    <div className={className}>
+      <div className="fixed inset-0 bg-gradient-to-b from-background to-background/80" />
+      <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-brand-primary/20 via-background/0 to-background/0" />
     </div>
-  )
+  );
 }
 
 // Radial gradient for chat
@@ -24,5 +20,5 @@ export function ChatRadialGradient() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#f5bad0/10,transparent_70%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#ffb4e1/5,transparent_50%)]" />
     </div>
-  )
+  );
 }
