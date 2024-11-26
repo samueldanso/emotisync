@@ -13,8 +13,8 @@ export default function Controls() {
   return (
     <div
       className={cn(
-        "fixed bottom-0 left-0 flex w-full items-center justify-center p-4",
-        "bg-gradient-to-t from-card via-card/90 to-card/0",
+        "fixed bottom-0 left-0 z-50 flex w-full items-center justify-center p-4",
+        "bg-gradient-to-t from-background via-background/90 to-transparent",
       )}
     >
       <AnimatePresence>
@@ -23,7 +23,7 @@ export default function Controls() {
             initial={{ y: "100%", opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: "100%", opacity: 0 }}
-            className="flex items-center gap-4 rounded-lg border border-border bg-card p-4 shadow-sm"
+            className="flex items-center gap-4 rounded-full border bg-card/95 p-4 shadow-lg backdrop-blur-sm"
           >
             <Toggle
               pressed={!isMuted}
