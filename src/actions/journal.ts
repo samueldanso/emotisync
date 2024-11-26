@@ -1,4 +1,4 @@
-"use server";
+"use server"
 
 // Comment out everything for now since we're focusing on chat
 /*
