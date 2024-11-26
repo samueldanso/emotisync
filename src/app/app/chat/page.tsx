@@ -3,23 +3,18 @@ import { redirect } from "next/navigation"
 import { db } from "@/lib/db/db"
 import { eq } from "drizzle-orm"
 import { companions, profiles, users } from "@/lib/db/schemas"
-import { getUser } from "@/lib/supabase/server"
 import dynamic from "next/dynamic"
+import { getUser } from "@/lib/supabase/server"
 
-// Import Chat with no SSR
+// Import Chat with no SSR - exactly like Hume starter
 const Chat = dynamic(() => import("@/components/global/chat"), {
   ssr: false,
-  loading: () => (
-    <div className="flex h-screen items-center justify-center">
-      <div className="animate-pulse text-lg">Loading...</div>
-    </div>
-  ),
 })
 
 export default async function Page() {
   const accessToken = await getHumeAccessToken()
   if (!accessToken) {
-    throw new Error("Failed to get Hume access token")
+    throw new Error()
   }
 
   // Get Supabase user
