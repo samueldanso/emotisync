@@ -36,12 +36,10 @@ export default async function AppLayout({
     <div className="relative min-h-screen bg-background">
       <VoiceProvider accessToken={accessToken}>
         <SidebarProvider defaultOpen={false}>
-          <header className="fixed top-0 right-0 left-0 z-40 h-14 border-b bg-background/95 backdrop-blur-sm">
-            <div className="flex h-full items-center justify-between px-4">
-              <AppSidebar />
-              <UserProfileButton user={dbUser} profile={profile} />
-            </div>
-          </header>
+          <div className="fixed top-0 z-40 flex h-14 w-full items-center justify-between px-4">
+            <AppSidebar />
+            <UserProfileButton user={dbUser} profile={profile} />
+          </div>
           <main className="relative min-h-[calc(100vh-3.5rem)] flex-1 pt-14">
             {children}
           </main>
