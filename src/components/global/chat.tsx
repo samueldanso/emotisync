@@ -2,7 +2,7 @@
 
 import { VoiceProvider, type Message } from "@humeai/voice-react"
 import dynamic from "next/dynamic"
-import { type ComponentRef, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import { env } from "@/env"
 import { AvatarStatus } from "./avatar-status"
 import { ChatRadialGradient } from "@/components/ui/app-gradient"
@@ -43,7 +43,7 @@ export default function Chat({
   avatar,
 }: ChatProps) {
   const timeout = useRef<number | null>(null)
-  const ref = useRef<ComponentRef<typeof Messages>>(null)
+  const ref = useRef<HTMLDivElement>(null)
   const [isSpeaking, setIsSpeaking] = useState(false)
 
   const displayName = profile?.display_name || user.first_name
