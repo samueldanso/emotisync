@@ -1,31 +1,31 @@
-"use client"
+"use client";
 
-import { VoiceProvider, type Message } from "@humeai/voice-react"
-import Messages from "./messages"
-import Controls from "./controls"
-import { StartCall } from "./start-call"
-import { type ComponentRef, useRef, useState } from "react"
-import { env } from "@/env"
-import { AvatarStatus } from "./avatar-status"
-import { ChatRadialGradient } from "@/components/ui/app-gradient"
-import type { User } from "@/lib/db/schemas/users"
-import type { Profile } from "@/lib/db/schemas/profiles"
+import { VoiceProvider, type Message } from "@humeai/voice-react";
+import Messages from "./messages";
+import Controls from "./controls";
+import { StartCall } from "./start-call";
+import { type ComponentRef, useRef, useState } from "react";
+import { env } from "@/env";
+import { AvatarStatus } from "./avatar-status";
+import { ChatRadialGradient } from "@/components/ui/app-gradient";
+import type { User } from "@/lib/db/schemas/users";
+import type { Profile } from "@/lib/db/schemas/profiles";
 
 interface ChatProps {
-  accessToken: string
-  user: User
-  profile: Profile
+  accessToken: string;
+  user: User;
+  profile: Profile;
   avatar: {
-    image_url: string
-    name: string
-  }
+    image_url: string;
+    name: string;
+  };
 }
 
 function getGreeting() {
-  const hour = new Date().getHours()
-  if (hour < 12) return "Good morning"
-  if (hour < 18) return "Good afternoon"
-  return "Good evening"
+  const hour = new Date().getHours();
+  if (hour < 12) return "Good morning";
+  if (hour < 18) return "Good afternoon";
+  return "Good evening";
 }
 
 export default function Chat({
@@ -34,11 +34,12 @@ export default function Chat({
   profile,
   avatar,
 }: ChatProps) {
-  const timeout = useRef<number | null>(null)
-  const ref = useRef<ComponentRef<typeof Messages>>(null)
-  const [isSpeaking, setIsSpeaking] = useState(false)
+  const timeout = useRef<number | null>(null);
+  const ref = useRef<ComponentRef<typeof Messages>>(null);
+  const [isSpeaking, setIsSpeaking] = useState(false);
 
-  const displayName = profile?.display_name || user.first_name
+  const displayName = profile?.display_name || user.first_name;
+  const companionName = avatar.name;
 
   return (
     <div className="relative flex min-h-[calc(100vh-3.5rem)] flex-col overflow-hidden">
@@ -48,38 +49,38 @@ export default function Chat({
         configId={env.NEXT_PUBLIC_HUME_CONFIG_ID}
         onMessage={(msg: Message) => {
           if (timeout.current) {
-            window.clearTimeout(timeout.current)
+            window.clearTimeout(timeout.current);
           }
 
           timeout.current = window.setTimeout(() => {
             if (ref.current) {
-              const scrollHeight = ref.current.scrollHeight
+              const scrollHeight = ref.current.scrollHeight;
               ref.current.scrollTo({
                 top: scrollHeight,
                 behavior: "smooth",
-              })
+              });
             }
-          }, 200)
+          }, 200);
 
           if (msg.type === "assistant_message") {
-            setIsSpeaking(true)
-            setTimeout(() => setIsSpeaking(false), 2000)
+            setIsSpeaking(true);
+            setTimeout(() => setIsSpeaking(false), 2000);
           }
         }}
       >
         <div className="relative z-20 flex flex-col items-center py-6 md:py-8">
           <AvatarStatus
             avatar={avatar.image_url}
-            name={avatar.name}
+            name={companionName}
             isSpeaking={isSpeaking}
           />
-          <div className="mt-3 text-center">
-            <h1 className="font-medium text-lg md:text-xl">
+          <div className="mt-4 text-center">
+            <h1 className="font-semibold text-xl md:text-2xl">
               {getGreeting()}, {displayName}
             </h1>
-            <p className="mt-1.5 text-muted-foreground text-sm">
-              I'm {avatar.name}, your personal companion for wellbeing. What
-              would you like to talk about today?
+            <p className="mt-1.5 text-base text-muted-foreground">
+              I'm {companionName}, your personal companion. What would you like
+              to talk about today?
             </p>
           </div>
         </div>
@@ -92,5 +93,5 @@ export default function Chat({
         <StartCall />
       </VoiceProvider>
     </div>
-  )
+  );
 }

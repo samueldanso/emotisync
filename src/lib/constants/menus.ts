@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react"
-import { Headphones, LineChart, BookText } from "lucide-react"
+import { LineChart, BookText, Phone } from "lucide-react"
 
 export interface NavbarMenuProps {
   title: string
@@ -69,7 +69,7 @@ interface SidebarItem {
 }
 
 export const SIDEBAR_ITEMS: SidebarItem[] = [
-  { icon: Headphones, label: "Chat", href: "/app/chat" },
+  { icon: Phone, label: "Chat", href: "/app/chat" },
   { icon: LineChart, label: "Insights", href: "/app/insights" },
   { icon: BookText, label: "Journals", href: "/app/journals" },
 ]

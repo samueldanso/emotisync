@@ -27,7 +27,7 @@ export default async function AppLayout({
   if (!profile) redirect("/welcome/profile")
 
   return (
-    <div className="relative flex min-h-screen flex-col">
+    <div className="relative flex min-h-screen flex-col bg-brand-background">
       <AppMeshGradient />
       <header className="fixed top-0 right-0 left-0 z-50 flex h-14 items-center justify-between bg-background/95 px-4 backdrop-blur-sm">
         <Logo className="h-8 w-8" />
