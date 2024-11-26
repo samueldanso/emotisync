@@ -45,37 +45,52 @@ function ChatContent({
   }, [messages, status.value])
 
   const displayName = profile?.display_name || user.first_name
-  const companionName = avatar.name
+  const companionName = profile.companion_name || avatar.name
   const isActive = status.value === "connected"
   const isListening = isActive && !isSpeaking
 
   return (
     <div className="relative flex min-h-[calc(100vh-3.5rem)] flex-col overflow-hidden">
       <ChatRadialGradient />
-      <div className="relative z-20 flex flex-col items-center py-6 md:py-8">
-        <AvatarStatus
-          avatar={avatar.image_url}
-          name={companionName}
-          isSpeaking={isSpeaking}
-          isListening={isListening}
-        />
-        <div className="mt-4 text-center">
-          <h1 className="font-semibold text-xl md:text-2xl">
-            {getGreeting()}, {displayName}
-          </h1>
-          <p className="mt-1.5 text-base text-muted-foreground">
-            I'm {companionName}, your personal companion. What would you like to
-            talk about today?
-          </p>
+      {!isActive ? (
+        // Welcome State - Full screen centered
+        <div className="flex h-full flex-col items-center justify-center">
+          <AvatarStatus
+            avatar={avatar.image_url}
+            name={companionName}
+            isSpeaking={false}
+            isListening={false}
+          />
+          <div className="mb-8 text-center">
+            <h1 className="font-semibold text-xl md:text-2xl">
+              {getGreeting()}, {displayName}
+            </h1>
+            <p className="mt-1.5 text-base text-muted-foreground">
+              I'm {companionName}, your personal companion. What would you like
+              to talk about today?
+            </p>
+          </div>
+          <StartCall />
         </div>
-      </div>
+      ) : (
+        // Active Chat State
+        <>
+          <div className="relative z-20 flex flex-col items-center py-6 md:py-8">
+            <AvatarStatus
+              avatar={avatar.image_url}
+              name={companionName}
+              isSpeaking={isSpeaking}
+              isListening={isListening}
+            />
+          </div>
 
-      <div className="relative z-10 mx-auto h-full w-full max-w-3xl px-4 pb-32">
-        <Messages ref={ref} />
-      </div>
+          <div className="relative z-10 mx-auto h-full w-full max-w-3xl px-4 pb-32">
+            <Messages ref={ref} />
+          </div>
 
-      <Controls />
-      <StartCall />
+          <Controls />
+        </>
+      )}
     </div>
   )
 }

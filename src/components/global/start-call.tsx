@@ -4,31 +4,9 @@ import { useVoice } from "@humeai/voice-react"
 import { AnimatePresence, motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Phone } from "lucide-react"
-import { checkUsageLimit } from "@/actions/rate-limit"
-import { useState } from "react"
-import { UsageWarning } from "./usage-warning"
 
 export function StartCall() {
   const { status, connect } = useVoice()
-  const [usageError, setUsageError] = useState<{
-    message: string
-    resetAt: Date
-  } | null>(null)
-
-  const handleStartCall = async () => {
-    const usage = await checkUsageLimit()
-    if (!usage.canStart) {
-      setUsageError({
-        message: usage.message,
-        resetAt: usage.resetAt,
-      })
-      return
-    }
-
-    connect()
-      .then(() => console.log("Voice connected"))
-      .catch((error) => console.error("Voice connection failed:", error))
-  }
 
   return (
     <AnimatePresence>
@@ -39,21 +17,18 @@ export function StartCall() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
-          {usageError ? (
-            <UsageWarning
-              message={usageError.message}
-              resetAt={usageError.resetAt}
-            />
-          ) : (
-            <Button
-              size="lg"
-              className="relative z-50 flex items-center gap-2 rounded-full px-8 py-6"
-              onClick={handleStartCall}
-            >
-              <Phone className="h-5 w-5" strokeWidth={2} />
-              <span className="text-lg">Start Talking</span>
-            </Button>
-          )}
+          <Button
+            size="lg"
+            className="relative z-50 flex items-center gap-2 rounded-full px-8 py-6"
+            onClick={() => {
+              connect()
+                .then(() => console.log("Connected"))
+                .catch((error) => console.error("Connection failed:", error))
+            }}
+          >
+            <Phone className="h-5 w-5" strokeWidth={2} />
+            <span className="text-lg">Start Talking</span>
+          </Button>
         </motion.div>
       ) : null}
     </AnimatePresence>
