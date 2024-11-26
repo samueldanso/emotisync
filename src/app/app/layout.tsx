@@ -34,17 +34,20 @@ export default async function AppLayout({
   }
 
   return (
-    <div className="relative flex min-h-screen flex-col bg-brand-background">
+    <div className="relative min-h-screen bg-background">
       <VoiceProvider accessToken={accessToken}>
-        <AppMeshGradient />
-        <header className="fixed top-0 right-0 left-0 z-50 flex h-14 items-center justify-between bg-background/95 px-4 backdrop-blur-sm">
-          <Logo className="h-8 w-8" />
-          <UserProfileButton user={dbUser} profile={profile} />
+        <AppMeshGradient className="pointer-events-none fixed inset-0" />
+        <header className="fixed top-0 right-0 left-0 z-40 h-14 border-b bg-background/95 backdrop-blur-sm">
+          <div className="flex h-full items-center justify-between px-4">
+            <Logo className="h-8 w-8" />
+            <UserProfileButton user={dbUser} profile={profile} />
+          </div>
         </header>
-
-        <div className="flex grow pt-14">
+        <div className="flex pt-14">
           <AppSidebar />
-          <main className="relative w-full grow md:pl-20">{children}</main>
+          <main className="relative min-h-[calc(100vh-3.5rem)] flex-1">
+            {children}
+          </main>
         </div>
       </VoiceProvider>
     </div>
