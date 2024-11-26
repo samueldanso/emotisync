@@ -1,10 +1,8 @@
-import { getJournal } from "@/actions/journal"
-import { getUser } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
 import Link from "next/link"
-import { formatDate } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"
+import { getUser } from "@/lib/supabase/server"
 
 interface JournalDetailPageProps {
   params: {
@@ -12,15 +10,11 @@ interface JournalDetailPageProps {
   }
 }
 
-export default async function JournalDetailPage({
-  params,
-}: JournalDetailPageProps) {
+export default async function JournalDetailPage(
+  _props: JournalDetailPageProps,
+) {
   const user = await getUser()
   if (!user) redirect("/login")
-
-  const { data: journal, error } = await getJournal(params.id)
-  if (error) throw new Error(error)
-  if (!journal) redirect("/app/journals")
 
   return (
     <div className="mx-auto w-full max-w-2xl">
@@ -31,9 +25,9 @@ export default async function JournalDetailPage({
           </Button>
         </Link>
         <div>
-          <h1 className="font-semibold text-2xl">{journal.title}</h1>
+          <h1 className="font-semibold text-2xl">Journal Title</h1>
           <time className="text-muted-foreground text-sm">
-            {journal.created_at ? formatDate(journal.created_at) : ""}
+            {new Date().toLocaleDateString()}
           </time>
         </div>
       </div>
@@ -41,18 +35,12 @@ export default async function JournalDetailPage({
       <div className="space-y-6">
         <div className="rounded-lg border bg-card p-4">
           <h2 className="mb-2 font-medium">Summary</h2>
-          <p className="text-muted-foreground">{journal.summary}</p>
+          <p className="text-muted-foreground">Journal summary</p>
         </div>
 
         <div className="rounded-lg border bg-card p-4">
           <h2 className="mb-2 font-medium">Emotional Insights</h2>
-          <p className="text-muted-foreground">
-            Dominant Emotion:{" "}
-            {
-              (journal.emotional_insights as { dominant_emotion: string })
-                .dominant_emotion
-            }
-          </p>
+          <p className="text-muted-foreground">Dominant Emotion: Neutral</p>
         </div>
       </div>
     </div>

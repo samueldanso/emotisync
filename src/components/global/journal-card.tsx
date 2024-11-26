@@ -1,4 +1,3 @@
-import { formatDate } from "@/lib/utils"
 import Link from "next/link"
 import { Card } from "@/components/ui/card"
 import { FileText } from "lucide-react"
@@ -27,7 +26,7 @@ export function JournalCard({
             <h3 className="font-medium">{title}</h3>
           </div>
           <time className="text-muted-foreground text-sm">
-            {created_at ? formatDate(created_at) : ""}
+            {created_at?.toLocaleDateString()}
           </time>
         </div>
         <p className="line-clamp-2 text-muted-foreground text-sm">{summary}</p>
