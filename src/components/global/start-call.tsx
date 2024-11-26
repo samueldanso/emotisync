@@ -17,7 +17,6 @@ export function StartCall() {
 
   const handleStartCall = async () => {
     const usage = await checkUsageLimit()
-
     if (!usage.canStart) {
       setUsageError({
         message: usage.message,
@@ -35,7 +34,7 @@ export function StartCall() {
     <AnimatePresence>
       {status.value !== "connected" ? (
         <motion.div
-          className="fixed inset-0 flex items-center justify-center bg-background p-4"
+          className="fixed inset-0 flex flex-col items-center justify-center bg-background/80 backdrop-blur-sm"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -47,11 +46,12 @@ export function StartCall() {
             />
           ) : (
             <Button
-              className="z-50 flex items-center gap-1.5"
+              size="lg"
+              className="relative z-50 flex items-center gap-2 rounded-full px-8 py-6"
               onClick={handleStartCall}
             >
-              <Phone className="h-4 w-4 opacity-50" strokeWidth={2} />
-              <span>Start Call</span>
+              <Phone className="h-5 w-5" strokeWidth={2} />
+              <span className="text-lg">Start Call</span>
             </Button>
           )}
         </motion.div>

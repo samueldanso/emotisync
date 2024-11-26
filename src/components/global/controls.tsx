@@ -13,7 +13,7 @@ export default function Controls() {
   return (
     <div
       className={cn(
-        "fixed bottom-0 left-0 z-50 flex w-full items-center justify-center p-4",
+        "fixed bottom-0 left-0 z-50 flex w-full items-center justify-center rounded-full p-4",
         "bg-gradient-to-t from-background via-background/90 to-transparent",
       )}
     >
@@ -52,7 +52,6 @@ export default function Controls() {
               variant="destructive"
             >
               <Phone className="h-4 w-4 opacity-50" strokeWidth={2} />
-              <span>End Call</span>
             </Button>
           </motion.div>
         ) : null}
