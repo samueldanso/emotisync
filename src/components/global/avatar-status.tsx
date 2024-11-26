@@ -1,15 +1,15 @@
-"use client"
+"use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { motion, AnimatePresence } from "framer-motion"
-import { useVoice } from "@humeai/voice-react"
-import { cn } from "@/lib/utils"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { motion, AnimatePresence } from "framer-motion";
+import { useVoice } from "@humeai/voice-react";
+import { cn } from "@/lib/utils";
 
 interface AvatarStatusProps {
-  avatar: string
-  name: string
-  isSpeaking: boolean
-  isListening?: boolean
+  avatar: string;
+  name: string;
+  isSpeaking: boolean;
+  isListening?: boolean;
 }
 
 export function AvatarStatus({
@@ -18,8 +18,8 @@ export function AvatarStatus({
   isSpeaking,
   isListening,
 }: AvatarStatusProps) {
-  const { status } = useVoice()
-  const isConnected = status.value === "connected"
+  const { status } = useVoice();
+  const isConnected = status.value === "connected";
 
   return (
     <motion.div
@@ -30,13 +30,13 @@ export function AvatarStatus({
     >
       <div className="relative">
         <Avatar className="h-28 w-28 md:h-32 md:w-32">
-          <AvatarImage src={avatar} alt={name} />
+          <AvatarImage src={avatar} alt={name} className="object-cover" />
           <AvatarFallback>{name[0]}</AvatarFallback>
         </Avatar>
 
-        {/* Pulsing rings when speaking */}
+        {/* Pulsing rings only when speaking and connected */}
         <AnimatePresence>
-          {isSpeaking && (
+          {isConnected && isSpeaking && (
             <>
               <motion.div
                 className="absolute inset-0 rounded-full border-2 border-rose-500/20"
@@ -66,28 +66,31 @@ export function AvatarStatus({
         </AnimatePresence>
       </div>
 
+      {/* Status indicator */}
       <AnimatePresence mode="wait">
         {isConnected && (
           <motion.div
-            key={isSpeaking ? "speaking" : "listening"}
+            key={isSpeaking ? "speaking" : isListening ? "listening" : "ready"}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             className={cn(
-              "mt-4 rounded-full px-4 py-1.5 text-sm",
+              "mt-4 rounded-full px-4 py-1.5 text-sm font-medium",
               isSpeaking
                 ? "bg-rose-500/10 text-rose-500"
-                : "bg-primary/10 text-primary",
+                : isListening
+                ? "bg-emerald-500/10 text-emerald-500"
+                : "bg-primary/10 text-primary"
             )}
           >
             {isSpeaking
               ? "Speaking..."
               : isListening
-                ? "Listening..."
-                : "Ready"}
+              ? "Listening..."
+              : "Ready"}
           </motion.div>
         )}
       </AnimatePresence>
     </motion.div>
-  )
+  );
 }
