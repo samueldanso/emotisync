@@ -1,52 +1,68 @@
 import { getHumeAccessToken } from "@/lib/ai/humeai"
+import dynamic from "next/dynamic"
+import { getUser } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
 import { db } from "@/lib/db/db"
 import { eq } from "drizzle-orm"
-import { companions, profiles, users } from "@/lib/db/schemas"
-import dynamic from "next/dynamic"
-import { getUser } from "@/lib/supabase/server"
+import { profiles, type Profile } from "@/lib/db/schemas"
+import { companions, type Companion } from "@/lib/db/schemas"
+import { users, type User } from "@/lib/db/schemas"
 
-// Import Chat with no SSR - exactly like Hume starter
-const Chat = dynamic(() => import("@/components/global/chat"), {
+interface ChatProps {
+  accessToken: string
+  user: User
+  profile: Profile
+  avatar: Companion
+}
+
+const Chat = dynamic<ChatProps>(() => import("@/components/global/chat"), {
   ssr: false,
 })
 
-export default async function Page() {
-  const accessToken = await getHumeAccessToken()
-  if (!accessToken) {
-    throw new Error()
+export default async function AppPage() {
+  const user = await getUser()
+
+  if (!user?.email) {
+    redirect("/login")
   }
 
-  // Get Supabase user
-  const supabaseUser = await getUser()
-  if (!supabaseUser) redirect("/login")
-
-  // Get DB user
-  const dbUser = await db.query.users.findFirst({
-    where: eq(users.id, supabaseUser.id),
-  })
-  if (!dbUser) redirect("/login")
-
   const profile = await db.query.profiles.findFirst({
-    where: eq(profiles.userId, dbUser.id),
+    where: eq(profiles.userId, user.id),
   })
-  if (!profile) redirect("/welcome/profile")
 
-  const companion = await db.query.companions.findFirst({
+  if (!profile?.onboarding_completed) {
+    redirect("/welcome/profile")
+  }
+
+  const avatar = await db.query.companions.findFirst({
     where: eq(companions.id, profile.companion_avatar),
   })
-  if (!companion) throw new Error("Companion not found")
+
+  if (!avatar) {
+    throw new Error("No avatar found")
+  }
+
+  const accessToken = await getHumeAccessToken()
+
+  if (!accessToken) {
+    throw new Error("No access token available")
+  }
+
+  const dbUser = await db.query.users.findFirst({
+    where: eq(users.id, user.id),
+  })
+
+  if (!dbUser) {
+    throw new Error("User not found")
+  }
 
   return (
-    <div className="flex grow flex-col">
+    <div className="flex min-h-0 grow flex-col">
       <Chat
         accessToken={accessToken}
         user={dbUser}
         profile={profile}
-        avatar={{
-          image_url: companion.image_url,
-          name: profile.companion_name || companion.name,
-        }}
+        avatar={avatar}
       />
     </div>
   )
