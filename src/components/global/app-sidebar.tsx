@@ -10,27 +10,24 @@ import {
   SidebarContent,
   SidebarHeader,
   SidebarTrigger,
-  useSidebar,
 } from "@/components/ui/sidebar"
 import Link from "next/link"
 
 export function AppSidebar() {
   const pathname = usePathname()
   const { status } = useVoice()
-  const { open } = useSidebar()
   const isInCall = status.value === "connected"
 
   if (isInCall) return null
 
   return (
     <div className="flex items-center gap-2">
-      {!open && <Logo className="h-6 w-6" />}
+      <Logo className="h-6 w-6" />
       <SidebarTrigger className="text-muted-foreground hover:text-foreground" />
       <Sidebar className="border-border/40 border-r bg-background">
         <SidebarHeader className="flex items-center justify-center py-8">
-          <Logo className="h-8 w-8 transition-all duration-200" />
+          <Logo className="h-8 w-8" />
         </SidebarHeader>
-
         <SidebarContent>
           <nav className="mt-4 flex flex-col gap-1 px-2">
             {SIDEBAR_ITEMS.map((item) => (
