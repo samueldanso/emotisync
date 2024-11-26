@@ -59,25 +59,25 @@ function ChatContent({ user, profile, avatar }: ChatProps) {
   return (
     <div className="relative flex h-full flex-col">
       {!isActive ? (
-        <div className="z-10 flex h-full flex-col items-center justify-center p-4">
+        <div className="absolute inset-0 flex flex-col items-center justify-center">
           <AvatarStatus
             avatar={avatar.image_url}
             name={companionName}
             isSpeaking={false}
             isListening={false}
           />
-          <div className="z-10 mx-auto mt-6 max-w-md text-center">
-            <h1 className="font-semibold text-xl md:text-2xl">
+          <div className="mt-8 text-center">
+            <h1 className="font-semibold text-2xl md:text-3xl">
               {getGreeting()}, {displayName}
             </h1>
-            <p className="mt-2 text-muted-foreground">
+            <p className="mt-3 text-muted-foreground">
               I'm {companionName}, your personal companion.
             </p>
           </div>
           <StartCall />
         </div>
       ) : (
-        <div className="fixed inset-0 z-50 bg-background">
+        <div className="fixed inset-0 bg-background">
           <div className="flex h-full flex-col">
             <div className="flex-shrink-0 pt-8 pb-4 text-center">
               <AvatarStatus
