@@ -1,36 +1,36 @@
-"use client";
+"use client"
 
-import { VoiceProvider, type Message } from "@humeai/voice-react";
-import dynamic from "next/dynamic";
-import { type ComponentRef, useRef, useState } from "react";
-import { env } from "@/env";
-import { AvatarStatus } from "./avatar-status";
-import { ChatRadialGradient } from "@/components/ui/app-gradient";
-import type { User } from "@/lib/db/schemas/users";
-import type { Profile } from "@/lib/db/schemas/profiles";
+import { VoiceProvider, type Message } from "@humeai/voice-react"
+import dynamic from "next/dynamic"
+import { useRef, useState } from "react"
+import { env } from "@/env"
+import { AvatarStatus } from "./avatar-status"
+import { ChatRadialGradient } from "@/components/ui/app-gradient"
+import type { User } from "@/lib/db/schemas/users"
+import type { Profile } from "@/lib/db/schemas/profiles"
 
 // Dynamic imports following starter kit
-const Messages = dynamic(() => import("./messages"));
-const Controls = dynamic(() => import("./controls"));
+const Messages = dynamic(() => import("./messages"))
+const Controls = dynamic(() => import("./controls"))
 const StartCall = dynamic(() =>
-  import("./start-call").then((mod) => mod.StartCall)
-);
+  import("./start-call").then((mod) => mod.StartCall),
+)
 
 interface ChatProps {
-  accessToken: string;
-  user: User;
-  profile: Profile;
+  accessToken: string
+  user: User
+  profile: Profile
   avatar: {
-    image_url: string;
-    name: string;
-  };
+    image_url: string
+    name: string
+  }
 }
 
 function getGreeting() {
-  const hour = new Date().getHours();
-  if (hour < 12) return "Good morning";
-  if (hour < 18) return "Good afternoon";
-  return "Good evening";
+  const hour = new Date().getHours()
+  if (hour < 12) return "Good morning"
+  if (hour < 18) return "Good afternoon"
+  return "Good evening"
 }
 
 export default function Chat({
@@ -39,12 +39,12 @@ export default function Chat({
   profile,
   avatar,
 }: ChatProps) {
-  const timeout = useRef<number | null>(null);
-  const ref = useRef<HTMLDivElement>(null);
-  const [isSpeaking, setIsSpeaking] = useState(false);
+  const timeout = useRef<number | null>(null)
+  const ref = useRef<HTMLDivElement>(null)
+  const [isSpeaking, setIsSpeaking] = useState(false)
 
-  const displayName = profile?.display_name || user.first_name;
-  const companionName = avatar.name;
+  const displayName = profile?.display_name || user.first_name
+  const companionName = avatar.name
 
   return (
     <div className="relative flex min-h-[calc(100vh-3.5rem)] flex-col overflow-hidden">
@@ -54,7 +54,7 @@ export default function Chat({
         configId={env.NEXT_PUBLIC_HUME_CONFIG_ID}
         onMessage={(msg: Message) => {
           if (timeout.current) {
-            window.clearTimeout(timeout.current);
+            window.clearTimeout(timeout.current)
           }
 
           timeout.current = window.setTimeout(() => {
@@ -62,13 +62,13 @@ export default function Chat({
               ref.current.scrollTo({
                 top: ref.current.scrollHeight,
                 behavior: "smooth",
-              });
+              })
             }
-          }, 200);
+          }, 200)
 
           if (msg.type === "assistant_message") {
-            setIsSpeaking(true);
-            setTimeout(() => setIsSpeaking(false), 2000);
+            setIsSpeaking(true)
+            setTimeout(() => setIsSpeaking(false), 2000)
           }
         }}
       >
@@ -97,5 +97,5 @@ export default function Chat({
         <StartCall />
       </VoiceProvider>
     </div>
-  );
+  )
 }

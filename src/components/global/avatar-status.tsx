@@ -1,19 +1,19 @@
-"use client";
+"use client"
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { motion, AnimatePresence } from "framer-motion";
-import { useVoice } from "@humeai/voice-react";
-import { cn } from "@/lib/utils";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { motion, AnimatePresence } from "framer-motion"
+import { useVoice } from "@humeai/voice-react"
+import { cn } from "@/lib/utils"
 
 interface AvatarStatusProps {
-  avatar: string;
-  name: string;
-  isSpeaking?: boolean;
+  avatar: string
+  name: string
+  isSpeaking?: boolean
 }
 
 export function AvatarStatus({ avatar, name, isSpeaking }: AvatarStatusProps) {
-  const { status } = useVoice();
-  const isConnected = status.value === "connected";
+  const { status } = useVoice()
+  const isConnected = status.value === "connected"
 
   return (
     <motion.div
@@ -71,7 +71,7 @@ export function AvatarStatus({ avatar, name, isSpeaking }: AvatarStatusProps) {
               "mt-4 rounded-full px-4 py-1.5 text-sm",
               isSpeaking
                 ? "bg-rose-500/10 text-rose-500"
-                : "bg-primary/10 text-primary"
+                : "bg-primary/10 text-primary",
             )}
           >
             {isSpeaking ? "Speaking..." : "Listening..."}
@@ -79,5 +79,5 @@ export function AvatarStatus({ avatar, name, isSpeaking }: AvatarStatusProps) {
         )}
       </AnimatePresence>
     </motion.div>
-  );
+  )
 }
