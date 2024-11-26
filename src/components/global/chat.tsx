@@ -1,20 +1,15 @@
 "use client"
 
 import { VoiceProvider, type Message } from "@humeai/voice-react"
-import dynamic from "next/dynamic"
+import Messages from "./messages"
+import Controls from "./controls"
+import { StartCall } from "./start-call"
 import { useRef, useState } from "react"
 import { env } from "@/env"
 import { AvatarStatus } from "./avatar-status"
 import { ChatRadialGradient } from "@/components/ui/app-gradient"
 import type { User } from "@/lib/db/schemas/users"
 import type { Profile } from "@/lib/db/schemas/profiles"
-
-// Dynamic imports following starter kit
-const Messages = dynamic(() => import("./messages"))
-const Controls = dynamic(() => import("./controls"))
-const StartCall = dynamic(() =>
-  import("./start-call").then((mod) => mod.StartCall),
-)
 
 interface ChatProps {
   accessToken: string
