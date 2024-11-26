@@ -51,7 +51,7 @@ export function StartCall() {
               onClick={handleStartCall}
             >
               <Phone className="h-5 w-5" strokeWidth={2} />
-              <span className="text-lg">Start Call</span>
+              <span className="text-lg">Start Talking</span>
             </Button>
           )}
         </motion.div>
