@@ -6,6 +6,7 @@ import { profiles, users } from "@/lib/db/schemas"
 import { Logo } from "@/components/ui/logo"
 import { UserProfileButton } from "@/components/global/user-profile"
 import { AppSidebar } from "@/components/global/sidebar"
+import { AppMeshGradient } from "@/components/ui/app-gradient"
 
 export default async function AppLayout({
   children,
@@ -26,15 +27,16 @@ export default async function AppLayout({
   if (!profile) redirect("/welcome/profile")
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <header className="fixed top-0 right-0 left-0 z-50 flex h-14 items-center justify-between border-b bg-background/95 px-4 backdrop-blur-sm">
+    <div className="relative flex min-h-screen flex-col">
+      <AppMeshGradient />
+      <header className="fixed top-0 right-0 left-0 z-50 flex h-14 items-center justify-between bg-background/95 px-4 backdrop-blur-sm">
         <Logo className="h-8 w-8" />
         <UserProfileButton user={dbUser} profile={profile} />
       </header>
 
       <div className="flex grow pt-14">
         <AppSidebar />
-        <main className="grow md:pl-20">{children}</main>
+        <main className="relative w-full grow md:pl-20">{children}</main>
       </div>
     </div>
   )
