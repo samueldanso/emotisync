@@ -1,13 +1,13 @@
-"use client"
+"use client";
 
-import { cn } from "@/lib/utils"
-import { useVoice } from "@humeai/voice-react"
-import { AnimatePresence, motion } from "framer-motion"
-import { forwardRef } from "react"
-import Expressions from "./expressions"
+import { cn } from "@/lib/utils";
+import { useVoice } from "@humeai/voice-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { forwardRef } from "react";
+import Expressions from "./expressions";
 
 const Messages = forwardRef<HTMLDivElement>((_, ref) => {
-  const { messages } = useVoice()
+  const { messages } = useVoice();
 
   return (
     <motion.div
@@ -24,8 +24,8 @@ const Messages = forwardRef<HTMLDivElement>((_, ref) => {
             ) {
               const key = `${msg.type}-${msg.message?.content?.slice(
                 0,
-                10,
-              )}-${Date.now()}`
+                10
+              )}-${Date.now()}`;
               return (
                 <motion.div
                   key={key}
@@ -33,7 +33,7 @@ const Messages = forwardRef<HTMLDivElement>((_, ref) => {
                     "w-[80%]",
                     "bg-card",
                     "rounded border border-border",
-                    msg.type === "user_message" ? "ml-auto" : "",
+                    msg.type === "user_message" ? "ml-auto" : ""
                   )}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -47,16 +47,16 @@ const Messages = forwardRef<HTMLDivElement>((_, ref) => {
                     <Expressions values={msg.models.prosody.scores} />
                   )}
                 </motion.div>
-              )
+              );
             }
-            return null
+            return null;
           })}
         </AnimatePresence>
       </motion.div>
     </motion.div>
-  )
-})
+  );
+});
 
-Messages.displayName = "Messages"
+Messages.displayName = "Messages";
 
-export default Messages
+export default Messages;
