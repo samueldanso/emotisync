@@ -36,7 +36,10 @@ export default async function AppLayout({
     <div className="relative min-h-screen bg-background">
       <VoiceProvider accessToken={accessToken}>
         <SidebarProvider defaultOpen={false}>
-          <div className="fixed top-0 z-40 flex h-14 w-full items-center justify-between px-4">
+          <div
+            className="fixed top-0 z-40 flex h-14 w-full items-center justify-between px-4"
+            data-state={status?.value === "connected" ? "hidden" : "visible"}
+          >
             <AppSidebar />
             <UserProfileButton user={dbUser} profile={profile} />
           </div>

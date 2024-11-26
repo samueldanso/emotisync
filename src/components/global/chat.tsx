@@ -59,41 +59,40 @@ function ChatContent({ user, profile, avatar }: ChatProps) {
   return (
     <div className="relative flex h-full flex-col">
       {!isActive ? (
-        <div className="flex h-full flex-col items-center justify-center p-4">
+        <div className="z-10 flex h-full flex-col items-center justify-center p-4">
           <AvatarStatus
             avatar={avatar.image_url}
             name={companionName}
             isSpeaking={false}
             isListening={false}
           />
-          <div className="mx-auto mt-6 max-w-md text-center">
+          <div className="z-10 mx-auto mt-6 max-w-md text-center">
             <h1 className="font-semibold text-xl md:text-2xl">
               {getGreeting()}, {displayName}
             </h1>
             <p className="mt-2 text-muted-foreground">
-              I'm {companionName}, your personal companion. What would you like
-              to talk about?
+              I'm {companionName}, your personal companion.
             </p>
           </div>
           <StartCall />
         </div>
       ) : (
-        <div className="fixed inset-0 flex flex-col bg-background">
-          <div className="flex-shrink-0 pt-8 pb-4 text-center">
-            <AvatarStatus
-              avatar={avatar.image_url}
-              name={companionName}
-              isSpeaking={isSpeaking}
-              isListening={isListening}
-            />
-          </div>
-          <div className="flex-1 overflow-hidden">
-            <div className="h-full overflow-y-auto">
+        <div className="fixed inset-0 z-50 bg-background">
+          <div className="flex h-full flex-col">
+            <div className="flex-shrink-0 pt-8 pb-4 text-center">
+              <AvatarStatus
+                avatar={avatar.image_url}
+                name={companionName}
+                isSpeaking={isSpeaking}
+                isListening={isListening}
+              />
+            </div>
+            <div className="flex-1 overflow-hidden">
               <Messages ref={ref} />
             </div>
-          </div>
-          <div className="flex-shrink-0 p-4">
-            <Controls />
+            <div className="flex-shrink-0 p-4">
+              <Controls />
+            </div>
           </div>
         </div>
       )}
