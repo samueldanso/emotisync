@@ -1,42 +1,56 @@
-import type { Message } from "@humeai/voice-react"
-import type { NewJournal } from "@/lib/db/schemas/journals"
-import type { EmotionalInsight } from "@/lib/types/journal"
+// Comment out the entire file for now since we're focusing on chat
+/*
 import { db } from "@/lib/db/db"
 import { journals } from "@/lib/db/schemas"
+import { eq } from "drizzle-orm"
+import type { Message } from "@humeai/voice-react"
 
-export function generateJournalEntry({
-  userId,
-  messages,
-  emotional_state,
-}: {
-  userId: string
-  messages: Message[]
-  emotional_state: string
-}): NewJournal {
-  const now = new Date()
-  const timeStr = now.toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
-  })
+export async function getJournal(id: string) {
+  try {
+    const journal = await db.query.journals.findFirst({
+      where: eq(journals.id, id),
+    })
 
-  const emotional_insights: EmotionalInsight = {
-    dominant_emotion: emotional_state,
-    timestamp: now.toISOString(),
-  }
-
-  return {
-    userId,
-    title: `Chat Session - ${timeStr}`,
-    summary: messages
-      .filter((m) => m.type === "user_message")
-      .map((m) => m.text)
-      .join(" "),
-    emotional_insights,
-    created_at: now,
-    updated_at: now,
+    return {
+      data: journal,
+      error: null,
+    }
+  } catch (error) {
+    return {
+      data: null,
+      error: "Failed to fetch journal",
+    }
   }
 }
 
-export async function saveJournalEntry(entry: NewJournal) {
-  return await db.insert(journals).values(entry).returning()
+export async function saveJournal(
+  userId: string,
+  messages: Message[],
+  emotional_insights: any,
+) {
+  try {
+    const now = new Date()
+
+    const [journal] = await db.insert(journals).values({
+      user_id: userId,
+      summary: messages
+        .filter((m) => m.type === "user_message")
+        .map((m) => m.text)
+        .join(" "),
+      emotional_insights,
+      created_at: now,
+      updated_at: now,
+    })
+
+    return {
+      data: journal,
+      error: null,
+    }
+  } catch (error) {
+    return {
+      data: null,
+      error: "Failed to save journal",
+    }
+  }
 }
+*/
