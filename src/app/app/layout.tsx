@@ -35,7 +35,7 @@ export default async function AppLayout({
   return (
     <div className="relative min-h-screen bg-background">
       <VoiceProvider accessToken={accessToken}>
-        <SidebarProvider>
+        <SidebarProvider defaultOpen={false}>
           <header className="fixed top-0 right-0 left-0 z-40 h-14 border-b bg-background/95 backdrop-blur-sm">
             <div className="flex h-full items-center justify-between px-4">
               <AppSidebar />

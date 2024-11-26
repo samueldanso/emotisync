@@ -23,11 +23,7 @@ function getGreeting() {
   return "Good evening"
 }
 
-function ChatContent({
-  user,
-  profile,
-  avatar,
-}: Omit<ChatProps, "accessToken">) {
+function ChatContent({ user, profile, avatar }: ChatProps) {
   const { status, messages } = useVoice()
   const [isSpeaking, setIsSpeaking] = useState(false)
   const ref = useRef<ComponentRef<typeof Messages>>(null)
@@ -63,43 +59,40 @@ function ChatContent({
   return (
     <div className="relative flex h-full flex-col">
       {!isActive ? (
-        <div className="flex h-full flex-col items-center justify-center p-4 md:p-8">
-          <div className="relative z-10">
-            <AvatarStatus
-              avatar={avatar.image_url}
-              name={companionName}
-              isSpeaking={false}
-              isListening={false}
-            />
-            <div className="mt-8 text-center">
-              <h1 className="font-semibold text-xl md:text-2xl">
-                {getGreeting()}, {displayName}
-              </h1>
-              <p className="mt-3 px-4 text-base text-muted-foreground md:px-0">
-                I'm {companionName}, your personal companion. What would you
-                like to talk about today?
-              </p>
-            </div>
+        <div className="flex h-full flex-col items-center justify-center p-4">
+          <AvatarStatus
+            avatar={avatar.image_url}
+            name={companionName}
+            isSpeaking={false}
+            isListening={false}
+          />
+          <div className="mx-auto mt-6 max-w-md text-center">
+            <h1 className="font-semibold text-xl md:text-2xl">
+              {getGreeting()}, {displayName}
+            </h1>
+            <p className="mt-2 text-muted-foreground">
+              I'm {companionName}, your personal companion. What would you like
+              to talk about?
+            </p>
           </div>
           <StartCall />
         </div>
       ) : (
-        <div className="fixed inset-0 flex flex-col items-center justify-between bg-background">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--brand-primary)/5,transparent_100%)] opacity-50" />
-          <div className="flex w-full flex-1 flex-col items-center justify-center px-4 md:px-8">
-            <div className="mb-6 md:mb-8">
-              <AvatarStatus
-                avatar={avatar.image_url}
-                name={companionName}
-                isSpeaking={isSpeaking}
-                isListening={isListening}
-              />
-            </div>
-            <div className="w-full max-w-2xl">
+        <div className="fixed inset-0 flex flex-col bg-background">
+          <div className="flex-shrink-0 pt-8 pb-4 text-center">
+            <AvatarStatus
+              avatar={avatar.image_url}
+              name={companionName}
+              isSpeaking={isSpeaking}
+              isListening={isListening}
+            />
+          </div>
+          <div className="flex-1 overflow-hidden">
+            <div className="h-full overflow-y-auto">
               <Messages ref={ref} />
             </div>
           </div>
-          <div className="mx-auto w-full max-w-md flex-shrink-0 pb-6 md:pb-8">
+          <div className="flex-shrink-0 p-4">
             <Controls />
           </div>
         </div>
@@ -108,6 +101,6 @@ function ChatContent({
   )
 }
 
-export default function Chat({ user, profile, avatar }: ChatProps) {
-  return <ChatContent {...{ user, profile, avatar }} />
+export default function Chat(props: ChatProps) {
+  return <ChatContent {...props} />
 }

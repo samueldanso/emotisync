@@ -1,23 +1,24 @@
 "use client"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+import { Button } from "@/components/ui/button"
+import { ThemeToggle } from "@/components/ui/theme-toggle"
+import { LogOut, Settings, Clock } from "lucide-react"
 import { getPlatform } from "@/lib/utils/platform-utils"
 import { supabaseClient } from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
-import { ThemeToggle } from "@/components/ui/theme-toggle"
-import { LogOut } from "lucide-react"
 import type { User } from "@/lib/db/schemas/users"
 import type { Profile } from "@/lib/db/schemas"
 import { useEffect, useState } from "react"
 import { checkUsageLimit } from "@/actions/rate-limit"
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
+import { Separator } from "@/components/ui/separator"
 
 interface UserProfileButtonProps {
   user: User
@@ -64,95 +65,98 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
   }, [platform, user.telegram_id])
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Avatar className="h-9 w-9 cursor-pointer">
-          {avatarUrl ? (
-            <AvatarImage
-              src={avatarUrl}
-              alt={displayName}
-              className="object-cover"
-            />
-          ) : (
-            <AvatarFallback className="bg-primary/10 text-primary">
-              {displayName[0].toUpperCase()}
-            </AvatarFallback>
-          )}
-        </Avatar>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent
-        align="end"
-        className="w-[260px] rounded-2xl border-none bg-background/95 p-2 shadow-lg backdrop-blur-sm"
-      >
-        <DropdownMenuGroup>
-          <div className="px-2 py-3">
-            <div className="font-medium">{displayName}</div>
-            <div className="text-muted-foreground text-sm">
-              {platform === "telegram" ? user.telegram_id : user.email}
+    <Sheet>
+      <SheetTrigger asChild>
+        <button type="button" className="group">
+          <Avatar className="h-8 w-8 transition-opacity hover:opacity-80">
+            {avatarUrl ? (
+              <AvatarImage
+                src={avatarUrl}
+                alt={displayName}
+                className="object-cover"
+              />
+            ) : (
+              <AvatarFallback className="bg-transparent text-primary">
+                {displayName[0].toUpperCase()}
+              </AvatarFallback>
+            )}
+          </Avatar>
+        </button>
+      </SheetTrigger>
+      <SheetContent className="w-full border-l sm:max-w-md">
+        <SheetHeader className="space-y-6 pb-6">
+          <SheetTitle className="font-medium text-lg">
+            Profile Settings
+          </SheetTitle>
+          <div className="flex items-start gap-4">
+            <Avatar className="h-16 w-16 ring-2 ring-primary/20">
+              {avatarUrl ? (
+                <AvatarImage
+                  src={avatarUrl}
+                  alt={displayName}
+                  className="object-cover"
+                />
+              ) : (
+                <AvatarFallback className="bg-primary/10 text-primary text-xl">
+                  {displayName[0].toUpperCase()}
+                </AvatarFallback>
+              )}
+            </Avatar>
+            <div className="space-y-1">
+              <h2 className="font-semibold text-lg">{displayName}</h2>
+              <p className="text-muted-foreground text-sm">
+                {platform === "telegram" ? user.telegram_id : user.email}
+              </p>
             </div>
           </div>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator className="mx-2" />
+        </SheetHeader>
 
-        <div className="p-1.5">
-          <DropdownMenuItem className="flex items-center justify-between rounded-lg px-2 py-2 transition-colors hover:bg-primary/5">
-            <span>Minutes</span>
-            <span className="rounded-full bg-primary/10 px-2 py-0.5 text-primary text-xs">
-              {remainingMinutes}
-            </span>
-          </DropdownMenuItem>
+        <div className="space-y-6">
+          {/* Usage */}
+          <div className="space-y-4">
+            <div className="flex items-center gap-2 font-medium text-sm">
+              <Clock className="h-4 w-4" />
+              <span>Usage</span>
+            </div>
+            <div className="flex items-center justify-between rounded-lg border p-3">
+              <span className="text-muted-foreground text-sm">
+                Remaining Time
+              </span>
+              <span className="font-medium text-sm">
+                {remainingMinutes} minutes
+              </span>
+            </div>
+          </div>
 
-          <DropdownMenuItem
-            className="flex items-center justify-between rounded-lg px-2 py-2 transition-colors hover:bg-primary/5"
-            disabled
-          >
-            <span className="text-sm">Voice</span>
-            <span className="rounded-full bg-primary/10 px-2 py-0.5 text-primary text-xs">
-              Soon
-            </span>
-          </DropdownMenuItem>
+          <Separator />
 
-          <DropdownMenuItem
-            className="flex items-center justify-between rounded-lg px-2 py-2 transition-colors hover:bg-primary/5"
-            disabled
-          >
-            <span className="text-sm">Personality</span>
-            <span className="rounded-full bg-primary/10 px-2 py-0.5 text-primary text-xs">
-              Soon
-            </span>
-          </DropdownMenuItem>
+          {/* Settings */}
+          <div className="space-y-4">
+            <div className="flex items-center gap-2 font-medium text-sm">
+              <Settings className="h-4 w-4" />
+              <span>Preferences</span>
+            </div>
+            <div className="flex items-center justify-between rounded-lg border p-3">
+              <span className="text-muted-foreground text-sm">Theme</span>
+              <ThemeToggle />
+            </div>
+          </div>
 
-          <DropdownMenuItem
-            className="flex items-center justify-between rounded-lg px-2 py-2 transition-colors hover:bg-primary/5"
-            disabled
-          >
-            <span className="text-sm">Group chats</span>
-            <span className="rounded-full bg-primary/10 px-2 py-0.5 text-primary text-xs">
-              Soon
-            </span>
-          </DropdownMenuItem>
+          <Separator />
 
-          <DropdownMenuItem className="flex items-center justify-between rounded-lg px-2 py-2 transition-colors hover:bg-primary/5">
-            <span>Theme</span>
-            <ThemeToggle />
-          </DropdownMenuItem>
-        </div>
-
-        <DropdownMenuSeparator className="mx-2" />
-
-        <div className="p-1.5">
-          <DropdownMenuItem
+          <Button
+            variant="ghost"
+            className="w-full justify-start gap-2 text-destructive hover:bg-destructive/10 hover:text-destructive"
             onClick={() => {
               supabaseClient.auth.signOut()
               router.push("/login")
             }}
-            className="flex items-center gap-2 rounded-lg px-2 py-2 transition-colors hover:bg-primary/5"
           >
             <LogOut className="h-4 w-4" />
             <span>Sign out</span>
-          </DropdownMenuItem>
+          </Button>
         </div>
-      </DropdownMenuContent>
-    </DropdownMenu>
+      </SheetContent>
+    </Sheet>
   )
 }
