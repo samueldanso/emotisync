@@ -1,4 +1,3 @@
-import { getHumeAccessToken } from "@/lib/ai/humeai"
 import dynamic from "next/dynamic"
 import { getUser } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
@@ -9,7 +8,6 @@ import { companions, type Companion } from "@/lib/db/schemas"
 import { users, type User } from "@/lib/db/schemas"
 
 interface ChatProps {
-  accessToken: string
   user: User
   profile: Profile
   avatar: Companion
@@ -42,12 +40,6 @@ export default async function AppPage() {
     throw new Error("No avatar found")
   }
 
-  const accessToken = await getHumeAccessToken()
-
-  if (!accessToken) {
-    throw new Error("No access token available")
-  }
-
   const dbUser = await db.query.users.findFirst({
     where: eq(users.id, user.id),
   })
@@ -58,12 +50,7 @@ export default async function AppPage() {
 
   return (
     <div className="flex min-h-0 grow flex-col">
-      <Chat
-        accessToken={accessToken}
-        user={dbUser}
-        profile={profile}
-        avatar={avatar}
-      />
+      <Chat user={dbUser} profile={profile} avatar={avatar} />
     </div>
   )
 }
