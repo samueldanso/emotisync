@@ -6,7 +6,6 @@ import Controls from "./controls"
 import { StartCall } from "./start-call"
 import { type ComponentRef, useRef, useState, useEffect } from "react"
 import { AvatarStatus } from "./avatar-status"
-import { ChatRadialGradient } from "@/components/ui/app-gradient"
 import type { User } from "@/lib/db/schemas/users"
 import type { Profile } from "@/lib/db/schemas/profiles"
 import type { Companion } from "@/lib/db/schemas/companions"
@@ -50,32 +49,33 @@ function ChatContent({
   const isListening = isActive && !isSpeaking
 
   return (
-    <div className="relative flex min-h-[calc(100vh-3.5rem)] flex-col overflow-hidden">
-      <ChatRadialGradient />
+    <div className="relative flex h-full flex-col">
+      {/* Welcome state */}
       {!isActive ? (
-        // Welcome State - Full screen centered
-        <div className="flex h-full flex-col items-center justify-center">
-          <AvatarStatus
-            avatar={avatar.image_url}
-            name={companionName}
-            isSpeaking={false}
-            isListening={false}
-          />
-          <div className="mb-8 text-center">
-            <h1 className="font-semibold text-xl md:text-2xl">
-              {getGreeting()}, {displayName}
-            </h1>
-            <p className="mt-1.5 text-base text-muted-foreground">
-              I'm {companionName}, your personal companion. What would you like
-              to talk about today?
-            </p>
+        <div className="flex h-full flex-col items-center justify-center p-4">
+          <div className="relative z-10">
+            <AvatarStatus
+              avatar={avatar.image_url}
+              name={companionName}
+              isSpeaking={false}
+              isListening={false}
+            />
+            <div className="mb-8 text-center">
+              <h1 className="font-semibold text-xl md:text-2xl">
+                {getGreeting()}, {displayName}
+              </h1>
+              <p className="mt-1.5 text-base text-muted-foreground">
+                I'm {companionName}, your personal companion. What would you
+                like to talk about today?
+              </p>
+            </div>
           </div>
           <StartCall />
         </div>
       ) : (
-        // Active Chat State
-        <>
-          <div className="relative z-20 flex flex-col items-center py-6 md:py-8">
+        // Chat state
+        <div className="flex h-full flex-col">
+          <div className="flex-shrink-0 py-6">
             <AvatarStatus
               avatar={avatar.image_url}
               name={companionName}
@@ -83,13 +83,13 @@ function ChatContent({
               isListening={isListening}
             />
           </div>
-
-          <div className="relative z-10 mx-auto h-full w-full max-w-3xl px-4 pb-32">
+          <div className="flex-1 overflow-hidden px-4">
             <Messages ref={ref} />
           </div>
-
-          <Controls />
-        </>
+          <div className="flex-shrink-0">
+            <Controls />
+          </div>
+        </div>
       )}
     </div>
   )

@@ -19,7 +19,7 @@ export function AppSidebar() {
   return (
     <aside
       className={cn(
-        "z-40 flex items-center bg-transparent",
+        "z-30 bg-background/95 backdrop-blur-sm transition-all duration-200",
         isMobile
           ? "fixed right-0 bottom-0 left-0 h-16 border-t"
           : "fixed top-14 bottom-0 left-0 w-20 border-r",
@@ -27,8 +27,10 @@ export function AppSidebar() {
     >
       <nav
         className={cn(
-          "flex items-center gap-2",
-          isMobile ? "w-full justify-evenly px-4" : "w-full flex-col gap-1 p-4",
+          "flex h-full",
+          isMobile
+            ? "items-center justify-around px-4"
+            : "flex-col items-center gap-2 py-4",
         )}
       >
         {SIDEBAR_ITEMS.map((item) => {
