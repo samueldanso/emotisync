@@ -19,10 +19,10 @@ export function AppSidebar() {
   return (
     <aside
       className={cn(
-        "z-50 flex items-center bg-transparent",
+        "z-40 flex items-center bg-transparent",
         isMobile
-          ? "fixed right-0 bottom-0 left-0 h-16"
-          : "fixed inset-y-0 left-0 hidden w-64 flex-col border-r md:flex",
+          ? "fixed right-0 bottom-0 left-0 h-16 border-t"
+          : "fixed top-14 bottom-0 left-0 w-20 border-r",
       )}
     >
       <nav
