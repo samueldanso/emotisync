@@ -3,11 +3,10 @@ import { getUser } from "@/lib/supabase/server"
 import { db } from "@/lib/db/db"
 import { eq } from "drizzle-orm"
 import { profiles, users } from "@/lib/db/schemas"
-import { UserProfileButton } from "@/components/global/user-profile"
-import { AppSidebar } from "@/components/global/app-sidebar"
 import { VoiceProvider } from "@/components/providers/voice-provider"
 import { getHumeAccessToken } from "@/lib/ai/humeai"
 import { SidebarProvider } from "@/components/ui/sidebar"
+import { LayoutContent } from "@/components/global/layout-content"
 
 export default async function AppLayout({
   children,
@@ -33,21 +32,12 @@ export default async function AppLayout({
   }
 
   return (
-    <div className="relative min-h-screen bg-background">
-      <VoiceProvider accessToken={accessToken}>
-        <SidebarProvider defaultOpen={false}>
-          <div
-            className="fixed top-0 z-40 flex h-14 w-full items-center justify-between px-4"
-            data-state={status?.value === "connected" ? "hidden" : "visible"}
-          >
-            <AppSidebar />
-            <UserProfileButton user={dbUser} profile={profile} />
-          </div>
-          <main className="relative min-h-[calc(100vh-3.5rem)] flex-1 pt-14">
-            {children}
-          </main>
-        </SidebarProvider>
-      </VoiceProvider>
-    </div>
+    <VoiceProvider accessToken={accessToken}>
+      <SidebarProvider defaultOpen={false}>
+        <LayoutContent user={dbUser} profile={profile}>
+          {children}
+        </LayoutContent>
+      </SidebarProvider>
+    </VoiceProvider>
   )
 }
