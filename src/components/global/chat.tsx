@@ -22,7 +22,7 @@ export default function Chat({ accessToken, avatar }: ChatProps) {
   const [isSpeaking, setIsSpeaking] = useState(false)
 
   return (
-    <div className="relative mx-auto flex h-[0px] w-full grow flex-col overflow-hidden">
+    <div className="relative flex min-h-[calc(100vh-3.5rem)] flex-col overflow-hidden">
       <VoiceProvider
         auth={{ type: "accessToken", value: accessToken }}
         configId={env.NEXT_PUBLIC_HUME_CONFIG_ID}
@@ -47,14 +47,18 @@ export default function Chat({ accessToken, avatar }: ChatProps) {
           }
         }}
       >
-        <div className="relative z-20 pt-16 pb-8">
+        <div className="relative z-20 flex flex-col items-center py-8">
           <AvatarStatus
             avatar={avatar.image_url}
             name={avatar.name}
             isSpeaking={isSpeaking}
           />
         </div>
-        <Messages ref={ref} />
+
+        <div className="relative z-10 mx-auto h-full w-full max-w-3xl px-4 pb-32">
+          <Messages ref={ref} />
+        </div>
+
         <Controls />
         <StartCall />
       </VoiceProvider>
