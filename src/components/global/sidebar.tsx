@@ -13,13 +13,18 @@ export function AppSidebar() {
   return (
     <aside
       className={cn(
-        "z-30 flex w-20 flex-col items-center bg-background/95 backdrop-blur-sm",
+        "z-50 flex items-center bg-background/95 backdrop-blur-sm",
         isMobile
-          ? "fixed right-0 bottom-0 left-0 h-16 w-full flex-row justify-around border-t"
-          : "fixed inset-y-0 left-0 hidden md:flex",
+          ? "fixed right-0 bottom-0 left-0 h-16 border-t"
+          : "fixed inset-y-0 left-0 hidden w-20 flex-col md:flex",
       )}
     >
-      <nav className="flex w-full flex-1 flex-col items-center gap-4 p-4">
+      <nav
+        className={cn(
+          "flex items-center gap-2",
+          isMobile ? "w-full justify-evenly px-4" : "w-full flex-col gap-4 p-4",
+        )}
+      >
         {SIDEBAR_ITEMS.map((item) => {
           const isActive = pathname === item.href
           return (
@@ -27,14 +32,15 @@ export function AppSidebar() {
               key={item.href}
               href={item.href}
               className={cn(
-                "group flex h-10 w-10 items-center justify-center rounded-full transition-all duration-200",
+                "flex items-center justify-center rounded-full transition-all duration-200",
+                isMobile ? "h-12 w-12" : "h-10 w-10",
                 isActive
                   ? "bg-primary text-primary-foreground"
                   : "text-muted-foreground hover:bg-primary/5 hover:text-primary",
               )}
               title={item.label}
             >
-              <item.icon className="h-5 w-5 transition-transform duration-200 group-hover:scale-110" />
+              <item.icon className="h-5 w-5" />
             </Link>
           )
         })}

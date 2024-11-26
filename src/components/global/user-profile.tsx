@@ -16,6 +16,8 @@ import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { LogOut } from "lucide-react"
 import type { User } from "@/lib/db/schemas/users"
 import type { Profile } from "@/lib/db/schemas"
+import { useEffect, useState } from "react"
+import { checkUsageLimit } from "@/actions/rate-limit"
 
 interface UserProfileButtonProps {
   user: User
@@ -23,9 +25,19 @@ interface UserProfileButtonProps {
 }
 
 export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
+  const [remainingMinutes, setRemainingMinutes] = useState<number>(10)
   const router = useRouter()
   const platform = getPlatform()
   const displayName = profile?.display_name || user.first_name
+
+  // Fetch remaining minutes
+  useEffect(() => {
+    const checkRemaining = async () => {
+      const usage = await checkUsageLimit()
+      setRemainingMinutes(Math.floor(usage.remainingSeconds / 60))
+    }
+    checkRemaining()
+  }, [])
 
   return (
     <DropdownMenu>
@@ -52,11 +64,11 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
 
         {/* Menu Items */}
         <div className="p-1.5">
-          {/* Points */}
+          {/* Minutes */}
           <DropdownMenuItem className="flex items-center justify-between rounded-lg px-2 py-2 transition-colors hover:bg-primary/5">
-            <span>Points</span>
+            <span>Minutes</span>
             <span className="rounded-full bg-primary/10 px-2 py-0.5 text-primary text-xs">
-              Soon
+              {remainingMinutes}
             </span>
           </DropdownMenuItem>
 
@@ -76,18 +88,18 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
             className="flex items-center justify-between rounded-lg px-2 py-2 transition-colors hover:bg-primary/5"
             disabled
           >
-            <span className="text-sm">Group chats</span>
+            <span className="text-sm">Personality</span>
             <span className="rounded-full bg-primary/10 px-2 py-0.5 text-primary text-xs">
               Soon
             </span>
           </DropdownMenuItem>
 
-          {/* Invite Friends */}
+          {/* Friends */}
           <DropdownMenuItem
             className="flex items-center justify-between rounded-lg px-2 py-2 transition-colors hover:bg-primary/5"
             disabled
           >
-            <span className="text-sm">Invite Friends</span>
+            <span className="text-sm">Group chats</span>
             <span className="rounded-full bg-primary/10 px-2 py-0.5 text-primary text-xs">
               Soon
             </span>
