@@ -1,13 +1,11 @@
-import { env } from "@/env"
 import { redirect } from "next/navigation"
 import { getUser } from "@/lib/supabase/server"
 import { db } from "@/lib/db/db"
 import { eq } from "drizzle-orm"
 import { profiles, users } from "@/lib/db/schemas"
-import { AppHeader } from "@/components/global/app-header"
+import { Logo } from "@/components/ui/logo"
+import { UserProfileButton } from "@/components/global/user-profile"
 import { AppSidebar } from "@/components/global/sidebar"
-import { AppMeshGradient } from "@/components/ui/app-gradient"
-import { motion } from "framer-motion"
 
 export default async function AppLayout({
   children,
@@ -27,21 +25,19 @@ export default async function AppLayout({
   })
   if (!profile) redirect("/welcome/profile")
 
-  const _configId = env.NEXT_PUBLIC_HUME_CONFIG_ID
-
   return (
-    <div className="relative min-h-screen bg-background">
-      <AppMeshGradient />
-      <AppHeader user={dbUser} profile={profile} />
-      <motion.main
-        className="relative mx-auto max-w-5xl px-4 pt-24 pb-20 md:px-8 md:pl-32"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-      >
-        {children}
-      </motion.main>
-      <AppSidebar />
+    <div className="flex min-h-screen flex-col">
+      <div className="flex h-14 items-center px-4">
+        <Logo className="h-8 w-8" />
+        <div className="ml-auto">
+          <UserProfileButton user={dbUser} profile={profile} />
+        </div>
+      </div>
+
+      <div className="flex grow">
+        <AppSidebar />
+        <main className="grow">{children}</main>
+      </div>
     </div>
   )
 }

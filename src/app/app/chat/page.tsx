@@ -1,23 +1,22 @@
+import { getHumeAccessToken } from "@/lib/ai/humeai"
 import { redirect } from "next/navigation"
-import { getUser } from "@/lib/supabase/server"
 import { db } from "@/lib/db/db"
 import { eq } from "drizzle-orm"
-import { profiles, users, companions } from "@/lib/db/schemas"
-import { Session } from "@/components/global/chat"
-import { getHumeAccessToken } from "@/lib/ai/humeai"
+import { companions } from "@/lib/db/schemas"
+import dynamic from "next/dynamic"
 
-export default async function ChatPage() {
-  const supabaseUser = await getUser()
-  if (!supabaseUser) redirect("/login")
+const Chat = dynamic(() => import("@/components/global/chat"), {
+  ssr: false,
+})
 
-  const dbUser = await db.query.users.findFirst({
-    where: eq(users.id, supabaseUser.id),
-  })
-  if (!dbUser) redirect("/login")
+export default async function Page() {
+  const accessToken = await getHumeAccessToken()
+  if (!accessToken) {
+    throw new Error()
+  }
 
-  const profile = await db.query.profiles.findFirst({
-    where: eq(profiles.userId, dbUser.id),
-  })
+  // Get companion data for avatar
+  const profile = await db.query.profiles.findFirst()
   if (!profile) redirect("/welcome/profile")
 
   const companion = await db.query.companions.findFirst({
@@ -25,28 +24,14 @@ export default async function ChatPage() {
   })
   if (!companion) throw new Error("Companion not found")
 
-  const _displayName = profile.display_name || dbUser.first_name
-  const _companionName = profile.companion_name || companion.name
-
-  // Helper for greeting based on time of day
-  const _getGreeting = () => {
-    const hour = new Date().getHours()
-    if (hour < 12) return "Good morning"
-    if (hour < 17) return "Good afternoon"
-    return "Good evening"
-  }
-
-  // Add access token fetch
-  const accessToken = await getHumeAccessToken()
-  if (!accessToken) throw new Error("Failed to get Hume access token")
-
   return (
-    <div className="mx-auto flex min-h-[calc(100vh-16rem)] max-w-2xl flex-col items-center justify-center px-4 pt-8 md:pt-0">
-      <Session
+    <div className="flex grow flex-col">
+      <Chat
         accessToken={accessToken}
-        user={dbUser}
-        profile={profile}
-        avatar={companion}
+        avatar={{
+          image_url: companion.image_url,
+          name: companion.name,
+        }}
       />
     </div>
   )
