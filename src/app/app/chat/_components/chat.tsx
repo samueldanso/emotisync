@@ -1,7 +1,6 @@
 "use client"
 
-import { env } from "@/env"
-import { VoiceProvider, useVoice } from "@humeai/voice-react"
+import { useVoice } from "@humeai/voice-react"
 import Messages from "@/components/global/messages"
 import Controls from "@/components/global/controls"
 import { StartCall } from "@/components/global/start-call"
@@ -12,7 +11,6 @@ import type { Profile } from "@/lib/db/schemas/profiles"
 import type { Companion } from "@/lib/db/schemas/companions"
 
 interface SessionProps {
-  accessToken: string
   user: User
   profile: Profile
   avatar: Companion
@@ -94,22 +92,10 @@ function SessionContent({
   )
 }
 
-export default function Session({
-  accessToken,
-  user,
-  profile,
-  avatar,
-}: SessionProps) {
-  const configId = env.NEXT_PUBLIC_HUME_CONFIG_ID
-
+export default function Session({ user, profile, avatar }: SessionProps) {
   return (
     <div className="relative flex h-[calc(100vh-4rem)] w-full grow flex-col overflow-hidden">
-      <VoiceProvider
-        auth={{ type: "accessToken", value: accessToken }}
-        configId={configId}
-      >
-        <SessionContent user={user} profile={profile} avatar={avatar} />
-      </VoiceProvider>
+      <SessionContent user={user} profile={profile} avatar={avatar} />
     </div>
   )
 }

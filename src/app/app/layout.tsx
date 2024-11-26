@@ -7,6 +7,8 @@ import { Logo } from "@/components/ui/logo"
 import { UserProfileButton } from "@/components/global/user-profile"
 import { AppSidebar } from "@/components/global/sidebar"
 import { AppMeshGradient } from "@/components/ui/app-gradient"
+import { VoiceProvider } from "@/components/providers/voice-provider"
+import { getHumeAccessToken } from "@/lib/ai/humeai"
 
 export default async function AppLayout({
   children,
@@ -26,18 +28,25 @@ export default async function AppLayout({
   })
   if (!profile) redirect("/welcome/profile")
 
+  const accessToken = await getHumeAccessToken()
+  if (!accessToken) {
+    throw new Error("No access token available")
+  }
+
   return (
     <div className="relative flex min-h-screen flex-col bg-brand-background">
-      <AppMeshGradient />
-      <header className="fixed top-0 right-0 left-0 z-50 flex h-14 items-center justify-between bg-background/95 px-4 backdrop-blur-sm">
-        <Logo className="h-8 w-8" />
-        <UserProfileButton user={dbUser} profile={profile} />
-      </header>
+      <VoiceProvider accessToken={accessToken}>
+        <AppMeshGradient />
+        <header className="fixed top-0 right-0 left-0 z-50 flex h-14 items-center justify-between bg-background/95 px-4 backdrop-blur-sm">
+          <Logo className="h-8 w-8" />
+          <UserProfileButton user={dbUser} profile={profile} />
+        </header>
 
-      <div className="flex grow pt-14">
-        <AppSidebar />
-        <main className="relative w-full grow md:pl-20">{children}</main>
-      </div>
+        <div className="flex grow pt-14">
+          <AppSidebar />
+          <main className="relative w-full grow md:pl-20">{children}</main>
+        </div>
+      </VoiceProvider>
     </div>
   )
 }

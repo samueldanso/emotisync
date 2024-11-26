@@ -8,10 +8,16 @@ import { cn } from "@/lib/utils"
 interface AvatarStatusProps {
   avatar: string
   name: string
-  isSpeaking?: boolean
+  isSpeaking: boolean
+  isListening?: boolean
 }
 
-export function AvatarStatus({ avatar, name, isSpeaking }: AvatarStatusProps) {
+export function AvatarStatus({
+  avatar,
+  name,
+  isSpeaking,
+  isListening,
+}: AvatarStatusProps) {
   const { status } = useVoice()
   const isConnected = status.value === "connected"
 
@@ -74,7 +80,11 @@ export function AvatarStatus({ avatar, name, isSpeaking }: AvatarStatusProps) {
                 : "bg-primary/10 text-primary",
             )}
           >
-            {isSpeaking ? "Speaking..." : "Listening..."}
+            {isSpeaking
+              ? "Speaking..."
+              : isListening
+                ? "Listening..."
+                : "Ready"}
           </motion.div>
         )}
       </AnimatePresence>
