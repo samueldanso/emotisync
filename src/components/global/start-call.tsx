@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import { useVoice } from "@humeai/voice-react"
-import { AnimatePresence, motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { Phone } from "lucide-react"
+import { useVoice } from "@humeai/voice-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Phone } from "lucide-react";
 
 export function StartCall() {
-  const { status, connect } = useVoice()
+  const { status, connect } = useVoice();
 
   return (
     <AnimatePresence>
@@ -23,7 +23,7 @@ export function StartCall() {
             onClick={() => {
               connect()
                 .then(() => console.log("Connected"))
-                .catch((error) => console.error("Connection failed:", error))
+                .catch((error) => console.error("Connection failed:", error));
             }}
           >
             <Phone className="h-5 w-5" strokeWidth={2} />
@@ -32,5 +32,5 @@ export function StartCall() {
         </motion.div>
       ) : null}
     </AnimatePresence>
-  )
+  );
 }

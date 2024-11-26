@@ -3,12 +3,11 @@ import { getUser } from "@/lib/supabase/server";
 import { db } from "@/lib/db/db";
 import { eq } from "drizzle-orm";
 import { profiles, users } from "@/lib/db/schemas";
-import { Logo } from "@/components/ui/logo";
 import { UserProfileButton } from "@/components/global/user-profile";
-import { AppSidebar } from "@/components/global/sidebar";
-import { AppMeshGradient } from "@/components/ui/app-gradient";
+import { AppSidebar } from "@/components/global/app-sidebar";
 import { VoiceProvider } from "@/components/providers/voice-provider";
 import { getHumeAccessToken } from "@/lib/ai/humeai";
+import { SidebarProvider } from "@/components/ui/sidebar";
 
 export default async function AppLayout({
   children,
@@ -36,21 +35,17 @@ export default async function AppLayout({
   return (
     <div className="relative min-h-screen bg-background">
       <VoiceProvider accessToken={accessToken}>
-        <div className="pointer-events-none fixed inset-0">
-          <AppMeshGradient />
-        </div>
-        <header className="fixed top-0 right-0 left-0 z-40 h-14 border-b bg-background/95 backdrop-blur-sm">
-          <div className="flex h-full items-center justify-between px-4">
-            <Logo className="h-8 w-8" />
-            <UserProfileButton user={dbUser} profile={profile} />
-          </div>
-        </header>
-        <div className="flex pt-14">
-          <AppSidebar />
-          <main className="relative min-h-[calc(100vh-3.5rem)] flex-1">
+        <SidebarProvider>
+          <header className="fixed top-0 right-0 left-0 z-40 h-14 border-b bg-background/95 backdrop-blur-sm">
+            <div className="flex h-full items-center justify-between px-4">
+              <AppSidebar />
+              <UserProfileButton user={dbUser} profile={profile} />
+            </div>
+          </header>
+          <main className="relative min-h-[calc(100vh-3.5rem)] flex-1 pt-14">
             {children}
           </main>
-        </div>
+        </SidebarProvider>
       </VoiceProvider>
     </div>
   );
