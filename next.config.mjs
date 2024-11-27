@@ -3,7 +3,7 @@ import createJiti from "jiti"
 
 const jiti = createJiti(fileURLToPath(import.meta.url))
 
-jiti("./src/env")
+jiti("./env")
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {}
