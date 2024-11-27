@@ -1,25 +1,25 @@
 import {
-  Book,
   Bot,
-  MessageSquare,
   Sparkles,
   AudioLines,
   Activity,
   type LucideIcon,
-} from "lucide-react";
+  BookText,
+  LineChart,
+} from "lucide-react"
 
-export type Testimonial = {
-  name: string;
-  role: string;
-  content: string;
-  avatar: string;
-};
+export interface Testimonial {
+  name: string
+  role: string
+  content: string
+  avatar: string
+}
 
-export type Feature = {
-  icon: LucideIcon;
-  title: string;
-  description: string;
-};
+export interface Feature {
+  icon: LucideIcon
+  title: string
+  description: string
+}
 
 export const FEATURES: Feature[] = [
   {
@@ -29,28 +29,28 @@ export const FEATURES: Feature[] = [
       "Converse naturally with your AI companion who listens and responds empathetically.",
   },
   {
-    icon: MessageSquare,
-    title: "Real-time emotional analysis",
-    description:
-      "EmotiSync analyzes your emotions in real-time to provide instant feedback and guidance.",
-  },
-  {
-    icon: Activity,
+    icon: Sparkles,
     title: "Mood-boosting recommendations",
     description:
-      "Receive personalized, actionable recommendations to improve your mood that actually work for you.",
+      "Receive personalized, actionable recommendations to improve your mood - tailored just for you.",
   },
   {
-    icon: Book,
+    icon: BookText,
     title: "Smart journal summaries",
     description:
       "Automatically generate journal entries from your voice conversations - no writing required.",
   },
   {
-    icon: Sparkles,
+    icon: Activity,
+    title: "Real-time emotional analysis",
+    description:
+      "EmotiSync analyzes your emotions in real-time to provide instant feedback and guidance.",
+  },
+  {
+    icon: LineChart,
     title: "Tailored insights",
     description:
-      "Get personalized insights about your emotional patterns and trends to better understand yourself.",
+      "Get personalized insights about your emotional patterns & trends to better understand yourself.",
   },
   {
     icon: Bot,
@@ -58,7 +58,7 @@ export const FEATURES: Feature[] = [
     description:
       "Personalize your companion's personality to match your unique preferences.",
   },
-] as const;
+] as const
 
 export const HOW_IT_WORKS = [
   {
@@ -71,7 +71,7 @@ export const HOW_IT_WORKS = [
   {
     title: "Receive instant insights",
     description:
-      "Get real-time insights as your conversation becomes a smart journal entry—no writing needed, ready to review anytime.",
+      "Get real-time insights as your voice conversation becomes a smart journal entry — no writing needed, ready to review anytime.",
     imagePosition: "right",
     image: "/images/step1.png",
   },
@@ -82,7 +82,7 @@ export const HOW_IT_WORKS = [
     imagePosition: "left",
     image: "/images/step1.png",
   },
-] as const;
+] as const
 
 export const TESTIMONIALS: Testimonial[] = [
   {
@@ -106,7 +106,7 @@ export const TESTIMONIALS: Testimonial[] = [
       "As someone whos an introvert, this feels like talking to a friend who really gets me. Other apps felt like homework.",
     avatar: "/images/avatar3.png",
   },
-] as const;
+] as const
 
 export const FAQS = [
   {
@@ -126,7 +126,7 @@ export const FAQS = [
   },
   {
     question: "How long do sessions take?",
-    answer: "As little as 2 minutes. Speak freely, and let the AI do the rest.",
+    answer: "As long as you want. Speak freely, and let the AI do the rest.",
   },
   {
     question: "Is my data safe with EmotiSync?",
@@ -141,9 +141,9 @@ export const FAQS = [
   {
     question: "Who can benefit from using EmotiSync AI?",
     answer:
-      "EmotiSync AI is beneficial for anyone seeking accessible emotional health insights—whether you're dealing with daily stress, need a listening ear, or want to explore self-care routines. If you're experiencing severe mental health issues, we strongly recommend consulting a licensed therapist.",
+      "EmotiSync AI is beneficial for anyone seeking accessible emotional health insights—whether you're dealing with daily stress, need a a friendly listening ear, or want to explore self-care routines. If you're experiencing severe mental health issues, we strongly recommend consulting a licensed therapist.",
   },
-] as const;
+] as const
 
 export const colorPairs = [
   {
@@ -170,4 +170,4 @@ export const colorPairs = [
     bg: "#DCFCE7",
     icon: "#16A34A",
   },
-] as const;
+] as const

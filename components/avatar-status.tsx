@@ -1,6 +1,4 @@
 "use client"
-
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import { motion, AnimatePresence } from "framer-motion"
 import { useVoice } from "@humeai/voice-react"
 import { cn } from "@/lib/utils"
@@ -9,7 +7,7 @@ interface AvatarStatusProps {
   avatar: string
   name: string
   isSpeaking: boolean
-  isListening?: boolean
+  isListening: boolean
 }
 
 export function AvatarStatus({
@@ -29,41 +27,24 @@ export function AvatarStatus({
       transition={{ duration: 0.3 }}
     >
       <div className="relative">
-        <Avatar className="h-28 w-28 md:h-32 md:w-32">
-          <AvatarImage src={avatar} alt={name} className="object-cover" />
-          <AvatarFallback>{name[0]}</AvatarFallback>
-        </Avatar>
+        {/* Pulsating circles - only show when speaking */}
+        {isSpeaking && (
+          <>
+            <div
+              className="-m-8 absolute inset-0 animate-pulse rounded-full bg-brand-primary/10"
+              style={{ animation: "pulse 2s ease-in-out infinite" }}
+            />
+            <div
+              className="-m-16 absolute inset-0 animate-pulse rounded-full bg-brand-primary/5"
+              style={{ animation: "pulse 2s ease-in-out infinite 0.5s" }}
+            />
+          </>
+        )}
 
-        {/* Pulsing rings only when speaking and connected */}
-        <AnimatePresence>
-          {isConnected && isSpeaking && (
-            <>
-              <motion.div
-                className="absolute inset-0 rounded-full border-2 border-rose-500/20"
-                initial={{ scale: 1, opacity: 0 }}
-                animate={{ scale: 1.2, opacity: 1 }}
-                exit={{ scale: 1, opacity: 0 }}
-                transition={{
-                  duration: 1,
-                  repeat: Number.POSITIVE_INFINITY,
-                  ease: "easeInOut",
-                }}
-              />
-              <motion.div
-                className="absolute inset-0 rounded-full border-2 border-rose-500/10"
-                initial={{ scale: 1, opacity: 0 }}
-                animate={{ scale: 1.4, opacity: 1 }}
-                exit={{ scale: 1, opacity: 0 }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Number.POSITIVE_INFINITY,
-                  ease: "easeInOut",
-                  delay: 0.2,
-                }}
-              />
-            </>
-          )}
-        </AnimatePresence>
+        {/* Avatar image */}
+        <div className="relative z-10 h-24 w-24 overflow-hidden rounded-full border-2 border-brand-primary/20">
+          <img src={avatar} alt={name} className="h-full w-full object-cover" />
+        </div>
       </div>
 
       {/* Status indicator */}

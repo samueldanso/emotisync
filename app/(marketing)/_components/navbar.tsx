@@ -1,26 +1,26 @@
-"use client";
+"use client"
 
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
-import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
-import { NAVBAR_MENU } from "@/lib/constants";
-import { Logo } from "@/components/ui/logo";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { MobileNav } from "./mobile-nav";
-import { useWindow } from "@/hooks/use-window";
+import Link from "next/link"
+import { useEffect, useState } from "react"
+import { Menu, X } from "lucide-react"
+import { motion } from "framer-motion"
+import { cn } from "@/lib/utils"
+import { NAVBAR_MENU } from "@/lib/constants"
+import { Logo } from "@/components/ui/logo"
+import { Button, buttonVariants } from "@/components/ui/button"
+import { MobileNav } from "./mobile-nav"
+import { useWindow } from "@/hooks/use-window"
 
 export function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [hasScrolled, setHasScrolled] = useState(false);
-  const { isMobile } = useWindow();
+  const [isOpen, setIsOpen] = useState(false)
+  const [hasScrolled, setHasScrolled] = useState(false)
+  const { isMobile } = useWindow()
 
   useEffect(() => {
-    const handleScroll = () => setHasScrolled(window.scrollY > 0);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    const handleScroll = () => setHasScrolled(window.scrollY > 0)
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
   return (
     <motion.header
@@ -28,7 +28,7 @@ export function Navbar() {
       animate={{ y: 0 }}
       className={cn(
         "fixed inset-x-0 top-4 z-50 mx-auto px-4 transition-all duration-300",
-        hasScrolled ? "max-w-[880px]" : "max-w-[1080px]"
+        hasScrolled ? "max-w-[880px]" : "max-w-[1080px]",
       )}
     >
       <nav className="flex h-12 items-center justify-between rounded-full bg-white/80 px-4 shadow-[0_4px_12px_0_rgba(0,0,0,0.08)] backdrop-blur-md md:h-[56px] dark:bg-zinc-800/80">
@@ -57,7 +57,7 @@ export function Navbar() {
                 variant: "soft",
                 size: "default",
                 className: "h-8 text-sm md:h-10 md:text-base",
-              })
+              }),
             )}
           >
             Sign in
@@ -71,7 +71,7 @@ export function Navbar() {
                   variant: "default",
                   size: "default",
                   className: "h-8 text-sm md:h-10 md:text-base",
-                })
+                }),
               )}
             >
               Get started
@@ -91,5 +91,5 @@ export function Navbar() {
 
       {isOpen && isMobile && <MobileNav onOpenChange={setIsOpen} />}
     </motion.header>
-  );
+  )
 }

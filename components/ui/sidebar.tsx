@@ -3,21 +3,28 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { type VariantProps, cva } from "class-variance-authority"
-import { PanelLeft } from "lucide-react"
+import { PanelLeft, Plus, Diamond } from "lucide-react"
+import Image from "next/image"
 
-import { useWindow } from "../../hooks/use-window"
+import { useWindow } from "@/hooks/use-window"
 import { cn } from "@/lib/utils"
-import { Button } from "./button"
-import { Input } from "./input"
-import { Separator } from "./separator"
-import { Sheet, SheetContent, SheetDescription, SheetTitle } from "./sheet"
-import { Skeleton } from "./skeleton"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Separator } from "@/components/ui/separator"
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetTitle,
+} from "@/components/ui/sheet"
+import { Skeleton } from "@/components/ui/skeleton"
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "./tooltip"
+import { Badge } from "@/components/ui/badge"
 
 const SIDEBAR_COOKIE_NAME = "sidebar:state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
@@ -276,7 +283,7 @@ const SidebarTrigger = React.forwardRef<
   React.ElementRef<typeof Button>,
   React.ComponentProps<typeof Button>
 >(({ onClick, ...props }, ref) => {
-  const { toggleSidebar } = useSidebar()
+  const { toggleSidebar, state } = useSidebar()
 
   return (
     <Button
@@ -288,9 +295,19 @@ const SidebarTrigger = React.forwardRef<
         onClick?.(event)
         toggleSidebar()
       }}
+      className={cn(
+        "absolute z-50 rounded-full bg-brand-primary/5 hover:bg-brand-primary/10",
+        // When sidebar is open, position inside right edge
+        state === "expanded"
+          ? "-right-4 top-4 translate-x-1/2"
+          : // When closed, position next to logo
+            "top-4 left-16",
+      )}
       {...props}
     >
-      <PanelLeft className="size-5" />
+      <PanelLeft
+        className={cn("size-5", state === "expanded" && "rotate-180")}
+      />
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   )
@@ -504,9 +521,26 @@ const SidebarMenu = React.forwardRef<
   <ul
     ref={ref}
     data-sidebar="menu"
-    className={cn("flex w-full min-w-0 flex-col gap-1", className)}
+    className={cn("flex w-full min-w-0 flex-col gap-1 px-2", className)}
     {...props}
-  />
+  >
+    {/* Regular menu items */}
+    {props.children}
+
+    {/* Add divider before Invite Friends */}
+    <SidebarSeparator className="my-2" />
+
+    {/* Invite Friends with Soon badge */}
+    <SidebarMenuItem>
+      <SidebarMenuButton disabled className="opacity-60">
+        <Diamond className="mr-2 h-4 w-4" />
+        <span>Invite Friends</span>
+        <Badge variant="outline" className="ml-auto bg-brand-primary/5">
+          Soon
+        </Badge>
+      </SidebarMenuButton>
+    </SidebarMenuItem>
+  </ul>
 ))
 SidebarMenu.displayName = "SidebarMenu"
 
@@ -747,6 +781,46 @@ const SidebarMenuSubButton = React.forwardRef<
 })
 SidebarMenuSubButton.displayName = "SidebarMenuSubButton"
 
+const NewChatButton = React.forwardRef<
+  HTMLButtonElement,
+  React.ComponentProps<typeof SidebarMenuButton>
+>(({ className, ...props }, ref) => (
+  <SidebarMenuButton
+    ref={ref}
+    className={cn(
+      "mb-2 h-10 w-full rounded-full bg-brand-primary/10 hover:bg-brand-primary/20",
+      className,
+    )}
+    {...props}
+  >
+    <Plus className="mr-2 h-4 w-4" />
+    <span>New Chat</span>
+  </SidebarMenuButton>
+))
+NewChatButton.displayName = "NewChatButton"
+
+const SidebarLogo = React.forwardRef<
+  HTMLDivElement,
+  React.ComponentProps<"div">
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("flex items-center gap-2 px-2 py-4", className)}
+    {...props}
+  >
+    <Image
+      src="/emotisync-icon.svg"
+      alt="EmotiSync"
+      width={28}
+      height={28}
+      className="h-7 w-7"
+      priority
+    />
+    <span className="font-heading font-semibold text-lg">EmotiSync</span>
+  </div>
+))
+SidebarLogo.displayName = "SidebarLogo"
+
 export {
   Sidebar,
   SidebarContent,
@@ -772,4 +846,5 @@ export {
   SidebarSeparator,
   SidebarTrigger,
   useSidebar,
+  SidebarLogo,
 }

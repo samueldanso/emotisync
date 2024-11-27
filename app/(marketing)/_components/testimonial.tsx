@@ -1,8 +1,8 @@
-"use client";
+"use client"
 
-import { TESTIMONIALS, type Testimonial } from "@/lib/constants/marketing";
-import { CardContent } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { TESTIMONIALS, type Testimonial } from "@/lib/constants/marketing"
+import { CardContent } from "@/components/ui/card"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 const TestimonialCard = ({ testimonial }: { testimonial: Testimonial }) => (
   <div className="hover:-translate-y-0.5 flex w-[280px] flex-shrink-0 flex-col rounded-[24px] bg-white/50 p-6 ring-1 ring-black/[0.01] backdrop-blur-md transition-all hover:bg-opacity-90 sm:w-[360px] dark:bg-zinc-600/30 dark:ring-white/[0.01]">
@@ -22,7 +22,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: Testimonial }) => (
       </div>
     </CardContent>
   </div>
-);
+)
 
 export default function TestimonialSection() {
   return (
@@ -55,5 +55,5 @@ export default function TestimonialSection() {
         </div>
       </div>
     </section>
-  );
+  )
 }

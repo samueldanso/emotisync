@@ -1,31 +1,31 @@
-"use client";
+"use client"
 
-import dynamic from "next/dynamic";
-import { UserAuthContext } from "@/contexts/user-auth-context";
-import { ThemeProvider } from "next-themes";
-import type { ThemeProviderProps } from "next-themes/dist/types";
-import { getPlatform } from "@/lib/utils/platform";
+import dynamic from "next/dynamic"
+import { UserAuthContext } from "@/contexts/user-auth-context"
+import { ThemeProvider } from "next-themes"
+import type { ThemeProviderProps } from "next-themes/dist/types"
+import { getPlatform } from "@/lib/utils/platform"
 
 // Dynamically import providers
 const TelegramSDKProvider = dynamic(
   () => import("@telegram-apps/sdk-react").then((mod) => mod.SDKProvider),
-  { ssr: false }
-);
+  { ssr: false },
+)
 
 const PrivyWalletProvider = dynamic(
   () => import("@/contexts/privy-provider").then((mod) => mod.default),
-  { ssr: false }
-);
+  { ssr: false },
+)
 
 export function Providers({ children, ...props }: ThemeProviderProps) {
-  const platform = getPlatform();
+  const platform = getPlatform()
 
   // Base content without Privy
   const baseContent = (
     <UserAuthContext>
       <ThemeProvider {...props}>{children}</ThemeProvider>
     </UserAuthContext>
-  );
+  )
 
   // Only add Privy and Telegram SDK for telegram platform
   if (platform === "telegram") {
@@ -37,10 +37,10 @@ export function Providers({ children, ...props }: ThemeProviderProps) {
           </PrivyWalletProvider>
         </UserAuthContext>
       </TelegramSDKProvider>
-    );
+    )
   }
 
-  return baseContent;
+  return baseContent
 }
 
-export default Providers;
+export default Providers

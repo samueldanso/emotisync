@@ -1,8 +1,8 @@
-"use client";
-import GlassCard from "@/components/ui/glass";
-import { FeaturesGradient } from "@/components/ui/background-gradient";
-import { FEATURES } from "@/lib/constants/marketing";
-import { colorPairs } from "@/lib/constants";
+"use client"
+import GlassCard from "@/components/ui/glass"
+import { FeaturesGradient } from "@/components/ui/background-gradient"
+import { FEATURES } from "@/lib/constants/marketing"
+import { colorPairs } from "@/lib/constants"
 
 export default function FeatureSection() {
   return (
@@ -26,8 +26,8 @@ export default function FeatureSection() {
 
         <div className="relative z-10 mx-auto grid w-full max-w-[1250px] grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6">
           {FEATURES.map((feature, index) => {
-            const Icon = feature.icon;
-            const colorPair = colorPairs[index % colorPairs.length];
+            const Icon = feature.icon
+            const colorPair = colorPairs[index % colorPairs.length]
 
             return (
               <GlassCard
@@ -50,10 +50,10 @@ export default function FeatureSection() {
                   {feature.description}
                 </p>
               </GlassCard>
-            );
+            )
           })}
         </div>
       </div>
     </section>
-  );
+  )
 }

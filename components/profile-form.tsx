@@ -1,9 +1,9 @@
-"use client";
+"use client"
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { useState } from "react";
-import { Trophy, User } from "lucide-react";
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { useState } from "react"
+import { Trophy, User } from "lucide-react"
 import {
   Form,
   FormControl,
@@ -11,54 +11,54 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
 import {
   profileSchema,
   type ProfileFormValues,
-} from "@/lib/validations/profile-schema";
-import { showErrorToast } from "@/lib/utils/errors";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
-import { supabaseClient } from "@/lib/supabase/client";
-import { useOnboardingStore } from "@/stores/onboarding-store";
-import { ProgressSteps } from "@/components/progress-steps";
-import { WelcomeButtons } from "@/components/welcome-buttons";
+} from "@/lib/validations/profile-schema"
+import { showErrorToast } from "@/lib/utils/errors"
+import { useRouter } from "next/navigation"
+import Image from "next/image"
+import { supabaseClient } from "@/lib/supabase/client"
+import { useOnboardingStore } from "@/stores/onboarding-store"
+import { ProgressSteps } from "@/components/progress-steps"
+import { WelcomeButtons } from "@/components/welcome-buttons"
 
 export function ProfileForm() {
-  const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
-  const { setGoal, goNext, setName } = useOnboardingStore();
+  const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter()
+  const { setGoal, goNext, setName } = useOnboardingStore()
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
     defaultValues: async () => {
       const {
         data: { user },
-      } = await supabaseClient.auth.getUser();
+      } = await supabaseClient.auth.getUser()
       const firstName = user?.user_metadata?.full_name
         ? user.user_metadata.full_name.split(" ")[0]
-        : user?.email?.split("@")[0] || "";
+        : user?.email?.split("@")[0] || ""
 
       return {
         name: firstName,
         goal: "",
-      };
+      }
     },
-  });
+  })
 
   async function onSubmit(data: ProfileFormValues) {
-    setIsLoading(true);
+    setIsLoading(true)
     try {
-      setName(data.name);
-      setGoal(data.goal);
-      goNext();
-      await router.push("/welcome/companion");
+      setName(data.name)
+      setGoal(data.goal)
+      goNext()
+      await router.push("/welcome/companion")
     } catch (error) {
-      showErrorToast(error);
+      showErrorToast(error)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
   }
 
@@ -134,11 +134,11 @@ export function ProfileForm() {
                   <FormItem className="space-y-3">
                     <FormLabel className="flex items-center gap-2">
                       <Trophy className="h-4 w-4" />
-                      Your main goal with EmotiSync
+                      What is main goal with EmotiSync
                     </FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="e.g., Talk to a friend, Manage stress, Keep a daily journal, Track my daily emotions..."
+                        placeholder="e.g., Use it to talk to a friend, manage stress better, keep a daily journal, understand my mood patterns..."
                         className="min-h-[100px] resize-none focus-visible:ring-brand-primary"
                         {...field}
                       />
@@ -156,5 +156,5 @@ export function ProfileForm() {
         </div>
       </div>
     </div>
-  );
+  )
 }

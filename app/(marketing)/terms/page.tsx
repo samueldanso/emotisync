@@ -10,7 +10,7 @@ export default function TermsOfService() {
 
       <article className="prose prose-slate dark:prose-invert prose-headings:mt-16 prose-headings:mb-6 max-w-none prose-headings:font-heading prose-headings:text-2xl prose-headings:text-brand-foreground prose-li:text-brand-muted prose-li:text-lg prose-p:text-brand-muted prose-p:text-lg prose-p:leading-relaxed">
         <p>
-          EmotiSync is a voice-based emotion analysis and music recommendation
+          EmotiSync is a voice-based emotion analysis and recommendation
           service. By using our service, you agree to the following terms and
           conditions.
         </p>
@@ -19,7 +19,7 @@ export default function TermsOfService() {
         <p>By using EmotiSync, you agree to:</p>
         <ul>
           <li>Use the service for personal, non-commercial purposes</li>
-          <li>Not attempt to reverse engineer the AI algorithms</li>
+          <li>Not depend on it as a replaccement for theraphy</li>
           <li>Maintain the confidentiality of your account</li>
         </ul>
 
@@ -31,8 +31,8 @@ export default function TermsOfService() {
 
         <h2>Service Limitations</h2>
         <p>
-          EmotiSync's emotion analysis and music recommendations are provided
-          "as is" without any guarantees of accuracy or specific outcomes.
+          EmotiSync's emotion analysis and insights are provided "as is" without
+          any guarantees of accuracy or specific outcomes.
         </p>
 
         <h2>Changes to Terms</h2>

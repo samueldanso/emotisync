@@ -1,14 +1,14 @@
-"use client";
+"use client"
 
-import * as React from "react";
-import { Button } from "@/components/ui/button";
-import { supabaseClient } from "@/lib/supabase/client";
-import Image from "next/image";
-import { Spinner } from "@/components/ui/spinner";
-import Link from "next/link";
+import * as React from "react"
+import { Button } from "@/components/ui/button"
+import { supabaseClient } from "@/lib/supabase/client"
+import Image from "next/image"
+import { Spinner } from "@/components/ui/spinner"
+import Link from "next/link"
 
 export function AuthForm() {
-  const [isPending, startTransition] = React.useTransition();
+  const [isPending, startTransition] = React.useTransition()
 
   const handleGoogleAuth = () => {
     startTransition(async () => {
@@ -22,9 +22,9 @@ export function AuthForm() {
             scopes: "email profile",
           },
         },
-      });
-    });
-  };
+      })
+    })
+  }
 
   return (
     <div className="space-y-10">
@@ -94,5 +94,5 @@ export function AuthForm() {
         </p>
       </div>
     </div>
-  );
+  )
 }

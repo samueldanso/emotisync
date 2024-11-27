@@ -1,17 +1,17 @@
-import { Navbar } from "./_components/navbar";
-import { Footer } from "./_components/footer";
-import { constructMetadata } from "@/lib/config/metadata";
+import { Navbar } from "./_components/navbar"
+import { Footer } from "./_components/footer"
+import { constructMetadata } from "@/lib/config/metadata"
 
 export const metadata = constructMetadata({
   title: "EmotiSync",
   description:
     "Your AI voice companion for emotional well-being and natural conversations.",
-});
+})
 
 export default function MarketingLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <div className="flex min-h-screen flex-col bg-brand-background">
@@ -19,5 +19,5 @@ export default function MarketingLayout({
       {children}
       <Footer />
     </div>
-  );
+  )
 }
