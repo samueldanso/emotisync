@@ -1,20 +1,20 @@
-"use client"
-import { useVoice } from "@humeai/voice-react"
-import { Button } from "./ui/button"
-import { Mic, MicOff, Phone } from "lucide-react"
-import { AnimatePresence, motion } from "framer-motion"
-import { Toggle } from "./ui/toggle"
-import MicFFT from "./mic-fft"
-import { cn } from "@/lib/utils"
+"use client";
+import { useVoice } from "@humeai/voice-react";
+import { Button } from "@/components/ui/button";
+import { Mic, MicOff, Phone } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Toggle } from "@/components/ui/toggle";
+import MicFFT from "@/components/mic-fft";
+import { cn } from "@/lib/utils";
 
 export default function Controls() {
-  const { disconnect, status, isMuted, unmute, mute, micFft } = useVoice()
+  const { disconnect, status, isMuted, unmute, mute, micFft } = useVoice();
 
   return (
     <div
       className={cn(
         "fixed bottom-0 left-0 z-50 flex w-full items-center justify-center rounded-full p-4",
-        "bg-gradient-to-t from-background via-background/90 to-transparent",
+        "bg-gradient-to-t from-background via-background/90 to-transparent"
       )}
     >
       <AnimatePresence>
@@ -29,9 +29,9 @@ export default function Controls() {
               pressed={!isMuted}
               onPressedChange={() => {
                 if (isMuted) {
-                  unmute()
+                  unmute();
                 } else {
-                  mute()
+                  mute();
                 }
               }}
             >
@@ -57,5 +57,5 @@ export default function Controls() {
         ) : null}
       </AnimatePresence>
     </div>
-  )
+  );
 }

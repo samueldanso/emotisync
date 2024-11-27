@@ -1,20 +1,20 @@
-"use client"
+"use client";
 
-import { cn } from "@/lib/utils"
-import { useVoice } from "@humeai/voice-react"
-import { AnimatePresence, motion } from "framer-motion"
-import { forwardRef, useEffect } from "react"
-import Expressions from "./expressions"
+import { cn } from "@/lib/utils";
+import { useVoice } from "@humeai/voice-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { forwardRef, useEffect } from "react";
+import Expressions from "@/components/expressions";
 
 const Messages = forwardRef<HTMLDivElement>((_, ref) => {
-  const { messages } = useVoice()
+  const { messages } = useVoice();
 
   // Auto scroll to bottom
   useEffect(() => {
     if (ref && "current" in ref && ref.current) {
-      ref.current.scrollTop = ref.current.scrollHeight
+      ref.current.scrollTop = ref.current.scrollHeight;
     }
-  }, [messages])
+  }, [messages]);
 
   return (
     <div
@@ -28,7 +28,7 @@ const Messages = forwardRef<HTMLDivElement>((_, ref) => {
               msg.type === "user_message" ||
               msg.type === "assistant_message"
             ) {
-              const key = `${msg.type}-${msg.message?.content?.slice(0, 10)}`
+              const key = `${msg.type}-${msg.message?.content?.slice(0, 10)}`;
               return (
                 <motion.div
                   key={key}
@@ -36,7 +36,7 @@ const Messages = forwardRef<HTMLDivElement>((_, ref) => {
                     "w-[80%] rounded-lg p-4",
                     msg.type === "user_message"
                       ? "ml-auto bg-primary/10"
-                      : "bg-muted/50",
+                      : "bg-muted/50"
                   )}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -52,16 +52,16 @@ const Messages = forwardRef<HTMLDivElement>((_, ref) => {
                     <Expressions values={msg.models.prosody.scores} />
                   )}
                 </motion.div>
-              )
+              );
             }
-            return null
+            return null;
           })}
         </AnimatePresence>
       </div>
     </div>
-  )
-})
+  );
+});
 
-Messages.displayName = "Messages"
+Messages.displayName = "Messages";
 
-export default Messages
+export default Messages;

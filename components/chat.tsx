@@ -1,60 +1,60 @@
-"use client"
+"use client";
 
-import { useVoice } from "@humeai/voice-react"
-import Messages from "./messages"
-import Controls from "./controls"
-import { StartCall } from "./start-call"
-import { type ComponentRef, useRef, useState, useEffect } from "react"
-import { AvatarStatus } from "./avatar-status"
-import type { User } from "@/lib/db/schemas/users"
-import type { Profile } from "@/lib/db/schemas/profiles"
-import type { Companion } from "@/lib/db/schemas/companions"
+import { useVoice } from "@humeai/voice-react";
+import Messages from "@/components/messages";
+import Controls from "@/components/controls";
+import { StartCall } from "@/components/start-call";
+import { type ComponentRef, useRef, useState, useEffect } from "react";
+import { AvatarStatus } from "@/components/avatar-status";
+import type { User } from "@/lib/db/schemas/users";
+import type { Profile } from "@/lib/db/schemas/profiles";
+import type { Companion } from "@/lib/db/schemas/companions";
 
 interface ChatProps {
-  user: User
-  profile: Profile
-  avatar: Companion
+  user: User;
+  profile: Profile;
+  avatar: Companion;
 }
 
 function getGreeting() {
-  const hour = new Date().getHours()
-  if (hour < 12) return "Good morning"
-  if (hour < 18) return "Good afternoon"
-  return "Good evening"
+  const hour = new Date().getHours();
+  if (hour < 12) return "Good morning";
+  if (hour < 18) return "Good afternoon";
+  return "Good evening";
 }
 
 function ChatContent({ user, profile, avatar }: ChatProps) {
-  const { status, messages } = useVoice()
-  const [isSpeaking, setIsSpeaking] = useState(false)
-  const ref = useRef<ComponentRef<typeof Messages>>(null)
-  const speakingTimeoutRef = useRef<NodeJS.Timeout>()
+  const { status, messages } = useVoice();
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const ref = useRef<ComponentRef<typeof Messages>>(null);
+  const speakingTimeoutRef = useRef<NodeJS.Timeout>();
 
-  const isActive = status.value === "connected"
-  const isListening = isActive && !isSpeaking
+  const isActive = status.value === "connected";
+  const isListening = isActive && !isSpeaking;
 
   useEffect(() => {
     if (status.value === "connected" && messages?.length > 0) {
-      const lastMessage = messages[messages.length - 1]
+      const lastMessage = messages[messages.length - 1];
       if (lastMessage.type === "assistant_message") {
         if (speakingTimeoutRef.current) {
-          clearTimeout(speakingTimeoutRef.current)
+          clearTimeout(speakingTimeoutRef.current);
         }
-        setIsSpeaking(true)
+        setIsSpeaking(true);
         speakingTimeoutRef.current = setTimeout(() => {
-          setIsSpeaking(false)
-        }, 2000)
+          setIsSpeaking(false);
+        }, 2000);
       }
     }
 
     return () => {
       if (speakingTimeoutRef.current) {
-        clearTimeout(speakingTimeoutRef.current)
+        clearTimeout(speakingTimeoutRef.current);
       }
-    }
-  }, [messages, status.value])
+    };
+  }, [messages, status.value]);
 
-  const displayName = profile?.display_name || user.first_name
-  const companionName = profile.companion_name || avatar.name
+  const displayName = profile?.display_name || user.first_name;
+  const companionName = profile.companion_name || avatar.name;
 
   return (
     <div className="relative flex h-full flex-col">
@@ -97,9 +97,9 @@ function ChatContent({ user, profile, avatar }: ChatProps) {
         </div>
       )}
     </div>
-  )
+  );
 }
 
 export default function Chat(props: ChatProps) {
-  return <ChatContent {...props} />
+  return <ChatContent {...props} />;
 }

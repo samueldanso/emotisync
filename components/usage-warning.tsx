@@ -1,13 +1,13 @@
-"use client"
+"use client";
 
-import { AlertCircle } from "lucide-react"
-import { Alert, AlertDescription, AlertTitle } from "./ui/alert"
-import { Button } from "./ui/button"
-import Link from "next/link"
+import { AlertCircle } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 interface UsageWarningProps {
-  message: string
-  resetAt: Date
+  message: string;
+  resetAt: Date;
 }
 
 export function UsageWarning({ message, resetAt }: UsageWarningProps) {
@@ -26,5 +26,5 @@ export function UsageWarning({ message, resetAt }: UsageWarningProps) {
         </Button>
       </AlertDescription>
     </Alert>
-  )
+  );
 }

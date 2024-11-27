@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import { VoiceProvider as HumeVoiceProvider } from "@humeai/voice-react"
-import { env } from "../../env"
+import { VoiceProvider as HumeVoiceProvider } from "@humeai/voice-react";
+import { env } from "@/env";
 
 interface VoiceProviderProps {
-  accessToken: string
-  children: React.ReactNode
+  accessToken: string;
+  children: React.ReactNode;
 }
 
 export function VoiceProvider({ accessToken, children }: VoiceProviderProps) {
@@ -16,5 +16,5 @@ export function VoiceProvider({ accessToken, children }: VoiceProviderProps) {
     >
       {children}
     </HumeVoiceProvider>
-  )
+  );
 }
