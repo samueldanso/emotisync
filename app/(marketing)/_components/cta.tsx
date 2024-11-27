@@ -1,9 +1,9 @@
-"use client";
+"use client"
 
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { FeaturesGradient } from "@/components/ui/background-gradient";
+import Link from "next/link"
+import { ArrowRight } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { FeaturesGradient } from "@/components/ui/background-gradient"
 
 export default function CTASection() {
   return (
@@ -17,7 +17,8 @@ export default function CTASection() {
                 Ready to start feeling great?
               </h2>
               <p className="mt-6 max-w-[85%] text-brand-muted text-lg leading-relaxed sm:text-xl">
-                Join thousands who&apos;ve found growth through voice journaling
+                Join thousands who have tranformed their voice into emotional
+                insights and clarity.
               </p>
               <div className="mt-8">
                 <Link href="/signup">
@@ -32,5 +33,5 @@ export default function CTASection() {
         </div>
       </div>
     </section>
-  );
+  )
 }

@@ -1,11 +1,11 @@
-"use client";
+"use client"
 
-import type React from "react";
-import { useCallback, useEffect } from "react";
-import { defineChain } from "viem";
-import { PrivyProvider, usePrivy, useWallets } from "@privy-io/react-auth";
-import { env } from "@/env";
-import { useTelegramState } from "@/hooks/use-telegram-state";
+import type React from "react"
+import { useCallback, useEffect } from "react"
+import { defineChain } from "viem"
+import { PrivyProvider, usePrivy, useWallets } from "@privy-io/react-auth"
+import { env } from "@/env"
+import { useTelegramState } from "@/hooks/use-telegram-state"
 
 const Capx = defineChain({
   id: Number(env.NEXT_PUBLIC_CAPX_CHAIN_ID || "10245"),
@@ -38,34 +38,34 @@ const Capx = defineChain({
         "https://capx-testnet-explorer.alt.technology/",
     },
   },
-});
+})
 
 const PrivyWrapper: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { wallets } = useWallets();
-  const { authenticated, createWallet, user: privyUser } = usePrivy();
+  const { wallets } = useWallets()
+  const { authenticated, createWallet, user: privyUser } = usePrivy()
 
   useEffect(() => {
     if (authenticated && !privyUser?.wallet) {
-      createWallet().catch(console.error);
+      createWallet().catch(console.error)
     }
-  }, [authenticated, privyUser?.wallet, createWallet]);
+  }, [authenticated, privyUser?.wallet, createWallet])
 
-  return <>{wallets.length > 0 ? children : <div>Loading wallet...</div>}</>;
-};
+  return <>{wallets.length > 0 ? children : <div>Loading wallet...</div>}</>
+}
 
 export default function PrivyWalletProvider({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
-  const { isTelegramUserCreated, telegramAccessToken } = useTelegramState();
+  const { isTelegramUserCreated, telegramAccessToken } = useTelegramState()
 
   const getCustomToken = useCallback(async () => {
-    if (!isTelegramUserCreated) return undefined;
-    return telegramAccessToken || undefined;
-  }, [isTelegramUserCreated, telegramAccessToken]);
+    if (!isTelegramUserCreated) return undefined
+    return telegramAccessToken || undefined
+  }, [isTelegramUserCreated, telegramAccessToken])
 
   return (
     <PrivyProvider
@@ -88,5 +88,5 @@ export default function PrivyWalletProvider({
     >
       <PrivyWrapper>{children}</PrivyWrapper>
     </PrivyProvider>
-  );
+  )
 }

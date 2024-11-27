@@ -1,20 +1,20 @@
-"use client";
-import { useVoice } from "@humeai/voice-react";
-import { Button } from "@/components/ui/button";
-import { Mic, MicOff, Phone } from "lucide-react";
-import { AnimatePresence, motion } from "framer-motion";
-import { Toggle } from "@/components/ui/toggle";
-import MicFFT from "@/components/mic-fft";
-import { cn } from "@/lib/utils";
+"use client"
+import { useVoice } from "@humeai/voice-react"
+import { Button } from "@/components/ui/button"
+import { Mic, MicOff, X } from "lucide-react"
+import { AnimatePresence, motion } from "framer-motion"
+import { Toggle } from "@/components/ui/toggle"
+import MicFFT from "@/components/mic-fft"
+import { cn } from "@/lib/utils"
 
 export default function Controls() {
-  const { disconnect, status, isMuted, unmute, mute, micFft } = useVoice();
+  const { disconnect, status, isMuted, unmute, mute, micFft } = useVoice()
 
   return (
     <div
       className={cn(
         "fixed bottom-0 left-0 z-50 flex w-full items-center justify-center rounded-full p-4",
-        "bg-gradient-to-t from-background via-background/90 to-transparent"
+        "bg-gradient-to-t from-background via-background/90 to-transparent",
       )}
     >
       <AnimatePresence>
@@ -29,9 +29,9 @@ export default function Controls() {
               pressed={!isMuted}
               onPressedChange={() => {
                 if (isMuted) {
-                  unmute();
+                  unmute()
                 } else {
-                  mute();
+                  mute()
                 }
               }}
             >
@@ -47,15 +47,17 @@ export default function Controls() {
             </div>
 
             <Button
-              className="flex items-center gap-1"
-              onClick={() => disconnect()}
               variant="destructive"
+              size="icon"
+              className="rounded-full bg-red-500 hover:bg-red-600"
+              onClick={() => disconnect()}
             >
-              <Phone className="h-4 w-4 opacity-50" strokeWidth={2} />
+              <X className="h-4 w-4" />
+              <span className="sr-only">End call</span>
             </Button>
           </motion.div>
         ) : null}
       </AnimatePresence>
     </div>
-  );
+  )
 }

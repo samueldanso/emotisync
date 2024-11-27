@@ -1,9 +1,9 @@
-import Link from "next/link";
-import { Logo } from "@/components/ui/logo";
-import { FOOTER_MENU } from "@/lib/constants";
+import Link from "next/link"
+import { Logo } from "@/components/ui/logo"
+import { FOOTER_MENU } from "@/lib/constants"
 
 export function Footer() {
-  const currentYear = new Date().getFullYear();
+  const currentYear = new Date().getFullYear()
 
   return (
     <div className="container mx-auto max-w-[1250px] px-4 pt-12 md:pt-16 lg:pt-32">
@@ -12,7 +12,7 @@ export function Footer() {
           <div>
             <Logo className="h-7 w-7 md:h-8 md:w-8" />
             <p className="mt-4 max-w-[300px] text-brand-muted">
-              Turn your voice into emotional clarity.
+              Transform your voice into emotional clarity.
             </p>
             <p className="mt-2 text-brand-muted text-sm">
               &copy; {currentYear} EmotiSync. All rights reserved.
@@ -47,5 +47,5 @@ export function Footer() {
         EmotiSync
       </span>
     </div>
-  );
+  )
 }

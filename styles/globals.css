@@ -105,6 +105,20 @@ html {
   p {
     @apply font-sans;
   }
+  @keyframes pulse {
+    0% {
+      opacity: 0.3;
+      transform: scale(0.8);
+    }
+    50% {
+      opacity: 0.5;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0.3;
+      transform: scale(0.8);
+    }
+  }
 }
 
 .hide_scrollbar::-webkit-scrollbar {

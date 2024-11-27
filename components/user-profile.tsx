@@ -1,68 +1,67 @@
-"use client";
+"use client"
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { LogOut, Settings, Clock } from "lucide-react";
-import { getPlatform } from "@/lib/utils/platform";
-import { supabaseClient } from "@/lib/supabase/client";
-import { useRouter } from "next/navigation";
-import type { User } from "@/lib/db/schemas/users";
-import type { Profile } from "@/lib/db/schemas";
-import { useEffect, useState } from "react";
-import { checkUsageLimit } from "../actions/rate-limit";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+import { LogOut, Settings, Clock } from "lucide-react"
+import { getPlatform } from "@/lib/utils/platform"
+import { supabaseClient } from "@/lib/supabase/client"
+import { useRouter } from "next/navigation"
+import type { User } from "@/lib/db/schemas/users"
+import type { Profile } from "@/lib/db/schemas"
+import { useEffect, useState } from "react"
+import { checkUsageLimit } from "../actions/rate-limit"
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
-import { Separator } from "@/components/ui/separator";
+} from "@/components/ui/sheet"
+import { Separator } from "@/components/ui/separator"
 
 interface UserProfileButtonProps {
-  user: User;
-  profile: Profile;
+  user: User
+  profile: Profile
 }
 
 export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
-  const [remainingMinutes, setRemainingMinutes] = useState<number>(10);
-  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
-  const router = useRouter();
-  const platform = getPlatform();
-  const displayName = profile?.display_name || user.first_name;
+  const [remainingMinutes, setRemainingMinutes] = useState<number>(10)
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
+  const router = useRouter()
+  const platform = getPlatform()
+  const displayName = profile?.display_name || user.first_name
 
   // Fetch remaining minutes
   useEffect(() => {
     const checkRemaining = async () => {
-      const usage = await checkUsageLimit();
-      setRemainingMinutes(Math.floor(usage.remainingSeconds / 60));
-    };
-    checkRemaining();
-  }, []);
+      const usage = await checkUsageLimit()
+      setRemainingMinutes(Math.floor(usage.remainingSeconds / 60))
+    }
+    checkRemaining()
+  }, [])
 
   // Fetch user avatar
   useEffect(() => {
     const getProfileImage = async () => {
       const {
         data: { user: authUser },
-      } = await supabaseClient.auth.getUser();
+      } = await supabaseClient.auth.getUser()
 
       if (platform === "telegram" && user.telegram_id) {
         // If using Telegram, use telegram profile photo
         // Note: You'll need to implement this based on your Telegram integration
-        setAvatarUrl(null); // Implement Telegram avatar URL
+        setAvatarUrl(null) // Implement Telegram avatar URL
       } else if (authUser?.user_metadata?.avatar_url) {
         // For Google auth, use the avatar from user_metadata
-        setAvatarUrl(authUser.user_metadata.avatar_url);
+        setAvatarUrl(authUser.user_metadata.avatar_url)
       } else if (authUser?.user_metadata?.picture) {
         // Alternative metadata field for profile picture
-        setAvatarUrl(authUser.user_metadata.picture);
+        setAvatarUrl(authUser.user_metadata.picture)
       }
-    };
+    }
 
-    getProfileImage();
-  }, [platform, user.telegram_id]);
+    getProfileImage()
+  }, [platform, user.telegram_id])
 
   return (
     <Sheet>
@@ -103,7 +102,12 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
               )}
             </Avatar>
             <div className="space-y-1">
-              <h2 className="font-semibold text-lg">{displayName}</h2>
+              <div className="flex items-center gap-2">
+                <h2 className="font-semibold text-lg">{displayName}</h2>
+                <span className="rounded-full bg-brand-primary/5 px-2 py-0.5 text-muted-foreground text-xs">
+                  0 XP
+                </span>
+              </div>
               <p className="text-muted-foreground text-sm">
                 {platform === "telegram" ? user.telegram_id : user.email}
               </p>
@@ -136,10 +140,18 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
               <Settings className="h-4 w-4" />
               <span>Preferences</span>
             </div>
-            <div className="flex items-center justify-between rounded-lg border p-3">
-              <span className="text-muted-foreground text-sm">Theme</span>
-              <ThemeToggle />
-            </div>
+
+            {/* Add link to profile page */}
+            <Button
+              variant="ghost"
+              className="w-full justify-between rounded-lg border p-3 text-left hover:bg-accent"
+              onClick={() => router.push("/app/profile")}
+            >
+              <span className="text-muted-foreground text-sm">
+                Settings & Voice
+              </span>
+              <Settings className="h-4 w-4" />
+            </Button>
           </div>
 
           <Separator />
@@ -148,8 +160,8 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
             variant="ghost"
             className="w-full justify-start gap-2 text-destructive hover:bg-destructive/10 hover:text-destructive"
             onClick={() => {
-              supabaseClient.auth.signOut();
-              router.push("/login");
+              supabaseClient.auth.signOut()
+              router.push("/login")
             }}
           >
             <LogOut className="h-4 w-4" />
@@ -158,5 +170,5 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
         </div>
       </SheetContent>
     </Sheet>
-  );
+  )
 }

@@ -1,14 +1,14 @@
-"use client";
-import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-import { ArrowLeft, ArrowRight } from "lucide-react";
-import { Spinner } from "@/components/ui/spinner";
-import { AnimatePresence } from "framer-motion";
+"use client"
+import { Button } from "@/components/ui/button"
+import { useRouter } from "next/navigation"
+import { ArrowLeft, ArrowRight } from "lucide-react"
+import { Spinner } from "@/components/ui/spinner"
+import { AnimatePresence } from "framer-motion"
 
 interface WelcomeButtonsProps {
-  showBack?: boolean;
-  isLoading?: boolean;
-  onBack?: () => void;
+  showBack?: boolean
+  isLoading?: boolean
+  onBack?: () => void
 }
 
 export function WelcomeButtons({
@@ -16,7 +16,7 @@ export function WelcomeButtons({
   isLoading,
   onBack,
 }: WelcomeButtonsProps) {
-  const router = useRouter();
+  const router = useRouter()
 
   return (
     <div className="flex justify-center gap-4">
@@ -49,5 +49,5 @@ export function WelcomeButtons({
         </Button>
       </AnimatePresence>
     </div>
-  );
+  )
 }

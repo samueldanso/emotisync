@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
-import { env } from "@/env";
+import { NextResponse } from "next/server"
+import { env } from "@/env"
 
 export async function POST() {
   try {
@@ -8,15 +8,15 @@ export async function POST() {
       headers: {
         "Content-Type": "application/json",
       },
-    });
+    })
 
-    const data = await response.json();
-    return NextResponse.json(data);
+    const data = await response.json()
+    return NextResponse.json(data)
   } catch (error) {
-    console.error("Faucet error:", error);
+    console.error("Faucet error:", error)
     return NextResponse.json(
       { success: false, error: "Faucet request failed" },
-      { status: 500 }
-    );
+      { status: 500 },
+    )
   }
 }

@@ -1,13 +1,13 @@
-import Link from "next/link";
-import { Card } from "@/components/ui/card";
-import { FileText } from "lucide-react";
+import Link from "next/link"
+import { Card } from "@/components/ui/card"
+import { FileText } from "lucide-react"
 
 interface JournalCardProps {
-  id: string;
-  title: string;
-  summary: string;
-  created_at: Date | null;
-  dominant_emotion: string;
+  id: string
+  title: string
+  summary: string
+  created_at: Date | null
+  dominant_emotion: string
 }
 
 export function JournalCard({
@@ -33,5 +33,5 @@ export function JournalCard({
         <div className="mt-2 text-xs">Mood: {dominant_emotion}</div>
       </Card>
     </Link>
-  );
+  )
 }
