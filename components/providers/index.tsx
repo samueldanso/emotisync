@@ -2,8 +2,8 @@
 
 import dynamic from "next/dynamic"
 import { UserAuthContext } from "@/contexts/user-auth-context"
-import { ThemeProvider } from "next-themes"
-import type { ThemeProviderProps } from "next-themes/dist/types"
+import { ThemeProvider as NextThemeProvider } from "next-themes"
+import type { ThemeProviderProps } from "next-themes"
 import { getPlatform } from "@/lib/utils/platform"
 
 // Dynamically import providers
@@ -23,7 +23,7 @@ export function Providers({ children, ...props }: ThemeProviderProps) {
   // Base content without Privy
   const baseContent = (
     <UserAuthContext>
-      <ThemeProvider {...props}>{children}</ThemeProvider>
+      <NextThemeProvider {...props}>{children}</NextThemeProvider>
     </UserAuthContext>
   )
 
@@ -33,7 +33,7 @@ export function Providers({ children, ...props }: ThemeProviderProps) {
       <TelegramSDKProvider>
         <UserAuthContext>
           <PrivyWalletProvider>
-            <ThemeProvider {...props}>{children}</ThemeProvider>
+            <NextThemeProvider {...props}>{children}</NextThemeProvider>
           </PrivyWalletProvider>
         </UserAuthContext>
       </TelegramSDKProvider>
