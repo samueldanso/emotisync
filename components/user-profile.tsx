@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/sheet"
 import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
+import { ThemeToggle } from "@/components/ui/theme-toggle"
 
 interface UserProfileButtonProps {
   user: User
@@ -140,6 +141,17 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
             <div className="flex items-center gap-2 font-medium text-sm">
               <Settings className="h-4 w-4" />
               <span>Preferences</span>
+            </div>
+
+            {/* Theme Toggle */}
+            <div className="flex items-center justify-between rounded-lg border p-3">
+              <div className="space-y-1">
+                <span className="text-sm">Theme</span>
+                <p className="text-muted-foreground text-xs">
+                  Choose your preferred theme
+                </p>
+              </div>
+              <ThemeToggle />
             </div>
 
             {/* Voice Settings */}

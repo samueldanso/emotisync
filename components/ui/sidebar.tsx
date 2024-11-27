@@ -283,7 +283,7 @@ const SidebarTrigger = React.forwardRef<
   React.ElementRef<typeof Button>,
   React.ComponentProps<typeof Button>
 >(({ onClick, ...props }, ref) => {
-  const { toggleSidebar } = useSidebar()
+  const { toggleSidebar, state } = useSidebar()
 
   return (
     <Button
@@ -291,7 +291,13 @@ const SidebarTrigger = React.forwardRef<
       variant="ghost"
       size="icon"
       onClick={toggleSidebar}
-      className="fixed top-4 left-4 z-50 rounded-full bg-brand-primary/5 hover:bg-brand-primary/10"
+      className={cn(
+        "fixed z-50 rounded-full bg-brand-primary/5 hover:bg-brand-primary/10",
+        // Adjust position based on sidebar state
+        state === "expanded"
+          ? "top-4 left-[calc(var(--sidebar-width)_-_3rem)]"
+          : "top-4 left-4",
+      )}
       {...props}
     >
       <PanelLeft className="h-4 w-4" />
@@ -413,19 +419,28 @@ SidebarSeparator.displayName = "SidebarSeparator"
 const SidebarContent = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div">
->(({ className, ...props }, ref) => {
-  return (
-    <div
-      ref={ref}
-      data-sidebar="content"
-      className={cn(
-        "flex min-h-0 flex-1 flex-col gap-2 overflow-auto group-data-[collapsible=icon]:overflow-hidden",
-        className,
-      )}
-      {...props}
-    />
-  )
-})
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    data-sidebar="content"
+    className={cn("flex min-h-0 flex-1 flex-col gap-2", className)}
+    {...props}
+  >
+    {/* Logo only appears inside sidebar */}
+    <div className="flex items-center gap-2 p-4">
+      <Image
+        src="/emotisync-icon.svg"
+        alt="EmotiSync"
+        width={28}
+        height={28}
+        className="h-7 w-7"
+        priority
+      />
+      <span className="font-heading font-semibold text-lg">EmotiSync</span>
+    </div>
+    {props.children}
+  </div>
+))
 SidebarContent.displayName = "SidebarContent"
 
 const SidebarGroup = React.forwardRef<

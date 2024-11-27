@@ -2,7 +2,6 @@
 
 import { useVoice } from "@humeai/voice-react"
 import { UserProfileButton } from "@/components/user-profile"
-import { AppSidebar } from "@/components/app-sidebar"
 import type { User } from "@/lib/db/schemas/users"
 import type { Profile } from "@/lib/db/schemas/profiles"
 import { cn } from "@/lib/utils"
@@ -20,15 +19,15 @@ export function LayoutContent({ children, user, profile }: LayoutContentProps) {
   return (
     <div className="relative min-h-screen w-full bg-background">
       {!isInCall && (
-        <header className="fixed top-0 z-40 flex h-14 w-full items-center justify-between px-4 md:px-6">
-          <AppSidebar />
+        <header className="fixed top-0 z-40 flex h-14 w-full items-center justify-end px-4 md:px-6">
           <UserProfileButton user={user} profile={profile} />
         </header>
       )}
       <main
         className={cn(
           "container mx-auto px-4 md:px-6",
-          "min-h-screen pt-20",
+          "min-h-screen",
+          "pt-24 md:pt-28",
           "max-w-5xl",
           isInCall && "pt-0",
           "flex flex-col items-center",
