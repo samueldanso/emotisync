@@ -86,17 +86,16 @@ function ChatContent({ user, profile, avatar }: ChatProps) {
     <div className="relative flex h-full flex-col">
       {isActive && <CallGradient />}
       {!isActive ? (
-        <div className="relative flex min-h-[calc(100vh-5rem)] w-full flex-col items-center justify-center">
-          <div className="flex flex-col items-center space-y-16 px-4">
-            <div className="relative z-10">
-              <AvatarStatus
-                avatar={avatar.image_url}
-                name={companionName}
-                isSpeaking={false}
-                isListening={false}
-              />
-            </div>
-            <div className="relative z-10 space-y-6 text-center">
+        <div className="flex min-h-[calc(100vh-8rem)] w-full flex-col items-center justify-center">
+          <div className="flex flex-col items-center gap-16">
+            <AvatarStatus
+              avatar={avatar.image_url}
+              name={companionName}
+              isSpeaking={false}
+              isListening={false}
+            />
+
+            <div className="space-y-6 text-center">
               <h1 className="font-semibold text-2xl md:text-3xl">
                 {getGreeting()}, {displayName}
               </h1>
@@ -104,9 +103,8 @@ function ChatContent({ user, profile, avatar }: ChatProps) {
                 I'm {companionName}, How are you feeling today?
               </p>
             </div>
-            <div className="relative z-10">
-              <StartCall />
-            </div>
+
+            <StartCall />
           </div>
         </div>
       ) : (
