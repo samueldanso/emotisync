@@ -115,7 +115,7 @@ function ChatContent({ user, profile, avatar }: ChatProps) {
               />
             </div>
             <div className="flex-1 overflow-hidden">
-              <Messages ref={ref} />
+              <Messages ref={ref} user={user} profile={profile} />
             </div>
             <div className="flex-shrink-0 p-4">
               <Controls />
