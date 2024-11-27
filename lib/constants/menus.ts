@@ -1,11 +1,11 @@
-import { Phone, LineChart, BookText, Plus, Diamond } from "lucide-react";
+import { Phone, LineChart, BookText, Plus, Diamond } from "lucide-react"
 
 interface SidebarItem {
-  icon: typeof Phone | typeof LineChart | typeof BookText | typeof Diamond;
-  label: string;
-  href: string;
-  disabled?: boolean;
-  badge?: string;
+  icon: typeof Phone | typeof LineChart | typeof BookText | typeof Diamond
+  label: string
+  href: string
+  disabled?: boolean
+  badge?: string
 }
 
 // New Chat button config
@@ -13,7 +13,7 @@ export const NEW_CHAT_BUTTON = {
   icon: Plus,
   label: "New Chat",
   href: "/app/chat",
-} as const;
+} as const
 
 // App sidebar navigation
 export const SIDEBAR_ITEMS: SidebarItem[] = [
@@ -27,7 +27,7 @@ export const SIDEBAR_ITEMS: SidebarItem[] = [
     disabled: true,
     badge: "Soon",
   },
-] as const;
+] as const
 
 // Marketing site navigation
 export const NAVBAR_MENU = [
@@ -35,7 +35,7 @@ export const NAVBAR_MENU = [
   { title: "Features", href: "/#features" },
   { title: "How it works", href: "/#how-it-works" },
   { title: "FAQ", href: "/#faq" },
-] as const;
+] as const
 
 // Footer navigation
 export const FOOTER_MENU = {
@@ -51,4 +51,4 @@ export const FOOTER_MENU = {
     { title: "Twitter", href: "https://twitter.com/emotisync_xyz" },
     { title: "Telegram", href: "https://t.me/emotisync_bot/emotisync" },
   ],
-} as const;
+} as const
