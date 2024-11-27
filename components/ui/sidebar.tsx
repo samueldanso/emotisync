@@ -283,32 +283,18 @@ const SidebarTrigger = React.forwardRef<
   React.ElementRef<typeof Button>,
   React.ComponentProps<typeof Button>
 >(({ onClick, ...props }, ref) => {
-  const { toggleSidebar, state } = useSidebar()
+  const { toggleSidebar } = useSidebar()
 
   return (
     <Button
       ref={ref}
-      data-sidebar="trigger"
       variant="ghost"
       size="icon"
-      onClick={(event) => {
-        onClick?.(event)
-        toggleSidebar()
-      }}
-      className={cn(
-        "absolute z-50 rounded-full bg-brand-primary/5 hover:bg-brand-primary/10",
-        // When sidebar is open, position inside right edge
-        state === "expanded"
-          ? "-right-4 top-4 translate-x-1/2"
-          : // When closed, position next to logo
-            "top-4 left-16",
-      )}
+      onClick={toggleSidebar}
+      className="fixed top-4 left-4 z-50 rounded-full bg-brand-primary/5 hover:bg-brand-primary/10"
       {...props}
     >
-      <PanelLeft
-        className={cn("size-5", state === "expanded" && "rotate-180")}
-      />
-      <span className="sr-only">Toggle Sidebar</span>
+      <PanelLeft className="h-4 w-4" />
     </Button>
   )
 })
@@ -524,6 +510,14 @@ const SidebarMenu = React.forwardRef<
     className={cn("flex w-full min-w-0 flex-col gap-1 px-2", className)}
     {...props}
   >
+    {/* New Chat button at the top */}
+    <SidebarMenuItem>
+      <SidebarMenuButton className="mb-2 w-full rounded-full bg-brand-primary/10 hover:bg-brand-primary/20">
+        <Plus className="mr-2 h-4 w-4" />
+        <span>New Chat</span>
+      </SidebarMenuButton>
+    </SidebarMenuItem>
+
     {/* Regular menu items */}
     {props.children}
 

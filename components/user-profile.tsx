@@ -18,6 +18,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { Separator } from "@/components/ui/separator"
+import { Badge } from "@/components/ui/badge"
 
 interface UserProfileButtonProps {
   user: User
@@ -82,7 +83,7 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
           </Avatar>
         </button>
       </SheetTrigger>
-      <SheetContent className="w-full border-l sm:max-w-md">
+      <SheetContent className="w-full border-l sm:max-w-[340px]">
         <SheetHeader className="space-y-6 pb-6">
           <SheetTitle className="font-medium text-lg">
             Profile Settings
@@ -141,17 +142,35 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
               <span>Preferences</span>
             </div>
 
-            {/* Add link to profile page */}
-            <Button
-              variant="ghost"
-              className="w-full justify-between rounded-lg border p-3 text-left hover:bg-accent"
-              onClick={() => router.push("/app/profile")}
-            >
-              <span className="text-muted-foreground text-sm">
-                Settings & Voice
-              </span>
-              <Settings className="h-4 w-4" />
-            </Button>
+            {/* Voice Settings */}
+            <div className="flex items-center justify-between rounded-lg border p-3">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm">Voice Settings</span>
+                  <Badge variant="outline" className="bg-brand-primary/5">
+                    Soon
+                  </Badge>
+                </div>
+                <p className="text-muted-foreground text-xs">
+                  Customize voice tone and speed
+                </p>
+              </div>
+            </div>
+
+            {/* Personality Settings */}
+            <div className="flex items-center justify-between rounded-lg border p-3">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm">AI Personality</span>
+                  <Badge variant="outline" className="bg-brand-primary/5">
+                    Soon
+                  </Badge>
+                </div>
+                <p className="text-muted-foreground text-xs">
+                  Adjust companion interaction style
+                </p>
+              </div>
+            </div>
           </div>
 
           <Separator />
