@@ -4,7 +4,6 @@ import { useVoice } from "@humeai/voice-react"
 import { UserProfileButton } from "@/components/user-profile"
 import type { User } from "@/lib/db/schemas/users"
 import type { Profile } from "@/lib/db/schemas/profiles"
-import { cn } from "@/lib/utils"
 
 interface LayoutContentProps {
   children: React.ReactNode
@@ -23,16 +22,7 @@ export function LayoutContent({ children, user, profile }: LayoutContentProps) {
           <UserProfileButton user={user} profile={profile} />
         </header>
       )}
-      <main
-        className={cn(
-          "container relative mx-auto px-4 md:px-6",
-          "min-h-screen",
-          "pt-24 md:pt-28",
-          "max-w-5xl",
-          isInCall && "pt-0",
-          "flex flex-col items-center",
-        )}
-      >
+      <main className="container relative mx-auto flex min-h-screen flex-col items-center justify-center px-4 md:px-6">
         {children}
       </main>
     </div>
