@@ -18,7 +18,6 @@ import {
   type CompanionFormValues,
 } from "@/lib/validations/companion-schema"
 import { showErrorToast } from "@/lib/utils/errors"
-import { toast } from "sonner"
 import { cn } from "@/lib/utils"
 import { supabaseClient } from "@/lib/supabase/client"
 import { useOnboardingStore } from "@/stores/onboarding-store"
@@ -41,7 +40,7 @@ export function CompanionSelection() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [companions, setCompanions] = useState<Companion[]>([])
-  const { goal, reset } = useOnboardingStore()
+  const { goal } = useOnboardingStore()
 
   async function loadCompanions() {
     try {
@@ -103,18 +102,7 @@ export function CompanionSelection() {
 
       if (error) throw new Error(error)
 
-      reset()
-      setIsLoading(false)
-
-      toast.success(
-        `🎉 Congratulations! ${data.companionName} is ready to listen and chat!`,
-        {
-          duration: 3000,
-          className: "bg-brand-background border-brand-accent",
-        },
-      )
-
-      await new Promise((resolve) => setTimeout(resolve, 1500))
+      await new Promise((resolve) => setTimeout(resolve, 2000))
       router.push("/app/chat")
     } catch (error) {
       setIsLoading(false)

@@ -62,7 +62,7 @@ export default async function ChatPage() {
           userName={dbUser.first_name}
           isOpen={true}
           onClose={() => {
-            // Dialog will be unmounted when user navigates away
+            // No need for router.refresh() since dialog will unmount
           }}
         />
       )}
