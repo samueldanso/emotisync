@@ -19,13 +19,13 @@ export function LayoutContent({ children, user, profile }: LayoutContentProps) {
   return (
     <div className="relative min-h-screen w-full bg-background">
       {!isInCall && (
-        <header className="fixed top-0 z-40 flex h-14 w-full items-center justify-end px-4 md:px-6">
+        <header className="fixed top-0 z-20 flex h-14 w-full items-center justify-end px-4 md:px-6">
           <UserProfileButton user={user} profile={profile} />
         </header>
       )}
       <main
         className={cn(
-          "container mx-auto px-4 md:px-6",
+          "container relative mx-auto px-4 md:px-6",
           "min-h-screen",
           "pt-24 md:pt-28",
           "max-w-5xl",

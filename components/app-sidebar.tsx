@@ -1,5 +1,5 @@
-"use client";
-import { SIDEBAR_ITEMS } from "@/lib/constants/menus";
+"use client"
+import { SIDEBAR_ITEMS } from "@/lib/constants/menus"
 import {
   Sidebar,
   SidebarContent,
@@ -8,9 +8,9 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarProvider,
-} from "@/components/ui/sidebar";
-import { Badge } from "@/components/ui/badge";
-import Link from "next/link";
+} from "@/components/ui/sidebar"
+import { Badge } from "@/components/ui/badge"
+import Link from "next/link"
 
 export function AppSidebar() {
   return (
@@ -44,5 +44,5 @@ export function AppSidebar() {
         </SidebarContent>
       </Sidebar>
     </SidebarProvider>
-  );
+  )
 }
