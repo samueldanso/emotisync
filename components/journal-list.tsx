@@ -1,22 +1,22 @@
-"use client"
+"use client";
 
-import { useEffect } from "react"
-import { useJournalStore } from "../stores/journal-store"
-import { JournalCard } from "./journal-card"
-import type { Journal } from "@/lib/types/journal"
+import { useEffect } from "react";
+import { useJournalStore } from "@/stores/journal-store";
+import { JournalCard } from "@/components/journal-card";
+import type { Journal } from "@/lib/types/journal";
 
 interface JournalListProps {
-  initialJournals: Journal[]
+  initialJournals: Journal[];
 }
 
 export function JournalList({ initialJournals }: JournalListProps) {
-  const { journals, setJournals, isLoading } = useJournalStore()
+  const { journals, setJournals, isLoading } = useJournalStore();
 
   useEffect(() => {
     if (initialJournals) {
-      setJournals(initialJournals)
+      setJournals(initialJournals);
     }
-  }, [initialJournals, setJournals])
+  }, [initialJournals, setJournals]);
 
   if (isLoading) {
     return (
@@ -34,7 +34,7 @@ export function JournalList({ initialJournals }: JournalListProps) {
           key="skeleton-3"
         />
       </div>
-    )
+    );
   }
 
   return (
@@ -56,5 +56,5 @@ export function JournalList({ initialJournals }: JournalListProps) {
         </div>
       )}
     </div>
-  )
+  );
 }

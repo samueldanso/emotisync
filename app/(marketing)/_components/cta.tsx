@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { ArrowRight } from "lucide-react"
-import { Button } from "../../../components/ui/button"
-import { FeaturesGradient } from "../../../components/ui/background-gradient"
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { FeaturesGradient } from "@/components/ui/background-gradient";
 
 export default function CTASection() {
   return (
@@ -32,5 +32,5 @@ export default function CTASection() {
         </div>
       </div>
     </section>
-  )
+  );
 }

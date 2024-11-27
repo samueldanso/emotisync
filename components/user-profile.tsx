@@ -1,68 +1,68 @@
-"use client"
+"use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
-import { Button } from "./ui/button"
-import { ThemeToggle } from "./ui/theme-toggle"
-import { LogOut, Settings, Clock } from "lucide-react"
-import { getPlatform } from "@/lib/utils/platform"
-import { supabaseClient } from "@/lib/supabase/client"
-import { useRouter } from "next/navigation"
-import type { User } from "@/lib/db/schemas/users"
-import type { Profile } from "@/lib/db/schemas"
-import { useEffect, useState } from "react"
-import { checkUsageLimit } from "../actions/rate-limit"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { LogOut, Settings, Clock } from "lucide-react";
+import { getPlatform } from "@/lib/utils/platform";
+import { supabaseClient } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
+import type { User } from "@/lib/db/schemas/users";
+import type { Profile } from "@/lib/db/schemas";
+import { useEffect, useState } from "react";
+import { checkUsageLimit } from "../actions/rate-limit";
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "./ui/sheet"
-import { Separator } from "./ui/separator"
+} from "@/components/ui/sheet";
+import { Separator } from "@/components/ui/separator";
 
 interface UserProfileButtonProps {
-  user: User
-  profile: Profile
+  user: User;
+  profile: Profile;
 }
 
 export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
-  const [remainingMinutes, setRemainingMinutes] = useState<number>(10)
-  const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
-  const router = useRouter()
-  const platform = getPlatform()
-  const displayName = profile?.display_name || user.first_name
+  const [remainingMinutes, setRemainingMinutes] = useState<number>(10);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const router = useRouter();
+  const platform = getPlatform();
+  const displayName = profile?.display_name || user.first_name;
 
   // Fetch remaining minutes
   useEffect(() => {
     const checkRemaining = async () => {
-      const usage = await checkUsageLimit()
-      setRemainingMinutes(Math.floor(usage.remainingSeconds / 60))
-    }
-    checkRemaining()
-  }, [])
+      const usage = await checkUsageLimit();
+      setRemainingMinutes(Math.floor(usage.remainingSeconds / 60));
+    };
+    checkRemaining();
+  }, []);
 
   // Fetch user avatar
   useEffect(() => {
     const getProfileImage = async () => {
       const {
         data: { user: authUser },
-      } = await supabaseClient.auth.getUser()
+      } = await supabaseClient.auth.getUser();
 
       if (platform === "telegram" && user.telegram_id) {
         // If using Telegram, use telegram profile photo
         // Note: You'll need to implement this based on your Telegram integration
-        setAvatarUrl(null) // Implement Telegram avatar URL
+        setAvatarUrl(null); // Implement Telegram avatar URL
       } else if (authUser?.user_metadata?.avatar_url) {
         // For Google auth, use the avatar from user_metadata
-        setAvatarUrl(authUser.user_metadata.avatar_url)
+        setAvatarUrl(authUser.user_metadata.avatar_url);
       } else if (authUser?.user_metadata?.picture) {
         // Alternative metadata field for profile picture
-        setAvatarUrl(authUser.user_metadata.picture)
+        setAvatarUrl(authUser.user_metadata.picture);
       }
-    }
+    };
 
-    getProfileImage()
-  }, [platform, user.telegram_id])
+    getProfileImage();
+  }, [platform, user.telegram_id]);
 
   return (
     <Sheet>
@@ -148,8 +148,8 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
             variant="ghost"
             className="w-full justify-start gap-2 text-destructive hover:bg-destructive/10 hover:text-destructive"
             onClick={() => {
-              supabaseClient.auth.signOut()
-              router.push("/login")
+              supabaseClient.auth.signOut();
+              router.push("/login");
             }}
           >
             <LogOut className="h-4 w-4" />
@@ -158,5 +158,5 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
         </div>
       </SheetContent>
     </Sheet>
-  )
+  );
 }

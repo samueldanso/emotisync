@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import { useOnboardingStore } from "../stores/onboarding-store"
-import { Check } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { ONBOARDING_STEPS } from "@/lib/constants"
+import { useOnboardingStore } from "@/stores/onboarding-store";
+import { Check } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { ONBOARDING_STEPS } from "@/lib/constants";
 
 export function ProgressSteps() {
-  const { step } = useOnboardingStore()
+  const { step } = useOnboardingStore();
 
   return (
     <div className="flex space-x-4 lg:block lg:space-x-0 lg:space-y-4">
@@ -29,7 +29,7 @@ export function ProgressSteps() {
             <span
               className={cn(
                 "font-medium text-sm",
-                step >= s.id ? "text-brand-foreground" : "text-brand-muted",
+                step >= s.id ? "text-brand-foreground" : "text-brand-muted"
               )}
             >
               {s.name}
@@ -40,19 +40,19 @@ export function ProgressSteps() {
                 step > s.id
                   ? "text-brand-muted"
                   : step === s.id
-                    ? "text-green-500"
-                    : "text-brand-muted",
+                  ? "text-green-500"
+                  : "text-brand-muted"
               )}
             >
               {step > s.id
                 ? "Completed"
                 : step === s.id
-                  ? "In Progress"
-                  : "Not started"}
+                ? "In Progress"
+                : "Not started"}
             </span>
           </div>
         </div>
       ))}
     </div>
-  )
+  );
 }

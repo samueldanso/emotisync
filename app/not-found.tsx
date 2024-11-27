@@ -1,10 +1,10 @@
-import { env } from "../env"
-import type { Metadata } from "next"
+import { env } from "@/env";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
   title: "Page not found",
-}
+};
 
 export default function NotFound() {
   return (
@@ -24,5 +24,5 @@ export default function NotFound() {
         </div>
       </div>
     </div>
-  )
+  );
 }
