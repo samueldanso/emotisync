@@ -1,11 +1,9 @@
 import type { Message } from "@humeai/voice-react"
 import type {
-  RecommendationContext,
-  Recommendation,
-} from "@/lib/types/recommendation"
+  NewRecommendation,
+} from "@/lib/db/schemas/recommendations"
 
-// Helper to get the dominant emotion and intensity from prosody scores
-function getEmotionalContext(messages: Message[]): RecommendationContext {
+function getEmotionalContext(messages: Message[]) {
   const lastUserMessage = messages
     .filter((msg) => msg.type === "user_message")
     .pop()
@@ -26,7 +24,7 @@ export function generateRecommendations(
   messages: Message[],
   userId: string,
   journalId: string,
-): Omit<Recommendation, "id" | "created_at" | "updated_at" | "status">[] {
+): NewRecommendation[] {
   const emotional_context = getEmotionalContext(messages)
 
   return [

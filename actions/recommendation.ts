@@ -2,6 +2,7 @@
 
 import { db } from "@/lib/db/db"
 import { recommendations } from "@/lib/db/schemas/recommendations"
+import type { NewRecommendation } from "@/lib/db/schemas/recommendations"
 import { catchError } from "@/lib/utils/errors"
 import { eq } from "drizzle-orm"
 import type { RecommendationContext } from "@/lib/types/recommendation"
@@ -16,18 +17,20 @@ export async function createRecommendation(
   emotional_context: RecommendationContext,
 ) {
   try {
+    const newRecommendation: NewRecommendation = {
+      user_id: userId,
+      journal_id: journalId,
+      title,
+      description,
+      category,
+      type,
+      emotional_context,
+      status: "pending",
+    }
+
     const [recommendation] = await db
       .insert(recommendations)
-      .values({
-        user_id: userId,
-        journal_id: journalId,
-        title,
-        description,
-        category,
-        type,
-        emotional_context,
-        status: "pending",
-      })
+      .values(newRecommendation)
       .returning()
 
     return { data: recommendation, error: null }
@@ -68,7 +71,7 @@ export async function updateRecommendationStatus(id: string, status: string) {
 export async function getRecommendationsByJournal(journalId: string) {
   try {
     const journalRecommendations = await db.query.recommendations.findMany({
-      where: eq(recommendations.journalId, journalId),
+      where: eq(recommendations.journal_id, journalId),
       orderBy: (recommendations, { desc }) => [
         desc(recommendations.created_at),
       ],

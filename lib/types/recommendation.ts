@@ -1,3 +1,5 @@
+import type { Recommendation } from "@/lib/db/schemas/recommendations"
+
 export type RecommendationType = "text" | "audio"
 export type RecommendationCategory =
   | "mood-boosting"
@@ -11,16 +13,4 @@ export interface RecommendationContext {
   timestamp: string
 }
 
-export interface Recommendation {
-  id: string
-  user_id: string
-  journal_id?: string
-  title: string
-  description: string
-  category: RecommendationCategory
-  type: RecommendationType
-  status: RecommendationStatus
-  emotional_context: RecommendationContext
-  created_at: Date | null
-  updated_at: Date | null
-}
+export type { Recommendation }
