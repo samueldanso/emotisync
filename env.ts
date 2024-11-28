@@ -35,7 +35,7 @@ export const env = createEnv({
     NEXT_PUBLIC_CAPX_CHAIN_RPC_URL: z.string().url(),
     NEXT_PUBLIC_CAPX_CHAIN_EXPLORE_URL: z.string().url(),
     NEXT_PUBLIC_CAPX_CHAIN_CURRENCY: z.string(),
-    NEXT_PUBLIC_CAPX_WEB_SOCKET_URL: z.string().url(),
+    NEXT_PUBLIC_CAPX_WEB_SOCKET_URL: z.string().url().optional(),
   },
 
   runtimeEnv: {
