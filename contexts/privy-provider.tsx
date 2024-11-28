@@ -22,20 +22,26 @@ const Capx = defineChain({
         env.NEXT_PUBLIC_CAPX_CHAIN_RPC_URL ||
           "https://capx-testnet.alt.technology/",
       ],
+      webSocket: [
+        env.NEXT_PUBLIC_CAPX_WEB_SOCKET_URL ||
+          "wss://capx-testnet.alt.technology/ws",
+      ],
     },
     public: {
       http: [
         env.NEXT_PUBLIC_CAPX_CHAIN_RPC_URL ||
           "https://capx-testnet.alt.technology/",
       ],
+      webSocket: [
+        env.NEXT_PUBLIC_CAPX_WEB_SOCKET_URL ||
+          "wss://capx-testnet.alt.technology/ws",
+      ],
     },
   },
   blockExplorers: {
     default: {
       name: "Explorer",
-      url:
-        env.NEXT_PUBLIC_CAPX_CHAIN_EXPLORE_URL ||
-        "https://capx-testnet-explorer.alt.technology/",
+      url: env.NEXT_PUBLIC_CAPX_CHAIN_EXPLORE_URL || "https://capxscan.com/",
     },
   },
 })

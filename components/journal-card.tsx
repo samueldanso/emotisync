@@ -18,7 +18,7 @@ export function JournalCard({
   dominant_emotion,
 }: JournalCardProps) {
   return (
-    <Link href={`/app/journals/${id}`}>
+    <Link href={`/journals/${id}`}>
       <Card className="p-4 hover:bg-accent/50">
         <div className="mb-2 flex items-center justify-between">
           <div className="flex items-center gap-2">

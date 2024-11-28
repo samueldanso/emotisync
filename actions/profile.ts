@@ -5,14 +5,7 @@ import { profiles, users, companions } from "@/lib/db/schemas"
 import type { Profile } from "@/lib/db/schemas"
 import { catchError } from "@/lib/utils/errors"
 import { eq } from "drizzle-orm"
-
-interface CreateProfileData {
-  goal: string
-  companionName: string
-  companionAvatar: string
-  email: string
-  displayName?: string
-}
+import type { CreateProfileData } from "@/lib/types/profile"
 
 export async function createCompleteProfile(
   userId: string,

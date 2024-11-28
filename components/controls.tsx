@@ -9,6 +9,8 @@ import { cn } from "@/lib/utils"
 import { toast } from "sonner"
 import { generateJournalEntry } from "@/lib/ai/journal"
 import { createJournal } from "@/actions/journal"
+import { generateRecommendations } from "@/lib/ai/recommendation"
+import { createRecommendation } from "@/actions/recommendation"
 import { useState } from "react"
 
 interface ControlsProps {
@@ -27,24 +29,47 @@ export default function Controls({ userId, displayName }: ControlsProps) {
 
     try {
       const entry = generateJournalEntry(messages)
-      const { error } = await createJournal(
+      const journalResult = await createJournal(
         userId,
         entry.title,
         entry.summary,
         entry.emotional_insights,
       )
 
-      if (error) throw new Error(error)
+      if (journalResult.error) throw new Error(journalResult.error)
+      if (!journalResult.data?.id)
+        throw new Error("Failed to create journal entry")
 
       toast.success("Journal Saved", {
         description: "Your journal entry has been saved successfully.",
-        duration: 2000,
-        className: "bg-brand-background border-brand-accent",
+      })
+
+      const recommendations = generateRecommendations(
+        messages,
+        userId,
+        journalResult.data.id,
+      )
+
+      for (const rec of recommendations) {
+        const { error } = await createRecommendation(
+          rec.userId,
+          rec.journalId,
+          rec.title,
+          rec.description,
+          rec.category,
+          rec.type,
+          rec.emotional_context,
+        )
+
+        if (error) throw new Error(error)
+      }
+
+      toast.success("Recommendations Generated", {
+        description: "Your personalized recommendations are ready.",
       })
     } catch (_error) {
       toast.error("Error", {
-        description: "Failed to save journal entry. Please try again.",
-        duration: 2000,
+        description: "Failed to save data. Please try again.",
       })
     } finally {
       setIsGenerating(false)

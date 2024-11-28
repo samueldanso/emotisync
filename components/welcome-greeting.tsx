@@ -33,7 +33,7 @@ export function WelcomeGreeting({
           {getGreeting()}, {displayName}
         </h1>
         <p className="font-medium text-lg text-muted-foreground">
-          I'm {companionName}, How are you feeling today?
+          I'm {companionName}, How are you feeling today? Let’s talk.
         </p>
       </div>
     </div>

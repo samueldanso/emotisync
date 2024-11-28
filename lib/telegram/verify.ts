@@ -1,5 +1,5 @@
 import { createHmac } from "node:crypto"
-import { env } from "../../env"
+import { env } from "@/env"
 
 interface VerifyInitDataResult {
   success: boolean

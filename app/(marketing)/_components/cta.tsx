@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { FeaturesGradient } from "@/components/ui/background-gradient"
+import { FeaturesGradient } from "@/app/(marketing)/_components/background-gradient"
 
 export default function CTASection() {
   return (

@@ -25,7 +25,7 @@ export default async function AppLayout({
   const profile = await db.query.profiles.findFirst({
     where: eq(profiles.userId, dbUser.id),
   })
-  if (!profile) redirect("/welcome/profile")
+  if (!profile) redirect("/onboarding/profile")
 
   const accessToken = await getHumeAccessToken()
   if (!accessToken) {
