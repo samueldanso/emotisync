@@ -6,7 +6,7 @@ import { eq } from "drizzle-orm"
 import { profiles, type Profile } from "@/lib/db/schemas"
 import type { Companion } from "@/lib/db/schemas"
 import type { User } from "@/lib/db/schemas"
-import { getHumeAccessToken } from "@/lib/hume/server"
+import { getHumeAccessToken } from "@/lib/ai/humeai"
 import { VoiceProvider } from "@/components/providers/voice-provider"
 
 interface ChatProps {
