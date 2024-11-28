@@ -1,8 +1,11 @@
 import { redirect } from "next/navigation"
 import Link from "next/link"
-import { Button } from "../../../../components/ui/button"
+import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"
 import { getUser } from "@/lib/supabase/server"
+import { db } from "@/lib/db/db"
+import { journals } from "@/lib/db/schemas"
+import { eq } from "drizzle-orm"
 
 interface JournalDetailPageProps {
   params: {
@@ -10,11 +13,19 @@ interface JournalDetailPageProps {
   }
 }
 
-export default async function JournalDetailPage(
-  _props: JournalDetailPageProps,
-) {
+export default async function JournalDetailPage({
+  params,
+}: JournalDetailPageProps) {
   const user = await getUser()
   if (!user) redirect("/login")
+
+  const journal = await db.query.journals.findFirst({
+    where: eq(journals.id, params.id),
+  })
+
+  if (!journal || journal.userId !== user.id) {
+    redirect("/app/journals")
+  }
 
   return (
     <div className="mx-auto w-full max-w-2xl">
@@ -25,9 +36,9 @@ export default async function JournalDetailPage(
           </Button>
         </Link>
         <div>
-          <h1 className="font-semibold text-2xl">Journal Title</h1>
+          <h1 className="font-semibold text-2xl">{journal.title}</h1>
           <time className="text-muted-foreground text-sm">
-            {new Date().toLocaleDateString()}
+            {journal.created_at?.toLocaleDateString()}
           </time>
         </div>
       </div>
@@ -35,12 +46,14 @@ export default async function JournalDetailPage(
       <div className="space-y-6">
         <div className="rounded-lg border bg-card p-4">
           <h2 className="mb-2 font-medium">Summary</h2>
-          <p className="text-muted-foreground">Journal summary</p>
+          <p className="text-muted-foreground">{journal.summary}</p>
         </div>
 
         <div className="rounded-lg border bg-card p-4">
           <h2 className="mb-2 font-medium">Emotional Insights</h2>
-          <p className="text-muted-foreground">Dominant Emotion: Neutral</p>
+          <p className="text-muted-foreground">
+            Dominant Emotion: {journal.emotional_insights.dominant_emotion}
+          </p>
         </div>
       </div>
     </div>

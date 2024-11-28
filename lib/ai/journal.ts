@@ -1,56 +1,35 @@
-// Comment out the entire file for now since we're focusing on chat
-/*
-import { db } from "@/lib/db/db"
-import { journals } from "@/lib/db/schemas"
-import { eq } from "drizzle-orm"
 import type { Message } from "@humeai/voice-react"
+import type { EmotionalInsight } from "@/lib/types/journal"
 
-export async function getJournal(id: string) {
-  try {
-    const journal = await db.query.journals.findFirst({
-      where: eq(journals.id, id),
-    })
+export function generateJournalEntry(messages: Message[]) {
+  // Get the last emotion reading from the conversation
+  const lastUserMessage = messages
+    .filter((msg) => msg.type === "user_message")
+    .pop()
 
-    return {
-      data: journal,
-      error: null,
-    }
-  } catch (error) {
-    return {
-      data: null,
-      error: "Failed to fetch journal",
-    }
+  const emotionalInsight: EmotionalInsight = {
+    dominant_emotion: getTopEmotion(
+      lastUserMessage?.models?.prosody?.scores || {},
+    ),
+    timestamp: new Date().toISOString(),
+  }
+
+  // Create simple title and summary
+  const title = `Journal Entry - ${new Date().toLocaleDateString()}`
+  const summary = messages
+    .filter((msg) => msg.type === "user_message")
+    .map((msg) => msg.message?.content || "")
+    .join(" ")
+
+  return {
+    title,
+    summary,
+    emotional_insights: emotionalInsight,
   }
 }
 
-export async function saveJournal(
-  userId: string,
-  messages: Message[],
-  emotional_insights: any,
-) {
-  try {
-    const now = new Date()
+function getTopEmotion(emotions: Record<string, number>): string {
+  if (Object.keys(emotions).length === 0) return "neutral"
 
-    const [journal] = await db.insert(journals).values({
-      user_id: userId,
-      summary: messages
-        .filter((m) => m.type === "user_message")
-        .map((m) => m.text)
-        .join(" "),
-      emotional_insights,
-      created_at: now,
-      updated_at: now,
-    })
-
-    return {
-      data: journal,
-      error: null,
-    }
-  } catch (error) {
-    return {
-      data: null,
-      error: "Failed to save journal",
-    }
-  }
+  return Object.entries(emotions).sort(([, a], [, b]) => b - a)[0][0]
 }
-*/

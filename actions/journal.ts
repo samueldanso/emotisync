@@ -1,51 +1,43 @@
 "use server"
 
-// Comment out everything for now since we're focusing on chat
-/*
 import { db } from "@/lib/db/db"
-import { journals } from "@/lib/db/schemas"
-import type { NewJournal } from "@/lib/db/schemas"
+import { journals } from "@/lib/db/schemas/journals"
+import { catchError } from "@/lib/utils/errors"
 import { eq } from "drizzle-orm"
-import { generateJournalEntry } from "@/lib/services/journal"
-import type { Message } from "@humeai/voice-react"
+import type { EmotionalInsight } from "@/lib/types/journal"
 
-interface SaveJournalActionProps {
-  userId: string
-  messages: Message[]
-  emotional_insights: any
-}
-
-export async function saveJournalAction({
-  userId,
-  messages,
-  emotional_insights,
-}: SaveJournalActionProps) {
+export async function createJournal(
+  userId: string,
+  title: string,
+  summary: string,
+  emotional_insights: EmotionalInsight,
+) {
   try {
-    const journal = await generateJournalEntry(userId, messages, emotional_insights)
-    return journal
+    const [journal] = await db
+      .insert(journals)
+      .values({
+        userId,
+        title,
+        summary,
+        emotional_insights,
+      })
+      .returning()
+
+    return { data: journal, error: null }
   } catch (error) {
-    return {
-      data: null,
-      error: "Failed to save journal",
-    }
+    return catchError(error)
   }
 }
 
-export async function getJournalAction(id: string) {
+export async function getUserJournals(userId: string) {
   try {
-    const journal = await db.query.journals.findFirst({
-      where: eq(journals.id, id),
+    const userJournals = await db.query.journals.findMany({
+      where: eq(journals.userId, userId),
+      orderBy: (journals, { desc }) => [desc(journals.created_at)],
     })
 
-    return {
-      data: journal,
-      error: null,
-    }
+    return { data: userJournals, error: null }
   } catch (error) {
-    return {
-      data: null,
-      error: "Failed to fetch journal",
-    }
+    return catchError(error)
   }
 }
-*/

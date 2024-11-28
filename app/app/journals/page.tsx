@@ -1,10 +1,19 @@
-import { Button } from "../../../components/ui/button"
-import { Tabs, TabsList, TabsTrigger } from "../../../components/ui/tabs"
+import { redirect } from "next/navigation"
+import { Button } from "@/components/ui/button"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { BookText } from "lucide-react"
 import Link from "next/link"
 import { JOURNAL_CATEGORIES } from "@/lib/constants/app"
+import { JournalList } from "@/components/journal-list"
+import { getUserJournals } from "@/actions/journal"
+import { getUser } from "@/lib/supabase/server"
 
-export default function JournalsPage() {
+export default async function JournalsPage() {
+  const user = await getUser()
+  if (!user) redirect("/login")
+
+  const { data: journals } = await getUserJournals(user.id)
+
   return (
     <div className="container max-w-6xl space-y-8 py-6">
       <div className="flex items-center justify-between">
@@ -17,20 +26,23 @@ export default function JournalsPage() {
         </Tabs>
       </div>
 
-      {/* Empty State */}
-      <div className="mx-auto flex min-h-[60vh] max-w-md flex-col items-center justify-center space-y-4 text-center">
-        <div className="rounded-full bg-primary/10 p-4">
-          <BookText className="h-8 w-8 text-primary" />
+      {!journals || journals.length === 0 ? (
+        <div className="mx-auto flex min-h-[60vh] max-w-md flex-col items-center justify-center space-y-4 text-center">
+          <div className="rounded-full bg-primary/10 p-4">
+            <BookText className="h-8 w-8 text-primary" />
+          </div>
+          <h2 className="font-medium text-xl">No journal entries yet</h2>
+          <p className="text-muted-foreground">
+            Your conversations will be automatically journaled here. Start
+            talking with your AI companion to create your first entry.
+          </p>
+          <Button asChild>
+            <Link href="/app/chat">Start Session</Link>
+          </Button>
         </div>
-        <h2 className="font-medium text-xl">No journal entries yet</h2>
-        <p className="text-muted-foreground">
-          Your conversations will be automatically journaled here. Start talking
-          with your AI companion to create your first entry.
-        </p>
-        <Button asChild>
-          <Link href="/app/chat">Start Session</Link>
-        </Button>
-      </div>
+      ) : (
+        <JournalList initialJournals={journals} />
+      )}
 
       {/* Categories Grid */}
       <div className="grid grid-cols-1 gap-4 opacity-60 md:grid-cols-2 lg:grid-cols-4">

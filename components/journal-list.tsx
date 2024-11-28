@@ -49,12 +49,6 @@ export function JournalList({ initialJournals }: JournalListProps) {
           dominant_emotion={journal.emotional_insights.dominant_emotion}
         />
       ))}
-
-      {(!journals || journals.length === 0) && (
-        <div className="py-12 text-center">
-          <p className="text-muted-foreground">No journal entries yet</p>
-        </div>
-      )}
     </div>
   )
 }

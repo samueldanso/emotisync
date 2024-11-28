@@ -38,7 +38,7 @@ export default function Expressions({
           }
         >
           <div
-            className="h-3.5 w-3.5 rounded-full"
+            className="h-1.5 w-1.5 rounded-full"
             style={{ backgroundColor: "var(--bg)" }}
           />
           <span className="font-medium">{expressionLabels[key]}</span>
