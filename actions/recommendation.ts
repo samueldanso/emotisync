@@ -68,7 +68,7 @@ export async function updateRecommendationStatus(id: string, status: string) {
 export async function getRecommendationsByJournal(journalId: string) {
   try {
     const journalRecommendations = await db.query.recommendations.findMany({
-      where: eq(recommendations.journal_id, journalId),
+      where: eq(recommendations.journalId, journalId),
       orderBy: (recommendations, { desc }) => [
         desc(recommendations.created_at),
       ],
