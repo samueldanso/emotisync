@@ -5,10 +5,10 @@ import type { RecommendationContext } from "@/lib/types/recommendation"
 
 export const recommendations = pgTable("recommendations", {
   id: uuid("id").defaultRandom().primaryKey(),
-  userId: uuid("user_id")
+  user_id: uuid("user_id")
     .notNull()
     .references(() => users.id),
-  journalId: uuid("journal_id").references(() => journals.id),
+  journal_id: uuid("journal_id").references(() => journals.id),
   title: text("title").notNull(),
   description: text("description").notNull(),
   category: text("category", {
