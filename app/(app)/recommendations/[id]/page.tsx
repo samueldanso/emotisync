@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"
 import { getUser } from "@/lib/supabase/server"
 import { db } from "@/lib/db/db"
-import { recommendations } from "@/lib/db/schemas"
+import { recommendations } from "@/lib/db/schemas/recommendations"
 import { eq } from "drizzle-orm"
 
 interface RecommendationDetailPageProps {

@@ -13,8 +13,8 @@ export interface RecommendationContext {
 
 export interface Recommendation {
   id: string
-  userId: string
-  journalId?: string
+  user_id: string
+  journal_id?: string
   title: string
   description: string
   category: RecommendationCategory
