@@ -19,13 +19,14 @@ export async function createRecommendation(
     const [recommendation] = await db
       .insert(recommendations)
       .values({
-        userId,
-        journalId,
+        user_id: userId,
+        journal_id: journalId,
         title,
         description,
         category,
         type,
         emotional_context,
+        status: "pending",
       })
       .returning()
 
@@ -38,7 +39,7 @@ export async function createRecommendation(
 export async function getUserRecommendations(userId: string) {
   try {
     const userRecommendations = await db.query.recommendations.findMany({
-      where: eq(recommendations.userId, userId),
+      where: eq(recommendations.user_id, userId),
       orderBy: (recommendations, { desc }) => [
         desc(recommendations.created_at),
       ],
@@ -67,7 +68,7 @@ export async function updateRecommendationStatus(id: string, status: string) {
 export async function getRecommendationsByJournal(journalId: string) {
   try {
     const journalRecommendations = await db.query.recommendations.findMany({
-      where: eq(recommendations.journalId, journalId),
+      where: eq(recommendations.journal_id, journalId),
       orderBy: (recommendations, { desc }) => [
         desc(recommendations.created_at),
       ],
