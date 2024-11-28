@@ -3,6 +3,7 @@ import Providers from "@/components/providers"
 import { Outfit, Urbanist } from "next/font/google"
 import { cn } from "@/lib/utils"
 import { constructMetadata } from "@/lib/config/metadata"
+import { Toaster } from "@/components/ui/sonner"
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -39,6 +40,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          <Toaster />
         </Providers>
       </body>
     </html>

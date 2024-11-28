@@ -17,7 +17,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "./tooltip"
+} from "@/components/ui/tooltip"
 import { Badge } from "@/components/ui/badge"
 
 const SIDEBAR_COOKIE_NAME = "sidebar:state"
@@ -217,7 +217,6 @@ const SidebarTrigger = React.forwardRef<
       onClick={toggleSidebar}
       className={cn(
         "fixed z-50 rounded-full bg-brand-primary/5 hover:bg-brand-primary/10",
-        // Position toggle based on sidebar state
         state === "expanded"
           ? "top-4 left-[calc(var(--sidebar-width)_-_3rem)]"
           : "top-4 left-4",
@@ -449,14 +448,6 @@ const SidebarMenu = React.forwardRef<
     className={cn("flex w-full min-w-0 flex-col gap-1 px-2", className)}
     {...props}
   >
-    {/* New Chat button at the top */}
-    <SidebarMenuItem>
-      <SidebarMenuButton className="mb-2 w-full rounded-full bg-brand-primary/10 hover:bg-brand-primary/20">
-        <Plus className="mr-2 h-4 w-4" />
-        <span>New Chat</span>
-      </SidebarMenuButton>
-    </SidebarMenuItem>
-
     {/* Regular menu items */}
     {props.children}
 
@@ -491,7 +482,7 @@ const SidebarMenuItem = React.forwardRef<
 SidebarMenuItem.displayName = "SidebarMenuItem"
 
 const sidebarMenuButtonVariants = cva(
-  "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-none ring-sidebar-ring transition-[width,height,padding] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
+  "flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-none ring-sidebar-ring transition-[width,height,padding] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
   {
     variants: {
       variant: {

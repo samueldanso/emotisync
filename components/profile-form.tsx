@@ -24,7 +24,7 @@ import Image from "next/image"
 import { supabaseClient } from "@/lib/supabase/client"
 import { useOnboardingStore } from "@/stores/onboarding-store"
 import { ProgressSteps } from "@/components/progress-steps"
-import { WelcomeButtons } from "@/components/welcome-buttons"
+import { WelcomeButtons } from "@/components/onboarding-buttons"
 
 export function ProfileForm() {
   const [isLoading, setIsLoading] = useState(false)
