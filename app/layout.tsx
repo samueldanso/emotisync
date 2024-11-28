@@ -32,14 +32,7 @@ export default function RootLayout({
           urbanist.variable,
         )}
       >
-        <Providers
-          attribute="class"
-          defaultTheme="light"
-          enableSystem={false}
-          disableTransitionOnChange
-        >
-          {children}
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   )
