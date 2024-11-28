@@ -1,4 +1,4 @@
-import { Phone, LineChart, BookText, Plus, Diamond } from "lucide-react"
+import { Phone, LineChart, BookText, Diamond } from "lucide-react"
 
 interface SidebarItem {
   icon: typeof Phone | typeof LineChart | typeof BookText | typeof Diamond
@@ -7,13 +7,6 @@ interface SidebarItem {
   disabled?: boolean
   badge?: string
 }
-
-// New Chat button config
-export const NEW_CHAT_BUTTON = {
-  icon: Plus,
-  label: "New Chat",
-  href: "/app/chat",
-} as const
 
 // App sidebar navigation
 export const SIDEBAR_ITEMS: SidebarItem[] = [

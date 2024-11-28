@@ -5,8 +5,9 @@ import { eq } from "drizzle-orm"
 import { profiles, users } from "@/lib/db/schemas"
 import { VoiceProvider } from "@/components/providers/voice-provider"
 import { getHumeAccessToken } from "@/lib/ai/humeai"
+import { AppSidebar } from "@/components/app-sidebar"
 import { SidebarProvider } from "@/components/ui/sidebar"
-import { LayoutContent } from "@/components/layout-content"
+import { UserProfileButton } from "@/components/user-profile"
 
 export default async function AppLayout({
   children,
@@ -34,9 +35,22 @@ export default async function AppLayout({
   return (
     <VoiceProvider accessToken={accessToken}>
       <SidebarProvider defaultOpen={false}>
-        <LayoutContent user={dbUser} profile={profile}>
-          {children}
-        </LayoutContent>
+        <div className="relative flex min-h-screen">
+          <div className="hidden [&:not([data-in-call=true])]:block">
+            <AppSidebar />
+          </div>
+
+          <main className="flex-1">
+            <div className="relative min-h-screen w-full bg-background">
+              <header className="fixed top-0 z-20 hidden h-12 w-full items-center justify-end px-4 md:px-6 [&:not([data-in-call=true])]:flex">
+                <UserProfileButton user={dbUser} profile={profile} />
+              </header>
+              <div className="container relative mx-auto flex min-h-screen flex-col items-center px-4 pt-20 md:px-6">
+                {children}
+              </div>
+            </div>
+          </main>
+        </div>
       </SidebarProvider>
     </VoiceProvider>
   )

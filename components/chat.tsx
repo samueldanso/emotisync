@@ -9,35 +9,13 @@ import { AvatarStatus } from "@/components/avatar-status"
 import type { User } from "@/lib/db/schemas/users"
 import type { Profile } from "@/lib/db/schemas/profiles"
 import type { Companion } from "@/lib/db/schemas/companions"
+import { CallGradient } from "@/components/app-gradient"
 
 interface ChatProps {
   user: User
   profile: Profile
   avatar: Companion
 }
-
-function getGreeting() {
-  const hour = new Date().getHours()
-  if (hour < 12) return "Good morning"
-  if (hour < 18) return "Good afternoon"
-  return "Good evening"
-}
-
-const CallGradient = () => (
-  <div
-    className="pointer-events-none absolute inset-0 opacity-50"
-    style={{
-      background: `
-        radial-gradient(
-          circle at center,
-          hsl(var(--brand-primary)) 0%,
-          transparent 70%
-        )
-      `,
-      animation: "pulse 4s ease-in-out infinite",
-    }}
-  />
-)
 
 function ChatContent({ user, profile, avatar }: ChatProps) {
   const { status, messages } = useVoice()
@@ -79,7 +57,7 @@ function ChatContent({ user, profile, avatar }: ChatProps) {
     }
   }, [messages, status.value])
 
-  const displayName = profile?.display_name || user.first_name
+  const _displayName = profile?.display_name || user.first_name
   const companionName = profile.companion_name || avatar.name
 
   return (
@@ -87,25 +65,7 @@ function ChatContent({ user, profile, avatar }: ChatProps) {
       {isActive && <CallGradient />}
       {!isActive ? (
         <div className="flex min-h-[calc(100vh-8rem)] w-full flex-col items-center justify-center">
-          <div className="flex flex-col items-center gap-16">
-            <AvatarStatus
-              avatar={avatar.image_url}
-              name={companionName}
-              isSpeaking={false}
-              isListening={false}
-            />
-
-            <div className="space-y-6 text-center">
-              <h1 className="font-semibold text-2xl md:text-3xl">
-                {getGreeting()}, {displayName}
-              </h1>
-              <p className="font-medium text-lg text-muted-foreground">
-                I'm {companionName}, How are you feeling today?
-              </p>
-            </div>
-
-            <StartCall />
-          </div>
+          <StartCall />
         </div>
       ) : (
         <div className="fixed inset-0 bg-background">

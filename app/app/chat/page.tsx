@@ -6,7 +6,7 @@ import { eq } from "drizzle-orm"
 import { profiles, type Profile } from "@/lib/db/schemas"
 import { companions, type Companion } from "@/lib/db/schemas"
 import { users, type User } from "@/lib/db/schemas"
-import { WelcomeDialog } from "@/components/welcome-dialog"
+import { WelcomeGreeting } from "@/components/welcome-greeting"
 
 interface ChatProps {
   user: User
@@ -49,23 +49,17 @@ export default async function ChatPage() {
     throw new Error("User not found")
   }
 
-  const isNewUser =
-    profile?.created_at &&
-    new Date().getTime() - new Date(profile.created_at).getTime() < 60000
-
   return (
-    <div className="flex min-h-0 grow flex-col">
-      <Chat user={dbUser} profile={profile} avatar={avatar} />
-      {isNewUser && (
-        <WelcomeDialog
-          companionName={profile.companion_name}
-          userName={dbUser.first_name}
-          isOpen={true}
-          onClose={() => {
-            // No need for router.refresh() since dialog will unmount
-          }}
-        />
-      )}
+    <div className="flex min-h-screen flex-col items-center justify-center">
+      <WelcomeGreeting
+        avatar={avatar.image_url}
+        companionName={profile.companion_name}
+        displayName={profile.display_name || dbUser.first_name}
+      />
+
+      <div className="w-full">
+        <Chat user={dbUser} profile={profile} avatar={avatar} />
+      </div>
     </div>
   )
 }

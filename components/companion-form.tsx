@@ -5,25 +5,24 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
 import { useState, useEffect } from "react"
 import { Input } from "@/components/ui/input"
+import { toast } from "sonner"
 import {
+  Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-  Form,
 } from "@/components/ui/form"
 import {
   companionSchema,
   type CompanionFormValues,
 } from "@/lib/validations/companion-schema"
-import { showErrorToast } from "@/lib/utils/errors"
-import { cn } from "@/lib/utils"
 import { supabaseClient } from "@/lib/supabase/client"
 import { useOnboardingStore } from "@/stores/onboarding-store"
 import { createCompleteProfile } from "@/actions/profile"
 import { ProgressSteps } from "@/components/progress-steps"
-import { WelcomeButtons } from "@/components/welcome-buttons"
+import { WelcomeButtons } from "@/components/onboarding-buttons"
 import { getCompanions } from "@/actions/companion"
 import type { Companion } from "@/lib/db/schemas"
 import Image from "next/image"
@@ -33,33 +32,24 @@ import {
   ONBOARDING_LABELS,
   ONBOARDING_PLACEHOLDERS,
 } from "@/lib/constants"
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
-import { Spinner } from "@/components/ui/spinner"
+import { Toaster } from "@/components/ui/sonner"
+import { cn } from "@/lib/utils"
 
 export function CompanionSelection() {
   const router = useRouter()
-  const [isLoading, setIsLoading] = useState(false)
   const [companions, setCompanions] = useState<Companion[]>([])
   const { goal } = useOnboardingStore()
+  const [isLoading, setIsLoading] = useState(false)
 
-  async function loadCompanions() {
-    try {
-      const { data, error } = await getCompanions()
-      if (error) {
-        showErrorToast(error)
-        return
-      }
-      if (data) {
-        setCompanions(data)
-      }
-    } catch (error) {
-      showErrorToast(error)
-    }
-  }
-
+  // Load companions on mount
   useEffect(() => {
     loadCompanions()
   }, [])
+
+  async function loadCompanions() {
+    const { data } = await getCompanions()
+    if (data) setCompanions(data)
+  }
 
   const form = useForm<CompanionFormValues>({
     resolver: zodResolver(companionSchema),
@@ -69,24 +59,14 @@ export function CompanionSelection() {
     },
   })
 
-  const LoadingDialog = () => (
-    <Dialog open>
-      <DialogContent className="text-center sm:max-w-md">
-        <div className="flex flex-col items-center gap-4 py-6">
-          <Spinner className="h-8 w-8 text-brand-primary" />
-          <DialogTitle className="font-medium text-lg">
-            Creating your personal companion...
-          </DialogTitle>
-        </div>
-      </DialogContent>
-    </Dialog>
-  )
-
   async function onSubmit(data: CompanionFormValues) {
     setIsLoading(true)
-
     try {
       if (!goal) throw new Error("Please complete the previous step first")
+
+      toast.loading("Creating your companion...", {
+        description: `Setting up ${data.companionName} for you`,
+      })
 
       const {
         data: { user },
@@ -100,19 +80,25 @@ export function CompanionSelection() {
         email: user.email,
       })
 
-      if (error) throw new Error(error)
+      if (error) throw error
 
-      await new Promise((resolve) => setTimeout(resolve, 2000))
+      toast.success("Success!", {
+        description: `${data.companionName} is ready to chat!`,
+      })
+
       router.push("/app/chat")
     } catch (error) {
+      toast.error("Error", {
+        description:
+          error instanceof Error ? error.message : "Something went wrong",
+      })
+    } finally {
       setIsLoading(false)
-      showErrorToast(error)
     }
   }
 
   return (
     <>
-      {isLoading && <LoadingDialog />}
       <div className="flex w-full flex-col lg:flex-row">
         <div className="w-full bg-brand-background p-6 lg:sticky lg:top-0 lg:h-screen lg:w-[340px] lg:p-8">
           <div className="mb-8 flex items-center gap-2 lg:mb-16">
@@ -257,6 +243,7 @@ export function CompanionSelection() {
           </div>
         </div>
       </div>
+      <Toaster />
     </>
   )
 }
