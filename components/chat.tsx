@@ -9,12 +9,18 @@ import { AvatarStatus } from "@/components/avatar-status"
 import type { User } from "@/lib/db/schemas/users"
 import type { Profile } from "@/lib/db/schemas/profiles"
 import type { Companion } from "@/lib/db/schemas/companions"
-import { CallGradient } from "@/components/app-gradient"
 
 interface ChatProps {
   user: User
   profile: Profile
   avatar: Companion
+}
+
+function getGreeting() {
+  const hour = new Date().getHours()
+  if (hour < 12) return "Good morning"
+  if (hour < 18) return "Good afternoon"
+  return "Good evening"
 }
 
 function ChatContent({ user, profile, avatar }: ChatProps) {
@@ -29,25 +35,15 @@ function ChatContent({ user, profile, avatar }: ChatProps) {
   useEffect(() => {
     if (status.value === "connected" && messages?.length > 0) {
       const lastMessage = messages[messages.length - 1]
-
-      // Clear any existing timeout
-      if (speakingTimeoutRef.current) {
-        clearTimeout(speakingTimeoutRef.current)
-      }
-
-      // Set speaking state based on message type
       if (lastMessage.type === "assistant_message") {
+        if (speakingTimeoutRef.current) {
+          clearTimeout(speakingTimeoutRef.current)
+        }
         setIsSpeaking(true)
-
-        // Add a small delay before setting to false to prevent flicker
         speakingTimeoutRef.current = setTimeout(() => {
           setIsSpeaking(false)
-        }, 500) // Reduced from 2000ms to 500ms for better sync
-      } else {
-        setIsSpeaking(false)
+        }, 2000)
       }
-    } else {
-      setIsSpeaking(false)
     }
 
     return () => {
@@ -57,14 +53,27 @@ function ChatContent({ user, profile, avatar }: ChatProps) {
     }
   }, [messages, status.value])
 
-  const _displayName = profile?.display_name || user.first_name
+  const displayName = profile?.display_name || user.first_name
   const companionName = profile.companion_name || avatar.name
 
   return (
     <div className="relative flex h-full flex-col">
-      {isActive && <CallGradient />}
       {!isActive ? (
-        <div className="flex min-h-[calc(100vh-8rem)] w-full flex-col items-center justify-center">
+        <div className="absolute inset-0 flex flex-col items-center justify-center">
+          <AvatarStatus
+            avatar={avatar.image_url}
+            name={companionName}
+            isSpeaking={false}
+            isListening={false}
+          />
+          <div className="mt-8 text-center">
+            <h1 className="font-semibold text-2xl md:text-3xl">
+              {getGreeting()}, {displayName}
+            </h1>
+            <p className="mt-3 font-medium text-lg text-muted-foreground">
+              I'm {companionName}, How are you feeling today?
+            </p>
+          </div>
           <StartCall />
         </div>
       ) : (
@@ -79,10 +88,10 @@ function ChatContent({ user, profile, avatar }: ChatProps) {
               />
             </div>
             <div className="flex-1 overflow-hidden">
-              <Messages ref={ref} user={user} profile={profile} />
+              <Messages ref={ref} />
             </div>
             <div className="flex-shrink-0 p-4">
-              <Controls />
+              <Controls userId={user.id} displayName={displayName} />
             </div>
           </div>
         </div>

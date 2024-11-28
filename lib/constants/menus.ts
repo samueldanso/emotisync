@@ -1,25 +1,10 @@
-import { Phone, LineChart, BookText, Diamond } from "lucide-react"
-
-interface SidebarItem {
-  icon: typeof Phone | typeof LineChart | typeof BookText | typeof Diamond
-  label: string
-  href: string
-  disabled?: boolean
-  badge?: string
-}
+import { Phone, LineChart, BookText } from "lucide-react"
 
 // App sidebar navigation
-export const SIDEBAR_ITEMS: SidebarItem[] = [
+export const SIDEBAR_ITEMS = [
   { icon: Phone, label: "Chat", href: "/app/chat" },
   { icon: LineChart, label: "Insights", href: "/app/insights" },
   { icon: BookText, label: "Journals", href: "/app/journals" },
-  {
-    icon: Diamond,
-    label: "Invite Friends",
-    href: "#",
-    disabled: true,
-    badge: "Soon",
-  },
 ] as const
 
 // Marketing site navigation

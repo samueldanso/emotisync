@@ -6,7 +6,6 @@ import { eq } from "drizzle-orm"
 import { profiles, type Profile } from "@/lib/db/schemas"
 import { companions, type Companion } from "@/lib/db/schemas"
 import { users, type User } from "@/lib/db/schemas"
-import { WelcomeGreeting } from "@/components/welcome-greeting"
 
 interface ChatProps {
   user: User
@@ -50,16 +49,8 @@ export default async function ChatPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center">
-      <WelcomeGreeting
-        avatar={avatar.image_url}
-        companionName={profile.companion_name}
-        displayName={profile.display_name || dbUser.first_name}
-      />
-
-      <div className="w-full">
-        <Chat user={dbUser} profile={profile} avatar={avatar} />
-      </div>
+    <div className="flex min-h-0 grow flex-col">
+      <Chat user={dbUser} profile={profile} avatar={avatar} />
     </div>
   )
 }

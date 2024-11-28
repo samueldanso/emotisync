@@ -2,6 +2,7 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
+import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { LogOut, Settings, Clock } from "lucide-react"
 import { getPlatform } from "@/lib/utils/platform"
 import { supabaseClient } from "@/lib/supabase/client"
@@ -18,8 +19,6 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { Separator } from "@/components/ui/separator"
-import { Badge } from "@/components/ui/badge"
-import { ThemeToggle } from "@/components/ui/theme-toggle"
 
 interface UserProfileButtonProps {
   user: User
@@ -84,7 +83,7 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
           </Avatar>
         </button>
       </SheetTrigger>
-      <SheetContent className="w-full border-l sm:max-w-[340px]">
+      <SheetContent className="w-full border-l sm:max-w-md">
         <SheetHeader className="space-y-6 pb-6">
           <SheetTitle className="font-medium text-lg">
             Profile Settings
@@ -104,12 +103,7 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
               )}
             </Avatar>
             <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <h2 className="font-semibold text-lg">{displayName}</h2>
-                <span className="rounded-full bg-brand-primary/5 px-2 py-0.5 text-muted-foreground text-xs">
-                  0 XP
-                </span>
-              </div>
+              <h2 className="font-semibold text-lg">{displayName}</h2>
               <p className="text-muted-foreground text-sm">
                 {platform === "telegram" ? user.telegram_id : user.email}
               </p>
@@ -142,46 +136,9 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
               <Settings className="h-4 w-4" />
               <span>Preferences</span>
             </div>
-
-            {/* Theme Toggle */}
             <div className="flex items-center justify-between rounded-lg border p-3">
-              <div className="space-y-1">
-                <span className="text-sm">Theme</span>
-                <p className="text-muted-foreground text-xs">
-                  Choose your preferred theme
-                </p>
-              </div>
+              <span className="text-muted-foreground text-sm">Theme</span>
               <ThemeToggle />
-            </div>
-
-            {/* Voice Settings */}
-            <div className="flex items-center justify-between rounded-lg border p-3">
-              <div className="space-y-1">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm">Voice Settings</span>
-                  <Badge variant="outline" className="bg-brand-primary/5">
-                    Soon
-                  </Badge>
-                </div>
-                <p className="text-muted-foreground text-xs">
-                  Customize voice tone and speed
-                </p>
-              </div>
-            </div>
-
-            {/* Personality Settings */}
-            <div className="flex items-center justify-between rounded-lg border p-3">
-              <div className="space-y-1">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm">AI Personality</span>
-                  <Badge variant="outline" className="bg-brand-primary/5">
-                    Soon
-                  </Badge>
-                </div>
-                <p className="text-muted-foreground text-xs">
-                  Adjust companion interaction style
-                </p>
-              </div>
             </div>
           </div>
 
