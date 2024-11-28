@@ -1,6 +1,6 @@
 "use client"
 import GlassCard from "@/components/ui/glass"
-import { FeaturesGradient } from "@/components/ui/background-gradient"
+import { FeaturesGradient } from "@/app/(marketing)/_components/background-gradient"
 import { FEATURES } from "@/lib/constants/marketing"
 import { colorPairs } from "@/lib/constants"
 

@@ -24,13 +24,13 @@ export default async function JournalDetailPage({
   })
 
   if (!journal || journal.userId !== user.id) {
-    redirect("/app/journals")
+    redirect("/journals")
   }
 
   return (
     <div className="mx-auto w-full max-w-2xl">
       <div className="mb-6 flex items-center gap-2">
-        <Link href="/app/journals">
+        <Link href="/journals">
           <Button variant="ghost" size="icon">
             <ArrowLeft className="h-4 w-4" />
           </Button>

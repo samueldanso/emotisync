@@ -1,5 +1,5 @@
-import { Button } from "../../../components/ui/button"
-import { Tabs, TabsList, TabsTrigger } from "../../../components/ui/tabs"
+import { Button } from "@/components/ui/button"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { BarChart3 } from "lucide-react"
 import Link from "next/link"
 import { INSIGHT_CATEGORIES } from "@/lib/constants/app"

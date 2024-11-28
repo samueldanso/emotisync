@@ -5,7 +5,7 @@ import { ArrowRight } from "lucide-react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { HeroMeshGradient } from "@/components/ui/mesh-gradient"
+import { HeroMeshGradient } from "@/app/(marketing)/_components/hero-gradient"
 import AppSnippet from "./snippet"
 
 export default function HeroSection() {
@@ -41,13 +41,13 @@ export default function HeroSection() {
           transition={{ duration: 0.5, delay: 0.4 }}
           className="mt-8 mb-12 max-w-[42rem] text-brand-muted text-lg leading-tight sm:text-xl"
         >
-          Skip writing, just talk naturally. Your
+          Just talk naturally. Your
           <span className="font-semibold text-brand-primary">
             {" "}
             AI companion
           </span>{" "}
-          transforms your daily voice conversations into personalized insights
-          and recommendations, helping you find clarity and growth in
+          transforms your daily voice conversations into personalized journal,
+          insights and recommendations, helping you find clarity and growth in
           <span className="font-semibold text-brand-primary"> minutes</span>.
         </motion.p>
 

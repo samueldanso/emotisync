@@ -10,7 +10,7 @@ import {
   useState,
 } from "react"
 import { useRouter } from "next/navigation"
-import { useTelegramState } from "../hooks/use-telegram-state"
+import { useTelegramState } from "@/hooks/use-telegram-state"
 import { setTokenCookies } from "@/lib/utils/cookies"
 import type { XIDTransactionDetails } from "@/lib/types/xid"
 
@@ -67,9 +67,9 @@ export function UserAuthContext({ children }: { children: React.ReactNode }) {
         // If user is authenticated, go to app or onboarding
         if (user) {
           if (!user.isOnboarded) {
-            router.push("/welcome/profile")
+            router.push("/onboarding/profile")
           } else {
-            router.push("/app")
+            router.push("/chat")
           }
         } else {
           // If not authenticated, stay on current page for CAPX auth

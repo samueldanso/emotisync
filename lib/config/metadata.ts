@@ -16,7 +16,7 @@ export function constructMetadata({
 
   return {
     title: {
-      default: `${title} — Your AI voice companion for emotional well-being`,
+      default: `${title} — Your personalized AI voice companion for emotional wellbeing`,
       template: `%s — ${siteConfig.name}`,
     },
     description,

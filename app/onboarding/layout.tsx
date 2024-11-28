@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "Onboarding",
 }
 
-export default async function WelcomeLayout({
+export default async function OnboardingLayout({
   children,
 }: {
   children: React.ReactNode

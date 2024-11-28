@@ -4,13 +4,7 @@ import { db } from "@/lib/db/db"
 import { eq } from "drizzle-orm"
 import { users } from "@/lib/db/schemas"
 import { catchError } from "@/lib/utils/errors"
-
-interface CreateUserOptions {
-  auth_provider: "google" | "telegram"
-  telegram_id?: string
-  first_name: string
-  last_name?: string | null
-}
+import type { CreateUserOptions } from "@/lib/types/user"
 
 export async function createUser(
   email: string,

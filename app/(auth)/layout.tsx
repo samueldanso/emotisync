@@ -12,7 +12,7 @@ export default async function AuthLayout({
   children: React.ReactNode
 }) {
   const user = await getUser()
-  if (user) redirect("/app/chat")
+  if (user) redirect("/chat")
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-brand-background px-4 py-16">

@@ -4,8 +4,10 @@ import { redirect } from "next/navigation"
 import { db } from "@/lib/db/db"
 import { eq } from "drizzle-orm"
 import { profiles, type Profile } from "@/lib/db/schemas"
-import { companions, type Companion } from "@/lib/db/schemas"
-import { users, type User } from "@/lib/db/schemas"
+import type { Companion } from "@/lib/db/schemas"
+import type { User } from "@/lib/db/schemas"
+import { getHumeAccessToken } from "@/lib/hume/server"
+import { VoiceProvider } from "@/components/providers/voice-provider"
 
 interface ChatProps {
   user: User
@@ -29,28 +31,17 @@ export default async function ChatPage() {
   })
 
   if (!profile?.onboarding_completed) {
-    redirect("/welcome/profile")
+    redirect("/onboarding/profile")
   }
 
-  const avatar = await db.query.companions.findFirst({
-    where: eq(companions.id, profile.companion_avatar),
-  })
-
-  if (!avatar) {
-    throw new Error("No avatar found")
-  }
-
-  const dbUser = await db.query.users.findFirst({
-    where: eq(users.id, user.id),
-  })
-
-  if (!dbUser) {
-    throw new Error("User not found")
-  }
+  const accessToken = await getHumeAccessToken()
+  if (!accessToken) throw new Error("Failed to get Hume access token")
 
   return (
     <div className="flex min-h-0 grow flex-col">
-      <Chat user={dbUser} profile={profile} avatar={avatar} />
+      <VoiceProvider accessToken={accessToken} profile={profile}>
+        <Chat user={user} profile={profile} />
+      </VoiceProvider>
     </div>
   )
 }

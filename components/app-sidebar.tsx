@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation"
 import { Logo } from "@/components/ui/logo"
-import { SIDEBAR_ITEMS } from "@/lib/constants/menus"
+import { SIDEBAR_ITEMS } from "@/lib/constants"
 import { cn } from "@/lib/utils"
 import { useVoice } from "@humeai/voice-react"
 import {
