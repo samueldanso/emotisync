@@ -1,25 +1,25 @@
-"use client";
+"use client"
 
-import { useEffect } from "react";
-import { useRecommendationStore } from "@/stores/recommendation-store";
-import { RecommendationCard } from "@/components/recommendation-card";
-import type { Recommendation } from "@/lib/types/recommendation";
+import { useEffect } from "react"
+import { useRecommendationStore } from "@/stores/recommendation-store"
+import { RecommendationCard } from "@/components/recommendation-card"
+import type { Recommendation } from "@/lib/types/recommendation"
 
 interface RecommendationListProps {
-  initialRecommendations: Recommendation[];
+  initialRecommendations: Recommendation[]
 }
 
 export function RecommendationList({
   initialRecommendations,
 }: RecommendationListProps) {
   const { recommendations, setRecommendations, isLoading } =
-    useRecommendationStore();
+    useRecommendationStore()
 
   useEffect(() => {
     if (initialRecommendations) {
-      setRecommendations(initialRecommendations);
+      setRecommendations(initialRecommendations)
     }
-  }, [initialRecommendations, setRecommendations]);
+  }, [initialRecommendations, setRecommendations])
 
   if (isLoading) {
     return (
@@ -31,7 +31,7 @@ export function RecommendationList({
           />
         ))}
       </div>
-    );
+    )
   }
 
   return (
@@ -40,5 +40,5 @@ export function RecommendationList({
         <RecommendationCard key={recommendation.id} {...recommendation} />
       ))}
     </div>
-  );
+  )
 }

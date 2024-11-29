@@ -1,42 +1,42 @@
-import dynamic from "next/dynamic";
-import { getUser } from "@/lib/supabase/server";
-import { redirect } from "next/navigation";
-import { db } from "@/lib/db/db";
-import { eq } from "drizzle-orm";
-import { profiles, companions } from "@/lib/db/schemas";
-import type { Profile } from "@/lib/db/schemas/profiles";
-import type { Companion } from "@/lib/db/schemas/companions";
-import type { User } from "@/lib/db/schemas/users";
-import { getHumeAccessToken } from "@/lib/ai/humeai";
-import { VoiceProvider } from "@/components/providers/voice-provider";
+import dynamic from "next/dynamic"
+import { getUser } from "@/lib/supabase/server"
+import { redirect } from "next/navigation"
+import { db } from "@/lib/db/db"
+import { eq } from "drizzle-orm"
+import { profiles, companions } from "@/lib/db/schemas"
+import type { Profile } from "@/lib/db/schemas/profiles"
+import type { Companion } from "@/lib/db/schemas/companions"
+import type { User } from "@/lib/db/schemas/users"
+import { getHumeAccessToken } from "@/lib/ai/humeai"
+import { VoiceProvider } from "@/components/providers/voice-provider"
 
 interface ChatProps {
-  user: User;
-  profile: Profile;
-  avatar: Companion;
+  user: User
+  profile: Profile
+  avatar: Companion
 }
 
 const Chat = dynamic<ChatProps>(() => import("@/components/chat"), {
   ssr: false,
-});
+})
 
 export default async function ChatPage() {
-  const user = await getUser();
-  if (!user) redirect("/login");
+  const user = await getUser()
+  if (!user) redirect("/login")
 
   const profile = await db.query.profiles.findFirst({
     where: eq(profiles.userId, user.id),
-  });
-  if (!profile?.onboarding_completed) redirect("/onboarding/profile");
+  })
+  if (!profile?.onboarding_completed) redirect("/onboarding/profile")
 
   // Get the companion avatar
   const avatar = await db.query.companions.findFirst({
     where: eq(companions.id, profile.companion_avatar),
-  });
-  if (!avatar) redirect("/onboarding");
+  })
+  if (!avatar) redirect("/onboarding")
 
-  const accessToken = await getHumeAccessToken();
-  if (!accessToken) throw new Error("Failed to get Hume access token");
+  const accessToken = await getHumeAccessToken()
+  if (!accessToken) throw new Error("Failed to get Hume access token")
 
   // Map Supabase user to expected shape
   const mappedUser = {
@@ -51,7 +51,7 @@ export default async function ChatPage() {
     telegram_id: user.user_metadata?.telegram_id || null,
     created_at: user.created_at ? new Date(user.created_at) : null,
     updated_at: user.updated_at ? new Date(user.updated_at) : null,
-  };
+  }
 
   return (
     <div className="flex min-h-0 grow flex-col">
@@ -59,5 +59,5 @@ export default async function ChatPage() {
         <Chat user={mappedUser} profile={profile} avatar={avatar} />
       </VoiceProvider>
     </div>
-  );
+  )
 }

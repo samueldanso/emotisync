@@ -46,15 +46,19 @@ export async function updateSession(request: NextRequest) {
     request.nextUrl.pathname.startsWith("/signup")
   ) {
     if (user) {
-      return NextResponse.redirect(new URL("/app/chat", request.url))
+      return NextResponse.redirect(new URL("/chat", request.url))
     }
     return response
   }
 
   // 3. Protected routes - require authentication
   if (
-    request.nextUrl.pathname.startsWith("/welcome") ||
-    request.nextUrl.pathname.startsWith("/app")
+    request.nextUrl.pathname.startsWith("/onboarding") ||
+    request.nextUrl.pathname.startsWith("/chat") ||
+    request.nextUrl.pathname.startsWith("/journal") ||
+    request.nextUrl.pathname.startsWith("/insights") ||
+    request.nextUrl.pathname.startsWith("/recommendations") ||
+    request.nextUrl.pathname.startsWith("/settings")
   ) {
     if (!user) {
       return NextResponse.redirect(new URL("/login", request.url))
