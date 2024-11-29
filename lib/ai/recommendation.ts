@@ -1,30 +1,30 @@
-import type { Message } from "@humeai/voice-react"
-import type { NewRecommendation } from "@/lib/db/schemas/recommendations"
-import type { RecommendationContext } from "@/lib/types/recommendation"
+import type { Message } from "@humeai/voice-react";
+import type { NewRecommendation } from "@/lib/db/schemas/recommendations";
+import type { RecommendationContext } from "@/lib/types/recommendation";
 
 function getEmotionalContext(messages: Message[]): RecommendationContext {
   const lastUserMessage = messages
     .filter((msg) => msg.type === "user_message")
-    .pop()
+    .pop();
 
-  const emotions = lastUserMessage?.models?.prosody?.scores || {}
+  const emotions = lastUserMessage?.models?.prosody?.scores || {};
   const [dominantEmotion, intensity] = Object.entries(emotions).sort(
-    ([, a], [, b]) => b - a,
-  )[0] || ["neutral", 0]
+    ([, a], [, b]) => b - a
+  )[0] || ["neutral", 0];
 
   return {
     dominant_emotion: dominantEmotion,
     intensity: intensity as number,
     timestamp: new Date().toISOString(),
-  }
+  };
 }
 
 export function generateRecommendations(
   messages: Message[],
   userId: string,
-  journalId: string,
+  journalId: string
 ): NewRecommendation[] {
-  const emotional_context = getEmotionalContext(messages)
+  const emotional_context = getEmotionalContext(messages);
 
   return [
     {
@@ -47,5 +47,5 @@ export function generateRecommendations(
       emotional_context,
       status: "pending",
     },
-  ]
+  ];
 }

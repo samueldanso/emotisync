@@ -1,15 +1,15 @@
-"use server"
+"use server";
 
-import { db } from "@/lib/db/db"
-import { recommendations } from "@/lib/db/schemas"
-import type { NewRecommendation } from "@/lib/db/schemas/recommendations"
-import { catchError } from "@/lib/utils/errors"
-import { eq } from "drizzle-orm"
+import { db } from "@/lib/db/db";
+import { recommendations } from "@/lib/db/schemas";
+import type { NewRecommendation } from "@/lib/db/schemas/recommendations";
+import { catchError } from "@/lib/utils/errors";
+import { eq } from "drizzle-orm";
 import type {
   RecommendationCategory,
   RecommendationType,
   RecommendationContext,
-} from "@/lib/types/recommendation"
+} from "@/lib/types/recommendation";
 
 export async function createRecommendation(
   userId: string,
@@ -18,7 +18,7 @@ export async function createRecommendation(
   description: string,
   category: RecommendationCategory,
   type: RecommendationType,
-  emotional_context: RecommendationContext,
+  emotional_context: RecommendationContext
 ) {
   try {
     const newRecommendation: NewRecommendation = {
@@ -30,16 +30,16 @@ export async function createRecommendation(
       type,
       emotional_context,
       status: "pending" as const,
-    }
+    };
 
     const [recommendation] = await db
       .insert(recommendations)
       .values(newRecommendation)
-      .returning()
+      .returning();
 
-    return { data: recommendation, error: null }
+    return { data: recommendation, error: null };
   } catch (error) {
-    return catchError(error)
+    return catchError(error);
   }
 }
 
@@ -50,11 +50,11 @@ export async function getUserRecommendations(userId: string) {
       orderBy: (recommendations, { desc }) => [
         desc(recommendations.created_at),
       ],
-    })
+    });
 
-    return { data: userRecommendations, error: null }
+    return { data: userRecommendations, error: null };
   } catch (error) {
-    return catchError(error)
+    return catchError(error);
   }
 }
 
@@ -64,11 +64,11 @@ export async function updateRecommendationStatus(id: string, status: string) {
       .update(recommendations)
       .set({ status })
       .where(eq(recommendations.id, id))
-      .returning()
+      .returning();
 
-    return { data: recommendation, error: null }
+    return { data: recommendation, error: null };
   } catch (error) {
-    return catchError(error)
+    return catchError(error);
   }
 }
 
@@ -79,10 +79,10 @@ export async function getRecommendationsByJournal(journalId: string) {
       orderBy: (recommendations, { desc }) => [
         desc(recommendations.created_at),
       ],
-    })
+    });
 
-    return { data: journalRecommendations, error: null }
+    return { data: journalRecommendations, error: null };
   } catch (error) {
-    return catchError(error)
+    return catchError(error);
   }
 }
