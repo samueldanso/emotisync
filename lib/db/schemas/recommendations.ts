@@ -11,17 +11,9 @@ export const recommendations = pgTable("recommendations", {
   journal_id: uuid("journal_id").references(() => journals.id),
   title: text("title").notNull(),
   description: text("description").notNull(),
-  category: text("category", {
-    enum: ["mood-boosting", "mindfulness", "activity"],
-  }).notNull(),
-  type: text("type", {
-    enum: ["text", "audio"],
-  }).notNull(),
-  status: text("status", {
-    enum: ["pending", "active", "completed"],
-  })
-    .default("pending")
-    .notNull(),
+  category: text("category").notNull(),
+  type: text("type").notNull(),
+  status: text("status").default("pending").notNull(),
   emotional_context: jsonb("emotional_context")
     .$type<RecommendationContext>()
     .notNull(),
@@ -29,6 +21,5 @@ export const recommendations = pgTable("recommendations", {
   updated_at: timestamp("updated_at").defaultNow(),
 })
 
-// Infer types from schema
 export type Recommendation = typeof recommendations.$inferSelect
 export type NewRecommendation = typeof recommendations.$inferInsert
