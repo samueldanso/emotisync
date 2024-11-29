@@ -3,6 +3,8 @@
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { NAVBAR_MENU } from "@/lib/constants"
+import { cn } from "@/lib/utils"
+import { buttonVariants } from "@/components/ui/button"
 
 interface MobileNavProps {
   onOpenChange: (open: boolean) => void
@@ -29,6 +31,20 @@ export function MobileNav({ onOpenChange }: MobileNavProps) {
             </li>
           ))}
         </ul>
+        <Link
+          href="/login"
+          className={cn(
+            buttonVariants({
+              variant: "default",
+              size: "default",
+              className:
+                "mt-4 block text-center font-semibold text-[15px] md:text-[17px]",
+            }),
+          )}
+          onClick={() => onOpenChange(false)}
+        >
+          Get started
+        </Link>
       </nav>
     </motion.div>
   )

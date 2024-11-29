@@ -11,6 +11,8 @@ import { persist } from "zustand/middleware"
  * @property {string} name - User's name
  * @property {string} companionName - Selected AI companion name
  * @property {string} companionAvatar - Selected AI companion avatar
+ * @property {string} dateOfBirth - User's date of birth
+ * @property {string} gender - User's gender
  *
  * Actions:
  * @method setStep - Update current onboarding step
@@ -20,6 +22,8 @@ import { persist } from "zustand/middleware"
  * @method reset - Reset onboarding state
  * @method goBack - Navigate to previous step
  * @method goNext - Navigate to next step
+ * @method setDateOfBirth - Set user's date of birth
+ * @method setGender - Set user's gender
  */
 
 interface OnboardingState {
@@ -28,6 +32,8 @@ interface OnboardingState {
   name: string
   companionName: string
   companionAvatar: string
+  dateOfBirth: string
+  gender: string | undefined
   setStep: (step: number) => void
   setGoal: (goal: string) => void
   setName: (name: string) => void
@@ -35,6 +41,8 @@ interface OnboardingState {
   reset: () => void
   goBack: () => void
   goNext: () => void
+  setDateOfBirth: (date: string) => void
+  setGender: (gender: string | undefined) => void
 }
 
 export const useOnboardingStore = create<OnboardingState>()(
@@ -45,6 +53,8 @@ export const useOnboardingStore = create<OnboardingState>()(
       name: "",
       companionName: "",
       companionAvatar: "",
+      dateOfBirth: "",
+      gender: undefined,
       setStep: (step) => set({ step }),
       setGoal: (goal) => set({ goal }),
       setName: (name) => set({ name }),
@@ -57,6 +67,8 @@ export const useOnboardingStore = create<OnboardingState>()(
           name: "",
           companionName: "",
           companionAvatar: "",
+          dateOfBirth: "",
+          gender: undefined,
         }),
       goBack: () => {
         const currentStep = get().step
@@ -70,6 +82,8 @@ export const useOnboardingStore = create<OnboardingState>()(
           set({ step: currentStep + 1 })
         }
       },
+      setDateOfBirth: (dateOfBirth) => set({ dateOfBirth }),
+      setGender: (gender) => set({ gender }),
     }),
     {
       name: "onboarding-store",

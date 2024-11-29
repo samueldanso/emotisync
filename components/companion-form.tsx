@@ -27,13 +27,15 @@ import { ProgressSteps } from "@/components/progress-steps"
 import { WelcomeButtons } from "@/components/onboarding-buttons"
 import { getCompanions } from "@/actions/companion"
 import type { Companion } from "@/lib/db/schemas"
-import Image from "next/image"
 import {
   PERSONALITY_MAPPING,
   PERSONALITY_DESCRIPTIONS,
   ONBOARDING_LABELS,
   ONBOARDING_PLACEHOLDERS,
 } from "@/lib/constants"
+import { motion } from "framer-motion"
+import { Skeleton } from "@/components/ui/skeleton"
+import { generateTypewriterKey } from "@/lib/utils/text"
 
 export function CompanionSelection() {
   const router = useRouter()
@@ -109,142 +111,204 @@ export function CompanionSelection() {
   }
 
   return (
-    <div className="flex w-full flex-col lg:flex-row">
-      <div className="w-full bg-brand-background p-6 lg:sticky lg:top-0 lg:h-screen lg:w-[340px] lg:p-8">
-        <div className="mb-8 flex items-center gap-2 lg:mb-16">
-          <Image
-            src="/emotisync-icon.svg"
-            alt="EmotiSync"
-            width={32}
-            height={32}
-            className="h-8 w-8"
-            priority
-          />
-          <span className="font-heading font-semibold text-xl">EmotiSync</span>
-        </div>
+    <div className="flex min-h-screen w-full flex-col overflow-hidden lg:flex-row">
+      {/* Left gradient section - hidden on mobile */}
+      <div className="relative hidden bg-gradient-to-b from-brand-accent via-brand-primary to-brand-primary lg:block lg:w-1/2">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.2)_0%,_transparent_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.15)_0%,_transparent_100%)]" />
 
-        <div className="space-y-2 lg:space-y-3">
-          <h2 className="text-brand-primary text-xl">Almost there!</h2>
-          <p className="text-brand-muted text-sm leading-relaxed">
-            Choose your AI companion's personality and give them a name.
-          </p>
-        </div>
-
-        <div className="mt-8 lg:mt-12">
-          <ProgressSteps />
+        <div className="relative z-10 flex h-full flex-col items-center justify-center p-8">
+          <div className="space-y-4 text-center">
+            <motion.h2
+              className="text-3xl text-white"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1 }}
+            >
+              {Array.from("Almost there!").map((char, index) => (
+                <motion.span
+                  key={generateTypewriterKey(char, index, "companion")}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{
+                    duration: 0.1,
+                    delay: index * 0.05,
+                  }}
+                >
+                  {char}
+                </motion.span>
+              ))}
+            </motion.h2>
+            <motion.p
+              className="font-medium text-base text-white/90 leading-relaxed"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.5, duration: 0.5 }}
+            >
+              Choose your AI companion's personality and give them a name.
+            </motion.p>
+          </div>
         </div>
       </div>
 
-      {/* Main content */}
-      <div className="flex-1 p-6 lg:min-h-screen lg:px-24 xl:px-32">
-        <div className="mx-auto max-w-[480px] pt-8 lg:pt-16">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">
-              <FormField
-                control={form.control}
-                name="avatar"
-                render={({ field }) => (
-                  <FormItem className="space-y-4">
-                    <FormLabel className="mb-8 block text-center text-xl">
-                      Choose your AI companion's personality
-                    </FormLabel>
-                    <FormControl>
-                      <div className="grid grid-cols-3 gap-6">
-                        {companions.map((companion) => {
-                          const mappedPersonality =
-                            PERSONALITY_MAPPING[
-                              companion.personality as keyof typeof PERSONALITY_MAPPING
-                            ]
+      {/* Right form section - full width on mobile */}
+      <div className="flex w-full flex-col bg-brand-background lg:w-1/2">
+        {/* Mobile gradient banner */}
+        <div className="h-32 bg-gradient-to-b from-brand-accent via-brand-primary to-brand-primary p-4 lg:hidden">
+          <motion.h2 className="text-center text-2xl text-white">
+            Almost there!
+          </motion.h2>
+          <motion.p
+            className="mt-2 text-center text-sm text-white/80"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5, duration: 0.5 }}
+          >
+            Choose your AI companion's personality and give them a name.
+          </motion.p>
+        </div>
 
-                          return (
-                            <label
-                              key={companion.id}
-                              className="flex cursor-pointer flex-col"
-                            >
-                              <input
-                                {...field}
-                                type="radio"
-                                value={companion.id}
-                                className="hidden"
-                              />
-                              <div className="flex flex-col items-center">
+        <div className="flex-1 px-4 py-6 lg:px-6 lg:py-8">
+          {/* Progress steps */}
+          <div className="mb-8 px-4">
+            <ProgressSteps />
+          </div>
+
+          {/* Form content */}
+          <div className="mx-auto w-full max-w-[400px] space-y-6">
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-5"
+              >
+                <FormField
+                  control={form.control}
+                  name="avatar"
+                  render={({ field }) => (
+                    <FormItem className="space-y-4">
+                      <FormLabel className="text-brand-muted text-sm">
+                        Choose your AI companion's personality
+                      </FormLabel>
+                      <FormControl>
+                        <div className="grid grid-cols-3 gap-6">
+                          {companions.length === 0 ? (
+                            // Loading skeletons
+                            <>
+                              {[1, 2, 3].map((i) => (
                                 <div
-                                  className={cn(
-                                    "relative mb-4 transform rounded-full transition-all duration-200",
-                                    field.value === companion.id && [
-                                      "ring-4",
-                                      "ring-brand-primary",
-                                      "shadow-lg",
-                                      "scale-125",
-                                    ],
-                                  )}
+                                  key={i}
+                                  className="flex flex-col items-center space-y-4"
                                 >
-                                  <img
-                                    src={companion.image_url}
-                                    alt={`AI companion with ${companion.personality} personality`}
-                                    className="h-24 w-24 rounded-full object-cover"
+                                  <Skeleton className="h-24 w-24 rounded-full" />
+                                  <div className="space-y-2">
+                                    <Skeleton className="h-4 w-20" />
+                                    <Skeleton className="h-3 w-24" />
+                                  </div>
+                                </div>
+                              ))}
+                            </>
+                          ) : (
+                            // Actual avatars
+                            companions.map((companion) => {
+                              const mappedPersonality =
+                                PERSONALITY_MAPPING[
+                                  companion.personality as keyof typeof PERSONALITY_MAPPING
+                                ]
+
+                              return (
+                                <label
+                                  key={companion.id}
+                                  className="flex cursor-pointer flex-col"
+                                >
+                                  <input
+                                    {...field}
+                                    type="radio"
+                                    value={companion.id}
+                                    className="hidden"
                                   />
-                                </div>
-                                <div className="mt-2 space-y-1 text-center">
-                                  <p
-                                    className={cn(
-                                      "font-medium",
-                                      field.value === companion.id
-                                        ? "text-brand-primary"
-                                        : "text-muted-foreground",
-                                    )}
-                                  >
-                                    {mappedPersonality}
-                                  </p>
-                                  <p className="text-muted-foreground text-xs">
-                                    {PERSONALITY_DESCRIPTIONS[
-                                      mappedPersonality
-                                    ] || ""}
-                                  </p>
-                                </div>
-                              </div>
-                            </label>
-                          )
-                        })}
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="companionName"
-                render={({ field }) => (
-                  <FormItem className="space-y-4">
-                    <FormLabel className="text-lg">
-                      {ONBOARDING_LABELS.companionName}
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={ONBOARDING_PLACEHOLDERS.companionName}
-                        className="h-[48px]"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <div className="pt-4">
-                <WelcomeButtons
-                  isLoading={isLoading}
-                  showBack={true}
-                  onBack={() => {
-                    useOnboardingStore.getState().goBack()
-                    router.push("/onboarding/profile")
-                  }}
+                                  <div className="flex flex-col items-center">
+                                    <div
+                                      className={cn(
+                                        "relative mb-4 transform rounded-full transition-all duration-200",
+                                        field.value === companion.id && [
+                                          "ring-4",
+                                          "ring-brand-primary",
+                                          "shadow-lg",
+                                          "scale-125",
+                                        ],
+                                      )}
+                                    >
+                                      <img
+                                        src={companion.image_url}
+                                        alt={`AI companion with ${companion.personality} personality`}
+                                        className="h-24 w-24 rounded-full object-cover"
+                                      />
+                                    </div>
+                                    <div className="mt-2 space-y-1 text-center">
+                                      <p
+                                        className={cn(
+                                          "font-medium",
+                                          field.value === companion.id
+                                            ? "text-brand-primary"
+                                            : "text-muted-foreground",
+                                        )}
+                                      >
+                                        {mappedPersonality}
+                                      </p>
+                                      <p className="text-muted-foreground text-xs">
+                                        {PERSONALITY_DESCRIPTIONS[
+                                          mappedPersonality
+                                        ] || ""}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </label>
+                              )
+                            })
+                          )}
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-              </div>
-            </form>
-          </Form>
+
+                <FormField
+                  control={form.control}
+                  name="companionName"
+                  render={({ field }) => (
+                    <FormItem className="space-y-1.5">
+                      <FormLabel className="text-brand-muted text-sm">
+                        {ONBOARDING_LABELS.companionName}
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder={ONBOARDING_PLACEHOLDERS.companionName}
+                          className="h-11 rounded-lg border-zinc-200 bg-white/60 shadow-sm transition-colors focus:bg-white/80"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <div className="pt-4">
+                  <div className="flex gap-4">
+                    <WelcomeButtons
+                      isLoading={isLoading}
+                      showBack={true}
+                      onBack={() => {
+                        useOnboardingStore.getState().goBack()
+                        router.push("/onboarding/profile")
+                      }}
+                      className="flex-1"
+                    />
+                  </div>
+                </div>
+              </form>
+            </Form>
+          </div>
         </div>
       </div>
     </div>

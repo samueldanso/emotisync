@@ -40,7 +40,7 @@ export function Navbar() {
               <li key={route.href}>
                 <Link
                   href={route.href}
-                  className="text-brand-muted transition-colors hover:text-brand-primary"
+                  className="font-semibold text-[15px] text-brand-muted transition-colors hover:text-brand-primary md:text-[17px]"
                 >
                   {route.title}
                 </Link>
@@ -49,36 +49,37 @@ export function Navbar() {
           </ul>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-1">
           <Link
             href="/login"
             className={cn(
               buttonVariants({
-                variant: "soft",
+                variant: "ghost",
                 size: "default",
-                className: "h-8 text-sm md:h-10 md:text-base",
+                className:
+                  "h-8 font-semibold text-[15px] md:h-10 md:text-[17px]",
               }),
             )}
           >
             Sign in
           </Link>
 
-          <div className="flex items-center gap-4">
-            <Link
-              href="/login"
-              className={cn(
-                buttonVariants({
-                  variant: "default",
-                  size: "default",
-                  className: "h-8 text-sm md:h-10 md:text-base",
-                }),
-              )}
-            >
-              Get started
-            </Link>
-          </div>
+          <Link
+            href="/login"
+            className={cn(
+              buttonVariants({
+                variant: "default",
+                size: "default",
+                className:
+                  "hidden h-8 font-semibold text-[15px] md:inline-flex md:h-10 md:text-[17px]",
+              }),
+            )}
+          >
+            Get started
+          </Link>
+
           <Button
-            variant="ghost"
+            variant="soft"
             size="icon"
             className="h-8 w-8 md:hidden"
             onClick={() => setIsOpen(!isOpen)}

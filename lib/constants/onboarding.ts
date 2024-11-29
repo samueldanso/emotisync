@@ -1,5 +1,5 @@
 export const ONBOARDING_STEPS = [
-  { id: 1, name: "Create Account", status: "In Progress" },
+  { id: 1, name: "Create Profile", status: "In Progress" },
   { id: 2, name: "Companion", status: "Not started" },
 ] as const
 

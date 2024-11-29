@@ -14,14 +14,17 @@ export function constructMetadata({
 }: MetadataProps = {}): Metadata {
   const url = `https://${siteConfig.domain}${path}`
 
+  const isHome = path === "/"
+  const titleTemplate = isHome ? title : `${title} — ${siteConfig.name}`
+
   return {
     title: {
-      default: `${title} — Your personalized AI voice companion for emotional wellbeing`,
+      default: titleTemplate,
       template: `%s — ${siteConfig.name}`,
     },
     description,
     openGraph: {
-      title,
+      title: titleTemplate,
       description,
       url,
       siteName: siteConfig.name,
@@ -29,7 +32,7 @@ export function constructMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title,
+      title: titleTemplate,
       description,
     },
   }

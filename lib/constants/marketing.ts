@@ -1,11 +1,11 @@
 import {
-  Bot,
   Sparkles,
   AudioLines,
   Activity,
   type LucideIcon,
   BookText,
   LineChart,
+  UserCircle,
 } from "lucide-react"
 
 export interface Testimonial {
@@ -26,7 +26,7 @@ export const NAVBAR_MENU = [
   { title: "Home", href: "/" },
   { title: "Features", href: "/#features" },
   { title: "How it works", href: "/#how-it-works" },
-  { title: "FAQ", href: "/#faq" },
+  { title: "FAQs", href: "/#faq" },
 ] as const
 
 // Footer navigation
@@ -50,13 +50,13 @@ export const FEATURES: Feature[] = [
     icon: AudioLines,
     title: "Empathetic voice AI",
     description:
-      "Converse naturally with your AI companion who listens and responds empathetically.",
+      "Converse naturally with your friendly AI companion, who listens with empathy.",
   },
   {
     icon: Sparkles,
     title: "Mood-boosting recommendations",
     description:
-      "Receive personalized, actionable recommendations to improve your mood - tailored just for you.",
+      "Receive personalized, actionable suggestions to improve your emotional well-being.",
   },
   {
     icon: BookText,
@@ -68,7 +68,7 @@ export const FEATURES: Feature[] = [
     icon: Activity,
     title: "Real-time emotional analysis",
     description:
-      "EmotiSync analyzes your emotions in real-time to provide instant feedback and guidance.",
+      "EmotiSync analyzes your emotions in real-time to provide instant feedback and support.",
   },
   {
     icon: LineChart,
@@ -77,10 +77,10 @@ export const FEATURES: Feature[] = [
       "Get personalized insights about your emotional patterns & trends to better understand yourself.",
   },
   {
-    icon: Bot,
+    icon: UserCircle,
     title: "Customizable AI companion",
     description:
-      "Personalize your companion's personality to match your unique preferences.",
+      "Personalize your companion's voice, avatar and personality to match your unique preferences.",
   },
 ] as const
 
@@ -88,21 +88,21 @@ export const HOW_IT_WORKS = [
   {
     title: "Speak freely",
     description:
-      "Share your day, feelings, or thoughts naturally — Your AI companion listens with empathy.",
+      "Share anything on your mind naturally — Your personal AI companion listens with empathy.",
     imagePosition: "left",
     image: "/gifs/moti.gif",
   },
   {
-    title: "Receive instant insights",
+    title: "Track your insights",
     description:
-      "Get real-time insights as your voice conversation becomes a smart journal entry — no writing needed, ready to review anytime.",
+      "Get instant feedback as your voice conversation is automatically turned into a journal entry — no writing needed, ready to review anytime.",
     imagePosition: "right",
     image: "/images/step1.png",
   },
   {
-    title: "Get personalized recommendations",
+    title: "Get actionable recommendations",
     description:
-      "Receive tailored, actionable guidance based on your mood and journal insights to support your emotional growth over time.",
+      "Receive tailored, actionable recommendations based on your mood patterns and insights to feel better.",
     imagePosition: "left",
     image: "/images/step1.png",
   },
@@ -113,7 +113,7 @@ export const TESTIMONIALS: Testimonial[] = [
     name: "Christin",
     role: "Public Health Professional",
     content:
-      "I was skeptical about EmotiSync AI, but it's incredibly natural and helpful. The insights are spot-on.",
+      "I was skeptical about EmotiSync AI, but it's incredibly natural and helpful. The actionable recommendations are spot-on.",
     avatar: "/images/avatar2.png",
   },
   {
@@ -136,21 +136,23 @@ export const FAQS = [
   {
     question: "How does EmotiSync improve my emotional well-being?",
     answer:
-      "EmotiSync turns your voice into mental clarity. Speak naturally to your AI companion — get instant insights and guidance to feel better every day.",
+      "EmotiSync turns your thoughts into reflections and mood-boosting recommendations. Just talk to your AI friend to feel better every day.",
   },
   {
-    question: "Can I use EmotiSync AI alongside traditional therapy?",
+    question: "Can I use EmotiSync AI as therapy?",
     answer:
-      "Yes, you can! EmotiSync AI is designed to complement traditional therapy by helping you practice self reflection between sessions. However, it is not a replacement for professional one-on-one support.",
+      "EmotiSync AI is designed to provide a listening ear and mood-boosting recommendations. However, it is not a replacement for professional one-on-one support.",
   },
   {
-    question: "How is this different from regular journaling?",
+    question:
+      "How is this different from regular journaling and mood tracking?",
     answer:
-      "No writing required - just talk naturally. Get instant guidance and analysis instead of just tracking.",
+      "EmotiSync analyzes your emotions in real-time to provide instant feedback and support.",
   },
   {
-    question: "How long do sessions take?",
-    answer: "As long as you want. Speak freely, and let the AI do the rest.",
+    question: "How long do calls take?",
+    answer:
+      "As short or long as you want. Speak freely, and let the AI do the rest.",
   },
   {
     question: "Is my data safe with EmotiSync?",
@@ -158,14 +160,9 @@ export const FAQS = [
       "Your privacy is our top priority and we adhere to strict privacy standards to safeguard your data. Your voice data is processed in real-time and is not stored.",
   },
   {
-    question: "What kind of guidance and recommendations will I get?",
+    question: "What kind of recommendations will I get?",
     answer:
-      "From quick mood-boosting exercises, music, and books to personalized activities - all matched to your current emotional state and voice patterns.",
-  },
-  {
-    question: "Who can benefit from using EmotiSync AI?",
-    answer:
-      "EmotiSync AI is beneficial for anyone seeking accessible emotional health insights—whether you're dealing with daily stress, need a a friendly listening ear, or want to explore self-care routines. If you're experiencing severe mental health issues, we strongly recommend consulting a licensed therapist.",
+      "From quick mood-boosting exercises, music, and books to personalized activities - all matched to your current emotional state and patterns.",
   },
 ] as const
 

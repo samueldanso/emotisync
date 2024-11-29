@@ -3,9 +3,7 @@ import { Footer } from "./_components/footer"
 import { constructMetadata } from "@/lib/config/metadata"
 
 export const metadata = constructMetadata({
-  title: "EmotiSync",
-  description:
-    "Your AI voice companion for emotional wellbeing and natural conversations.",
+  path: "/",
 })
 
 export default function MarketingLayout({
