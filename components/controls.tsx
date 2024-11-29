@@ -12,6 +12,10 @@ import { createJournal } from "@/actions/journal"
 import { generateRecommendations } from "@/lib/ai/recommendation"
 import { createRecommendation } from "@/actions/recommendation"
 import { useState } from "react"
+import type {
+  RecommendationCategory,
+  RecommendationType,
+} from "@/lib/types/recommendation"
 
 interface ControlsProps {
   userId: string
@@ -52,12 +56,12 @@ export default function Controls({ userId, displayName }: ControlsProps) {
 
       for (const rec of recommendations) {
         const { error } = await createRecommendation(
-          rec.userId,
-          rec.journalId,
+          rec.user_id,
+          rec.journal_id,
           rec.title,
           rec.description,
-          rec.category,
-          rec.type,
+          rec.category as RecommendationCategory,
+          rec.type as RecommendationType,
           rec.emotional_context,
         )
 

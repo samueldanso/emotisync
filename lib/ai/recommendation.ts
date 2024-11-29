@@ -1,9 +1,8 @@
 import type { Message } from "@humeai/voice-react"
-import type {
-  NewRecommendation,
-} from "@/lib/db/schemas/recommendations"
+import type { NewRecommendation } from "@/lib/db/schemas/recommendations"
+import type { RecommendationContext } from "@/lib/types/recommendation"
 
-function getEmotionalContext(messages: Message[]) {
+function getEmotionalContext(messages: Message[]): RecommendationContext {
   const lastUserMessage = messages
     .filter((msg) => msg.type === "user_message")
     .pop()
@@ -36,6 +35,7 @@ export function generateRecommendations(
       category: "mindfulness",
       type: "text",
       emotional_context,
+      status: "pending",
     },
     {
       user_id: userId,
@@ -45,6 +45,7 @@ export function generateRecommendations(
       category: "mood-boosting",
       type: "text",
       emotional_context,
+      status: "pending",
     },
   ]
 }
