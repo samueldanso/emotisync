@@ -1,8 +1,8 @@
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Sparkles, Music } from "lucide-react";
-import type { Recommendation } from "@/lib/types/recommendation";
-import Link from "next/link";
+import { Card } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Sparkles, Music } from "lucide-react"
+import type { Recommendation } from "@/lib/types/recommendation"
+import Link from "next/link"
 
 export function RecommendationCard({
   id,
@@ -40,5 +40,5 @@ export function RecommendationCard({
         </div>
       </Card>
     </Link>
-  );
+  )
 }

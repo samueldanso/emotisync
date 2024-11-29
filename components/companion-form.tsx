@@ -239,7 +239,7 @@ export function CompanionSelection() {
                   showBack={true}
                   onBack={() => {
                     useOnboardingStore.getState().goBack()
-                    router.push("/welcome/profile")
+                    router.push("/onboarding/profile")
                   }}
                 />
               </div>

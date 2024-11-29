@@ -1,13 +1,13 @@
-"use client";
+"use client"
 
-import { VoiceProvider as HumeVoiceProvider } from "@humeai/voice-react";
-import { env } from "@/env";
-import type { Profile } from "@/lib/db/schemas/profiles";
+import { VoiceProvider as HumeVoiceProvider } from "@humeai/voice-react"
+import { env } from "@/env"
+import type { Profile } from "@/lib/db/schemas/profiles"
 
 interface VoiceProviderProps {
-  accessToken: string;
-  profile: Profile;
-  children: React.ReactNode;
+  accessToken: string
+  profile: Profile
+  children: React.ReactNode
 }
 
 export function VoiceProvider({
@@ -26,10 +26,10 @@ export function VoiceProvider({
         text: `Initial message: "Hi {{displayName}}! I'm {{companionName}}, and I'm here to listen and help you reflect on your day, thoughts, or feelings. What's on your mind today?"`,
         type: "persistent",
       },
-    };
+    }
 
-    socket.send(JSON.stringify(sessionSettings));
-  };
+    socket.send(JSON.stringify(sessionSettings))
+  }
 
   return (
     <HumeVoiceProvider
@@ -39,5 +39,5 @@ export function VoiceProvider({
     >
       {children}
     </HumeVoiceProvider>
-  );
+  )
 }
