@@ -54,7 +54,7 @@ export function ProfileForm() {
       setName(data.name)
       setGoal(data.goal)
       goNext()
-      await router.push("/welcome/companion")
+      await router.push("/onboarding/companion")
     } catch (error) {
       showErrorToast(error)
     } finally {
