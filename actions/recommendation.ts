@@ -5,15 +5,19 @@ import { recommendations } from "@/lib/db/schemas/recommendations"
 import type { NewRecommendation } from "@/lib/db/schemas/recommendations"
 import { catchError } from "@/lib/utils/errors"
 import { eq } from "drizzle-orm"
-import type { RecommendationContext } from "@/lib/types/recommendation"
+import type {
+  RecommendationCategory,
+  RecommendationType,
+  RecommendationContext,
+} from "@/lib/types/recommendation"
 
 export async function createRecommendation(
   userId: string,
   journalId: string,
   title: string,
   description: string,
-  category: string,
-  type: string,
+  category: RecommendationCategory,
+  type: RecommendationType,
   emotional_context: RecommendationContext,
 ) {
   try {
@@ -25,7 +29,7 @@ export async function createRecommendation(
       category,
       type,
       emotional_context,
-      status: "pending",
+      status: "pending" as const,
     }
 
     const [recommendation] = await db

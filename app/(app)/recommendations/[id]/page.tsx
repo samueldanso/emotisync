@@ -23,7 +23,7 @@ export default async function RecommendationDetailPage({
     where: eq(recommendations.id, params.id),
   })
 
-  if (!recommendation || recommendation.userId !== user.id) {
+  if (!recommendation || recommendation.user_id !== user.id) {
     redirect("/recommendations")
   }
 
