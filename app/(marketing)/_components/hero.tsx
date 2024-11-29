@@ -18,11 +18,11 @@ export default function HeroSection() {
           transition={{ duration: 0.5 }}
         >
           <Badge
-            className="inline-flex items-center rounded-full bg-secondary/30 px-4 py-1 font-medium text-brand-foreground text-sm ring-1 ring-brand-foreground/10 backdrop-blur"
+            className="inline-flex items-center rounded-full bg-secondary/30 px-4 py-1 font-semibold text-base text-brand-foreground ring-1 ring-brand-foreground/10 backdrop-blur"
             variant="outline"
           >
-            <span className="mr-1 text-base">💛</span>
-            Meet your personalized AI companion
+            <span className="mr-1 text-base">👻</span>
+            Meet Moti, your personalized AI companion
           </Badge>
         </motion.div>
 
@@ -32,23 +32,21 @@ export default function HeroSection() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="mt-8 font-heading font-semibold text-4xl text-brand-foreground tracking-tight sm:text-6xl md:text-7xl"
         >
-          Talk Freely, Feel Better Instantly
+          Just Talk Naturally,
+          <br /> Feel Better in Minutes
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-8 mb-12 max-w-[42rem] text-brand-muted text-lg leading-tight sm:text-xl"
+          className="mt-8 mb-12 max-w-[42rem] font-semibold text-brand-muted text-lg leading-tight sm:text-xl"
         >
-          Just talk naturally. Your
-          <span className="font-semibold text-brand-primary">
-            {" "}
-            AI companion
-          </span>{" "}
-          transforms your daily voice conversations into personalized journal,
-          insights and recommendations, helping you find clarity and growth in
-          <span className="font-semibold text-brand-primary"> minutes</span>.
+          Speak freely. Your friendly
+          <span className="font-bold text-brand-primary"> AI companion</span>{" "}
+          turns daily conversations into personalized reflections and
+          mood-boosting recommendations, helping you feel better and connect
+          emotionally.
         </motion.p>
 
         <motion.div
@@ -57,7 +55,7 @@ export default function HeroSection() {
           transition={{ duration: 0.5, delay: 0.6 }}
         >
           <Link href="/login">
-            <Button className="relative rounded-full bg-gradient-to-t from-brand-primary via-brand-primary to-brand-accent/80 px-8 py-6 font-medium text-white shadow-[0_2px_4px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.15)] transition-all duration-300 before:absolute before:inset-0 before:rounded-full before:bg-gradient-to-t before:from-transparent before:to-white/20 hover:scale-[1.02] hover:shadow-[0_4px_8px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.25)] hover:before:to-white/30 active:scale-[0.98]">
+            <Button className="relative rounded-full bg-gradient-to-t from-brand-primary via-brand-primary to-brand-accent/80 px-8 py-6 font-semibold text-lg text-white shadow-[0_2px_4px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.15)] transition-all duration-300 before:absolute before:inset-0 before:rounded-full before:bg-gradient-to-t before:from-transparent before:to-white/20 hover:scale-[1.02] hover:shadow-[0_4px_8px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.25)] hover:before:to-white/30 active:scale-[0.98]">
               Start talking
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>

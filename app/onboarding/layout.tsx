@@ -1,10 +1,11 @@
 import { redirect } from "next/navigation"
 import { getUser } from "@/lib/supabase/server"
-import type { Metadata } from "next"
+import { constructMetadata } from "@/lib/config/metadata"
 
-export const metadata: Metadata = {
+export const metadata = constructMetadata({
   title: "Onboarding",
-}
+  path: "/onboarding",
+})
 
 export default async function OnboardingLayout({
   children,
@@ -17,9 +18,5 @@ export default async function OnboardingLayout({
     redirect("/login")
   }
 
-  return (
-    <div className="flex min-h-screen flex-col items-center justify-center p-4">
-      {children}
-    </div>
-  )
+  return <div className="min-h-screen">{children}</div>
 }

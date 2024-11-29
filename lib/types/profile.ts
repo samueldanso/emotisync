@@ -4,4 +4,6 @@ export interface CreateProfileData {
   companionAvatar: string
   email: string
   displayName?: string
+  dateOfBirth?: string
+  gender?: string
 }

@@ -1,4 +1,11 @@
-import { pgTable, text, uuid, boolean, timestamp } from "drizzle-orm/pg-core"
+import {
+  pgTable,
+  text,
+  uuid,
+  boolean,
+  timestamp,
+  date,
+} from "drizzle-orm/pg-core"
 import { users } from "./users"
 import { companions } from "./companions"
 
@@ -9,6 +16,8 @@ export const profiles = pgTable("profiles", {
     .notNull(),
   display_name: text("display_name"),
   goal: text("goal").notNull(),
+  date_of_birth: date("date_of_birth"),
+  gender: text("gender"),
   companion_name: text("companion_name").notNull(),
   companion_avatar: uuid("companion_avatar")
     .references(() => companions.id)

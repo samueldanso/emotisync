@@ -1,10 +1,11 @@
-import type { Metadata } from "next"
 import { redirect } from "next/navigation"
 import { getUser } from "@/lib/supabase/server"
+import { constructMetadata } from "@/lib/config/metadata"
 
-export const metadata: Metadata = {
+export const metadata = constructMetadata({
   title: "Login",
-}
+  path: "/login",
+})
 
 export default async function AuthLayout({
   children,
@@ -14,9 +15,5 @@ export default async function AuthLayout({
   const user = await getUser()
   if (user) redirect("/chat")
 
-  return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-brand-background px-4 py-16">
-      <div className="w-full max-w-[420px]">{children}</div>
-    </div>
-  )
+  return <div className="min-h-screen">{children}</div>
 }

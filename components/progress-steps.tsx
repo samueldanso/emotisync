@@ -9,7 +9,7 @@ export function ProgressSteps() {
   const { step } = useOnboardingStore()
 
   return (
-    <div className="flex space-x-4 lg:block lg:space-x-0 lg:space-y-4">
+    <div className="flex items-center gap-4">
       {ONBOARDING_STEPS.map((s) => (
         <div key={s.id} className="flex items-center gap-3">
           {step > s.id ? (

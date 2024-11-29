@@ -1,8 +1,8 @@
 export const siteConfig = {
   name: "EmotiSync",
-  title: "EmotiSync - Your AI voice companion for emotional well-being",
+  title: "EmotiSync — Your AI voice companion for emotional wellbeing",
   description:
-    "Skip writing, just talk naturally. Your AI companion transforms your daily voice conversations into personalized insights and recommendations, helping you find clarity and growth in minutes.",
+    "Speak freely with your AI companion that turns daily conversations into personalized reflections and mood-boosting recommendations, helping you feel better and connect emotionally.",
   domain: "emotisync.xyz",
   ogImage: "/opengraph-image.png",
   links: {

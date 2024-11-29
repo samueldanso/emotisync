@@ -38,11 +38,13 @@ export async function createCompleteProfile(
       const [profile] = await tx
         .insert(profiles)
         .values({
-          userId,
+          userId: userId,
           goal: data.goal,
           companion_name: data.companionName,
           companion_avatar: data.companionAvatar,
           display_name: data.displayName,
+          date_of_birth: data.dateOfBirth ? data.dateOfBirth : null,
+          gender: data.gender || null,
           onboarding_completed: true,
         })
         .returning()
