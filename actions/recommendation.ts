@@ -1,7 +1,7 @@
 "use server"
 
 import { db } from "@/lib/db/db"
-import { recommendations } from "@/lib/db/schemas/recommendations"
+import { recommendations } from "@/lib/db/schemas"
 import type { NewRecommendation } from "@/lib/db/schemas/recommendations"
 import { catchError } from "@/lib/utils/errors"
 import { eq } from "drizzle-orm"

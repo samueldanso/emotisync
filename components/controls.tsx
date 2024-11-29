@@ -56,8 +56,8 @@ export default function Controls({ userId, displayName }: ControlsProps) {
 
       for (const rec of recommendations) {
         const { error } = await createRecommendation(
-          rec.user_id,
-          rec.journal_id,
+          userId,
+          journalResult.data.id,
           rec.title,
           rec.description,
           rec.category as RecommendationCategory,
