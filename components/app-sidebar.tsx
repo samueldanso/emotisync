@@ -1,24 +1,24 @@
-"use client"
+"use client";
 
-import { usePathname } from "next/navigation"
-import { Logo } from "@/components/ui/logo"
-import { SIDEBAR_ITEMS } from "@/lib/constants"
-import { cn } from "@/lib/utils"
-import { useVoice } from "@humeai/voice-react"
+import { usePathname } from "next/navigation";
+import { Logo } from "@/components/ui/logo";
+import { SIDEBAR_ITEMS } from "@/lib/constants/sidebar";
+import { cn } from "@/lib/utils";
+import { useVoice } from "@humeai/voice-react";
 import {
   Sidebar,
   SidebarContent,
   SidebarHeader,
   SidebarTrigger,
-} from "@/components/ui/sidebar"
-import Link from "next/link"
+} from "@/components/ui/sidebar";
+import Link from "next/link";
 
 export function AppSidebar() {
-  const pathname = usePathname()
-  const { status } = useVoice()
-  const isInCall = status.value === "connected"
+  const pathname = usePathname();
+  const { status } = useVoice();
+  const isInCall = status.value === "connected";
 
-  if (isInCall) return null
+  if (isInCall) return null;
 
   return (
     <div className="flex items-center gap-2">
@@ -38,7 +38,7 @@ export function AppSidebar() {
                   "flex items-center gap-3 rounded-lg px-4 py-2.5 font-medium text-sm transition-colors",
                   pathname === item.href
                     ? "bg-brand-primary/10 text-brand-primary"
-                    : "text-muted-foreground hover:bg-muted",
+                    : "text-muted-foreground hover:bg-muted"
                 )}
               >
                 <item.icon className="h-4 w-4" />
@@ -49,5 +49,5 @@ export function AppSidebar() {
         </SidebarContent>
       </Sidebar>
     </div>
-  )
+  );
 }

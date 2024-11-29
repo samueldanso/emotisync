@@ -1,7 +1,7 @@
-import { pgTable, text, uuid, timestamp, jsonb } from "drizzle-orm/pg-core"
-import { users } from "./users"
-import { journals } from "./journals"
-import type { RecommendationContext } from "@/lib/types/recommendation"
+import { pgTable, text, uuid, timestamp, jsonb } from "drizzle-orm/pg-core";
+import { users } from "./users";
+import { journals } from "./journals";
+import type { RecommendationContext } from "@/lib/types/recommendation";
 
 export const recommendations = pgTable("recommendations", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -19,7 +19,7 @@ export const recommendations = pgTable("recommendations", {
     .notNull(),
   created_at: timestamp("created_at").defaultNow(),
   updated_at: timestamp("updated_at").defaultNow(),
-})
+});
 
-export type Recommendation = typeof recommendations.$inferSelect
-export type NewRecommendation = typeof recommendations.$inferInsert
+export type Recommendation = typeof recommendations.$inferSelect;
+export type NewRecommendation = typeof recommendations.$inferInsert;
