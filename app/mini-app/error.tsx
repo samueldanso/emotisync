@@ -1,5 +1,5 @@
-"use client";
+"use client"
 
-export default function Error() {
-  return null; // Or loading state
+export default function ErrorPage() {
+  return null // Or loading state
 }
