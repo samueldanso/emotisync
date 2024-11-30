@@ -3,7 +3,7 @@ import { constructMetadata } from "@/lib/config/metadata"
 
 export const metadata = constructMetadata({
   title: "Complete Your Profile",
-  path: "/onboarding/profile",
+  path: "/profile",
 })
 
 export default function ProfilePage() {

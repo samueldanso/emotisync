@@ -97,12 +97,13 @@ export function CompanionSelection() {
 
       toast.success(`${data.companionName} is ready for you!`, {
         duration: 2000,
-        className: "bg-brand-background border-brand-accent",
+        className:
+          "bg-brand-background border border-brand-primary/20 text-brand-foreground",
         description: "Taking you to your companion...",
       })
 
       await new Promise((resolve) => setTimeout(resolve, 1500))
-      router.push("/app/chat")
+      router.push("/chat")
     } catch (error) {
       showErrorToast(error)
     } finally {
@@ -186,7 +187,7 @@ export function CompanionSelection() {
                   name="avatar"
                   render={({ field }) => (
                     <FormItem className="space-y-4">
-                      <FormLabel className="text-brand-muted text-sm">
+                      <FormLabel className="text-base text-brand-muted">
                         Choose your AI companion's personality
                       </FormLabel>
                       <FormControl>
@@ -278,7 +279,7 @@ export function CompanionSelection() {
                   name="companionName"
                   render={({ field }) => (
                     <FormItem className="space-y-1.5">
-                      <FormLabel className="text-brand-muted text-sm">
+                      <FormLabel className="text-base text-brand-muted">
                         {ONBOARDING_LABELS.companionName}
                       </FormLabel>
                       <FormControl>
@@ -300,7 +301,7 @@ export function CompanionSelection() {
                       showBack={true}
                       onBack={() => {
                         useOnboardingStore.getState().goBack()
-                        router.push("/onboarding/profile")
+                        router.push("/profile")
                       }}
                       className="flex-1"
                     />

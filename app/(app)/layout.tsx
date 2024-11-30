@@ -19,7 +19,7 @@ export default async function Layout({ children }: LayoutProps) {
   const profile = await db.query.profiles.findFirst({
     where: eq(profiles.userId, user.id),
   })
-  if (!profile?.onboarding_completed) redirect("/onboarding/profile")
+  if (!profile?.onboarding_completed) redirect("/profile")
 
   const accessToken = await getHumeAccessToken()
   if (!accessToken) throw new Error("Failed to get Hume access token")
