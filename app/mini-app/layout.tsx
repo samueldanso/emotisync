@@ -1,38 +1,38 @@
-"use client"
+"use client";
 
-import type { ReactNode } from "react"
-import { useEffect } from "react"
-import { SDKProvider } from "@telegram-apps/sdk-react"
-import { usePathname } from "next/navigation"
+import type { ReactNode } from "react";
+import { useEffect } from "react";
+import { SDKProvider } from "@telegram-apps/sdk-react";
+import { usePathname } from "next/navigation";
 
 interface LayoutProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 export default function TelegramLayout({ children }: LayoutProps) {
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   useEffect(() => {
     // Get Telegram WebApp instance
-    const tg = (window as any).Telegram?.WebApp
+    const tg = (window as any).Telegram?.WebApp;
 
     // Handle back button visibility
     if (tg) {
       if (pathname !== "/") {
-        tg.BackButton.show()
+        tg.BackButton.show();
         tg.BackButton.onClick(() => {
-          window.history.back()
-        })
+          window.history.back();
+        });
       } else {
-        tg.BackButton.hide()
+        tg.BackButton.hide();
       }
 
       // Cleanup
       return () => {
-        tg.BackButton.offClick()
-      }
+        tg.BackButton.offClick();
+      };
     }
-  }, [pathname])
+  }, [pathname]);
 
   return (
     <SDKProvider acceptCustomStyles debug>
@@ -40,5 +40,5 @@ export default function TelegramLayout({ children }: LayoutProps) {
         <main className="flex-1">{children}</main>
       </div>
     </SDKProvider>
-  )
+  );
 }
