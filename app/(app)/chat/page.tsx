@@ -27,13 +27,13 @@ export default async function ChatPage() {
   const profile = await db.query.profiles.findFirst({
     where: eq(profiles.userId, user.id),
   })
-  if (!profile?.onboarding_completed) redirect("/onboarding/profile")
+  if (!profile?.onboarding_completed) redirect("/profile")
 
   // Get the companion avatar
   const avatar = await db.query.companions.findFirst({
     where: eq(companions.id, profile.companion_avatar),
   })
-  if (!avatar) redirect("/onboarding")
+  if (!avatar) redirect("/profile")
 
   const accessToken = await getHumeAccessToken()
   if (!accessToken) throw new Error("Failed to get Hume access token")

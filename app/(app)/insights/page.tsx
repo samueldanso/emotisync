@@ -28,7 +28,7 @@ export default function InsightsPage() {
           insights about your emotional well-being.
         </p>
         <Button asChild>
-          <Link href="/app/chat">Start Session</Link>
+          <Link href="/chat">Start Session</Link>
         </Button>
       </div>
 

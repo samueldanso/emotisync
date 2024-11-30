@@ -67,7 +67,7 @@ export function UserAuthContext({ children }: { children: React.ReactNode }) {
         // If user is authenticated, go to app or onboarding
         if (user) {
           if (!user.isOnboarded) {
-            router.push("/onboarding/profile")
+            router.push("/profile")
           } else {
             router.push("/chat")
           }
