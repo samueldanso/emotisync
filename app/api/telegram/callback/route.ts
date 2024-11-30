@@ -17,10 +17,11 @@ export async function POST(request: Request) {
       )
     }
 
-    // Get user data from Capx
+    // Get user data from CapX
     const capxResponse = await fetch(`${env.CAPX_API_URL}/users/auth`, {
       method: "POST",
       headers: {
+        "Content-Type": "application/json",
         "x-initdata": initData,
       },
     })
@@ -36,7 +37,8 @@ export async function POST(request: Request) {
 
     const telegramUser = capxData.result.user
 
-    const { error } = await createUser(
+    // Create or update user in our database
+    const { data: user, error } = await createUser(
       `${telegramUser.id}@telegram.com`,
       uuidv4(),
       {
@@ -48,12 +50,10 @@ export async function POST(request: Request) {
     )
 
     if (error) {
-      return NextResponse.json(
-        { success: false, error: error },
-        { status: 500 },
-      )
+      return NextResponse.json({ success: false, error }, { status: 500 })
     }
 
+    // Check onboarding status
     const { isOnboarded, error: profileError } = await checkOnboardingStatus(
       telegramUser.id,
     )
@@ -65,15 +65,19 @@ export async function POST(request: Request) {
       )
     }
 
+    // Return successful response with tokens and user data
     return NextResponse.json({
       success: true,
-      user: telegramUser,
+      user: {
+        ...user,
+        onboarding_completed: isOnboarded,
+      },
       tokens: {
         access_token: capxData.result.access_token,
         refresh_token: capxData.result.refresh_token,
       },
       isOnboarded,
-      signup_tx: capxData.result.signup_tx,
+      signup_tx: capxData.result.signup_tx || null,
     })
   } catch (error) {
     console.error("Error in telegram callback:", error)
