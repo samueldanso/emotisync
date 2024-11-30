@@ -8,31 +8,12 @@ export async function middleware(request: NextRequest) {
 
   // Handle Telegram platform redirects first
   if (platform === "telegram") {
-    // Redirect marketing and auth pages to mini-app for Telegram users
-    if (
-      pathname === "/" ||
-      pathname.startsWith("/privacy") ||
-      pathname.startsWith("/terms") ||
-      pathname.startsWith("/login") ||
-      pathname.startsWith("/signup")
-    ) {
+    // If Telegram user, redirect to mini-app
+    if (pathname === "/") {
       return NextResponse.redirect(new URL("/mini-app", request.url))
     }
-
-    // For protected routes in Telegram, let the page handle auth
-    if (
-      pathname.startsWith("/profile") ||
-      pathname.startsWith("/chat") ||
-      pathname.startsWith("/journal") ||
-      pathname.startsWith("/insights") ||
-      pathname.startsWith("/recommendations")
-    ) {
-      return NextResponse.next()
-    }
-  }
-
-  // Add platform check to preserve web routes
-  if (platform === "web" || !platform) {
+  } else {
+    // If web user, show marketing page
     return await updateSession(request)
   }
 }
