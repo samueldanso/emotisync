@@ -2,9 +2,9 @@
 
 import { Toaster } from "sonner";
 import { ThemeProvider } from "next-themes";
+import { PrivyProvider } from "@privy-io/react-auth";
 import { SDKProvider } from "@telegram-apps/sdk-react";
 import { UserAuthContext } from "@/contexts/user-auth-context";
-import { PrivyProvider } from "@privy-io/react-auth";
 import { env } from "@/env";
 
 export function Providers({ children }: { children: React.ReactNode }) {
@@ -15,14 +15,14 @@ export function Providers({ children }: { children: React.ReactNode }) {
       enableSystem={false}
       disableTransitionOnChange
     >
-      <SDKProvider acceptCustomStyles debug>
-        <UserAuthContext>
-          <PrivyProvider appId={env.NEXT_PUBLIC_PRIVY_APP_ID}>
+      <PrivyProvider appId={env.NEXT_PUBLIC_PRIVY_APP_ID}>
+        <SDKProvider acceptCustomStyles debug>
+          <UserAuthContext>
             {children}
             <Toaster />
-          </PrivyProvider>
-        </UserAuthContext>
-      </SDKProvider>
+          </UserAuthContext>
+        </SDKProvider>
+      </PrivyProvider>
     </ThemeProvider>
   );
 }
