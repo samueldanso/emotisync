@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import { Toaster } from "sonner"
-import { UserAuthContext } from "@/contexts/user-auth-context"
-import { ThemeProvider } from "next-themes"
-import { PrivyProvider } from "@privy-io/react-auth"
-import { env } from "@/env"
-import { SDKProvider } from "@telegram-apps/sdk-react"
+import { Toaster } from "sonner";
+import { ThemeProvider } from "next-themes";
+import { SDKProvider } from "@telegram-apps/sdk-react";
+import { UserAuthContext } from "@/contexts/user-auth-context";
+import { PrivyProvider } from "@privy-io/react-auth";
+import { env } from "@/env";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -24,5 +24,5 @@ export function Providers({ children }: { children: React.ReactNode }) {
         </UserAuthContext>
       </SDKProvider>
     </ThemeProvider>
-  )
+  );
 }

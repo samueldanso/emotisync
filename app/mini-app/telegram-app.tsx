@@ -1,7 +1,5 @@
 "use client"
 
-import { PrivyProvider } from "@privy-io/react-auth"
-import { env } from "@/env"
 import { useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useLaunchParams } from "@telegram-apps/sdk-react"
@@ -9,15 +7,6 @@ import { useUserAuth } from "@/contexts/user-auth-context"
 import { Spinner } from "@/components/ui/spinner"
 
 export default function TelegramApp() {
-  return (
-    <PrivyProvider appId={env.NEXT_PUBLIC_PRIVY_APP_ID}>
-      <TelegramContent />
-    </PrivyProvider>
-  )
-}
-
-// Separate component for the content
-function TelegramContent() {
   const router = useRouter()
   const { initDataRaw } = useLaunchParams()
   const { login, isLoading, error, user, isUserCreated } = useUserAuth()
