@@ -1,10 +1,10 @@
-import { NextResponse, type NextRequest } from "next/server"
-import { updateSession } from "./lib/supabase/middleware"
-import { getPlatform } from "./lib/utils/platform"
+import { NextResponse, type NextRequest } from "next/server";
+import { updateSession } from "./lib/supabase/middleware";
+import { getPlatform } from "./lib/utils/platform";
 
 export async function middleware(request: NextRequest) {
-  const platform = getPlatform()
-  const pathname = request.nextUrl.pathname
+  const platform = getPlatform();
+  const pathname = request.nextUrl.pathname;
 
   // Handle Telegram platform redirects first
   if (platform === "telegram") {
@@ -16,7 +16,7 @@ export async function middleware(request: NextRequest) {
       pathname.startsWith("/login") ||
       pathname.startsWith("/signup")
     ) {
-      return NextResponse.redirect(new URL("/profile", request.url))
+      return NextResponse.redirect(new URL("/profile", request.url));
     }
 
     // For protected routes in Telegram, let the page handle auth
@@ -27,13 +27,13 @@ export async function middleware(request: NextRequest) {
       pathname.startsWith("/insights") ||
       pathname.startsWith("/recommendations")
     ) {
-      return NextResponse.next()
+      return NextResponse.next();
     }
   }
 
   // Add platform check to preserve web routes
   if (platform === "web" || !platform) {
-    return await updateSession(request)
+    return await updateSession(request);
   }
 }
 
@@ -41,4 +41,4 @@ export const config = {
   matcher: [
     "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
-}
+};
