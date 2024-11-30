@@ -26,7 +26,8 @@ declare module "@privy-io/react-auth" {
         showWalletLoginFirst?: boolean
       }
       customAuth?: {
-        isAuthReady: boolean
+        enabled: boolean
+        isLoading: boolean
         getCustomAccessToken: () => Promise<string | undefined>
       }
     }

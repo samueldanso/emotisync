@@ -1,12 +1,11 @@
 "use client"
 
-import type React from "react"
-import { useCallback, useEffect } from "react"
+import { PrivyProvider } from "@privy-io/react-auth"
 import { defineChain } from "viem"
-import { PrivyProvider, usePrivy, useWallets } from "@privy-io/react-auth"
 import { env } from "@/env"
 import { useTelegramState } from "@/hooks/use-telegram-state"
 
+// Keep chain configuration
 const Capx = defineChain({
   id: Number(env.NEXT_PUBLIC_CAPX_CHAIN_ID || "10245"),
   name: env.NEXT_PUBLIC_CAPX_CHAIN_NETWORK_NAME || "Capx Testnet",
@@ -46,21 +45,6 @@ const Capx = defineChain({
   },
 })
 
-const PrivyWrapper: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  const { wallets } = useWallets()
-  const { authenticated, createWallet, user: privyUser } = usePrivy()
-
-  useEffect(() => {
-    if (authenticated && !privyUser?.wallet) {
-      createWallet().catch(console.error)
-    }
-  }, [authenticated, privyUser?.wallet, createWallet])
-
-  return <>{wallets.length > 0 ? children : <div>Loading wallet...</div>}</>
-}
-
 export default function PrivyWalletProvider({
   children,
 }: {
@@ -68,14 +52,14 @@ export default function PrivyWalletProvider({
 }) {
   const { isTelegramUserCreated, telegramAccessToken } = useTelegramState()
 
-  const getCustomToken = useCallback(async () => {
+  const getCustomToken = async () => {
     if (!isTelegramUserCreated) return undefined
     return telegramAccessToken || undefined
-  }, [isTelegramUserCreated, telegramAccessToken])
+  }
 
   return (
     <PrivyProvider
-      appId={env.NEXT_PUBLIC_PRIVY_APP_ID || ""}
+      appId={env.NEXT_PUBLIC_PRIVY_APP_ID}
       config={{
         supportedChains: [Capx],
         defaultChain: Capx,
@@ -92,7 +76,7 @@ export default function PrivyWalletProvider({
         },
       }}
     >
-      <PrivyWrapper>{children}</PrivyWrapper>
+      {children}
     </PrivyProvider>
   )
 }
