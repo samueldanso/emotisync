@@ -10,7 +10,7 @@ const nextConfig = {
   output: "standalone",
   experimental: {
     outputFileTracingExcludes: {
-      "/mini-app/**": true,
+      "/mini-app": ["**/*"],
     },
   },
 };
