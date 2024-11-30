@@ -2,9 +2,22 @@
 
 import { useCallback } from "react"
 import { useWallets } from "@privy-io/react-auth"
+import { getPlatform } from "@/lib/utils/platform"
 import type { XIDTransactionDetails } from "@/lib/types/xid"
 
 export function useXIDMinting() {
+  // 1. Check if we're in browser
+  if (typeof window === "undefined") {
+    return { mintXId: null, handleMintingError: null }
+  }
+
+  // 2. Check platform
+  const platform = getPlatform()
+  if (platform !== "telegram") {
+    return { mintXId: null, handleMintingError: null }
+  }
+
+  // 3. Only use wallets in client component for Telegram
   const { wallets } = useWallets()
 
   const mintXId = useCallback(

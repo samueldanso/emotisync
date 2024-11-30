@@ -74,9 +74,11 @@ export function UserAuthContext({ children }: { children: React.ReactNode }) {
 
       // Handle xID minting if needed
       if (authData.signup_tx) {
-        const mintingSuccess = await mintXId(authData.signup_tx)
-        if (!mintingSuccess) {
-          throw new Error("Failed to mint xID")
+        if (mintXId) {
+          const mintingSuccess = await mintXId(authData.signup_tx)
+          if (!mintingSuccess) {
+            throw new Error("Failed to mint xID")
+          }
         }
       }
 
