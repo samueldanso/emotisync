@@ -8,7 +8,7 @@ export async function middleware(request: NextRequest) {
 
   // Handle Telegram platform redirects first
   if (platform === "telegram") {
-    // Redirect marketing and auth pages to app for Telegram users
+    // Redirect marketing and auth pages to mini-app for Telegram users
     if (
       pathname === "/" ||
       pathname.startsWith("/privacy") ||
@@ -16,7 +16,7 @@ export async function middleware(request: NextRequest) {
       pathname.startsWith("/login") ||
       pathname.startsWith("/signup")
     ) {
-      return NextResponse.redirect(new URL("/profile", request.url));
+      return NextResponse.redirect(new URL("/mini-app", request.url));
     }
 
     // For protected routes in Telegram, let the page handle auth
