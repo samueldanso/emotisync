@@ -1,41 +1,41 @@
-"use client";
+"use client"
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useLaunchParams } from "@telegram-apps/sdk-react";
-import { useUserAuth } from "@/contexts/user-auth-context";
-import { Spinner } from "@/components/ui/spinner";
+import { useEffect } from "react"
+import { useRouter } from "next/navigation"
+import { useLaunchParams } from "@telegram-apps/sdk-react"
+import { useUserAuth } from "@/contexts/user-auth-context"
+import { Spinner } from "@/components/ui/spinner"
 
 export default function TelegramPage() {
-  const router = useRouter();
-  const { initDataRaw } = useLaunchParams();
-  const { login, isLoading, error, user, isUserCreated } = useUserAuth();
-  const tg = (window as any).Telegram?.WebApp;
+  const router = useRouter()
+  const { initDataRaw } = useLaunchParams()
+  const { login, isLoading, error, user, isUserCreated } = useUserAuth()
+  const tg = (window as any).Telegram?.WebApp
 
   // Handle initial auth
   useEffect(() => {
     if (initDataRaw) {
-      login(initDataRaw);
+      login(initDataRaw)
     }
-  }, [initDataRaw, login]);
+  }, [initDataRaw, login])
 
   // Handle user flow and redirections
   useEffect(() => {
     if (isUserCreated && user) {
       // Show loading state in Telegram UI
       if (tg?.MainButton) {
-        tg.MainButton.setText("Loading...");
-        tg.MainButton.show();
+        tg.MainButton.setText("Loading...")
+        tg.MainButton.show()
       }
 
       // Check if user needs onboarding
       if (!user.onboarding_completed) {
-        router.push("/profile");
+        router.push("/profile")
       } else {
-        router.push("/chat");
+        router.push("/chat")
       }
     }
-  }, [isUserCreated, user, router, tg]);
+  }, [isUserCreated, user, router, tg])
 
   // Handle errors
   if (error) {
@@ -57,7 +57,7 @@ export default function TelegramPage() {
           )}
         </div>
       </div>
-    );
+    )
   }
 
   // Loading state
@@ -78,5 +78,5 @@ export default function TelegramPage() {
         )}
       </div>
     </div>
-  );
+  )
 }
