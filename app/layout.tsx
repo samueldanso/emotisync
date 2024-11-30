@@ -1,5 +1,5 @@
 import "@/styles/globals.css"
-import Providers from "@/components/providers"
+import { Providers } from "@/components/providers"
 import { Outfit, Urbanist } from "next/font/google"
 import { cn } from "@/lib/utils"
 import { constructMetadata } from "@/lib/config/metadata"

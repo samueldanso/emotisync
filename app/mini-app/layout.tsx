@@ -2,7 +2,6 @@
 
 import type { ReactNode } from "react"
 import { useEffect } from "react"
-import { SDKProvider } from "@telegram-apps/sdk-react"
 import { usePathname } from "next/navigation"
 
 interface LayoutProps {
@@ -35,10 +34,8 @@ export default function TelegramLayout({ children }: LayoutProps) {
   }, [pathname])
 
   return (
-    <SDKProvider acceptCustomStyles debug>
-      <div className="flex min-h-screen flex-col bg-background">
-        <main className="flex-1">{children}</main>
-      </div>
-    </SDKProvider>
+    <div className="flex min-h-screen flex-col bg-background">
+      <main className="flex-1">{children}</main>
+    </div>
   )
 }

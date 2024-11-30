@@ -3,13 +3,11 @@
 import { Toaster } from "sonner"
 import { UserAuthContext } from "@/contexts/user-auth-context"
 import { ThemeProvider } from "next-themes"
+import { PrivyProvider } from "@privy-io/react-auth"
+import { env } from "@/env"
+import { SDKProvider } from "@telegram-apps/sdk-react"
 
-// Dynamically import providers
-interface ProvidersProps {
-  children: React.ReactNode
-}
-
-export function Providers({ children }: ProvidersProps) {
+export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider
       attribute="class"
@@ -17,12 +15,14 @@ export function Providers({ children }: ProvidersProps) {
       enableSystem={false}
       disableTransitionOnChange
     >
-      <UserAuthContext>
-        {children}
-        <Toaster />
-      </UserAuthContext>
+      <SDKProvider acceptCustomStyles debug>
+        <UserAuthContext>
+          <PrivyProvider appId={env.NEXT_PUBLIC_PRIVY_APP_ID}>
+            {children}
+            <Toaster />
+          </PrivyProvider>
+        </UserAuthContext>
+      </SDKProvider>
     </ThemeProvider>
   )
 }
-
-export default Providers
