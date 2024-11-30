@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/select"
 import { motion } from "framer-motion"
 import { generateTypewriterKey } from "@/lib/utils/text"
+import { getPlatform } from "@/lib/utils/platform"
 
 export function ProfileForm() {
   const [isLoading, setIsLoading] = useState(false)
@@ -45,6 +46,9 @@ export function ProfileForm() {
     dateOfBirth: storedDob,
     gender: storedGender,
   } = useOnboardingStore()
+
+  const platform = getPlatform()
+  const showExtraFields = platform === "web"
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
@@ -76,8 +80,12 @@ export function ProfileForm() {
     try {
       setName(data.name)
       setGoal(data.goal)
-      useOnboardingStore.getState().setDateOfBirth(data.dateOfBirth)
-      useOnboardingStore.getState().setGender(data.gender)
+      if (data.dateOfBirth) {
+        useOnboardingStore.getState().setDateOfBirth(data.dateOfBirth)
+      }
+      if (data.gender) {
+        useOnboardingStore.getState().setGender(data.gender)
+      }
       goNext()
       await router.push("companion")
     } catch (error) {
@@ -198,54 +206,6 @@ export function ProfileForm() {
 
                 <FormField
                   control={form.control}
-                  name="dateOfBirth"
-                  render={({ field }) => (
-                    <FormItem className="space-y-1.5">
-                      <FormLabel className="text-brand-muted text-sm">
-                        When were you born?
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          type="date"
-                          className="h-11 rounded-lg border-zinc-200 bg-white/60 shadow-sm transition-colors focus:bg-white/80"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="gender"
-                  render={({ field }) => (
-                    <FormItem className="space-y-1.5">
-                      <FormLabel className="text-brand-muted text-sm">
-                        Your gender
-                      </FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger className="h-11 rounded-lg border-zinc-200 bg-white/60 shadow-sm transition-colors focus:bg-white/80">
-                            <SelectValue placeholder="What is your gender" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="male">Male</SelectItem>
-                          <SelectItem value="female">Female</SelectItem>
-                          <SelectItem value="nonbinary">Nonbinary</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
                   name="goal"
                   render={({ field }) => (
                     <FormItem className="space-y-1.5">
@@ -263,6 +223,60 @@ export function ProfileForm() {
                     </FormItem>
                   )}
                 />
+
+                {showExtraFields && (
+                  <>
+                    <FormField
+                      control={form.control}
+                      name="dateOfBirth"
+                      render={({ field }) => (
+                        <FormItem className="space-y-1.5">
+                          <FormLabel className="text-brand-muted text-sm">
+                            Your date of birth
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="e.g., 1990-01-01"
+                              className="h-11 rounded-lg border-zinc-200 bg-white/60 shadow-sm transition-colors focus:bg-white/80"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="gender"
+                      render={({ field }) => (
+                        <FormItem className="space-y-1.5">
+                          <FormLabel className="text-brand-muted text-sm">
+                            Your gender
+                          </FormLabel>
+                          <FormControl>
+                            <Select
+                              {...field}
+                              onValueChange={(value) => field.onChange(value)}
+                            >
+                              <SelectTrigger className="h-11 rounded-lg border-zinc-200 bg-white/60 shadow-sm transition-colors focus:bg-white/80">
+                                <SelectValue placeholder="Select your gender" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="male">Male</SelectItem>
+                                <SelectItem value="female">Female</SelectItem>
+                                <SelectItem value="nonbinary">
+                                  Nonbinary
+                                </SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </>
+                )}
 
                 <div className="pt-4">
                   <WelcomeButtons isLoading={isLoading} showBack={false} />

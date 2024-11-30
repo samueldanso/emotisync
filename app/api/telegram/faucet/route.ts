@@ -10,6 +10,10 @@ export async function POST() {
       },
     })
 
+    if (!response.ok) {
+      throw new Error("Faucet request failed")
+    }
+
     const data = await response.json()
     return NextResponse.json(data)
   } catch (error) {

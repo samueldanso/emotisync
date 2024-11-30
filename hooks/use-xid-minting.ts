@@ -2,20 +2,17 @@
 
 import { useCallback } from "react"
 import { useWallets } from "@privy-io/react-auth"
-import { ethers } from "ethers"
-import { useUserAuth } from "@/contexts/user-auth-context"
-import { env } from "@/env"
 import type { XIDTransactionDetails } from "@/lib/types/xid"
 
 export function useXIDMinting() {
   const { wallets } = useWallets()
-  const { getUserDetails } = useUserAuth()
 
   const mintXId = useCallback(
     async (txDetails: XIDTransactionDetails) => {
       if (!txDetails || Object.keys(txDetails).length === 0) return false
 
       try {
+        // Request faucet tokens first
         const faucetResponse = await fetch("/api/telegram/faucet", {
           method: "POST",
         })
@@ -23,10 +20,12 @@ export function useXIDMinting() {
           throw new Error("Faucet request failed")
         }
 
+        // Find Privy wallet
         const wallet = wallets.find((w) => w.walletClientType === "privy")
         if (!wallet) throw new Error("No wallet found")
 
-        const chainId = env.NEXT_PUBLIC_CAPX_CHAIN_ID || "10245"
+        // Switch to CapX chain
+        const chainId = process.env.NEXT_PUBLIC_CAPX_CHAIN_ID || "10245"
         try {
           await wallet.switchChain(chainId)
         } catch (error) {
@@ -34,24 +33,14 @@ export function useXIDMinting() {
           throw new Error("Failed to switch chain")
         }
 
+        // Get provider and signer
         const provider = await wallet.getEthersProvider()
         const signer = provider.getSigner()
 
-        const code = await provider.getCode(txDetails.contract_address)
-        if (code === "0x") throw new Error("Invalid contract address")
-
-        const contract = new ethers.Contract(
-          txDetails.contract_address,
-          txDetails.contract_abi,
-          signer,
-        )
-
+        // Create profile transaction
         const tx = await signer.sendTransaction({
           to: txDetails.contract_address,
-          data: contract.interface.encodeFunctionData("createProfile", [
-            txDetails.input_params._profileParams,
-            txDetails.input_params._profileData,
-          ]),
+          data: txDetails.contract_abi,
           chainId: Number(chainId),
         })
 
@@ -60,15 +49,30 @@ export function useXIDMinting() {
           throw new Error("Transaction failed")
         }
 
-        await getUserDetails()
         return true
       } catch (error) {
         console.error("XID minting error:", error)
         return false
       }
     },
-    [wallets, getUserDetails],
+    [wallets],
   )
 
-  return { mintXId }
+  const handleMintingError = async (error: any) => {
+    console.error("XID minting error:", error)
+
+    // Retry logic for specific errors
+    if (error.message.includes("insufficient funds")) {
+      try {
+        await fetch("/api/telegram/faucet", { method: "POST" })
+        return false // Allow retry
+      } catch (_faucetError) {
+        throw new Error("Failed to get tokens from faucet")
+      }
+    }
+
+    throw error
+  }
+
+  return { mintXId, handleMintingError }
 }
