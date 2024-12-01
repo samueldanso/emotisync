@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import { PrivyProvider, useWallets } from "@privy-io/react-auth"
-import { defineChain } from "viem"
-import { env } from "@/env"
-import { useCapxAuth } from "./capx-auth"
-import { useCallback, useEffect } from "react"
-import { getTokens } from "@/lib/utils/cookies"
-import { useXIDMinting } from "@/hooks/use-xid-minting"
+import { PrivyProvider, useWallets } from "@privy-io/react-auth";
+import { defineChain } from "viem";
+import { env } from "@/env";
+import { useCapxAuth } from "./capx-auth";
+import { useCallback, useEffect } from "react";
+import { getTokens } from "@/lib/utils/cookies";
+import { useXIDMinting } from "@/hooks/use-xid-minting";
 
 // Keep chain configuration
 const Capx = defineChain({
@@ -21,11 +21,9 @@ const Capx = defineChain({
   rpcUrls: {
     default: {
       http: [env.NEXT_PUBLIC_CAPX_CHAIN_RPC_URL],
-      webSocket: [env.NEXT_PUBLIC_CAPX_WEB_SOCKET_URL],
     },
     public: {
       http: [env.NEXT_PUBLIC_CAPX_CHAIN_RPC_URL],
-      webSocket: [env.NEXT_PUBLIC_CAPX_WEB_SOCKET_URL],
     },
   },
   blockExplorers: {
@@ -34,54 +32,54 @@ const Capx = defineChain({
       url: env.NEXT_PUBLIC_CAPX_CHAIN_EXPLORE_URL,
     },
   },
-})
+});
 
 function PrivyWrapper({ children }: { children: React.ReactNode }) {
-  const { user, txDetails } = useCapxAuth()
-  const { wallets } = useWallets()
-  const { mintXId } = useXIDMinting()
+  const { user, txDetails } = useCapxAuth();
+  const { wallets } = useWallets();
+  const { mintXId } = useXIDMinting();
 
   useEffect(() => {
-    let timer: NodeJS.Timeout | undefined
+    let timer: NodeJS.Timeout | undefined;
 
     const attemptMinting = async () => {
-      const userVersion = user?.version ?? 0
+      const userVersion = user?.version ?? 0;
       if (txDetails && userVersion < 3 && wallets.length > 0) {
-        const success = await mintXId(txDetails)
+        const success = await mintXId(txDetails);
         if (!success) {
           // Retry every 5 minutes as per requirements
           timer = setInterval(async () => {
-            const retrySuccess = await mintXId(txDetails)
+            const retrySuccess = await mintXId(txDetails);
             if (retrySuccess) {
-              clearInterval(timer)
+              clearInterval(timer);
             }
-          }, 300000) // 5 minutes
+          }, 300000); // 5 minutes
         }
       }
-    }
+    };
 
-    void attemptMinting()
+    void attemptMinting();
 
     return () => {
-      if (timer) clearInterval(timer)
-    }
-  }, [txDetails, user?.version, wallets.length, mintXId])
+      if (timer) clearInterval(timer);
+    };
+  }, [txDetails, user?.version, wallets.length, mintXId]);
 
-  return <>{children}</>
+  return <>{children}</>;
 }
 
 export default function PrivyWalletProvider({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
-  const { isAuthenticated } = useCapxAuth()
+  const { isAuthenticated } = useCapxAuth();
 
   const getCustomToken = useCallback(async () => {
-    if (!isAuthenticated) return undefined
-    const { accessToken } = getTokens()
-    return accessToken || undefined
-  }, [isAuthenticated])
+    if (!isAuthenticated) return undefined;
+    const { accessToken } = getTokens();
+    return accessToken || undefined;
+  }, [isAuthenticated]);
 
   return (
     <PrivyProvider
@@ -104,5 +102,5 @@ export default function PrivyWalletProvider({
     >
       <PrivyWrapper>{children}</PrivyWrapper>
     </PrivyProvider>
-  )
+  );
 }
