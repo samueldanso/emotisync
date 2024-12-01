@@ -48,7 +48,7 @@ export default async function ChatPage() {
   };
 
   return (
-    <div className="-mx-6 -my-6 h-[calc(100vh-4rem)] overflow-hidden">
+    <div className="flex h-[calc(100vh-4rem)] flex-col overflow-hidden">
       <Chat user={mappedUser} profile={profile} avatar={avatar} />
     </div>
   );
