@@ -38,17 +38,16 @@ export default async function Layout({ children }: LayoutProps) {
   return (
     <VoiceProvider accessToken={accessToken} profile={profile}>
       <SidebarProvider defaultOpen>
-        <div className="flex min-h-screen">
-          <div className="w-64 flex-shrink-0 border-r bg-muted/5">
+        <div className="flex min-h-screen bg-background">
+          <div className="w-80 flex-shrink-0 border-r bg-sidebar">
             <AppSidebar />
           </div>
           <div className="flex flex-1 flex-col">
-            <header className="flex h-14 items-center justify-between border-b px-6">
-              <h1 className="font-medium">EmotiSync</h1>
+            <header className="flex h-16 items-center justify-end border-b px-8">
               <UserProfileButton user={mappedUser} profile={profile} />
             </header>
             <main className="flex-1">
-              <div className="mx-auto h-full max-w-4xl px-4 py-6">
+              <div className="mx-auto h-full max-w-5xl px-8 py-8">
                 {children}
               </div>
             </main>
