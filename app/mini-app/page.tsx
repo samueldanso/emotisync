@@ -13,5 +13,5 @@ const TelegramApp = dynamic(() => import("./telegram-app"), {
 });
 
 export default function Page() {
-  return <TelegramApp />;
+  return <TelegramApp />; //component
 }
