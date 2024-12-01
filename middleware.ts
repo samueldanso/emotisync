@@ -4,15 +4,30 @@ export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   // More precise Telegram WebApp detection
+  const userAgent = request.headers.get("user-agent")?.toLowerCase() || "";
   const isTelegramWebApp =
-    request.headers.get("user-agent")?.includes("TelegramWebApp") ||
+    userAgent.includes("telegram") ||
     request.nextUrl.searchParams.has("tgWebAppData") ||
     request.cookies.has("telegram_webapp");
+
+  // Debug logging
+  console.log("Middleware Debug:", {
+    pathname,
+    userAgent,
+    searchParams: request.nextUrl.searchParams.toString(),
+    cookies: request.cookies.toString(),
+    isTelegramWebApp,
+  });
 
   // Handle Telegram WebApp users
   if (isTelegramWebApp) {
     // Prevent access to login/register routes for Telegram users
     if (pathname.startsWith("/login") || pathname.startsWith("/register")) {
+      return NextResponse.redirect(new URL("/mini-app", request.url));
+    }
+
+    // Handle partial mini-app paths
+    if (pathname.startsWith("/mini") && !pathname.startsWith("/mini-app")) {
       return NextResponse.redirect(new URL("/mini-app", request.url));
     }
 
@@ -87,6 +102,9 @@ export const config = {
     "/recommendations/:path*",
     "/settings/:path*",
     // Mini app routes
+    "/mini-app",
     "/mini-app/:path*",
+    // Catch partial paths
+    "/mini:path*",
   ],
 };
