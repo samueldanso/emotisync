@@ -1,45 +1,39 @@
-"use client";
+"use client"
 
-export const Platform = {
-  WEB: "web",
-  TELEGRAM: "telegram",
-} as const;
+export enum Platform {
+  WEB = "web",
+  TELEGRAM = "telegram",
+}
 
-export type PlatformType = (typeof Platform)[keyof typeof Platform];
+export function getPlatform(): Platform {
+  // Check if we're in a browser environment
+  if (typeof window === "undefined") {
+    return Platform.WEB
+  }
 
-export function getPlatform(): PlatformType {
-  if (typeof window === "undefined") return Platform.WEB;
+  // Check if we're in Telegram WebApp
+  const isTelegramWebApp = Boolean(window?.Telegram?.WebApp)
+  const hasInitData = window.location.search.includes("tgWebAppData")
+  const isDev = process.env.NODE_ENV === "development"
 
-  // For testing, always return Telegram platform
-  return Platform.TELEGRAM;
+  // In development, allow platform override
+  if (isDev && window.location.search.includes("platform=telegram")) {
+    return Platform.TELEGRAM
+  }
 
-  // Debug logging
-  console.log("WebApp Object:", window?.Telegram?.WebApp);
-  console.log("Search Params:", window.location.search);
-  console.log("User Agent:", window.navigator.userAgent);
+  // In production, check for actual Telegram WebApp
+  if (!isDev && (isTelegramWebApp || hasInitData)) {
+    return Platform.TELEGRAM
+  }
 
-  const userAgent = window.navigator.userAgent.toLowerCase();
-
-  // Check for Telegram Mini App environment
-  const isTelegramWebApp = Boolean(
-    // @ts-ignore - Telegram WebApp global object
-    window?.Telegram?.WebApp ||
-      // Check for Telegram init data in URL
-      window.location.search.includes("tgWebAppData=") ||
-      // Check for Telegram in user agent
-      userAgent.includes("telegram")
-  );
-
-  console.log("Is Telegram WebApp:", isTelegramWebApp);
-
-  return isTelegramWebApp ? Platform.TELEGRAM : Platform.WEB;
+  return Platform.WEB
 }
 
 // Helper functions
 export function isTelegramWebApp(): boolean {
-  return getPlatform() === Platform.TELEGRAM;
+  return getPlatform() === Platform.TELEGRAM
 }
 
 export function isWebBrowser(): boolean {
-  return getPlatform() === Platform.WEB;
+  return getPlatform() === Platform.WEB
 }

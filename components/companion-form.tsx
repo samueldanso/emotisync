@@ -96,17 +96,17 @@ export function CompanionSelection() {
       reset()
 
       toast.success(`${data.companionName} is ready for you!`, {
-        duration: 2000,
+        duration: 3000,
         className:
           "bg-brand-background border border-brand-primary/20 text-brand-foreground",
         description: "Taking you to your companion...",
       })
 
-      await new Promise((resolve) => setTimeout(resolve, 1500))
-      router.push("/chat")
+      await new Promise((resolve) => setTimeout(resolve, 2000))
+
+      window.location.href = "/chat"
     } catch (error) {
       showErrorToast(error)
-    } finally {
       setIsLoading(false)
     }
   }

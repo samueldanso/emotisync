@@ -30,7 +30,11 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
   const router = useRouter()
   const platform = getPlatform()
-  const displayName = profile?.display_name || user.first_name
+  const displayName =
+    profile?.display_name ||
+    user.first_name ||
+    user.email?.split("@")[0] ||
+    "User"
 
   // Fetch remaining minutes
   useEffect(() => {

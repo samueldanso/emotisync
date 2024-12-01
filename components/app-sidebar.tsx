@@ -1,9 +1,9 @@
-"use client";
+"use client"
 
-import { usePathname } from "next/navigation";
-import { Logo } from "@/components/ui/logo";
-import { SIDEBAR_ITEMS } from "@/lib/constants/app";
-import Link from "next/link";
+import { usePathname } from "next/navigation"
+import { Logo } from "@/components/ui/logo"
+import { SIDEBAR_ITEMS } from "@/lib/constants/app"
+import Link from "next/link"
 import {
   Sidebar,
   SidebarContent,
@@ -12,12 +12,10 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarTrigger,
-  useSidebar,
-} from "@/components/ui/sidebar";
+} from "@/components/ui/sidebar"
 
 export function AppSidebar() {
-  const pathname = usePathname();
-  const { toggleSidebar } = useSidebar();
+  const pathname = usePathname()
 
   return (
     <>
@@ -33,16 +31,15 @@ export function AppSidebar() {
           <SidebarMenu>
             {SIDEBAR_ITEMS.map((item) => (
               <SidebarMenuItem key={item.href}>
-                <Link href={item.href} passHref legacyBehavior>
+                <Link href={item.href}>
                   <SidebarMenuButton
-                    asChild
                     isActive={pathname === item.href}
                     tooltip={item.label}
                   >
-                    <a className="flex items-center gap-3">
+                    <div className="flex items-center gap-3">
                       <item.icon className="h-4 w-4" />
                       <span>{item.label}</span>
-                    </a>
+                    </div>
                   </SidebarMenuButton>
                 </Link>
               </SidebarMenuItem>
@@ -51,5 +48,5 @@ export function AppSidebar() {
         </SidebarContent>
       </Sidebar>
     </>
-  );
+  )
 }
