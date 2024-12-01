@@ -1,53 +1,55 @@
-"use client"
+"use client";
 
-import { usePathname } from "next/navigation"
-import { Logo } from "@/components/ui/logo"
-import { SIDEBAR_ITEMS } from "@/lib/constants/"
-import { cn } from "@/lib/utils"
-import { useVoice } from "@humeai/voice-react"
+import { usePathname } from "next/navigation";
+import { Logo } from "@/components/ui/logo";
+import { SIDEBAR_ITEMS } from "@/lib/constants/app";
+import Link from "next/link";
 import {
   Sidebar,
   SidebarContent,
   SidebarHeader,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
   SidebarTrigger,
-} from "@/components/ui/sidebar"
-import Link from "next/link"
+  useSidebar,
+} from "@/components/ui/sidebar";
 
 export function AppSidebar() {
-  const pathname = usePathname()
-  const { status } = useVoice()
-  const isInCall = status.value === "connected"
-
-  if (isInCall) return null
+  const pathname = usePathname();
+  const { toggleSidebar } = useSidebar();
 
   return (
-    <div className="flex items-center gap-2">
-      <Logo className="h-6 w-6" />
-      <SidebarTrigger className="text-muted-foreground hover:text-foreground" />
-      <Sidebar className="border-border/40 border-r bg-background">
-        <SidebarHeader className="flex items-center justify-center py-8">
-          <Logo className="h-8 w-8" />
+    <>
+      <SidebarTrigger />
+      <Sidebar>
+        <SidebarHeader>
+          <div className="flex h-16 items-center px-6">
+            <Logo className="h-6 w-6" />
+            <span className="ml-2 font-semibold">EmotiSync</span>
+          </div>
         </SidebarHeader>
         <SidebarContent>
-          <nav className="mt-4 flex flex-col gap-1 px-2">
+          <SidebarMenu>
             {SIDEBAR_ITEMS.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  "flex items-center gap-3 rounded-lg px-4 py-2.5 font-medium text-sm transition-colors",
-                  pathname === item.href
-                    ? "bg-brand-primary/10 text-brand-primary"
-                    : "text-muted-foreground hover:bg-muted",
-                )}
-              >
-                <item.icon className="h-4 w-4" />
-                <span>{item.label}</span>
-              </Link>
+              <SidebarMenuItem key={item.href}>
+                <Link href={item.href} passHref legacyBehavior>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname === item.href}
+                    tooltip={item.label}
+                  >
+                    <a className="flex items-center gap-3">
+                      <item.icon className="h-4 w-4" />
+                      <span>{item.label}</span>
+                    </a>
+                  </SidebarMenuButton>
+                </Link>
+              </SidebarMenuItem>
             ))}
-          </nav>
+          </SidebarMenu>
         </SidebarContent>
       </Sidebar>
-    </div>
-  )
+    </>
+  );
 }
