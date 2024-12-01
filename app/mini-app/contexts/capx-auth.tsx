@@ -96,7 +96,6 @@ export function CapxAuthProvider({ children }: { children: React.ReactNode }) {
       setIsLoading(false)
       return
     }
-
     ;(async () => {
       try {
         // Verify init data with our backend

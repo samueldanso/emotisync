@@ -1,7 +1,6 @@
-"use client";
-import dynamic from "next/dynamic";
-import { Spinner } from "@/components/ui/spinner";
-import { MiniAppProviders } from "./providers";
+"use client"
+import dynamic from "next/dynamic"
+import { Spinner } from "@/components/ui/spinner"
 
 // Dynamically import the real component with no SSR
 const TelegramApp = dynamic(() => import("./telegram-app"), {
@@ -11,12 +10,8 @@ const TelegramApp = dynamic(() => import("./telegram-app"), {
       <Spinner className="h-8 w-8" />
     </div>
   ),
-});
+})
 
 export default function Page() {
-  return (
-    <MiniAppProviders>
-      <TelegramApp />
-    </MiniAppProviders>
-  );
+  return <TelegramApp />
 }

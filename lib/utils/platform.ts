@@ -1,21 +1,21 @@
-"use client";
+"use client"
 
 export const Platform = {
   WEB: "web",
   TELEGRAM: "telegram",
-} as const;
+} as const
 
-export type PlatformType = (typeof Platform)[keyof typeof Platform];
+export type PlatformType = (typeof Platform)[keyof typeof Platform]
 
 export function getPlatform(): PlatformType {
-  if (typeof window === "undefined") return Platform.WEB;
+  if (typeof window === "undefined") return Platform.WEB
 
   // Debug logging
-  console.log("WebApp Object:", window?.Telegram?.WebApp);
-  console.log("Search Params:", window.location.search);
-  console.log("User Agent:", window.navigator.userAgent);
+  console.log("WebApp Object:", window?.Telegram?.WebApp)
+  console.log("Search Params:", window.location.search)
+  console.log("User Agent:", window.navigator.userAgent)
 
-  const userAgent = window.navigator.userAgent.toLowerCase();
+  const userAgent = window.navigator.userAgent.toLowerCase()
 
   // Check for Telegram Mini App environment
   const isTelegramWebApp = Boolean(
@@ -24,19 +24,19 @@ export function getPlatform(): PlatformType {
       // Check for Telegram init data in URL
       window.location.search.includes("tgWebAppData=") ||
       // Check for Telegram in user agent
-      userAgent.includes("telegram")
-  );
+      userAgent.includes("telegram"),
+  )
 
-  console.log("Is Telegram WebApp:", isTelegramWebApp);
+  console.log("Is Telegram WebApp:", isTelegramWebApp)
 
-  return isTelegramWebApp ? Platform.TELEGRAM : Platform.WEB;
+  return isTelegramWebApp ? Platform.TELEGRAM : Platform.WEB
 }
 
 // Helper functions
 export function isTelegramWebApp(): boolean {
-  return getPlatform() === Platform.TELEGRAM;
+  return getPlatform() === Platform.TELEGRAM
 }
 
 export function isWebBrowser(): boolean {
-  return getPlatform() === Platform.WEB;
+  return getPlatform() === Platform.WEB
 }
