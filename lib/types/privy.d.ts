@@ -5,6 +5,7 @@ declare module "@privy-io/react-auth" {
     walletClientType: string
     switchChain: (chainId: string | number) => Promise<void>
     getEthersProvider: () => Promise<any>
+    address: string
   }
 
   export interface PrivyInterface {

@@ -1,8 +1,8 @@
 "use server"
 
 import { db } from "@/lib/db/db"
-import { eq } from "drizzle-orm"
 import { users } from "@/lib/db/schemas"
+import { eq } from "drizzle-orm"
 import { catchError } from "@/lib/utils/errors"
 import type { CreateUserOptions } from "@/lib/types/user"
 
@@ -13,13 +13,9 @@ export async function createUser(
 ) {
   try {
     // Check existing user
-    const existingUser = options.telegram_id
-      ? await db.query.users.findFirst({
-          where: eq(users.telegram_id, options.telegram_id),
-        })
-      : await db.query.users.findFirst({
-          where: eq(users.id, id),
-        })
+    const existingUser = await db.query.users.findFirst({
+      where: eq(users.id, id),
+    })
 
     if (existingUser) {
       return { data: existingUser, error: null }
@@ -32,12 +28,10 @@ export async function createUser(
         id,
         email,
         first_name: options.first_name,
-        last_name: options.last_name || null,
+        last_name: options.last_name,
         name: `${options.first_name}${
           options.last_name ? ` ${options.last_name}` : ""
         }`,
-        auth_provider: options.auth_provider,
-        telegram_id: options.telegram_id,
       })
       .returning()
 
@@ -51,17 +45,6 @@ export async function getUser(id: string) {
   try {
     const user = await db.query.users.findFirst({
       where: eq(users.id, id),
-    })
-    return { data: user, error: null }
-  } catch (error) {
-    return catchError(error)
-  }
-}
-
-export async function getTelegramUser(telegram_id: string) {
-  try {
-    const user = await db.query.users.findFirst({
-      where: eq(users.telegram_id, telegram_id),
     })
     return { data: user, error: null }
   } catch (error) {

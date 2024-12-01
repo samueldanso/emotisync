@@ -1,24 +1,25 @@
 import { env } from "@/env"
 
-export async function refreshCapXToken(refreshToken: string) {
-  try {
-    const response = await fetch(`${env.CAPX_API_URL}/auth/refresh`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ refresh_token: refreshToken }),
-    })
+interface TokenResponse {
+  access_token: string
+  refresh_token: string
+}
 
-    const data = await response.json()
-    if (!data.success) throw new Error("Token refresh failed")
+export async function refreshCapXToken(
+  refreshToken: string,
+): Promise<TokenResponse> {
+  const response = await fetch(`${env.CAPX_API_URL}/users/refresh_token`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${refreshToken}`,
+      "Content-Type": "application/json",
+    },
+  })
 
-    return {
-      access_token: data.result.access_token,
-      refresh_token: data.result.refresh_token,
-    }
-  } catch (error) {
-    console.error("Token refresh error:", error)
-    throw error
+  if (!response.ok) {
+    throw new Error("Failed to refresh token")
   }
+
+  const data = await response.json()
+  return data.result
 }

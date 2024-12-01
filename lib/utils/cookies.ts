@@ -3,11 +3,18 @@
 import { jwtDecode } from "jwt-decode"
 import Cookies from "js-cookie"
 
-export function setTokenCookies(accessToken?: string, refreshToken?: string) {
+interface TokenData {
+  accessToken?: string
+  refreshToken?: string
+}
+
+export function setTokens(accessToken?: string, refreshToken?: string) {
   if (accessToken) {
-    const decodedAccessToken = jwtDecode(accessToken)
-    const accessTokenExpiry = decodedAccessToken.exp
-    const accessTokenExpiresInMs = (accessTokenExpiry || 0) * 1000 - Date.now()
+    const decodedAccessToken = jwtDecode(accessToken) as { exp: number }
+    const accessTokenExpiry = decodedAccessToken.exp // Unix timestamp (seconds)
+
+    // Calculate expiration in days
+    const accessTokenExpiresInMs = accessTokenExpiry * 1000 - Date.now()
     const accessTokenExpiresInDays =
       accessTokenExpiresInMs / (1000 * 60 * 60 * 24)
 
@@ -19,10 +26,10 @@ export function setTokenCookies(accessToken?: string, refreshToken?: string) {
   }
 
   if (refreshToken) {
-    const decodedRefreshToken = jwtDecode(refreshToken)
+    const decodedRefreshToken = jwtDecode(refreshToken) as { exp: number }
     const refreshTokenExpiry = decodedRefreshToken.exp
-    const refreshTokenExpiresInMs =
-      (refreshTokenExpiry || 0) * 1000 - Date.now()
+
+    const refreshTokenExpiresInMs = refreshTokenExpiry * 1000 - Date.now()
     const refreshTokenExpiresInDays =
       refreshTokenExpiresInMs / (1000 * 60 * 60 * 24)
 
@@ -32,4 +39,16 @@ export function setTokenCookies(accessToken?: string, refreshToken?: string) {
       sameSite: "Strict",
     })
   }
+}
+
+export function getTokens(): TokenData {
+  return {
+    accessToken: Cookies.get("access_token"),
+    refreshToken: Cookies.get("refresh_token"),
+  }
+}
+
+export function removeTokens() {
+  Cookies.remove("access_token")
+  Cookies.remove("refresh_token")
 }

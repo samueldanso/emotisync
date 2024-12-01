@@ -6,10 +6,6 @@ export const users = pgTable("users", {
   first_name: text("first_name").notNull(),
   last_name: text("last_name"),
   name: text("name").notNull(),
-  auth_provider: text("auth_provider", {
-    enum: ["google", "telegram"],
-  }).notNull(),
-  telegram_id: text("telegram_id").unique(),
   created_at: timestamp("created_at").defaultNow(),
   updated_at: timestamp("updated_at").defaultNow(),
 })

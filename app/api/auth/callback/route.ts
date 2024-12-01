@@ -31,7 +31,6 @@ export async function GET(request: Request) {
     if (session?.user?.email) {
       try {
         await createUser(session.user.email, session.user.id, {
-          auth_provider: "google",
           first_name: session.user.user_metadata.full_name?.split(" ")[0] || "",
           last_name:
             session.user.user_metadata.full_name?.split(" ")[1] || null,
