@@ -1,33 +1,35 @@
-import { redirect } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { BookText } from "lucide-react"
-import Link from "next/link"
-import { JOURNAL_CATEGORIES } from "@/lib/constants/app"
-import { JournalList } from "@/components/journal-list"
-import { getUserJournals } from "@/actions/journal"
-import { getUser } from "@/lib/supabase/server"
+import { redirect } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { BookText } from "lucide-react";
+import Link from "next/link";
+import { JOURNAL_CATEGORIES } from "@/lib/constants/app";
+import { JournalList } from "@/components/journal-list";
+import { getUserJournals } from "@/actions/journal";
+import { getUser } from "@/lib/supabase/server";
 
 export default async function JournalsPage() {
-  const user = await getUser()
-  if (!user) redirect("/login")
+  const user = await getUser();
+  if (!user) redirect("/login");
 
-  const { data: journals } = await getUserJournals(user.id)
+  const { data: journals } = await getUserJournals(user.id);
 
   return (
-    <div className="container max-w-6xl space-y-8 py-6">
+    <div className="space-y-8">
+      {/* Header */}
       <div className="flex items-center justify-between">
         <h1 className="font-semibold text-3xl">Journal</h1>
-        <Tabs defaultValue="assigned">
+        <Tabs defaultValue="recent">
           <TabsList>
-            <TabsTrigger value="assigned">Recent</TabsTrigger>
-            <TabsTrigger value="catalog">Categories</TabsTrigger>
+            <TabsTrigger value="recent">Recent</TabsTrigger>
+            <TabsTrigger value="categories">Categories</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
 
+      {/* Content */}
       {!journals || journals.length === 0 ? (
-        <div className="mx-auto flex min-h-[60vh] max-w-md flex-col items-center justify-center space-y-4 text-center">
+        <div className="flex min-h-[60vh] flex-col items-center justify-center space-y-4 text-center">
           <div className="rounded-full bg-primary/10 p-4">
             <BookText className="h-8 w-8 text-primary" />
           </div>
@@ -45,7 +47,7 @@ export default async function JournalsPage() {
       )}
 
       {/* Categories Grid */}
-      <div className="grid grid-cols-1 gap-4 opacity-60 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
         {JOURNAL_CATEGORIES.map((Category) => (
           <div
             key={Category.label}
@@ -57,5 +59,5 @@ export default async function JournalsPage() {
         ))}
       </div>
     </div>
-  )
+  );
 }

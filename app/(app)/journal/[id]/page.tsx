@@ -1,36 +1,36 @@
-import { redirect } from "next/navigation"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { ArrowLeft } from "lucide-react"
-import { getUser } from "@/lib/supabase/server"
-import { db } from "@/lib/db/db"
-import { journals } from "@/lib/db/schemas"
-import { eq } from "drizzle-orm"
+import { redirect } from "next/navigation";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
+import { getUser } from "@/lib/supabase/server";
+import { db } from "@/lib/db/db";
+import { journals } from "@/lib/db/schemas";
+import { eq } from "drizzle-orm";
 
 interface JournalDetailPageProps {
   params: {
-    id: string
-  }
+    id: string;
+  };
 }
 
 export default async function JournalDetailPage({
   params,
 }: JournalDetailPageProps) {
-  const user = await getUser()
-  if (!user) redirect("/login")
+  const user = await getUser();
+  if (!user) redirect("/login");
 
   const journal = await db.query.journals.findFirst({
     where: eq(journals.id, params.id),
-  })
+  });
 
   if (!journal || journal.userId !== user.id) {
-    redirect("/journals")
+    redirect("/journal");
   }
 
   return (
     <div className="mx-auto w-full max-w-2xl">
       <div className="mb-6 flex items-center gap-2">
-        <Link href="/journals">
+        <Link href="/journal">
           <Button variant="ghost" size="icon">
             <ArrowLeft className="h-4 w-4" />
           </Button>
@@ -57,5 +57,5 @@ export default async function JournalDetailPage({
         </div>
       </div>
     </div>
-  )
+  );
 }
