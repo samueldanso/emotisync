@@ -11,6 +11,9 @@ export async function verifyTelegramInitData(
   initDataRaw: string,
 ): Promise<VerifyInitDataResult> {
   try {
+    // Debug log
+    console.log("Verifying:", initDataRaw)
+
     // Required environment variables check
     if (!env.TELEGRAM_BOT_TOKEN) {
       throw new Error("TELEGRAM_BOT_TOKEN is not configured")
