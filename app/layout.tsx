@@ -2,8 +2,6 @@ import "@/styles/globals.css";
 import { Providers } from "@/components/providers";
 import { Outfit, Urbanist } from "next/font/google";
 import { constructMetadata } from "@/lib/config/metadata";
-import { SDKProvider } from "@telegram-apps/sdk-react";
-import { isTelegramWebApp } from "@/lib/utils/platform";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -28,16 +26,10 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${outfit.variable}${urbanist.variable}`}
+      className={`${outfit.variable} ${urbanist.variable}`}
     >
       <body>
-        {isTelegramWebApp() ? (
-          <SDKProvider acceptCustomStyles debug>
-            <Providers>{children}</Providers>
-          </SDKProvider>
-        ) : (
-          <Providers>{children}</Providers>
-        )}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
