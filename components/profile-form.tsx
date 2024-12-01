@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { useState } from "react"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
 import {
   Form,
   FormControl,
@@ -10,33 +10,33 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import {
   profileSchema,
   type ProfileFormValues,
-} from "@/lib/validations/profile-schema"
-import { showErrorToast } from "@/lib/utils/errors"
-import { useRouter } from "next/navigation"
-import { supabaseClient } from "@/lib/supabase/client"
-import { useOnboardingStore } from "@/stores/onboarding-store"
-import { ProgressSteps } from "@/components/progress-steps"
-import { WelcomeButtons } from "@/components/onboarding-buttons"
+} from "@/lib/validations/profile-schema";
+import { showErrorToast } from "@/lib/utils/errors";
+import { useRouter } from "next/navigation";
+import { supabaseClient } from "@/lib/supabase/client";
+import { useOnboardingStore } from "@/stores/onboarding-store";
+import { ProgressSteps } from "@/components/progress-steps";
+import { WelcomeButtons } from "@/components/onboarding-buttons";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { motion } from "framer-motion"
-import { generateTypewriterKey } from "@/lib/utils/text"
-import { getPlatform } from "@/lib/utils/platform"
+} from "@/components/ui/select";
+import { motion } from "framer-motion";
+import { generateTypewriterKey } from "@/lib/utils/text";
+import { getPlatform } from "@/lib/utils/platform";
 
 export function ProfileForm() {
-  const [isLoading, setIsLoading] = useState(false)
-  const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
   const {
     setGoal,
     goNext,
@@ -45,53 +45,50 @@ export function ProfileForm() {
     goal: storedGoal,
     dateOfBirth: storedDob,
     gender: storedGender,
-  } = useOnboardingStore()
-
-  const platform = getPlatform()
-  const showExtraFields = platform === "web"
+  } = useOnboardingStore();
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
     defaultValues: async () => {
       const {
         data: { user },
-      } = await supabaseClient.auth.getUser()
+      } = await supabaseClient.auth.getUser();
       const firstName = user?.user_metadata?.full_name
         ? user.user_metadata.full_name.split(" ")[0]
-        : user?.email?.split("@")[0] || ""
+        : user?.email?.split("@")[0] || "";
 
       const validGender = storedGender as
         | "male"
         | "female"
         | "nonbinary"
-        | undefined
+        | undefined;
 
       return {
         name: storedName || firstName,
         goal: storedGoal || "",
         dateOfBirth: storedDob || "",
         gender: validGender,
-      }
+      };
     },
-  })
+  });
 
   async function onSubmit(data: ProfileFormValues) {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
-      setName(data.name)
-      setGoal(data.goal)
+      setName(data.name);
+      setGoal(data.goal);
       if (data.dateOfBirth) {
-        useOnboardingStore.getState().setDateOfBirth(data.dateOfBirth)
+        useOnboardingStore.getState().setDateOfBirth(data.dateOfBirth);
       }
       if (data.gender) {
-        useOnboardingStore.getState().setGender(data.gender)
+        useOnboardingStore.getState().setGender(data.gender);
       }
-      goNext()
-      await router.push("companion")
+      goNext();
+      await router.push("companion");
     } catch (error) {
-      showErrorToast(error)
+      showErrorToast(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   }
 
@@ -122,7 +119,7 @@ export function ProfileForm() {
                   >
                     {char}
                   </motion.span>
-                ),
+                )
               )}
             </motion.h2>
             <motion.p
@@ -224,59 +221,54 @@ export function ProfileForm() {
                   )}
                 />
 
-                {showExtraFields && (
-                  <>
-                    <FormField
-                      control={form.control}
-                      name="dateOfBirth"
-                      render={({ field }) => (
-                        <FormItem className="space-y-1.5">
-                          <FormLabel className="text-brand-muted text-sm">
-                            Your date of birth
-                          </FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="e.g., 1990-01-01"
-                              className="h-11 rounded-lg border-zinc-200 bg-white/60 shadow-sm transition-colors focus:bg-white/80"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                <FormField
+                  control={form.control}
+                  name="dateOfBirth"
+                  render={({ field }) => (
+                    <FormItem className="space-y-1.5">
+                      <FormLabel className="text-brand-muted text-sm">
+                        Your date of birth
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          type="date"
+                          placeholder="e.g., 1990-01-01"
+                          className="h-11 rounded-lg border-zinc-200 bg-white/60 shadow-sm transition-colors focus:bg-white/80"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-                    <FormField
-                      control={form.control}
-                      name="gender"
-                      render={({ field }) => (
-                        <FormItem className="space-y-1.5">
-                          <FormLabel className="text-brand-muted text-sm">
-                            Your gender
-                          </FormLabel>
-                          <FormControl>
-                            <Select
-                              {...field}
-                              onValueChange={(value) => field.onChange(value)}
-                            >
-                              <SelectTrigger className="h-11 rounded-lg border-zinc-200 bg-white/60 shadow-sm transition-colors focus:bg-white/80">
-                                <SelectValue placeholder="Select your gender" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="male">Male</SelectItem>
-                                <SelectItem value="female">Female</SelectItem>
-                                <SelectItem value="nonbinary">
-                                  Nonbinary
-                                </SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </>
-                )}
+                <FormField
+                  control={form.control}
+                  name="gender"
+                  render={({ field }) => (
+                    <FormItem className="space-y-1.5">
+                      <FormLabel className="text-brand-muted text-sm">
+                        Your gender
+                      </FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger className="h-11 rounded-lg border-zinc-200 bg-white/60 shadow-sm transition-colors focus:bg-white/80">
+                            <SelectValue placeholder="Select your gender" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="male">Male</SelectItem>
+                          <SelectItem value="female">Female</SelectItem>
+                          <SelectItem value="nonbinary">Non-binary</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
                 <div className="pt-4">
                   <WelcomeButtons isLoading={isLoading} showBack={false} />
@@ -287,5 +279,5 @@ export function ProfileForm() {
         </div>
       </div>
     </div>
-  )
+  );
 }
