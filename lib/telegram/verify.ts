@@ -62,6 +62,7 @@ export async function verifyTelegramInitData(
     dataCheckString = newParams
       .map(([key, value]) => `${key}=${value}`)
       .join("\n")
+      .slice(0, -1)
 
     // Generate CapX hash
     const capxSecret = createHmac("sha256", "WebAppData")
@@ -73,6 +74,16 @@ export async function verifyTelegramInitData(
 
     // Add CapX hash
     urlParams.append("hash", capxHash)
+
+    // Add logging to verify the values
+    console.log("CapX Auth Debug:", {
+      clientId: env.CAPX_CLIENT_ID,
+      secretLength: env.CAPX_CLIENT_SECRET.length,
+      dataCheckString,
+      capxHash,
+      params: Array.from(urlParams.entries()),
+      method: "WebAppData",
+    })
 
     return {
       success: true,
