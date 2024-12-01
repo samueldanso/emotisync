@@ -1,16 +1,21 @@
-import { NextResponse, type NextRequest } from "next/server"
+import { NextResponse, type NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
-  const pathname = request.nextUrl.pathname
+  const pathname = request.nextUrl.pathname;
+
+  // For testing, allow direct access to /mini-app
+  if (pathname.startsWith("/mini-app")) {
+    return NextResponse.next();
+  }
 
   // More precise Telegram WebApp detection
-  const userAgent = request.headers.get("user-agent")?.toLowerCase() || ""
-  const initData = request.headers.get("x-initdata")
+  const userAgent = request.headers.get("user-agent")?.toLowerCase() || "";
+  const initData = request.headers.get("x-initdata");
   const isTelegramWebApp =
     userAgent.includes("telegram") ||
     request.nextUrl.searchParams.has("tgWebAppData") ||
     request.cookies.has("telegram_webapp") ||
-    !!initData
+    !!initData;
 
   // Debug logging
   console.log("Middleware Debug:", {
@@ -20,40 +25,14 @@ export async function middleware(request: NextRequest) {
     searchParams: request.nextUrl.searchParams.toString(),
     cookies: request.cookies.toString(),
     isTelegramWebApp,
-  })
-
-  // Handle Telegram WebApp users
-  if (isTelegramWebApp) {
-    // Prevent access to login/register routes for Telegram users
-    if (pathname.startsWith("/login") || pathname.startsWith("/register")) {
-      return NextResponse.redirect(new URL("/mini-app", request.url))
-    }
-
-    // Handle partial mini-app paths
-    if (pathname.startsWith("/mini") && !pathname.startsWith("/mini-app")) {
-      return NextResponse.redirect(new URL("/mini-app", request.url))
-    }
-
-    // Always ensure Telegram users start at /mini-app
-    if (!pathname.startsWith("/mini-app")) {
-      const miniAppUrl = new URL("/mini-app", request.url)
-      miniAppUrl.search = request.nextUrl.search
-      return NextResponse.redirect(miniAppUrl)
-    }
-    return NextResponse.next()
-  }
-
-  // Handle Web Users (prevent access to /mini-app)
-  if (!isTelegramWebApp && pathname.startsWith("/mini-app")) {
-    return NextResponse.redirect(new URL("/", request.url))
-  }
+  });
 
   // Initialize response
   const response = NextResponse.next({
     request: {
       headers: request.headers,
     },
-  })
+  });
 
   // 1. Public marketing pages - always accessible
   if (
@@ -61,7 +40,7 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith("/privacy") ||
     pathname.startsWith("/terms")
   ) {
-    return response
+    return response;
   }
 
   // 2. Protected routes - require authentication
@@ -76,15 +55,15 @@ export async function middleware(request: NextRequest) {
   ) {
     // For Telegram users, check CapX token
     if (isTelegramWebApp) {
-      const accessToken = request.cookies.get("capx_access_token")?.value
+      const accessToken = request.cookies.get("capx_access_token")?.value;
       if (!accessToken) {
-        return NextResponse.redirect(new URL("/mini-app", request.url))
+        return NextResponse.redirect(new URL("/mini-app", request.url));
       }
-      return response
+      return response;
     }
   }
 
-  return response
+  return response;
 }
 
 export const config = {
@@ -110,4 +89,4 @@ export const config = {
     // Catch partial paths
     "/mini:path*",
   ],
-}
+};
