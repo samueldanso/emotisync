@@ -1,13 +1,14 @@
-import Image from "next/image"
-import Link from "next/link"
+import Image from "next/image";
+import Link from "next/link";
 
 interface LogoProps {
-  className?: string
+  className?: string;
+  showText?: boolean;
 }
 
-export function Logo({ className }: LogoProps) {
+export function Logo({ className, showText = false }: LogoProps) {
   return (
-    <Link href="/" className="flex items-center gap-2">
+    <Link href="/" className="flex items-center gap-3">
       <Image
         src="/emotisync-icon.svg"
         alt="EmotiSync Logo"
@@ -15,9 +16,11 @@ export function Logo({ className }: LogoProps) {
         height={32}
         className={className}
       />
-      <span className="font-heading font-semibold text-brand-foreground text-xl tracking-tight md:text-[22px]">
-        EmotiSync
-      </span>
+      {showText && (
+        <span className="font-heading text-lg font-semibold text-brand-foreground">
+          EmotiSync
+        </span>
+      )}
     </Link>
-  )
+  );
 }

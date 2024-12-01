@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { usePathname } from "next/navigation"
-import { Logo } from "@/components/ui/logo"
-import { SIDEBAR_ITEMS } from "@/lib/constants/app"
-import Link from "next/link"
+import { usePathname } from "next/navigation";
+import { Logo } from "@/components/ui/logo";
+import { SIDEBAR_ITEMS } from "@/lib/constants/app";
+import Link from "next/link";
 import {
   Sidebar,
   SidebarContent,
@@ -12,10 +12,10 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarTrigger,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 
 export function AppSidebar() {
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   return (
     <>
@@ -23,8 +23,7 @@ export function AppSidebar() {
       <Sidebar>
         <SidebarHeader>
           <div className="flex h-16 items-center px-6">
-            <Logo className="h-6 w-6" />
-            <span className="ml-2 font-semibold">EmotiSync</span>
+            <Logo showText className="h-8 w-8" />
           </div>
         </SidebarHeader>
         <SidebarContent>
@@ -37,8 +36,8 @@ export function AppSidebar() {
                     tooltip={item.label}
                   >
                     <div className="flex items-center gap-3">
-                      <item.icon className="h-4 w-4" />
-                      <span>{item.label}</span>
+                      <item.icon className="h-5 w-5" />
+                      <span className="font-medium">{item.label}</span>
                     </div>
                   </SidebarMenuButton>
                 </Link>
@@ -48,5 +47,5 @@ export function AppSidebar() {
         </SidebarContent>
       </Sidebar>
     </>
-  )
+  );
 }
