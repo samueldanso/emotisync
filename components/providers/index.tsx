@@ -1,11 +1,11 @@
-"use client";
+"use client"
 
-import { Toaster } from "sonner";
-import { ThemeProvider } from "next-themes";
-import { PrivyProvider } from "@privy-io/react-auth";
-import { SDKProvider } from "@telegram-apps/sdk-react";
-import { UserAuthContext } from "@/contexts/user-auth-context";
-import { env } from "@/env";
+import { Toaster } from "sonner"
+import { ThemeProvider } from "next-themes"
+import { SDKProvider } from "@telegram-apps/sdk-react"
+import { PrivyProvider } from "@privy-io/react-auth"
+import { UserAuthContext } from "@/contexts/user-auth-context"
+import { env } from "@/env"
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -15,14 +15,14 @@ export function Providers({ children }: { children: React.ReactNode }) {
       enableSystem={false}
       disableTransitionOnChange
     >
-      <PrivyProvider appId={env.NEXT_PUBLIC_PRIVY_APP_ID}>
-        <SDKProvider acceptCustomStyles debug>
+      <SDKProvider acceptCustomStyles debug>
+        <PrivyProvider appId={env.NEXT_PUBLIC_PRIVY_APP_ID}>
           <UserAuthContext>
             {children}
             <Toaster />
           </UserAuthContext>
-        </SDKProvider>
-      </PrivyProvider>
+        </PrivyProvider>
+      </SDKProvider>
     </ThemeProvider>
-  );
+  )
 }
