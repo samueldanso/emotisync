@@ -26,7 +26,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${outfit.variable} ${urbanist.variable}`}
+      className={`${outfit.variable}${urbanist.variable}`}
     >
       <body>
         <Providers>{children}</Providers>
