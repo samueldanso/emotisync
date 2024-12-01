@@ -1,5 +1,5 @@
-import { createEnv } from "@t3-oss/env-nextjs"
-import { z } from "zod"
+import { createEnv } from "@t3-oss/env-nextjs";
+import { z } from "zod";
 
 export const env = createEnv({
   server: {
@@ -25,8 +25,6 @@ export const env = createEnv({
     NEXT_PUBLIC_CAPX_CHAIN_RPC_URL: z.string().url(),
     NEXT_PUBLIC_CAPX_CHAIN_EXPLORE_URL: z.string().url(),
     NEXT_PUBLIC_CAPX_CHAIN_CURRENCY: z.string().min(1),
-    NEXT_PUBLIC_CAPX_WEB_SOCKET_URL: z.string().url(),
-    NEXT_PUBLIC_CAPX_API_URL: z.string().url(),
   },
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
@@ -52,8 +50,5 @@ export const env = createEnv({
       process.env.NEXT_PUBLIC_CAPX_CHAIN_EXPLORE_URL,
     NEXT_PUBLIC_CAPX_CHAIN_CURRENCY:
       process.env.NEXT_PUBLIC_CAPX_CHAIN_CURRENCY,
-    NEXT_PUBLIC_CAPX_WEB_SOCKET_URL:
-      process.env.NEXT_PUBLIC_CAPX_WEB_SOCKET_URL,
-    NEXT_PUBLIC_CAPX_API_URL: process.env.NEXT_PUBLIC_CAPX_API_URL,
   },
-})
+});
