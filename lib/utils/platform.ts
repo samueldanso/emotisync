@@ -10,12 +10,18 @@ export type PlatformType = (typeof Platform)[keyof typeof Platform]
 export function getPlatform(): PlatformType {
   if (typeof window === "undefined") return Platform.WEB
 
-  // Better Telegram detection
+  // Check for Telegram Mini App environment
   const isTelegramWebApp = Boolean(
-    // @ts-ignore - Telegram types
+    // @ts-ignore - Telegram WebApp global object
     window?.Telegram?.WebApp ||
-      window.location.href.includes("t.me") ||
-      window.navigator.userAgent.toLowerCase().includes("telegram"),
+      // Check URL patterns
+      window.location.href.includes("/mini-app") ||
+      // Check for Telegram init data in URL
+      window.location.search.includes("tgWebAppData=") ||
+      // Check for Telegram user agent
+      window.navigator.userAgent
+        .toLowerCase()
+        .includes("telegram"),
   )
 
   return isTelegramWebApp ? Platform.TELEGRAM : Platform.WEB

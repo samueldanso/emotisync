@@ -1,18 +1,18 @@
 export interface UserDetails {
   id: string
-  email: string
-  telegram_id?: string
-  first_name: string
-  last_name?: string | null
-  auth_provider: "google" | "telegram"
+  version?: number
   onboarding_completed?: boolean
-  created_at?: Date | null
-  updated_at?: Date | null
+  [key: string]: any
+}
+
+export interface UserAuthState {
+  userDetails: UserDetails
+  isUserCreated: boolean
+  txDetails: any
+  getUserDetails: () => Promise<void>
 }
 
 export interface CreateUserOptions {
-  auth_provider: "google" | "telegram"
-  telegram_id?: string
   first_name: string
-  last_name?: string | null
+  last_name: string | null
 }
