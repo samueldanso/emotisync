@@ -65,8 +65,8 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <button type="button" className="group">
-          <Avatar className="h-10 w-10 transition-opacity hover:opacity-80">
+        <button type="button">
+          <Avatar className="h-10 w-10">
             {avatarUrl ? (
               <AvatarImage
                 src={avatarUrl}
@@ -81,13 +81,11 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
           </Avatar>
         </button>
       </SheetTrigger>
-      <SheetContent className="w-full border-l sm:max-w-md">
-        <SheetHeader className="space-y-6 pb-6">
-          <SheetTitle className="font-medium text-lg">
-            Profile Settings
-          </SheetTitle>
+      <SheetContent className="w-full sm:max-w-md">
+        <SheetHeader>
+          <SheetTitle>Profile Settings</SheetTitle>
           <div className="flex items-start gap-4">
-            <Avatar className="h-16 w-16 ring-2 ring-primary/20">
+            <Avatar className="h-16 w-16">
               {avatarUrl ? (
                 <AvatarImage
                   src={avatarUrl}
@@ -95,13 +93,13 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
                   className="object-cover"
                 />
               ) : (
-                <AvatarFallback className="bg-primary/10 text-primary text-xl">
+                <AvatarFallback className="bg-transparent text-primary text-xl">
                   {displayName[0].toUpperCase()}
                 </AvatarFallback>
               )}
             </Avatar>
-            <div className="space-y-1">
-              <h2 className="font-semibold text-lg">{displayName}</h2>
+            <div>
+              <h2 className="text-lg">{displayName}</h2>
               <p className="text-muted-foreground text-sm">
                 {platform === "telegram" ? "Telegram User" : user.email}
               </p>
@@ -111,30 +109,28 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
 
         <div className="space-y-6">
           {/* Usage */}
-          <div className="space-y-4">
-            <div className="flex items-center gap-2 font-medium text-sm">
+          <div>
+            <div className="flex items-center gap-2 text-sm">
               <Clock className="h-4 w-4" />
               <span>Usage</span>
             </div>
-            <div className="flex items-center justify-between rounded-lg border p-3">
+            <div className="mt-2 flex items-center justify-between p-3">
               <span className="text-muted-foreground text-sm">
                 Remaining Time
               </span>
-              <span className="font-medium text-sm">
-                {remainingMinutes} minutes
-              </span>
+              <span className="text-sm">{remainingMinutes} minutes</span>
             </div>
           </div>
 
           <Separator />
 
           {/* Settings */}
-          <div className="space-y-4">
-            <div className="flex items-center gap-2 font-medium text-sm">
+          <div>
+            <div className="flex items-center gap-2 text-sm">
               <Settings className="h-4 w-4" />
               <span>Preferences</span>
             </div>
-            <div className="flex items-center justify-between rounded-lg border p-3">
+            <div className="mt-2 flex items-center justify-between p-3">
               <span className="text-muted-foreground text-sm">Theme</span>
               <ThemeToggle />
             </div>
@@ -144,7 +140,7 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
 
           <Button
             variant="ghost"
-            className="w-full justify-start gap-2 text-destructive hover:bg-destructive/10 hover:text-destructive"
+            className="w-full justify-start gap-2 text-destructive"
             onClick={() => {
               supabaseClient.auth.signOut();
               router.push("/login");

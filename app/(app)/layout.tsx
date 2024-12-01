@@ -40,11 +40,13 @@ export default async function Layout({ children }: LayoutProps) {
         <div className="w-64">
           <AppSidebar />
         </div>
-        <div className="flex-1">
-          <div className="absolute right-4 top-4">
+        <div className="relative flex-1">
+          <div className="absolute right-6 top-6">
             <UserProfileButton user={mappedUser} profile={profile} />
           </div>
-          <main className="p-6">{children}</main>
+          <div className="flex h-full items-center justify-center">
+            {children}
+          </div>
         </div>
       </div>
     </VoiceProvider>
