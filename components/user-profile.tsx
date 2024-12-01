@@ -36,7 +36,6 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
     user.email?.split("@")[0] ||
     "User";
 
-  // Fetch remaining minutes
   useEffect(() => {
     const checkRemaining = async () => {
       const usage = await checkUsageLimit();
@@ -45,7 +44,6 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
     checkRemaining();
   }, []);
 
-  // Fetch user avatar
   useEffect(() => {
     const getProfileImage = async () => {
       const {
@@ -53,13 +51,10 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
       } = await supabaseClient.auth.getUser();
 
       if (platform === "telegram") {
-        // If using Telegram, we'll handle avatar through CapX
         setAvatarUrl(null);
       } else if (authUser?.user_metadata?.avatar_url) {
-        // For Google auth, use the avatar from user_metadata
         setAvatarUrl(authUser.user_metadata.avatar_url);
       } else if (authUser?.user_metadata?.picture) {
-        // Alternative metadata field for profile picture
         setAvatarUrl(authUser.user_metadata.picture);
       }
     };
@@ -77,7 +72,6 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
                 src={avatarUrl}
                 alt={displayName}
                 className="object-cover"
-                quality={100}
               />
             ) : (
               <AvatarFallback className="bg-transparent text-primary">
