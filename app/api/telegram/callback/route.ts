@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server"
 import { noStore } from "@/lib/utils/server"
 import { checkOnboardingStatus } from "@/actions/profile"
-import { env } from "@/env"
 import { createUser } from "@/actions/user"
 import { v4 as uuidv4 } from "uuid"
+import { env } from "@/env"
 
 export async function POST(request: Request) {
   noStore()
@@ -17,7 +17,7 @@ export async function POST(request: Request) {
       )
     }
 
-    // Get user data from CapX
+    // Call CapX SuperApp API
     const capxResponse = await fetch(`${env.CAPX_API_URL}/users/auth`, {
       method: "POST",
       headers: {
@@ -25,6 +25,19 @@ export async function POST(request: Request) {
         "x-initdata": initData,
       },
     })
+
+    if (!capxResponse.ok) {
+      const errorText = await capxResponse.text()
+      console.error("CapX Error:", {
+        status: capxResponse.status,
+        response: errorText,
+        initData,
+      })
+      return NextResponse.json(
+        { success: false, error: "Failed to get user data" },
+        { status: 401 },
+      )
+    }
 
     const capxData = await capxResponse.json()
 
