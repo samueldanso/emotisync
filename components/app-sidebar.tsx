@@ -11,6 +11,7 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
+  SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 
@@ -18,11 +19,11 @@ export function AppSidebar() {
   const pathname = usePathname();
 
   return (
-    <>
+    <SidebarProvider>
       <SidebarTrigger />
       <Sidebar>
         <SidebarHeader>
-          <div className="flex h-14 items-center px-6">
+          <div className="flex items-center px-4">
             <Logo showText className="h-6 w-6" />
           </div>
         </SidebarHeader>
@@ -46,6 +47,6 @@ export function AppSidebar() {
           </SidebarMenu>
         </SidebarContent>
       </Sidebar>
-    </>
+    </SidebarProvider>
   );
 }
