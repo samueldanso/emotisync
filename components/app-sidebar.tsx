@@ -22,8 +22,8 @@ export function AppSidebar() {
       <SidebarTrigger />
       <Sidebar>
         <SidebarHeader>
-          <div className="flex h-16 items-center px-6">
-            <Logo showText className="h-8 w-8" />
+          <div className="flex h-14 items-center px-6">
+            <Logo showText className="h-6 w-6" />
           </div>
         </SidebarHeader>
         <SidebarContent>
@@ -37,7 +37,7 @@ export function AppSidebar() {
                   >
                     <div className="flex items-center gap-3">
                       <item.icon className="h-5 w-5" />
-                      <span className="font-medium">{item.label}</span>
+                      <span>{item.label}</span>
                     </div>
                   </SidebarMenuButton>
                 </Link>
