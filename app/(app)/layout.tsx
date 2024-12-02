@@ -50,8 +50,12 @@ export default async function Layout({ children }: LayoutProps) {
     <SidebarProvider>
       <VoiceProvider accessToken={accessToken} profile={profile}>
         <div className="flex h-screen w-full overflow-hidden">
-          <AppMobileSidebar className="md:hidden" />
-          <AppSidebar className="hidden md:block" />
+          <div className="md:hidden">
+            <AppMobileSidebar />
+          </div>
+          <div className="hidden md:block">
+            <AppSidebar />
+          </div>
           <main className="relative flex-1 transition-all duration-300 ease-in-out">
             <div className="absolute top-6 right-6 z-50 flex items-center gap-4">
               <UsageDisplay

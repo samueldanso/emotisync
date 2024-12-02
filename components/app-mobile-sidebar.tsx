@@ -3,13 +3,13 @@
 import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { PanelLeft, PanelLeftClose, PanelLeftOpen } from "lucide-react";
+import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SIDEBAR_ITEMS } from "@/lib/constants/app";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import { ThemeToggle } from "./ui/theme-toggle";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 interface AppMobileSidebarProps {
   className?: string;
@@ -35,12 +35,12 @@ export function AppMobileSidebar({ className }: AppMobileSidebarProps) {
           <span className="font-urbanist text-xl font-semibold">EmotiSync</span>
         </Link>
         <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)}>
-          <PanelLeftClose className="h-6 w-6" />
+          <PanelLeftClose className="h-5 w-5" />
           <span className="sr-only">Close Sidebar</span>
         </Button>
       </div>
 
-      <nav className="flex-1 space-y-2 p-2">
+      <nav className="flex-1 space-y-3 p-3">
         {SIDEBAR_ITEMS.map((item) => {
           const isActive = pathname === item.href;
 
@@ -48,12 +48,12 @@ export function AppMobileSidebar({ className }: AppMobileSidebarProps) {
             <Link key={item.href} href={item.href}>
               <div
                 className={cn(
-                  "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
+                  "flex items-center gap-4 rounded-lg px-3 py-3 text-sm font-medium transition-colors",
                   "hover:bg-accent hover:text-accent-foreground",
-                  isActive && "bg-accent text-accent-foreground font-medium"
+                  isActive && "bg-accent text-accent-foreground"
                 )}
               >
-                <item.icon className="h-4 w-4" />
+                <item.icon className="h-5 w-5" />
                 <span>{item.label}</span>
                 {item.soon && (
                   <span className="ml-auto rounded-full bg-muted px-1.5 py-0.5 text-[10px]">
@@ -66,7 +66,7 @@ export function AppMobileSidebar({ className }: AppMobileSidebarProps) {
         })}
       </nav>
 
-      <div className="border-t p-4">
+      <div className="p-4">
         <ThemeToggle />
       </div>
     </div>
@@ -82,9 +82,9 @@ export function AppMobileSidebar({ className }: AppMobileSidebarProps) {
           onClick={() => setIsOpen(true)}
         >
           {isOpen ? (
-            <PanelLeftClose className="h-6 w-6" />
+            <PanelLeftClose className="h-5 w-5" />
           ) : (
-            <PanelLeftOpen className="h-6 w-6" />
+            <PanelLeftOpen className="h-5 w-5" />
           )}
           <span className="sr-only">Toggle Menu</span>
         </Button>
