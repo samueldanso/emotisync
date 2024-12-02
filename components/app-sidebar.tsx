@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import { SIDEBAR_ITEMS } from "@/lib/constants/app";
 import Link from "next/link";
-import { Moon, Sun, PanelLeftClose } from "lucide-react";
+import { Moon, Sun, PanelLeftClose, Menu } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useSidebar } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
@@ -15,6 +15,8 @@ import {
   TooltipTrigger,
   TooltipProvider,
 } from "@/components/ui/tooltip";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useWindow } from "@/hooks/use-window";
 
 function ThemeToggle() {
   const { theme, setTheme } = useTheme();
@@ -49,12 +51,12 @@ function SidebarToggle() {
       variant="ghost"
       size="icon"
       className={cn(
-        "absolute -right-2.5 top-5 h-5 w-5 rounded-full bg-background/80 shadow-sm hover:bg-accent/80 backdrop-blur-sm",
+        "absolute -right-3.5 top-6 h-6 w-6 rounded-full bg-background/80 shadow-sm hover:bg-accent/80 backdrop-blur-sm",
         isCollapsed && "rotate-180"
       )}
       onClick={toggleSidebar}
     >
-      <PanelLeftClose className="h-3 w-3" />
+      <PanelLeftClose className="h-4 w-4" />
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   );
@@ -63,95 +65,148 @@ function SidebarToggle() {
 export function AppSidebar() {
   const pathname = usePathname();
   const { state } = useSidebar();
+  const { isMobile } = useWindow();
   const isCollapsed = state === "collapsed";
 
-  return (
-    <aside
-      className={cn(
-        "relative bg-sidebar-background/80 backdrop-blur-sm transition-all duration-300",
-        isCollapsed ? "w-[50px]" : "w-[200px]"
-      )}
-    >
-      <div className="relative flex h-full flex-col">
-        <div className="relative px-3 py-4">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand-primary/90">
-              <Image
-                src="/emotisync-icon.svg"
-                alt="EmotiSync"
-                width={20}
-                height={20}
-                className="h-4 w-4"
-              />
-            </div>
-            {!isCollapsed && (
-              <span className="font-urbanist text-base font-semibold text-sidebar-foreground">
-                EmotiSync
-              </span>
-            )}
-          </Link>
-          <SidebarToggle />
-        </div>
+  const sidebarContent = (
+    <div className="relative flex h-full flex-col">
+      <div className="relative px-3 py-6">
+        <Link href="/" className="flex items-center gap-2">
+          <div className="flex h-8 w-8 items-center justify-center">
+            <Image
+              src="/emotisync-icon.svg"
+              alt="EmotiSync"
+              width={24}
+              height={24}
+              className="h-6 w-6"
+            />
+          </div>
+          {(!isCollapsed || isMobile) && (
+            <span className="font-urbanist text-base font-semibold text-sidebar-foreground">
+              EmotiSync
+            </span>
+          )}
+        </Link>
+        {!isMobile && <SidebarToggle />}
+      </div>
 
-        <nav className="flex-1 space-y-0.5 px-2">
-          {SIDEBAR_ITEMS.map((item) => (
+      <nav className="mt-4 flex-1 space-y-2 px-2">
+        {SIDEBAR_ITEMS.map((item) => {
+          const isActive = pathname === item.href;
+
+          if (isMobile || !isCollapsed) {
+            return (
+              <Link key={item.href} href={item.href}>
+                <div
+                  className={cn(
+                    "flex items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200",
+                    "hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground",
+                    isActive &&
+                      "bg-sidebar-accent/50 text-sidebar-primary font-medium"
+                  )}
+                >
+                  <item.icon
+                    className={cn(
+                      "h-5 w-5 transition-colors",
+                      isActive
+                        ? "text-brand-primary"
+                        : "text-sidebar-foreground/60"
+                    )}
+                  />
+                  <span
+                    className={cn(
+                      "text-[14px]",
+                      isActive
+                        ? "text-sidebar-primary"
+                        : "text-sidebar-foreground/60"
+                    )}
+                  >
+                    {item.label}
+                  </span>
+                  {item.soon && (
+                    <span className="ml-auto rounded-full bg-sidebar-accent/30 px-1.5 py-0.5 text-[10px]">
+                      Soon
+                    </span>
+                  )}
+                </div>
+              </Link>
+            );
+          }
+
+          return (
             <TooltipProvider key={item.href} delayDuration={0}>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Link href={item.href}>
                     <div
                       className={cn(
-                        "flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 transition-all duration-200",
+                        "flex items-center justify-center rounded-lg px-0 py-2 transition-all duration-200",
                         "hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground",
-                        pathname === item.href &&
-                          "bg-sidebar-accent/50 text-sidebar-primary font-medium",
-                        isCollapsed && "justify-center px-0"
+                        isActive &&
+                          "bg-sidebar-accent/50 text-sidebar-primary font-medium"
                       )}
                     >
                       <item.icon
                         className={cn(
-                          "h-4 w-4 transition-colors",
-                          pathname === item.href
+                          "h-5 w-5 transition-colors",
+                          isActive
                             ? "text-brand-primary"
                             : "text-sidebar-foreground/60"
                         )}
                       />
-                      {!isCollapsed && (
-                        <>
-                          <span
-                            className={cn(
-                              "text-[13px]",
-                              pathname === item.href
-                                ? "text-sidebar-primary"
-                                : "text-sidebar-foreground/60"
-                            )}
-                          >
-                            {item.label}
-                          </span>
-                          {item.soon && (
-                            <span className="ml-auto rounded-full bg-sidebar-accent/30 px-1.5 py-0.5 text-[10px]">
-                              Soon
-                            </span>
-                          )}
-                        </>
-                      )}
                     </div>
                   </Link>
                 </TooltipTrigger>
-                {isCollapsed && (
-                  <TooltipContent side="right" className="border-none">
-                    {item.label}
-                  </TooltipContent>
-                )}
+                <TooltipContent
+                  side="right"
+                  className="border-none"
+                  sideOffset={10}
+                  hideWhenDetached
+                >
+                  {item.label}
+                </TooltipContent>
               </Tooltip>
             </TooltipProvider>
-          ))}
-        </nav>
+          );
+        })}
+      </nav>
 
-        <div className="p-2">
-          <ThemeToggle />
-        </div>
+      <div className="p-2">
+        <ThemeToggle />
       </div>
+    </div>
+  );
+
+  if (isMobile) {
+    return (
+      <>
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="fixed left-4 top-4 z-40 h-10 w-10 rounded-lg"
+            >
+              <Menu className="h-5 w-5" />
+              <span className="sr-only">Toggle Menu</span>
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" className="w-[280px] bg-zinc-900/90 p-0">
+            {sidebarContent}
+          </SheetContent>
+        </Sheet>
+      </>
+    );
+  }
+
+  return (
+    <aside
+      className={cn(
+        "relative bg-zinc-900/90 backdrop-blur-sm transition-all duration-300",
+        isCollapsed ? "w-[50px]" : "w-[200px]"
+      )}
+    >
+      {sidebarContent}
     </aside>
   );
 }
