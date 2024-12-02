@@ -29,6 +29,7 @@ export default async function Layout({ children }: LayoutProps) {
 
   const usage = await checkUsageLimit();
   const remainingMinutes = Math.floor(usage.remainingSeconds / 60);
+  const points = profile.points || 0;
 
   const mappedUser = {
     id: user.id,
@@ -51,7 +52,10 @@ export default async function Layout({ children }: LayoutProps) {
           <AppSidebar />
           <main className="relative flex-1 transition-all duration-300 ease-in-out">
             <div className="absolute top-6 right-6 z-50 flex items-center gap-4">
-              <UsageDisplay remainingMinutes={remainingMinutes} />
+              <UsageDisplay
+                remainingMinutes={remainingMinutes}
+                points={points}
+              />
               <UserProfileButton user={mappedUser} profile={profile} />
             </div>
             <div className="h-full w-full p-6">{children}</div>
