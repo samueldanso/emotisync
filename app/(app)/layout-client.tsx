@@ -4,7 +4,6 @@ import * as React from "react";
 import { AppSidebar } from "@/components/app-sidebar";
 import { UserProfileButton } from "@/components/user-profile";
 import { VoiceProvider } from "@/components/providers/voice-provider";
-import { Clock } from "lucide-react";
 import type { Profile } from "@/lib/db/schemas";
 import { SidebarProvider } from "@/components/ui/sidebar";
 
@@ -34,23 +33,13 @@ export function AppLayoutClient({
   return (
     <SidebarProvider>
       <VoiceProvider accessToken={accessToken} profile={profile}>
-        <div className="flex min-h-screen">
+        <div className="flex h-screen overflow-hidden">
           <AppSidebar />
-          <main className="flex-1">
-            <div className="absolute top-4 right-4 flex items-center gap-2 sm:top-6 sm:right-6 sm:gap-3">
-              <div className="flex items-center gap-1.5 rounded-full border bg-card px-2 py-1 text-xs sm:gap-2 sm:px-3 sm:py-1.5 sm:text-sm">
-                <Clock className="h-3.5 w-3.5 text-muted-foreground sm:h-4 sm:w-4" />
-                <span>{remainingMinutes}m</span>
-              </div>
-              <div className="flex items-center gap-1.5 rounded-full border bg-card/50 px-2 py-1 text-muted-foreground text-xs sm:gap-2 sm:px-3 sm:py-1.5 sm:text-sm">
-                <span>2,524</span>
-                <span className="text-[10px] sm:text-xs">pts</span>
-              </div>
+          <main className="relative flex-1 overflow-auto">
+            <div className="absolute right-4 top-4 z-50">
               <UserProfileButton user={user} profile={profile} />
             </div>
-            <div className="flex min-h-screen items-center justify-center p-4">
-              {children}
-            </div>
+            {children}
           </main>
         </div>
       </VoiceProvider>
