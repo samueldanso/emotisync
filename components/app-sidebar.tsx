@@ -1,7 +1,6 @@
 "use client"
 
 import { usePathname } from "next/navigation"
-import { Logo } from "@/components/ui/logo"
 import { SIDEBAR_ITEMS } from "@/lib/constants/app"
 import Link from "next/link"
 import { Moon, Sun } from "lucide-react"
@@ -10,12 +9,15 @@ import {
   Sidebar,
   SidebarContent,
   SidebarHeader,
+  SidebarFooter,
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
+import { Badge } from "@/components/ui/badge"
+import Image from "next/image"
 
 function ThemeToggle() {
   const { theme, setTheme } = useTheme()
@@ -45,32 +47,56 @@ export function AppSidebar() {
         collapsible="icon"
         className="border-brand-background/20 border-r bg-brand-background"
       >
-        <SidebarHeader className="py-3">
-          <div className="flex items-center justify-center">
-            <Logo className="h-8 w-8" />
-          </div>
+        <SidebarHeader className="px-2 py-4">
+          <Link href="/" className="flex items-center">
+            <Image
+              src="/emotisync-icon.svg"
+              alt="EmotiSync Logo"
+              width={32}
+              height={32}
+              className="h-8 w-8"
+            />
+            <span className="ml-3 font-heading font-semibold text-brand-foreground text-xl">
+              EmotiSync
+            </span>
+          </Link>
         </SidebarHeader>
         <SidebarContent>
-          <SidebarMenu className="space-y-1 px-2">
+          <div className="pt-2" />
+          <SidebarMenu className="space-y-2 px-2">
             {SIDEBAR_ITEMS.map((item) => (
               <SidebarMenuItem key={item.href}>
                 <Link href={item.href} className="w-full">
                   <SidebarMenuButton
                     isActive={pathname === item.href}
-                    tooltip={item.label}
-                    className="w-full justify-center transition-colors hover:text-brand-primary data-[active=true]:bg-brand-primary/10 data-[active=true]:text-brand-primary md:justify-start"
+                    tooltip={
+                      item.soon ? `${item.label} (Coming Soon)` : item.label
+                    }
+                    className={`w-full justify-center transition-colors hover:text-brand-primary data-[active=true]:bg-brand-primary/10 data-[active=true]:text-brand-primary md:justify-start ${item.soon ? "opacity-50" : ""}`}
                   >
                     <item.icon className="h-5 w-5 shrink-0 transition-colors group-hover:text-brand-primary" />
-                    <span className="ml-3 font-medium">{item.label}</span>
+                    <span className="ml-3 flex items-center gap-2 font-medium">
+                      {item.label}
+                      {item.soon && (
+                        <Badge
+                          variant="secondary"
+                          className="h-5 font-normal text-xs"
+                        >
+                          Soon
+                        </Badge>
+                      )}
+                    </span>
                   </SidebarMenuButton>
                 </Link>
               </SidebarMenuItem>
             ))}
-            <SidebarMenuItem>
-              <ThemeToggle />
-            </SidebarMenuItem>
           </SidebarMenu>
         </SidebarContent>
+        <SidebarFooter className="px-2 py-4">
+          <SidebarMenuItem>
+            <ThemeToggle />
+          </SidebarMenuItem>
+        </SidebarFooter>
       </Sidebar>
     </SidebarProvider>
   )

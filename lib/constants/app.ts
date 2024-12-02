@@ -19,13 +19,20 @@ interface Category {
   label: string
 }
 
+interface SidebarItem {
+  icon: LucideIcon
+  label: string
+  href: string
+  soon?: boolean
+}
+
 // App sidebar navigation
 export const SIDEBAR_ITEMS = [
-  { icon: Phone, label: "Voice Chat", href: "/chat" },
-  { icon: LineChart, label: "Insights", href: "/insights" },
-  { icon: BookText, label: "My Journals", href: "/journals" },
+  { icon: Phone, label: "Chat", href: "/chat" },
+  { icon: BookText, label: "Journal", href: "/journal" },
   { icon: Sparkles, label: "Recommendations", href: "/recommendations" },
-] as const
+  { icon: LineChart, label: "Insights", href: "/insights", soon: true },
+] as const satisfies SidebarItem[]
 
 export const JOURNAL_CATEGORIES = [
   { icon: Heart, label: "Emotional Growth" },
