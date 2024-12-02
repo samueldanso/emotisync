@@ -29,7 +29,7 @@ export default async function Layout({ children }: LayoutProps) {
 
   const usage = await checkUsageLimit();
   const remainingMinutes = Math.floor(usage.remainingSeconds / 60);
-  const points = profile.points || 0;
+  const points = 2524;
 
   const mappedUser = {
     id: user.id,
