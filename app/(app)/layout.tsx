@@ -8,7 +8,7 @@ import { eq } from "drizzle-orm";
 import { profiles } from "@/lib/db/schemas";
 import { VoiceProvider } from "@/components/providers/voice-provider";
 import { checkUsageLimit } from "@/actions/rate-limit";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/providers/sidebar-provider";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -44,15 +44,15 @@ export default async function Layout({ children }: LayoutProps) {
   };
 
   return (
-    <SidebarProvider>
+    <SidebarProvider defaultOpen={true}>
       <VoiceProvider accessToken={accessToken} profile={profile}>
-        <div className="flex min-h-screen w-full">
+        <div className="flex h-screen w-full overflow-hidden">
           <AppSidebar />
-          <main className="relative flex flex-1">
-            <div className="fixed right-8 top-8">
+          <main className="relative flex-1 transition-all duration-300">
+            <div className="absolute right-6 top-6 z-50">
               <UserProfileButton user={mappedUser} profile={profile} />
             </div>
-            {children}
+            <div className="h-full w-full p-6">{children}</div>
           </main>
         </div>
       </VoiceProvider>
