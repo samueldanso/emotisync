@@ -46,15 +46,13 @@ export default async function Layout({ children }: LayoutProps) {
   return (
     <SidebarProvider>
       <VoiceProvider accessToken={accessToken} profile={profile}>
-        <div className="flex h-screen overflow-hidden">
+        <div className="flex min-h-screen w-full">
           <AppSidebar />
-          <main className="relative flex-1">
-            <div className="absolute right-6 top-6 z-50">
+          <main className="relative flex flex-1">
+            <div className="fixed right-8 top-8">
               <UserProfileButton user={mappedUser} profile={profile} />
             </div>
-            <div className="flex h-full items-center justify-center p-6">
-              {children}
-            </div>
+            {children}
           </main>
         </div>
       </VoiceProvider>
