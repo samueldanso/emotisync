@@ -1,19 +1,19 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SIDEBAR_ITEMS } from "@/lib/constants/app";
-import Link from "next/link";
-import { Moon, Sun, PanelLeft } from "lucide-react";
-import { useTheme } from "next-themes";
-import { useSidebar } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
+import { useSidebar } from "@/components/ui/sidebar";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import {
   Tooltip,
   TooltipContent,
-  TooltipTrigger,
   TooltipProvider,
+  TooltipTrigger,
 } from "@/components/ui/tooltip";
 
 interface AppSidebarProps {
@@ -30,37 +30,16 @@ function SidebarToggle() {
       size="icon"
       className={cn(
         "h-8 w-8 rounded-full bg-background shadow-sm hover:bg-accent",
-        isCollapsed ? "absolute -right-10 top-6" : "absolute right-3 top-6",
-        isCollapsed && "rotate-180"
+        isCollapsed ? "absolute -right-10 top-6" : "absolute right-3 top-6"
       )}
       onClick={toggleSidebar}
     >
-      <PanelLeft className="h-5 w-5" />
-      <span className="sr-only">Toggle Sidebar</span>
-    </Button>
-  );
-}
-
-function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
-  const { state } = useSidebar();
-  const isCollapsed = state === "collapsed";
-
-  return (
-    <Button
-      variant="ghost"
-      size={isCollapsed ? "icon" : "default"}
-      className={cn(
-        "w-full justify-start gap-2 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-        isCollapsed && "h-8 w-8"
+      {isCollapsed ? (
+        <PanelLeftOpen className="h-5 w-5" />
+      ) : (
+        <PanelLeftClose className="h-5 w-5" />
       )}
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-    >
-      <div className="relative h-4 w-4 shrink-0">
-        <Sun className="h-4 w-4 rotate-0 scale-100 transition-transform dark:-rotate-90 dark:scale-0" />
-        <Moon className="absolute inset-0 h-4 w-4 rotate-90 scale-0 transition-transform dark:rotate-0 dark:scale-100" />
-      </div>
-      {!isCollapsed && <span className="text-sm">Toggle theme</span>}
+      <span className="sr-only">Toggle Sidebar</span>
     </Button>
   );
 }
@@ -73,25 +52,25 @@ export function AppSidebar({ className }: AppSidebarProps) {
   return (
     <aside
       className={cn(
-        "relative bg-sidebar-background transition-all duration-300",
-        isCollapsed ? "w-[64px]" : "w-[200px]",
+        "relative bg-background transition-all duration-300",
+        isCollapsed ? "w-[64px]" : "w-[280px]",
         className
       )}
     >
       <div className="relative flex h-full flex-col">
-        <div className="relative px-3 py-6">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center">
+        <div className="flex items-center justify-between px-4 py-4">
+          <Link href="/chat" className="flex items-center gap-2">
+            <div className="flex h-7 w-7 items-center justify-center">
               <Image
                 src="/emotisync-icon.svg"
                 alt="EmotiSync"
-                width={24}
-                height={24}
+                width={30}
+                height={30}
                 className="h-6 w-6"
               />
             </div>
             {!isCollapsed && (
-              <span className="font-urbanist text-base font-semibold text-sidebar-foreground">
+              <span className="font-urbanist text-xl font-semibold">
                 EmotiSync
               </span>
             )}
@@ -99,7 +78,7 @@ export function AppSidebar({ className }: AppSidebarProps) {
           <SidebarToggle />
         </div>
 
-        <nav className="mt-4 flex-1 space-y-2 px-2">
+        <nav className="flex-1 space-y-3 p-3">
           {SIDEBAR_ITEMS.map((item) => {
             const isActive = pathname === item.href;
 
@@ -108,32 +87,15 @@ export function AppSidebar({ className }: AppSidebarProps) {
                 <Link key={item.href} href={item.href}>
                   <div
                     className={cn(
-                      "flex items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200",
-                      "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-                      isActive &&
-                        "bg-sidebar-accent text-sidebar-primary font-medium"
+                      "flex items-center gap-4 rounded-lg px-3 py-3 text-sm font-medium transition-colors",
+                      "hover:bg-accent text-muted-foreground hover:text-accent-foreground",
+                      isActive && "bg-accent text-accent-foreground"
                     )}
                   >
-                    <item.icon
-                      className={cn(
-                        "h-5 w-5 transition-colors",
-                        isActive
-                          ? "text-sidebar-primary"
-                          : "text-sidebar-foreground/60"
-                      )}
-                    />
-                    <span
-                      className={cn(
-                        "text-[14px]",
-                        isActive
-                          ? "text-sidebar-primary"
-                          : "text-sidebar-foreground/60"
-                      )}
-                    >
-                      {item.label}
-                    </span>
+                    <item.icon className="h-5 w-5" />
+                    <span>{item.label}</span>
                     {item.soon && (
-                      <span className="ml-auto rounded-full bg-sidebar-accent px-1.5 py-0.5 text-[10px]">
+                      <span className="ml-auto rounded-full bg-muted px-1.5 py-0.5 text-[10px]">
                         Soon
                       </span>
                     )}
@@ -149,29 +111,16 @@ export function AppSidebar({ className }: AppSidebarProps) {
                     <Link href={item.href}>
                       <div
                         className={cn(
-                          "flex items-center justify-center rounded-lg py-2 transition-all duration-200",
-                          "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-                          isActive &&
-                            "bg-sidebar-accent text-sidebar-primary font-medium"
+                          "flex items-center justify-center rounded-lg py-3 transition-colors",
+                          "hover:bg-accent text-muted-foreground hover:text-accent-foreground",
+                          isActive && "bg-accent text-accent-foreground"
                         )}
                       >
-                        <item.icon
-                          className={cn(
-                            "h-5 w-5 transition-colors",
-                            isActive
-                              ? "text-sidebar-primary"
-                              : "text-sidebar-foreground/60"
-                          )}
-                        />
+                        <item.icon className="h-5 w-5" />
                       </div>
                     </Link>
                   </TooltipTrigger>
-                  <TooltipContent
-                    side="right"
-                    className="border-none"
-                    sideOffset={10}
-                    hideWhenDetached
-                  >
+                  <TooltipContent side="right" sideOffset={10} hideWhenDetached>
                     {item.label}
                   </TooltipContent>
                 </Tooltip>
@@ -180,8 +129,21 @@ export function AppSidebar({ className }: AppSidebarProps) {
           })}
         </nav>
 
-        <div className="p-2">
-          <ThemeToggle />
+        <div className="p-4">
+          {isCollapsed ? (
+            <TooltipProvider delayDuration={0}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <ThemeToggle className="justify-center !p-3" />
+                </TooltipTrigger>
+                <TooltipContent side="right" sideOffset={10} hideWhenDetached>
+                  Toggle theme
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          ) : (
+            <ThemeToggle />
+          )}
         </div>
       </div>
     </aside>

@@ -49,7 +49,7 @@ export function AppMobileSidebar({ className }: AppMobileSidebarProps) {
               <div
                 className={cn(
                   "flex items-center gap-4 rounded-lg px-3 py-3 text-sm font-medium transition-colors",
-                  "hover:bg-accent hover:text-accent-foreground",
+                  "hover:bg-accent text-muted-foreground hover:text-accent-foreground",
                   isActive && "bg-accent text-accent-foreground"
                 )}
               >
