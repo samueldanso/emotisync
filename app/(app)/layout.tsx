@@ -1,33 +1,33 @@
-import { AppSidebar } from "@/components/app-sidebar";
-import { UserProfileButton } from "@/components/user-profile";
-import { getHumeAccessToken } from "@/lib/ai/humeai";
-import { getUser } from "@/lib/supabase/server";
-import { redirect } from "next/navigation";
-import { db } from "@/lib/db/db";
-import { eq } from "drizzle-orm";
-import { profiles } from "@/lib/db/schemas";
-import { VoiceProvider } from "@/components/providers/voice-provider";
-import { checkUsageLimit } from "@/actions/rate-limit";
-import { SidebarProvider } from "@/components/providers/sidebar-provider";
+import { AppSidebar } from "@/components/app-sidebar"
+import { UserProfileButton } from "@/components/user-profile"
+import { getHumeAccessToken } from "@/lib/ai/humeai"
+import { getUser } from "@/lib/supabase/server"
+import { redirect } from "next/navigation"
+import { db } from "@/lib/db/db"
+import { eq } from "drizzle-orm"
+import { profiles } from "@/lib/db/schemas"
+import { VoiceProvider } from "@/components/providers/voice-provider"
+import { checkUsageLimit } from "@/actions/rate-limit"
+import { SidebarProvider } from "@/components/ui/sidebar"
 
 interface LayoutProps {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 export default async function Layout({ children }: LayoutProps) {
-  const user = await getUser();
-  if (!user) redirect("/login");
+  const user = await getUser()
+  if (!user) redirect("/login")
 
   const profile = await db.query.profiles.findFirst({
     where: eq(profiles.userId, user.id),
-  });
-  if (!profile?.onboarding_completed) redirect("/profile");
+  })
+  if (!profile?.onboarding_completed) redirect("/profile")
 
-  const accessToken = await getHumeAccessToken();
-  if (!accessToken) throw new Error("Failed to get Hume access token");
+  const accessToken = await getHumeAccessToken()
+  if (!accessToken) throw new Error("Failed to get Hume access token")
 
-  const usage = await checkUsageLimit();
-  const _remainingMinutes = Math.floor(usage.remainingSeconds / 60);
+  const usage = await checkUsageLimit()
+  const _remainingMinutes = Math.floor(usage.remainingSeconds / 60)
 
   const mappedUser = {
     id: user.id,
@@ -41,15 +41,15 @@ export default async function Layout({ children }: LayoutProps) {
     last_name: user.user_metadata?.last_name || null,
     created_at: user.created_at ? new Date(user.created_at) : null,
     updated_at: user.updated_at ? new Date(user.updated_at) : null,
-  };
+  }
 
   return (
-    <SidebarProvider defaultOpen={true}>
+    <SidebarProvider>
       <VoiceProvider accessToken={accessToken} profile={profile}>
         <div className="flex h-screen w-full overflow-hidden">
           <AppSidebar />
-          <main className="relative flex-1 transition-all duration-300">
-            <div className="absolute right-6 top-6 z-50">
+          <main className="relative flex-1 transition-all duration-300 ease-in-out">
+            <div className="absolute top-6 right-6 z-50">
               <UserProfileButton user={mappedUser} profile={profile} />
             </div>
             <div className="h-full w-full p-6">{children}</div>
@@ -57,5 +57,5 @@ export default async function Layout({ children }: LayoutProps) {
         </div>
       </VoiceProvider>
     </SidebarProvider>
-  );
+  )
 }
