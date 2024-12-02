@@ -51,12 +51,13 @@ function SidebarToggle() {
       variant="ghost"
       size="icon"
       className={cn(
-        "absolute -right-3.5 top-6 h-6 w-6 rounded-full bg-background/80 shadow-sm hover:bg-accent/80 backdrop-blur-sm",
+        "h-8 w-8 rounded-full bg-background/80 shadow-sm hover:bg-accent/80 backdrop-blur-sm",
+        isCollapsed ? "absolute -right-10 top-6" : "absolute right-3 top-6",
         isCollapsed && "rotate-180"
       )}
       onClick={toggleSidebar}
     >
-      <PanelLeftClose className="h-4 w-4" />
+      <PanelLeftClose className="h-5 w-5" />
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   );
