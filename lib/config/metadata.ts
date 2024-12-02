@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
-import { siteConfig } from "./site";
+import type { Metadata } from "next"
+import { siteConfig } from "./site"
 
 interface MetadataProps {
-  title?: string;
-  description?: string;
-  path?: string;
+  title?: string
+  description?: string
+  path?: string
 }
 
 export function constructMetadata({
@@ -12,8 +12,8 @@ export function constructMetadata({
   description = siteConfig.description,
   path = "/",
 }: MetadataProps = {}): Metadata {
-  const url = `https://${siteConfig.domain}${path}`;
-  const isHome = path === "/";
+  const url = `https://${siteConfig.domain}${path}`
+  const isHome = path === "/"
 
   return {
     metadataBase: new URL(`https://${siteConfig.domain}`),
@@ -36,5 +36,5 @@ export function constructMetadata({
       title: isHome ? siteConfig.title : title,
       description,
     },
-  };
+  }
 }

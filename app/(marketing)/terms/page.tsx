@@ -64,5 +64,5 @@ export default function TermsOfService() {
         </div>
       </article>
     </main>
-  );
+  )
 }

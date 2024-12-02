@@ -1,17 +1,17 @@
-"use client";
+"use client"
 
-import * as React from "react";
-import { Button } from "@/components/ui/button";
-import { supabaseClient } from "@/lib/supabase/client";
-import Image from "next/image";
-import { Spinner } from "@/components/ui/spinner";
-import Link from "next/link";
-import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
-import { generateTypewriterKey } from "@/lib/utils/text";
+import * as React from "react"
+import { Button } from "@/components/ui/button"
+import { supabaseClient } from "@/lib/supabase/client"
+import Image from "next/image"
+import { Spinner } from "@/components/ui/spinner"
+import Link from "next/link"
+import { motion } from "framer-motion"
+import { cn } from "@/lib/utils"
+import { generateTypewriterKey } from "@/lib/utils/text"
 
 export function AuthForm() {
-  const [isPending, startTransition] = React.useTransition();
+  const [isPending, startTransition] = React.useTransition()
 
   const handleGoogleAuth = () => {
     startTransition(async () => {
@@ -25,9 +25,9 @@ export function AuthForm() {
             scopes: "email profile",
           },
         },
-      });
-    });
-  };
+      })
+    })
+  }
 
   return (
     <div className="flex min-h-screen">
@@ -177,5 +177,5 @@ export function AuthForm() {
         </div>
       </div>
     </div>
-  );
+  )
 }

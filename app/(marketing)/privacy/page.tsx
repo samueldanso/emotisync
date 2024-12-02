@@ -67,5 +67,5 @@ export default function PrivacyPolicy() {
         </div>
       </article>
     </main>
-  );
+  )
 }

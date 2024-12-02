@@ -1,18 +1,13 @@
-"use client";
-import { useVoice } from "@humeai/voice-react";
-import { Button } from "@/components/ui/button";
-import { Mic, MicOff, Phone } from "lucide-react";
-import { AnimatePresence, motion } from "framer-motion";
-import { Toggle } from "@/components/ui/toggle";
-import MicFFT from "@/components/mic-fft";
+"use client"
+import { useVoice } from "@humeai/voice-react"
+import { Button } from "@/components/ui/button"
+import { Mic, MicOff, Phone } from "lucide-react"
+import { AnimatePresence, motion } from "framer-motion"
+import { Toggle } from "@/components/ui/toggle"
+import MicFFT from "@/components/mic-fft"
 
-interface ControlsProps {
-  userId: string;
-  displayName: string;
-}
-
-export default function Controls({ userId, displayName }: ControlsProps) {
-  const { status, disconnect, isMuted, unmute, mute, micFft } = useVoice();
+export default function Controls() {
+  const { status, disconnect, isMuted, unmute, mute, micFft } = useVoice()
 
   return (
     <div className="relative w-full">
@@ -28,9 +23,9 @@ export default function Controls({ userId, displayName }: ControlsProps) {
               pressed={!isMuted}
               onPressedChange={() => {
                 if (isMuted) {
-                  unmute();
+                  unmute()
                 } else {
-                  mute();
+                  mute()
                 }
               }}
             >
@@ -56,5 +51,5 @@ export default function Controls({ userId, displayName }: ControlsProps) {
         ) : null}
       </AnimatePresence>
     </div>
-  );
+  )
 }

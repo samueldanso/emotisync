@@ -36,7 +36,11 @@ export default async function ChatPage() {
     id: user.id,
     name: user.user_metadata?.name || user.email?.split("@")[0] || "",
     email: user.email || "",
-    first_name: user.user_metadata?.first_name || "",
+    first_name:
+      user.user_metadata?.full_name?.split(" ")[0] ||
+      user.user_metadata?.name ||
+      user.email?.split("@")[0] ||
+      "",
     last_name: user.user_metadata?.last_name || null,
     auth_provider: (user.app_metadata?.provider || "google") as
       | "google"

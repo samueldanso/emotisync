@@ -1,9 +1,9 @@
-"use client";
+"use client"
 
-import { usePathname } from "next/navigation";
-import { Logo } from "@/components/ui/logo";
-import { SIDEBAR_ITEMS } from "@/lib/constants/app";
-import Link from "next/link";
+import { usePathname } from "next/navigation"
+import { Logo } from "@/components/ui/logo"
+import { SIDEBAR_ITEMS } from "@/lib/constants/app"
+import Link from "next/link"
 import {
   Sidebar,
   SidebarContent,
@@ -13,10 +13,10 @@ import {
   SidebarMenuButton,
   SidebarProvider,
   SidebarTrigger,
-} from "@/components/ui/sidebar";
+} from "@/components/ui/sidebar"
 
 export function AppSidebar() {
-  const pathname = usePathname();
+  const pathname = usePathname()
 
   return (
     <SidebarProvider>
@@ -48,5 +48,5 @@ export function AppSidebar() {
         </SidebarContent>
       </Sidebar>
     </SidebarProvider>
-  );
+  )
 }

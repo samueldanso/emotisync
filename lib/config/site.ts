@@ -9,6 +9,6 @@ export const siteConfig = {
     twitter: "https://twitter.com/emotisync_xyz",
     telegram: "https://t.me/emotisync_bot",
   },
-} as const;
+} as const
 
-export type SiteConfig = typeof siteConfig;
+export type SiteConfig = typeof siteConfig

@@ -1,12 +1,12 @@
-"use client";
+"use client"
 
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { HeroMeshGradient } from "@/app/(marketing)/_components/hero-gradient";
-import AppSnippet from "./snippet";
+import Link from "next/link"
+import { ArrowRight } from "lucide-react"
+import { motion } from "framer-motion"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { HeroMeshGradient } from "@/app/(marketing)/_components/hero-gradient"
+import AppSnippet from "./snippet"
 
 export default function HeroSection() {
   return (
@@ -18,7 +18,7 @@ export default function HeroSection() {
           transition={{ duration: 0.5 }}
         >
           <Badge
-            className="inline-flex items-center rounded-full bg-secondary/30 px-4 py-1 font-semibold text-xs sm:text-base text-brand-foreground ring-1 ring-brand-foreground/10 backdrop-blur"
+            className="inline-flex items-center rounded-full bg-secondary/30 px-4 py-1 font-semibold text-brand-foreground text-xs ring-1 ring-brand-foreground/10 backdrop-blur sm:text-base"
             variant="outline"
           >
             Meet your personalized AI companion
@@ -42,10 +42,7 @@ export default function HeroSection() {
           className="mt-8 mb-12 max-w-[42rem] font-semibold text-brand-muted text-lg leading-tight sm:text-xl"
         >
           Speak freely. Your friendly
-          <span className="font-bold text-brand-primary">
-            {" "}
-            AI companion
-          </span>{" "}
+          <span className="font-bold text-brand-primary"> AI companion</span>{" "}
           turns daily conversations into personalized reflections and
           mood-boosting recommendations, helping you feel better and connect
           emotionally.
@@ -70,5 +67,5 @@ export default function HeroSection() {
         </div>
       </div>
     </section>
-  );
+  )
 }
