@@ -33,10 +33,10 @@ export function AppLayoutClient({
   return (
     <SidebarProvider>
       <VoiceProvider accessToken={accessToken} profile={profile}>
-        <div className="flex h-screen overflow-hidden">
+        <div className="flex min-h-screen">
           <AppSidebar />
-          <main className="relative flex-1 overflow-auto">
-            <div className="absolute right-4 top-4 z-50">
+          <main className="relative flex-1">
+            <div className="absolute right-4 top-4">
               <UserProfileButton user={user} profile={profile} />
             </div>
             {children}

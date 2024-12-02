@@ -51,7 +51,7 @@ export default async function ChatPage() {
   };
 
   return (
-    <div className="flex-1">
+    <div className="flex h-[calc(100vh-4rem)] flex-col items-center justify-center">
       <Chat user={mappedUser} profile={profile} avatar={avatar} />
     </div>
   );
