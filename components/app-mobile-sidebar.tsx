@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
@@ -7,7 +9,7 @@ import { usePathname } from "next/navigation";
 import { SIDEBAR_ITEMS } from "@/lib/constants/app";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import { ThemeToggle } from "./theme-toggle";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export function AppMobileSidebar() {
   const [isOpen, setIsOpen] = useState(false);
