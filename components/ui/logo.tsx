@@ -3,10 +3,9 @@ import Link from "next/link";
 
 interface LogoProps {
   className?: string;
-  showText?: boolean;
 }
 
-export function Logo({ className, showText = false }: LogoProps) {
+export function Logo({ className }: LogoProps) {
   return (
     <Link href="/" className="flex items-center gap-3">
       <Image
@@ -16,11 +15,9 @@ export function Logo({ className, showText = false }: LogoProps) {
         height={32}
         className={className}
       />
-      {showText && (
-        <span className="font-heading text-lg font-semibold text-brand-foreground">
-          EmotiSync
-        </span>
-      )}
+      <span className="font-heading font-semibold text-brand-foreground text-xl">
+        EmotiSync
+      </span>
     </Link>
   );
 }

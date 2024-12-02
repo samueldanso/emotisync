@@ -1,10 +1,10 @@
-import type { Metadata } from "next"
-import { siteConfig } from "./site"
+import type { Metadata } from "next";
+import { siteConfig } from "./site";
 
 interface MetadataProps {
-  title?: string
-  description?: string
-  path?: string
+  title?: string;
+  description?: string;
+  path?: string;
 }
 
 export function constructMetadata({
@@ -12,19 +12,20 @@ export function constructMetadata({
   description = siteConfig.description,
   path = "/",
 }: MetadataProps = {}): Metadata {
-  const url = `https://${siteConfig.domain}${path}`
-
-  const isHome = path === "/"
-  const titleTemplate = isHome ? title : `${title} — ${siteConfig.name}`
+  const url = `https://${siteConfig.domain}${path}`;
+  const isHome = path === "/";
 
   return {
-    title: {
-      default: titleTemplate,
-      template: `%s — ${siteConfig.name}`,
-    },
+    metadataBase: new URL(`https://${siteConfig.domain}`),
+    title: isHome
+      ? siteConfig.title
+      : {
+          default: title,
+          template: `%s — ${siteConfig.name}`,
+        },
     description,
     openGraph: {
-      title: titleTemplate,
+      title: isHome ? siteConfig.title : title,
       description,
       url,
       siteName: siteConfig.name,
@@ -32,8 +33,8 @@ export function constructMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: titleTemplate,
+      title: isHome ? siteConfig.title : title,
       description,
     },
-  }
+  };
 }

@@ -41,14 +41,14 @@ html {
   --sidebar-ring: 217.2 91.2% 59.8%;
   --radius: 0.5rem;
   --brand-background: 225 33% 98%;
-  --brand-foreground: 284 33% 10%;
-  --brand-muted: 284 10% 42%;
+  --brand-foreground: 284 30% 8%;
+  --brand-muted: 284 10% 28%;
   --brand-primary: 255 66% 53%;
   --brand-accent: 339 75% 83%;
 }
 
 .dark {
-  --background: 0 0% 3.9%;
+  --background: 225 14% 11%;
   --foreground: 0 0% 98%;
   --card: 0 0% 3.9%;
   --card-foreground: 0 0% 98%;
@@ -80,7 +80,7 @@ html {
   --sidebar-accent-foreground: 240 4.8% 95.9%;
   --sidebar-border: 240 3.7% 15.9%;
   --sidebar-ring: 217.2 91.2% 59.8%;
-  --brand-background: 225 30% 2%;
+  --brand-background: 225 14% 11%;
   --brand-foreground: 284 20% 92%;
   --brand-muted: 284 10% 67%;
   --brand-primary: 255 66% 53%;

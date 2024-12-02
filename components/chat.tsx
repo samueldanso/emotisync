@@ -69,11 +69,11 @@ function ChatContent({ user, profile, avatar }: ChatProps) {
                 isListening={false}
               />
             </div>
-            <div className="text-center space-y-4">
-              <h1 className="text-3xl font-semibold text-foreground">
+            <div className="space-y-4 text-center">
+              <h1 className="font-semibold text-3xl text-foreground">
                 {getGreeting()}, {displayName}
               </h1>
-              <p className="text-xl text-muted-foreground">
+              <p className="text-muted-foreground text-xl">
                 I'm {companionName}, How are you feeling today?
               </p>
             </div>

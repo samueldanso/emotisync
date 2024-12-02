@@ -5,7 +5,6 @@ import { Mic, MicOff, Phone } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Toggle } from "@/components/ui/toggle";
 import MicFFT from "@/components/mic-fft";
-import { cn } from "@/lib/utils";
 
 interface ControlsProps {
   userId: string;

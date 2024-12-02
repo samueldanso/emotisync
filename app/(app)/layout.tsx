@@ -41,7 +41,7 @@ export default async function Layout({ children }: LayoutProps) {
           <AppSidebar />
         </div>
         <div className="relative flex-1">
-          <div className="absolute right-6 top-6">
+          <div className="absolute top-6 right-6">
             <UserProfileButton user={mappedUser} profile={profile} />
           </div>
           <div className="flex h-full items-center justify-center">
