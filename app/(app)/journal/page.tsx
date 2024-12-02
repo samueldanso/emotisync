@@ -14,16 +14,18 @@ export default async function JournalsPage() {
   const { data: journals } = await getUserJournals(user.id);
 
   return (
-    <div className="space-y-8">
+    <div className="flex flex-col space-y-8 pt-16">
       {/* Header */}
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col items-center gap-8">
         <h1 className="font-semibold text-3xl">Journal</h1>
-        <Tabs defaultValue="recent" className="w-full max-w-[400px]">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="recent">Recent</TabsTrigger>
-            <TabsTrigger value="categories">Categories</TabsTrigger>
-          </TabsList>
-        </Tabs>
+        <div className="w-full max-w-[400px] px-4">
+          <Tabs defaultValue="recent" className="w-full">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="recent">Recent</TabsTrigger>
+              <TabsTrigger value="categories">Categories</TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
       </div>
 
       {/* Content */}

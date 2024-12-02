@@ -91,7 +91,7 @@ export function AppMobileSidebar({ className }: AppMobileSidebarProps) {
       </SheetTrigger>
       <SheetContent
         side="left"
-        className={cn("w-[280px] bg-background p-0", className)}
+        className={cn("w-[280px] bg-zinc-900 p-0", className)}
       >
         {sidebarContent}
       </SheetContent>

@@ -26,118 +26,123 @@ export function AppSidebar({ className }: AppSidebarProps) {
   const isCollapsed = state === "collapsed";
 
   return (
-    <aside
-      className={cn(
-        "relative flex flex-col transition-all duration-300",
-        isCollapsed ? "w-[64px]" : "w-[280px]",
-        className
-      )}
-    >
-      {/* Header */}
-      <div className="relative flex h-[65px] items-center px-4">
-        <Link href="/chat" className="flex items-center gap-2">
-          <div className="flex h-7 w-7 items-center justify-center">
-            <Image
-              src="/emotisync-icon.svg"
-              alt="EmotiSync"
-              width={30}
-              height={30}
-              className="h-6 w-6"
-            />
-          </div>
-          {!isCollapsed && (
-            <span className="font-urbanist text-xl font-semibold">
-              EmotiSync
-            </span>
-          )}
-        </Link>
-        <Button
-          variant="ghost"
-          size="icon"
-          className={cn(
-            "absolute h-8 w-8 rounded-full bg-background shadow-sm hover:bg-accent",
-            isCollapsed ? "-right-10" : "right-3"
-          )}
-          onClick={toggleSidebar}
-        >
-          {isCollapsed ? (
-            <PanelLeftOpen className="h-5 w-5" />
-          ) : (
-            <PanelLeftClose className="h-5 w-5" />
-          )}
-          <span className="sr-only">Toggle Sidebar</span>
-        </Button>
-      </div>
+    <>
+      <aside
+        className={cn(
+          "relative flex h-screen flex-col bg-zinc-900 transition-all duration-300",
+          isCollapsed ? "w-[64px]" : "w-[280px]",
+          className
+        )}
+      >
+        {/* Header */}
+        <div className="relative flex h-[65px] items-center px-4">
+          <Link href="/chat" className="flex items-center gap-2">
+            <div className="flex h-7 w-7 items-center justify-center">
+              <Image
+                src="/emotisync-icon.svg"
+                alt="EmotiSync"
+                width={30}
+                height={30}
+                className="h-6 w-6"
+              />
+            </div>
+            {!isCollapsed && (
+              <span className="font-urbanist text-xl font-semibold">
+                EmotiSync
+              </span>
+            )}
+          </Link>
+        </div>
 
-      {/* Navigation */}
-      <nav className="flex-1 space-y-3 p-3">
-        {SIDEBAR_ITEMS.map((item) => {
-          const isActive = pathname === item.href;
+        {/* Navigation */}
+        <nav className="flex-1 space-y-3 p-3">
+          {SIDEBAR_ITEMS.map((item) => {
+            const isActive = pathname === item.href;
 
-          if (!isCollapsed) {
+            if (!isCollapsed) {
+              return (
+                <Link key={item.href} href={item.href}>
+                  <div
+                    className={cn(
+                      "flex items-center gap-4 rounded-lg px-3 py-3 text-sm font-medium transition-colors",
+                      "hover:bg-accent text-muted-foreground hover:text-accent-foreground",
+                      isActive && "bg-accent text-accent-foreground"
+                    )}
+                  >
+                    <item.icon className="h-5 w-5" />
+                    <span>{item.label}</span>
+                    {item.soon && (
+                      <span className="ml-auto rounded-full bg-muted px-1.5 py-0.5 text-[10px]">
+                        Soon
+                      </span>
+                    )}
+                  </div>
+                </Link>
+              );
+            }
+
             return (
-              <Link key={item.href} href={item.href}>
-                <div
-                  className={cn(
-                    "flex items-center gap-4 rounded-lg px-3 py-3 text-sm font-medium transition-colors",
-                    "hover:bg-accent text-muted-foreground hover:text-accent-foreground",
-                    isActive && "bg-accent text-accent-foreground"
-                  )}
-                >
-                  <item.icon className="h-5 w-5" />
-                  <span>{item.label}</span>
-                  {item.soon && (
-                    <span className="ml-auto rounded-full bg-muted px-1.5 py-0.5 text-[10px]">
-                      Soon
-                    </span>
-                  )}
-                </div>
-              </Link>
+              <TooltipProvider key={item.href} delayDuration={0}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Link href={item.href}>
+                      <div
+                        className={cn(
+                          "flex items-center justify-center rounded-lg py-3 transition-colors",
+                          "hover:bg-accent text-muted-foreground hover:text-accent-foreground",
+                          isActive && "bg-accent text-accent-foreground"
+                        )}
+                      >
+                        <item.icon className="h-5 w-5" />
+                      </div>
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent side="right" sideOffset={10} hideWhenDetached>
+                    {item.label}
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             );
-          }
+          })}
+        </nav>
 
-          return (
-            <TooltipProvider key={item.href} delayDuration={0}>
+        {/* Theme Toggle at Bottom */}
+        <div className="p-4">
+          {isCollapsed ? (
+            <TooltipProvider delayDuration={0}>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Link href={item.href}>
-                    <div
-                      className={cn(
-                        "flex items-center justify-center rounded-lg py-3 transition-colors",
-                        "hover:bg-accent text-muted-foreground hover:text-accent-foreground",
-                        isActive && "bg-accent text-accent-foreground"
-                      )}
-                    >
-                      <item.icon className="h-5 w-5" />
-                    </div>
-                  </Link>
+                  <ThemeToggle className="justify-center !p-3" />
                 </TooltipTrigger>
                 <TooltipContent side="right" sideOffset={10} hideWhenDetached>
-                  {item.label}
+                  Toggle theme
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
-          );
-        })}
-      </nav>
+          ) : (
+            <ThemeToggle />
+          )}
+        </div>
+      </aside>
 
-      {/* Theme Toggle at Bottom */}
-      <div className="mt-auto p-4">
-        {isCollapsed ? (
-          <TooltipProvider delayDuration={0}>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <ThemeToggle className="justify-center !p-3" />
-              </TooltipTrigger>
-              <TooltipContent side="right" sideOffset={10} hideWhenDetached>
-                Toggle theme
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        ) : (
-          <ThemeToggle />
+      {/* Toggle Button - Always Visible and Clickable */}
+      <Button
+        variant="ghost"
+        size="icon"
+        className={cn(
+          "fixed h-8 w-8 rounded-full bg-background shadow-sm hover:bg-accent",
+          isCollapsed ? "left-[80px]" : "left-[300px]",
+          "top-[22px] z-50 transition-all duration-300"
         )}
-      </div>
-    </aside>
+        onClick={toggleSidebar}
+      >
+        {isCollapsed ? (
+          <PanelLeftOpen className="h-5 w-5" />
+        ) : (
+          <PanelLeftClose className="h-5 w-5" />
+        )}
+        <span className="sr-only">Toggle Sidebar</span>
+      </Button>
+    </>
   );
 }

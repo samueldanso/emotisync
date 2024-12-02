@@ -1,24 +1,32 @@
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { BarChart3 } from "lucide-react"
-import Link from "next/link"
-import { INSIGHT_CATEGORIES } from "@/lib/constants/app"
+import { redirect } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { BarChart3 } from "lucide-react";
+import Link from "next/link";
+import { getUser } from "@/lib/supabase/server";
+import { INSIGHT_CATEGORIES } from "@/lib/constants/app";
 
-export default function InsightsPage() {
+export default async function InsightsPage() {
+  const user = await getUser();
+  if (!user) redirect("/login");
+
   return (
-    <div className="container max-w-6xl space-y-8 py-6">
-      <div className="flex items-center justify-between">
+    <div className="flex flex-col space-y-8 pt-16">
+      {/* Header */}
+      <div className="flex flex-col items-center gap-8">
         <h1 className="font-semibold text-3xl">Insights</h1>
-        <Tabs defaultValue="assigned">
-          <TabsList>
-            <TabsTrigger value="assigned">Recommended</TabsTrigger>
-            <TabsTrigger value="catalog">Categories</TabsTrigger>
-          </TabsList>
-        </Tabs>
+        <div className="w-full max-w-[400px] px-4">
+          <Tabs defaultValue="recent" className="w-full">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="recent">Recommended</TabsTrigger>
+              <TabsTrigger value="categories">Categories</TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
       </div>
 
       {/* Empty State */}
-      <div className="mx-auto flex min-h-[60vh] max-w-md flex-col items-center justify-center space-y-4 text-center">
+      <div className="flex min-h-[60vh] flex-col items-center justify-center space-y-4 text-center">
         <div className="rounded-full bg-primary/10 p-4">
           <BarChart3 className="h-8 w-8 text-primary" />
         </div>
@@ -45,5 +53,5 @@ export default function InsightsPage() {
         ))}
       </div>
     </div>
-  )
+  );
 }

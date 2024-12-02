@@ -1,5 +1,5 @@
 <a href="https://emotisync.xyz">
-  <img alt="Your personalized AI voice companion." src="src/app/app/opengraph-image.png">
+  <img alt="Your personalized AI voice companion." src="src/app/(app)/opengraph-image.png">
   <h1 align="center">Meet EmotiSync — Your personalized AI voice companion for emotional health</h1>
 </a>
 
