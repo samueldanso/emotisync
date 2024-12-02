@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { PanelLeft, PanelLeftClose } from "lucide-react";
+import { PanelLeft, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SIDEBAR_ITEMS } from "@/lib/constants/app";
@@ -17,28 +17,26 @@ export function AppMobileSidebar() {
 
   const sidebarContent = (
     <div className="relative flex h-full flex-col">
-      <div className="flex items-center justify-between border-b px-4 py-4">
-        <Link href="/" className="flex items-center gap-2">
+      <div className="flex items-center justify-between px-4 py-4">
+        <Link href="/chat" className="flex items-center gap-2">
           <div className="flex h-7 w-7 items-center justify-center">
             <Image
               src="/emotisync-icon.svg"
               alt="EmotiSync"
-              width={24}
-              height={24}
+              width={30}
+              height={30}
               className="h-6 w-6"
             />
           </div>
-          <span className="font-urbanist text-base font-semibold">
-            EmotiSync
-          </span>
+          <span className="font-urbanist text-xl font-semibold">EmotiSync</span>
         </Link>
         <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)}>
-          <PanelLeftClose className="h-5 w-5" />
+          <PanelLeftClose className="h-6 w-6" />
           <span className="sr-only">Close Sidebar</span>
         </Button>
       </div>
 
-      <nav className="flex-1 space-y-1 p-2">
+      <nav className="flex-1 space-y-2 p-2">
         {SIDEBAR_ITEMS.map((item) => {
           const isActive = pathname === item.href;
 
@@ -80,9 +78,9 @@ export function AppMobileSidebar() {
           onClick={() => setIsOpen(true)}
         >
           {isOpen ? (
-            <PanelLeftClose className="h-5 w-5" />
+            <PanelLeftClose className="h-6 w-6" />
           ) : (
-            <PanelLeft className="h-5 w-5" />
+            <PanelLeftOpen className="h-6 w-6" />
           )}
           <span className="sr-only">Toggle Menu</span>
         </Button>
