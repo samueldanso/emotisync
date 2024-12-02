@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { usePathname } from "next/navigation"
-import { SIDEBAR_ITEMS } from "@/lib/constants/app"
-import Link from "next/link"
-import { Moon, Sun } from "lucide-react"
-import { useTheme } from "next-themes"
+import { usePathname } from "next/navigation";
+import { SIDEBAR_ITEMS } from "@/lib/constants/app";
+import Link from "next/link";
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
 import {
   Sidebar,
   SidebarContent,
@@ -14,18 +14,18 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   useSidebar,
-} from "@/components/ui/sidebar"
-import { Badge } from "@/components/ui/badge"
-import Image from "next/image"
+} from "@/components/ui/sidebar";
+import { cn } from "@/lib/utils";
+import Image from "next/image";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
   TooltipProvider,
-} from "@/components/ui/tooltip"
+} from "@/components/ui/tooltip";
 
 function ThemeToggle() {
-  const { theme, setTheme } = useTheme()
+  const { theme, setTheme } = useTheme();
 
   return (
     <SidebarMenuButton
@@ -39,13 +39,13 @@ function ThemeToggle() {
       </div>
       <span className="ml-3 font-medium">Toggle theme</span>
     </SidebarMenuButton>
-  )
+  );
 }
 
 export function AppSidebar() {
-  const pathname = usePathname()
-  const { state } = useSidebar()
-  const isCollapsed = state === "collapsed"
+  const pathname = usePathname();
+  const { state } = useSidebar();
+  const isCollapsed = state === "collapsed";
 
   return (
     <Sidebar>
@@ -74,17 +74,22 @@ export function AppSidebar() {
             <TooltipProvider key={item.href} delayDuration={0}>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <SidebarMenuItem asChild active={pathname === item.href}>
-                    <Link href={item.href} className="gap-3">
+                  <Link href={item.href}>
+                    <SidebarMenuItem
+                      className={cn(
+                        "gap-3",
+                        pathname === item.href && "bg-accent"
+                      )}
+                    >
                       <item.icon className="h-5 w-5" />
                       <span className="font-medium">{item.label}</span>
-                      {item.badge && (
-                        <Badge variant="secondary" className="ml-auto">
-                          {item.badge}
-                        </Badge>
+                      {item.soon && (
+                        <span className="ml-auto rounded-full bg-muted px-2 py-0.5 text-xs">
+                          Soon
+                        </span>
                       )}
-                    </Link>
-                  </SidebarMenuItem>
+                    </SidebarMenuItem>
+                  </Link>
                 </TooltipTrigger>
                 <TooltipContent side="right" className="border-none">
                   {item.label}
@@ -99,5 +104,5 @@ export function AppSidebar() {
         <ThemeToggle />
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }
