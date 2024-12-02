@@ -121,10 +121,6 @@ export function UserProfileButton({ user, profile }: UserProfileButtonProps) {
                   Soon
                 </span>
               </div>
-              <div className="flex items-center justify-between text-muted-foreground text-sm">
-                <span>Appearance</span>
-                <span className="text-xs">Use theme toggle in sidebar</span>
-              </div>
             </div>
           </div>
 

@@ -1,9 +1,10 @@
 "use client"
 
 import { useVoice } from "@humeai/voice-react"
-import { AnimatePresence } from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Phone } from "lucide-react"
+import { cn } from "@/lib/utils"
 
 export function StartCall() {
   const { status, connect } = useVoice()
@@ -11,18 +12,31 @@ export function StartCall() {
   return (
     <AnimatePresence>
       {status.value !== "connected" ? (
-        <Button
-          size="lg"
-          className="flex items-center gap-2 rounded-full px-8 py-6"
-          onClick={() => {
-            connect()
-              .then(() => console.log("Connected"))
-              .catch((error) => console.error("Connection failed:", error))
-          }}
+        <motion.div
+          initial={{ scale: 0.95, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0.95, opacity: 0 }}
+          className="flex flex-col items-center gap-4"
         >
-          <Phone className="h-5 w-5" strokeWidth={2} />
-          <span className="text-lg">Start talking</span>
-        </Button>
+          <Button
+            size="icon"
+            className={cn(
+              "h-16 w-16 rounded-full bg-brand-primary hover:bg-brand-primary/90",
+              "shadow-lg transition-all duration-200 hover:shadow-xl",
+              "flex items-center justify-center",
+            )}
+            onClick={() => {
+              connect()
+                .then(() => console.log("Connected"))
+                .catch((error) => console.error("Connection failed:", error))
+            }}
+          >
+            <Phone className="h-7 w-7 text-white" strokeWidth={2} />
+          </Button>
+          <span className="font-medium text-muted-foreground">
+            Click to talk
+          </span>
+        </motion.div>
       ) : null}
     </AnimatePresence>
   )
