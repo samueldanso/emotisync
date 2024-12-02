@@ -42,7 +42,7 @@ function ThemeToggle() {
   );
 }
 
-function SidebarToggle() {
+function SidebarToggle({ mobile = false }: { mobile?: boolean }) {
   const { state, toggleSidebar } = useSidebar();
   const isCollapsed = state === "collapsed";
 
@@ -51,9 +51,13 @@ function SidebarToggle() {
       variant="ghost"
       size="icon"
       className={cn(
-        "h-8 w-8 rounded-full bg-background/80 shadow-sm hover:bg-accent/80 backdrop-blur-sm",
-        isCollapsed ? "absolute -right-10 top-6" : "absolute right-3 top-6",
-        isCollapsed && "rotate-180"
+        "h-8 w-8 rounded-full bg-background shadow-sm hover:bg-accent",
+        mobile
+          ? "fixed left-4 top-4 z-50"
+          : isCollapsed
+          ? "absolute -right-10 top-6"
+          : "absolute right-3 top-6",
+        isCollapsed && !mobile && "rotate-180"
       )}
       onClick={toggleSidebar}
     >
@@ -101,16 +105,16 @@ export function AppSidebar() {
                 <div
                   className={cn(
                     "flex items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200",
-                    "hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground",
+                    "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
                     isActive &&
-                      "bg-sidebar-accent/50 text-sidebar-primary font-medium"
+                      "bg-sidebar-accent text-sidebar-primary font-medium"
                   )}
                 >
                   <item.icon
                     className={cn(
                       "h-5 w-5 transition-colors",
                       isActive
-                        ? "text-brand-primary"
+                        ? "text-sidebar-primary"
                         : "text-sidebar-foreground/60"
                     )}
                   />
@@ -125,7 +129,7 @@ export function AppSidebar() {
                     {item.label}
                   </span>
                   {item.soon && (
-                    <span className="ml-auto rounded-full bg-sidebar-accent/30 px-1.5 py-0.5 text-[10px]">
+                    <span className="ml-auto rounded-full bg-sidebar-accent px-1.5 py-0.5 text-[10px]">
                       Soon
                     </span>
                   )}
@@ -141,17 +145,17 @@ export function AppSidebar() {
                   <Link href={item.href}>
                     <div
                       className={cn(
-                        "flex items-center justify-center rounded-lg px-0 py-2 transition-all duration-200",
-                        "hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground",
+                        "flex items-center justify-center rounded-lg py-2 transition-all duration-200",
+                        "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
                         isActive &&
-                          "bg-sidebar-accent/50 text-sidebar-primary font-medium"
+                          "bg-sidebar-accent text-sidebar-primary font-medium"
                       )}
                     >
                       <item.icon
                         className={cn(
                           "h-5 w-5 transition-colors",
                           isActive
-                            ? "text-brand-primary"
+                            ? "text-sidebar-primary"
                             : "text-sidebar-foreground/60"
                         )}
                       />
@@ -183,16 +187,12 @@ export function AppSidebar() {
       <>
         <Sheet>
           <SheetTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="fixed left-4 top-4 z-40 h-10 w-10 rounded-lg"
-            >
-              <Menu className="h-5 w-5" />
-              <span className="sr-only">Toggle Menu</span>
-            </Button>
+            <SidebarToggle mobile />
           </SheetTrigger>
-          <SheetContent side="left" className="w-[280px] bg-zinc-900/90 p-0">
+          <SheetContent
+            side="left"
+            className="w-[280px] bg-sidebar-background p-0"
+          >
             {sidebarContent}
           </SheetContent>
         </Sheet>
@@ -203,8 +203,8 @@ export function AppSidebar() {
   return (
     <aside
       className={cn(
-        "relative bg-zinc-900/90 backdrop-blur-sm transition-all duration-300",
-        isCollapsed ? "w-[50px]" : "w-[200px]"
+        "relative bg-sidebar-background transition-all duration-300",
+        isCollapsed ? "w-[64px]" : "w-[200px]"
       )}
     >
       {sidebarContent}
