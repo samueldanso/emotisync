@@ -11,7 +11,11 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { ThemeToggle } from "./ui/theme-toggle";
 
-export function AppMobileSidebar() {
+interface AppMobileSidebarProps {
+  className?: string;
+}
+
+export function AppMobileSidebar({ className }: AppMobileSidebarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
@@ -85,7 +89,10 @@ export function AppMobileSidebar() {
           <span className="sr-only">Toggle Menu</span>
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="w-[280px] bg-background p-0">
+      <SheetContent
+        side="left"
+        className={cn("w-[280px] bg-background p-0", className)}
+      >
         {sidebarContent}
       </SheetContent>
     </Sheet>

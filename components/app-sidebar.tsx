@@ -16,6 +16,10 @@ import {
   TooltipProvider,
 } from "@/components/ui/tooltip";
 
+interface AppSidebarProps {
+  className?: string;
+}
+
 function SidebarToggle() {
   const { state, toggleSidebar } = useSidebar();
   const isCollapsed = state === "collapsed";
@@ -61,7 +65,7 @@ function ThemeToggle() {
   );
 }
 
-export function AppSidebar() {
+export function AppSidebar({ className }: AppSidebarProps) {
   const pathname = usePathname();
   const { state } = useSidebar();
   const isCollapsed = state === "collapsed";
@@ -70,7 +74,8 @@ export function AppSidebar() {
     <aside
       className={cn(
         "relative bg-sidebar-background transition-all duration-300",
-        isCollapsed ? "w-[64px]" : "w-[200px]"
+        isCollapsed ? "w-[64px]" : "w-[200px]",
+        className
       )}
     >
       <div className="relative flex h-full flex-col">
