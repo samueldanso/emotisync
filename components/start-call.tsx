@@ -31,7 +31,7 @@ export function StartCall() {
                 .catch((error) => console.error("Connection failed:", error));
             }}
           >
-            <Phone className="h-6 w-6 text-red-500" strokeWidth={2} />
+            <Phone className="h-6 w-6 text-white" strokeWidth={2} />
           </Button>
           <span className="font-medium text-muted-foreground">
             Click to talk

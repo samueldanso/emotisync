@@ -1,30 +1,30 @@
-import { redirect } from "next/navigation";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
-import { getUser } from "@/lib/supabase/server";
-import { db } from "@/lib/db/db";
-import { journals } from "@/lib/db/schemas";
-import { eq } from "drizzle-orm";
+import { redirect } from "next/navigation"
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { ArrowLeft } from "lucide-react"
+import { getUser } from "@/lib/supabase/server"
+import { db } from "@/lib/db/db"
+import { journals } from "@/lib/db/schemas"
+import { eq } from "drizzle-orm"
 
 interface JournalDetailPageProps {
   params: {
-    id: string;
-  };
+    id: string
+  }
 }
 
 export default async function JournalDetailPage({
   params,
 }: JournalDetailPageProps) {
-  const user = await getUser();
-  if (!user) redirect("/login");
+  const user = await getUser()
+  if (!user) redirect("/login")
 
   const journal = await db.query.journals.findFirst({
     where: eq(journals.id, params.id),
-  });
+  })
 
   if (!journal || journal.userId !== user.id) {
-    redirect("/journal");
+    redirect("/journal")
   }
 
   return (
@@ -59,5 +59,5 @@ export default async function JournalDetailPage({
         </div>
       </div>
     </div>
-  );
+  )
 }

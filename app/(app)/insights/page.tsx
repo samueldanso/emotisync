@@ -1,14 +1,14 @@
-import { redirect } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BarChart3 } from "lucide-react";
-import Link from "next/link";
-import { getUser } from "@/lib/supabase/server";
-import { INSIGHT_CATEGORIES } from "@/lib/constants/app";
+import { redirect } from "next/navigation"
+import { Button } from "@/components/ui/button"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { BarChart3 } from "lucide-react"
+import Link from "next/link"
+import { getUser } from "@/lib/supabase/server"
+import { INSIGHT_CATEGORIES } from "@/lib/constants/app"
 
 export default async function InsightsPage() {
-  const user = await getUser();
-  if (!user) redirect("/login");
+  const user = await getUser()
+  if (!user) redirect("/login")
 
   return (
     <div className="flex flex-col space-y-8 pt-16">
@@ -53,5 +53,5 @@ export default async function InsightsPage() {
         ))}
       </div>
     </div>
-  );
+  )
 }

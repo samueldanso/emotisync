@@ -1,17 +1,17 @@
-import { redirect } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BookText } from "lucide-react";
-import Link from "next/link";
-import { JournalList } from "@/components/journal-list";
-import { getUserJournals } from "@/actions/journal";
-import { getUser } from "@/lib/supabase/server";
+import { redirect } from "next/navigation"
+import { Button } from "@/components/ui/button"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { BookText } from "lucide-react"
+import Link from "next/link"
+import { JournalList } from "@/components/journal-list"
+import { getUserJournals } from "@/actions/journal"
+import { getUser } from "@/lib/supabase/server"
 
 export default async function JournalsPage() {
-  const user = await getUser();
-  if (!user) redirect("/login");
+  const user = await getUser()
+  if (!user) redirect("/login")
 
-  const { data: journals } = await getUserJournals(user.id);
+  const { data: journals } = await getUserJournals(user.id)
 
   return (
     <div className="flex flex-col space-y-8 pt-16">
@@ -47,5 +47,5 @@ export default async function JournalsPage() {
         <JournalList initialJournals={journals} />
       )}
     </div>
-  );
+  )
 }

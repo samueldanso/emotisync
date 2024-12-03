@@ -1,37 +1,38 @@
-"use client";
+"use client"
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { SIDEBAR_ITEMS } from "@/lib/constants/app";
-import { cn } from "@/lib/utils";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
-import { useSidebar } from "@/components/ui/sidebar";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { SIDEBAR_ITEMS } from "@/lib/constants/app"
+import { cn } from "@/lib/utils"
+import Image from "next/image"
+import { Button } from "@/components/ui/button"
+import { PanelLeftClose, PanelLeftOpen } from "lucide-react"
+import { useSidebar } from "@/components/ui/sidebar"
+import { ThemeToggle } from "@/components/ui/theme-toggle"
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from "@/components/ui/tooltip"
 
 interface AppSidebarProps {
-  className?: string;
+  className?: string
 }
 
 export function AppSidebar({ className }: AppSidebarProps) {
-  const pathname = usePathname();
-  const { state, toggleSidebar } = useSidebar();
-  const isCollapsed = state === "collapsed";
+  const pathname = usePathname()
+  const { state, toggleSidebar } = useSidebar()
+  const isCollapsed = state === "collapsed"
 
   return (
     <>
       <aside
         className={cn(
-          "relative flex h-screen flex-col bg-zinc-900 transition-all duration-300",
+          "relative flex h-screen flex-col transition-all duration-300",
+          "bg-gray-100 dark:bg-zinc-900",
           isCollapsed ? "w-[64px]" : "w-[280px]",
-          className
+          className,
         )}
       >
         {/* Header */}
@@ -47,7 +48,7 @@ export function AppSidebar({ className }: AppSidebarProps) {
               />
             </div>
             {!isCollapsed && (
-              <span className="font-urbanist text-xl font-semibold">
+              <span className="font-semibold font-urbanist text-xl">
                 EmotiSync
               </span>
             )}
@@ -57,16 +58,16 @@ export function AppSidebar({ className }: AppSidebarProps) {
         {/* Navigation */}
         <nav className="flex-1 space-y-3 p-3">
           {SIDEBAR_ITEMS.map((item) => {
-            const isActive = pathname === item.href;
+            const isActive = pathname === item.href
 
             if (!isCollapsed) {
               return (
                 <Link key={item.href} href={item.href}>
                   <div
                     className={cn(
-                      "flex items-center gap-4 rounded-lg px-3 py-3 text-sm font-medium transition-colors",
-                      "hover:bg-accent text-muted-foreground hover:text-accent-foreground",
-                      isActive && "bg-accent text-accent-foreground"
+                      "flex items-center gap-4 rounded-lg px-3 py-3 font-medium text-sm transition-colors",
+                      "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
+                      isActive && "bg-accent text-accent-foreground",
                     )}
                   >
                     <item.icon className="h-5 w-5" />
@@ -78,7 +79,7 @@ export function AppSidebar({ className }: AppSidebarProps) {
                     )}
                   </div>
                 </Link>
-              );
+              )
             }
 
             return (
@@ -89,8 +90,8 @@ export function AppSidebar({ className }: AppSidebarProps) {
                       <div
                         className={cn(
                           "flex items-center justify-center rounded-lg py-3 transition-colors",
-                          "hover:bg-accent text-muted-foreground hover:text-accent-foreground",
-                          isActive && "bg-accent text-accent-foreground"
+                          "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
+                          isActive && "bg-accent text-accent-foreground",
                         )}
                       >
                         <item.icon className="h-5 w-5" />
@@ -102,7 +103,7 @@ export function AppSidebar({ className }: AppSidebarProps) {
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
-            );
+            )
           })}
         </nav>
 
@@ -112,7 +113,7 @@ export function AppSidebar({ className }: AppSidebarProps) {
             <TooltipProvider delayDuration={0}>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <ThemeToggle className="justify-center !p-3" />
+                  <ThemeToggle className="!p-3 justify-center" />
                 </TooltipTrigger>
                 <TooltipContent side="right" sideOffset={10} hideWhenDetached>
                   Toggle theme
@@ -132,7 +133,7 @@ export function AppSidebar({ className }: AppSidebarProps) {
         className={cn(
           "fixed h-8 w-8 rounded-full bg-background shadow-sm hover:bg-accent",
           isCollapsed ? "left-[80px]" : "left-[300px]",
-          "top-[22px] z-50 transition-all duration-300"
+          "top-[22px] z-50 transition-all duration-300",
         )}
         onClick={toggleSidebar}
       >
@@ -144,5 +145,5 @@ export function AppSidebar({ className }: AppSidebarProps) {
         <span className="sr-only">Toggle Sidebar</span>
       </Button>
     </>
-  );
+  )
 }

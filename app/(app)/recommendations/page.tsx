@@ -1,18 +1,18 @@
-import { redirect } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Sparkles } from "lucide-react";
-import Link from "next/link";
-import { getUser } from "@/lib/supabase/server";
-import { RecommendationList } from "@/components/recommendation-list";
-import { getUserRecommendations } from "@/actions/recommendation";
-import { RECOMMENDATION_CATEGORIES } from "@/lib/constants/app";
+import { redirect } from "next/navigation"
+import { Button } from "@/components/ui/button"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Sparkles } from "lucide-react"
+import Link from "next/link"
+import { getUser } from "@/lib/supabase/server"
+import { RecommendationList } from "@/components/recommendation-list"
+import { getUserRecommendations } from "@/actions/recommendation"
+import { RECOMMENDATION_CATEGORIES } from "@/lib/constants/app"
 
 export default async function RecommendationsPage() {
-  const user = await getUser();
-  if (!user) redirect("/login");
+  const user = await getUser()
+  if (!user) redirect("/login")
 
-  const { data: recommendations } = await getUserRecommendations(user.id);
+  const { data: recommendations } = await getUserRecommendations(user.id)
 
   return (
     <div className="flex flex-col space-y-8 pt-16">
@@ -61,5 +61,5 @@ export default async function RecommendationsPage() {
         ))}
       </div>
     </div>
-  );
+  )
 }

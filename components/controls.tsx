@@ -1,7 +1,7 @@
 "use client"
 import { useVoice } from "@humeai/voice-react"
 import { Button } from "@/components/ui/button"
-import { Mic, MicOff, Phone } from "lucide-react"
+import { Mic, MicOff, X } from "lucide-react"
 import { AnimatePresence, motion } from "framer-motion"
 import { Toggle } from "@/components/ui/toggle"
 import MicFFT from "@/components/mic-fft"
@@ -17,7 +17,7 @@ export default function Controls() {
             initial={{ y: "100%", opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: "100%", opacity: 0 }}
-            className="flex items-center justify-center gap-4 rounded-full border bg-card p-4"
+            className="flex items-center justify-center gap-3 rounded-full border bg-card p-3"
           >
             <Toggle
               pressed={!isMuted}
@@ -28,6 +28,7 @@ export default function Controls() {
                   mute()
                 }
               }}
+              className="h-8 w-8 rounded-full"
             >
               {isMuted ? (
                 <MicOff className="h-4 w-4" />
@@ -36,16 +37,16 @@ export default function Controls() {
               )}
             </Toggle>
 
-            <div className="relative h-8 w-48 shrink grow-0">
+            <div className="relative h-6 w-40 shrink grow-0">
               <MicFFT fft={micFft} className="fill-current" />
             </div>
 
             <Button
-              className="flex items-center gap-1"
+              className="h-8 w-8 rounded-full p-0"
               onClick={() => disconnect()}
               variant="destructive"
             >
-              <Phone className="h-4 w-4 opacity-50" strokeWidth={2} />
+              <X className="h-4 w-4" />
             </Button>
           </motion.div>
         ) : null}

@@ -1,30 +1,30 @@
-import { redirect } from "next/navigation";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
-import { getUser } from "@/lib/supabase/server";
-import { db } from "@/lib/db/db";
-import { recommendations } from "@/lib/db/schemas/recommendations";
-import { eq } from "drizzle-orm";
+import { redirect } from "next/navigation"
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { ArrowLeft } from "lucide-react"
+import { getUser } from "@/lib/supabase/server"
+import { db } from "@/lib/db/db"
+import { recommendations } from "@/lib/db/schemas/recommendations"
+import { eq } from "drizzle-orm"
 
 interface RecommendationDetailPageProps {
   params: {
-    id: string;
-  };
+    id: string
+  }
 }
 
 export default async function RecommendationDetailPage({
   params,
 }: RecommendationDetailPageProps) {
-  const user = await getUser();
-  if (!user) redirect("/login");
+  const user = await getUser()
+  if (!user) redirect("/login")
 
   const recommendation = await db.query.recommendations.findFirst({
     where: eq(recommendations.id, params.id),
-  });
+  })
 
   if (!recommendation || recommendation.user_id !== user.id) {
-    redirect("/recommendations");
+    redirect("/recommendations")
   }
 
   return (
@@ -73,5 +73,5 @@ export default async function RecommendationDetailPage({
         </div>
       </div>
     </div>
-  );
+  )
 }
