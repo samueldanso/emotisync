@@ -113,10 +113,14 @@ function ChatContent({ user, profile, avatar }: ChatProps) {
             />
           </div>
           <div className="flex-1 overflow-hidden px-4">
-            <Messages ref={ref} />
+            <Messages
+              ref={ref}
+              companionName={companionName}
+              displayName={displayName}
+            />
           </div>
           <div className="flex-shrink-0 p-6">
-            <Controls />
+            <Controls userId={user.id} displayName={displayName} />
           </div>
         </div>
       )}
