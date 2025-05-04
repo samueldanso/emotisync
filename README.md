@@ -78,7 +78,6 @@ Follow the deployment guides for [Vercel](https://nextjs.org/learn-pages-router/
 
 ## Roadmap
 
-- [ ] Impl
 - [ ] Implement social sharing and group chats feature
 - [ ] Implement mood insights feature
 - [ ] Implement rewards and invites feature
